@@ -19,27 +19,35 @@ body:
     attributes:
       label: Description
       description: Provide context and details about what needs to be done and what the task should produce.
-      placeholder: Add background, constraints, and expected output.
+      placeholder: Add background, constraints, links, and expected output.
     validations:
       required: true
 
-  - type: checkboxes
+  - type: textarea
     id: acceptance_criteria
     attributes:
       label: Acceptance Criteria
-      description: Define what must be true for this issue to be considered complete.
-      options:
-        - label: Criteria 1
-        - label: Criteria 2
-        - label: Criteria 3
-
-  - type: input
-    id: target_date
-    attributes:
-      label: Target Completion Date
-      placeholder: YYYY-MM-DD
+      description: Add as many as needed. Use checkboxes so they can be checked off in the issue.
+      placeholder: |
+        - [ ] Criteria 1
+        - [ ] Criteria 2
+        - [ ] Criteria 3
     validations:
-      required: false
+      required: true
+
+  - type: dropdown
+    id: expected_timeframe
+    attributes:
+      label: Expected Time Frame
+      description: When should this issue ideally be completed?
+      options:
+        - This week
+        - Next week
+        - This sprint
+        - This milestone
+        - Next milestone
+    validations:
+      required: true
 
   - type: dropdown
     id: urgency
@@ -69,10 +77,13 @@ body:
     validations:
       required: true
 
-  - type: input
-    id: recommended_dev
+  - type: textarea
+    id: recommended_assignee
     attributes:
       label: Recommended Assigned Developer
-      placeholder: "@username"
+      description: Use @username. Mentions resolve normally after the issue is created.
+      placeholder: |
+        @username
+        Reason (optional):
     validations:
       required: false
