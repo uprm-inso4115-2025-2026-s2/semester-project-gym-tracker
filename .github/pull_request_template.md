@@ -26,8 +26,8 @@ Steps, commands, or scenarios.
 
 ## Acceptance Criteria
 Copy the relevant criteria from the issue and check them off:
-- [ ] Criterion 1
-- [ ] Criterion 2
+- [ ] Criteria 1
+- [ ] Criteria 2
 
 ## Risk & Impact
 Briefly describe any potential risks, side effects, or areas of concern.
