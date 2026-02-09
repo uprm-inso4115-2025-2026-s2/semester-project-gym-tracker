@@ -1,0 +1,78 @@
+name: Standard Issue
+description: Use this template for all project issues
+title: "[Category] Short, action-oriented title"
+labels: []
+assignees: []
+
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: Clearly state the goal of this issue in one or two concise sentences.
+      placeholder: What is this issue trying to accomplish?
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Provide context and details about what needs to be done and what the task should produce.
+      placeholder: Add background, constraints, and expected output.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Define what must be true for this issue to be considered complete.
+      options:
+        - label: Criteria 1
+        - label: Criteria 2
+        - label: Criteria 3
+
+  - type: input
+    id: target_date
+    attributes:
+      label: Target Completion Date
+      placeholder: YYYY-MM-DD
+    validations:
+      required: false
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency
+      description: How time-sensitive is this issue?
+      options:
+        - "1 - Low"
+        - "2"
+        - "3"
+        - "4"
+        - "5 - High"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty
+      description: How complex is this issue to implement?
+      options:
+        - "1 - Trivial"
+        - "2"
+        - "3"
+        - "4"
+        - "5 - Complex"
+    validations:
+      required: true
+
+  - type: input
+    id: recommended_dev
+    attributes:
+      label: Recommended Assigned Developer
+      placeholder: "@username"
+    validations:
+      required: false
