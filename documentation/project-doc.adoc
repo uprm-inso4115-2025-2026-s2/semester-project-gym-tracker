@@ -1,13 +1,16 @@
-= Semester Project Documentation
-Gym Tracker
+= Gym Tracker
+First Milestone - Software Requirements - INSO 4115
+Prof. Marko Schütz-Schmuck 
+:doctype: book
 :toc:
-:toclevels: 1
-:numbered:
-:sectanchors:
-:sectlinks:
+:sectnums:
 
-== Informative Part
-include::sections/informative/subsectionssections/team.adoc[]
-include::sections/informative/subsectionssections/situation-needs-ideas.adoc[]
+include::sections/section1/section.adoc[]
+
+include::sections/section2/section.adoc[]
+
+include::sections/section3/section.adoc[]
+
+// include::sections/logbook.adoc[]
 
 
