@@ -1,0 +1,31 @@
+= Semester Project Documentation
+Gym Tracker
+:toc:
+:toclevels: 3
+:numbered:
+:sectanchors:
+:sectlinks:
+
+== Informative Part
+include::informative/team.adoc[]
+include::informative/situation-needs-ideas.adoc[]
+include::informative/scope-span-synopsis.adoc[]
+include::informative/other-activities.adoc[]
+include::informative/derived-goals.adoc[]
+
+== Descriptive Part
+
+=== Domain Description
+include::descriptive/domain/rough-sketch.adoc[]
+include::descriptive/domain/terminology.adoc[]
+include::descriptive/domain/narrative.adoc[]
+include::descriptive/domain/functions-events.adoc[]
+
+=== Requirements
+include::descriptive/requirements/user-stories.adoc[]
+include::descriptive/requirements/personas.adoc[]
+include::descriptive/requirements/domain-requirements.adoc[]
+
+== Analytic Part
+include::analytic/concept-analysis.adoc[]
+include::analytic/validation-verification.adoc[]
