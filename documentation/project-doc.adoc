@@ -7,6 +7,7 @@ Gym Tracker
 :sectlinks:
 
 == Informative Part
-include::informative/subsections/team.adoc
+include::informative/subsections/team.adoc[]
 include::informative/situation-needs-ideas.adoc[]
+
 
