@@ -3,14 +3,16 @@ First Milestone - Software Requirements - INSO 4115
 Prof. Marko Schütz-Schmuck 
 :doctype: book
 :toc:
-:sectnums:
+:sectnums!:
 
-include::sections/section1/section.adoc[]
+include::sections/0 Introduction/section.adoc[]
 
-include::sections/section2/section.adoc[]
+include::sections/1 Informative Part/section.adoc[]
 
-include::sections/section3/section.adoc[]
+include::sections/2 Descriptive Part/section.adoc[]
 
-// include::sections/logbook.adoc[]
+include::sections/3 Analytic Part/section.adoc[]
 
+include::sections/4 Specific Class Topics/section.adoc[]
 
+include::sections/Appendix/section.adoc[]
