@@ -1,0 +1,7 @@
+include::subsections/4.1 stakeholder identification.adoc[]
+
+include::subsections/4.2 personas.adoc[]
+
+include::subsections/4.3 domain and requirements acquisition.adoc[]
+
+include::subsections/4.4 traceability.adoc[]
