@@ -1,7 +1,7 @@
 = 1 Informative part
 
 == 1.1 Team
-The project for Milestone 1 is organized into 5 functional teams: Workouts, Streaks, Feedback, Notifications, and Accounts and Design; plus 2 Managers.
+The project for Milestone 1 is organized into 6 functional teams: Workouts, Streaks, Feedback, Notifications,Accounts and Design, and Documentation; plus 2 Managers.
 Each responsible for a specific dimension of the domain problem. 
 The structure reflects the need to address workout tracking, habit consistency, progress evaluation, engagement, 
 and user interaction in a coordinated and coherent manner.
@@ -115,4 +115,16 @@ This team ensures that the project maintains simplicity and structural coherence
 | 
 |===
 
+=== Documentation Team:
 
+The Documentation Team ensures that all project documentation is well-structured, accurate, and consistently maintained. 
+They are responsible for creating, organizing, reviewing, and updating materials so that every section remains clear, cohesive, and easy to navigate.
+
+[cols="2,1,1", options="header"]
+|===
+| Student | GitHub username | Tasks
+
+| Alejendro Lopez 
+| https://github.com/alejandro-lopez24[@alejandro-lopez24]
+| 
+|===
