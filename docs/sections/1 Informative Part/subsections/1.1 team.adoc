@@ -1,6 +1,6 @@
-= 1.*Informative part*
+== 1.*Informative part*
 
-== 1.1 *Team*
+=== 1.1 *Team*
 The project for Milestone 1 is organized into 6 functional teams: Workouts, Streaks, Feedback, Notifications,Accounts and Design, and Documentation; plus 2 Managers.
 Each responsible for a specific dimension of the domain problem. 
 The structure reflects the need to address workout tracking, habit consistency, progress evaluation, engagement, 
