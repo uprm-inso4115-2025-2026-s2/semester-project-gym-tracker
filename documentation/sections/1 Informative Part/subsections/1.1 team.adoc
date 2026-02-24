@@ -13,7 +13,7 @@ No external partners have been identified for this milestone; if any arise, thei
 The lists are presented in alphabetical order and indicate each group’s Team Leader. The Tasks column is reserved for recording completed issues. Each 
 Team will have it's description and what members participate on it. 
 
-=== Managers
+=== Managers:
 
 The Managers are responsible for coordination, milestone alignment, and ensuring coherence across all functional teams. 
 They support decision-making, documentation consistency, and adherence to project guidelines.
@@ -31,7 +31,7 @@ They support decision-making, documentation consistency, and adherence to projec
 | 
 |===
 
-=== Workouts Team
+=== Workouts Team:
 
 The Workouts Team is responsible for the domain dimension related to physical activity recording. 
 Their responsibility is to ensure that workout sessions, exercise activity, and session-related information are conceptually well-defined and consistently represented within the project’s documentation and reasoning process.
@@ -48,7 +48,7 @@ This team focuses on understanding how gym sessions, running activities, and gen
 |===
 
 
-=== Streaks Team
+=== Streaks Team:
 
 The Streaks Team is responsible for the domain aspects of habit continuity and attendance consistency. 
 Their responsibility is to reason about how repeated participation, missed sessions, and behavioral patterns are conceptualized and measured in the context of fitness habits.
@@ -65,7 +65,7 @@ This team ensures that consistency is treated as a domain concept rather than as
 |===
 
 
-=== Feedback Team
+=== Feedback Team:
 
 The Feedback Team is responsible for the domain dimension related to goal evaluation and performance reflection. 
 Their responsibility is to define how goals are understood, how progress is compared against expectations, and how summaries can represent achievement or deviation at a conceptual level.
@@ -82,7 +82,7 @@ The focus of this team is on meaning-making: transforming recorded activity into
 |===
 
 
-=== Notifications Team
+=== Notifications Team:
 
 The Notifications Team is responsible for the engagement dimension of the domain. 
 Their responsibility is to analyze how reminders, encouragement, and motivational reinforcement function in the context of habit formation.
@@ -99,7 +99,7 @@ This team studies the behavioral implications of prompting and reinforcement wit
 |===
 
 
-=== Accounts and Design Team
+=== Accounts and Design Team:
 
 The Accounts and Design Team is responsible for user identity and interaction coherence at a conceptual level. 
 Their responsibility is to reason about how personal history, continuity of records, and usability principles support clarity and reduce friction in the user’s experience.
