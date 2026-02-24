@@ -13,7 +13,7 @@ No external partners have been identified for this milestone; if any arise, thei
 The lists are presented in alphabetical order and indicate each group’s Team Leader. The Tasks column is reserved for recording completed issues. Each 
 Team will have it's description and what members participate on it. 
 
-=== Managers:
+==== Managers:
 
 The Managers are responsible for coordination, milestone alignment, and ensuring coherence across all functional teams. 
 They support decision-making, documentation consistency, and adherence to project guidelines.
