@@ -1,3 +1,79 @@
 == 2.2 Requirements
 
 === 2.2.1 User Stories, Epics, Features
+
+=== Epic 1: Workout and Run Logging with Session Details
+As a busy fitness user, I want to log gym sessions and runs with essential details so that I can remember what I did and build a consistent routine over time.
+
+Features::
+* Log gym sessions, runs, and basic cardio
+* Record session duration and estimated calories burned
+* Record exercise types performed
+* Optional notes per session
+* Edit past sessions to correct mistakes
+
+User stories::
+* As Alejandro, I want to log a gym session with duration so that I can track effort without entering too much data.
+* As Derek, I want to log a run with time and distance so that I can track cardio progress alongside gym sessions.
+* As Alejandro, I want to record the types of exercises I performed so that I can remember what to do next time.
+* As Derek, I want to add optional notes to a session so that I can capture quick context like “felt heavy” or “easy pace.”
+* As Ana, I want to edit a past session entry so that my weekly summaries remain accurate if I logged something incorrectly.
+
+=== Epic 2: Consistency Tracking and Streaks
+As someone trying to build a habit, I want the system to track consistency and streaks so that I stay motivated to keep showing up over time.
+
+Features::
+* Track days attended versus missed
+* Maintain activity streaks based on regular logging
+* Visualize consistency patterns over time
+* Treat streak breaks in a way that does not discourage continued use
+
+User stories::
+* As Alejandro, I want to see my current streak of active days so that I feel motivated to keep the routine going.
+* As Ana, I want to see how many days I was active versus missed in the current week so that I can notice gaps early.
+* As Derek, I want my streak to count both runs and gym sessions so that the tracking matches my real routine.
+* As Alejandro, I want the app to keep showing weekly progress even if my streak breaks so that one missed day does not make me quit.
+
+=== Epic 3: Goals and End-of-Week Feedback
+As a user who needs accountability, I want daily and weekly goals with an end-of-week summary so that I can see whether I met my targets and adjust realistically.
+
+Features::
+* Daily and weekly goal setting
+* End-of-week summary table
+* Progress comparison against goals
+* Session-to-session comparisons over time
+
+User stories::
+* As Ana, I want to set a weekly goal for number of active days so that I have a clear target to aim for.
+* As Alejandro, I want an end-of-week summary table showing what I completed so that I can feel rewarded for consistency.
+* As Derek, I want to see how far I am from my weekly goal during the week so that I can decide when to fit in a session.
+* As Derek, I want to compare this week’s sessions to last week’s sessions so that I can notice improvement or decline.
+* As Alejandro, I want a simple “goal met / not met” indicator with a short explanation so that feedback stays clear and not overwhelming.
+
+=== Epic 4: Reminders and Supportive Encouragement
+As a habit-building user, I want reminders and motivational feedback so that I remember to log and stay consistent without feeling pressured.
+
+Features::
+* Reminder notifications to encourage consistency
+* Supportive tone that avoids judgment
+* Basic reminder preferences (enable/disable and frequency)
+* Foundation for future customization of message tone and style
+
+User stories::
+* As Ana, I want to enable reminders on days I usually work out so that I get a helpful nudge when I forget.
+* As Alejandro, I want reminders to feel supportive rather than judgmental so that notifications encourage me instead of discouraging me.
+* As Derek, I want to temporarily mute reminders when I am busy so that I do not disengage from the app due to spam.
+* As Ana, I want to receive a weekly encouragement message based on my summary so that I stay motivated for the next week.
+
+=== Epic 5: User Accounts and Personal History
+As a regular user, I want my activity history stored in an account so that I can review my progress over time and get consistent summaries.
+
+Features::
+* User account management
+* Personal workout and run history storage
+* Individual progress data accessible for summaries and comparisons
+
+User stories::
+* As Alejandro, I want to create an account so that my workout history is saved and I do not lose progress.
+* As Derek, I want to view my full workout and run history so that I can look back and plan future sessions.
+* As Ana, I want my weekly summaries to use my saved history so that progress feedback stays consistent over time.

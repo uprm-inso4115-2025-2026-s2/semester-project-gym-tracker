@@ -1,1 +1,40 @@
 === 2.2.2 Personas
+
+=== Persona 1: Alejandro "The Busy Beginner"
+Alejandro is a college student who recently started going to the gym. He wants to build a consistent routine, but he tends to drop apps that feel complicated or take too long to use.
+
+Goals::
+* Log workouts quickly without feeling overwhelmed
+* Stay consistent week to week
+* Get clear feedback that shows he is improving
+
+Pain points::
+* If logging takes more than a minute, he skips it and then forgets what he did
+* Too many metrics or options makes the app feel stressful instead of helpful
+* When he cannot see progress clearly, motivation fades
+
+=== Persona 2: Derek "The Split-Tracker Runner"
+Derek runs a few times a week and also does basic gym sessions. He wants one place to track both types of activity, and he cares about comparing sessions over time.
+
+Goals::
+* Track gym sessions and runs in one place
+* Compare today’s session to past sessions
+* See weekly consistency at a glance
+
+Pain points::
+* He forgets details of the last workout and repeats mistakes
+* If he cannot review progress easily, tracking feels pointless
+* Busy days make him skip logging unless it is very low friction
+
+=== Persona 3: Ana "The Habit Builder"
+Ana is trying to build healthier habits through regular activity. She responds well to supportive encouragement and clear weekly summaries, and she wants reminders that motivate without making her feel judged.
+
+Goals::
+* Set simple daily or weekly activity goals
+* Get an end-of-week summary that reinforces accountability
+* Receive reminders that feel supportive, not pressuring
+
+Pain points::
+* Harsh or guilt-based reminders make her disengage
+* Without weekly summaries, she underestimates missed days and loses momentum
+* If the app feels like “homework,” she stops using it
