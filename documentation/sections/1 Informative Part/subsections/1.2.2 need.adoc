@@ -1,1 +1,8 @@
 ==== 1.2.2 *Need*
+From the current situation, several needs emerge that affect individuals attempting to maintain consistent fitness habits.
+Individuals need a way to clearly observe their progress over time. When information is scattered across multiple tools or not recorded consistently, it becomes difficult to recognize improvement, stagnation, or regression. Without visibility, motivation weakens.
+Individuals need a low-friction method for recording their physical activities and nutrition. If tracking requires excessive effort, time, or cognitive load, people are less likely to maintain the habit long-term.
+Individuals need feedback that reinforces consistency. Without clear reinforcement mechanisms, it is difficult to sustain routines that require discipline and delayed gratification.
+Individuals need an integrated view of their fitness-related efforts. When workout routines, running sessions, and nutrition habits exist in isolation from one another, it becomes harder to understand how these activities collectively contribute to health and performance.
+Individuals need clarity rather than complexity. Overly feature-dense environments can create confusion, leading users to disengage instead of feeling supported.
+Athletes and fitness-oriented individuals need a structured way to evaluate adherence to their goals. Without structured reflection, routines become reactive instead of intentional.
