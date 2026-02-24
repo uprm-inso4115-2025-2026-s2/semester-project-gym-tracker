@@ -1,11 +1,7 @@
 ==== 1.2.1 *Current Situation*
 
 Many individuals begin fitness routines with strong motivation, particularly at the start of a semester, a new year, or after setting personal health goals. However, maintaining consistency over time proves significantly more difficult than starting.
-
 Tracking physical activity and nutrition is often fragmented. Individuals rely on a combination of mental notes, notebooks, smartwatch summaries, and multiple mobile applications. This fragmentation makes it difficult to gain a coherent understanding of overall progress. Workout sessions may be recorded in one place, running data in another, and nutritional intake somewhere else.
-
 Because improvements in strength, endurance, and body composition occur gradually, individuals frequently struggle to perceive short-term progress. When progress is not visible or measurable, motivation declines. Missed sessions can accumulate unnoticed, and inconsistency becomes normalized.
-
 Additionally, many available fitness tracking tools are either overly complex or focused on only one dimension of fitness. Users seeking simple accountability are often confronted with dense interfaces, excessive metrics, or feature overload that creates friction rather than support.
-
 As a result, many individuals abandon tracking altogether, reducing awareness of their habits and weakening long-term commitment to their fitness goals.
