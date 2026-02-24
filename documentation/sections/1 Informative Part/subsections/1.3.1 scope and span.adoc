@@ -1,3 +1,75 @@
 === 1.3 *Scope, Span, and Synopsis*
 
 ==== 1.3.1 *Scope & Span*
+
+===== *Scope*
+The project operates within the personal fitness and habit-formation domain,
+addressing challenges related to workout consistency, progress visibility,
+and centralized tracking of physical activity. The project responds to the
+observed fragmentation of fitness data across multiple tools and the resulting
+decline in user motivation and consistency.
+
+The scope of this project includes:
+*Domain Engineering*
+- Identification and formalization of key domain concepts such as
+  workout session, run, exercise, goal, streak, progress, and activity frequency.
+- Documentation of domain behaviors such as logging a workout,
+  completing a run, missing a session, or reaching a goal.
+
+*Requirements Engineering*
+- Derivation of requirements from identified user needs
+  (consistency support, centralized tracking, clear progress feedback).
+- Definition of user stories, domain requirements, interface requirements,
+  and machine requirements.
+- Establishment of measurable criteria for tracking workouts,
+  streaks, and goal completion.
+
+*Validation and Analysis Activities*
+- Validation of domain understanding and requirements through
+  stakeholder reasoning and scenario walkthroughs.
+- Evaluation of whether requirements support the identified needs,
+  such as reducing friction and increasing motivation.
+- Ensuring traceability between needs, goals, user stories,
+  and requirements.
+
+===== *Span*
+While the scope describes the broad domain of fitness tracking and
+habit formation, the span defines the specific focus of this project.
+
+The project targets:
+- College students
+- Beginner to intermediate gym-goers
+- Runners and casual athletes
+- Individuals attempting to build consistent fitness habits
+
+The system is intended for individuals who:
+- Track gym sessions and/or runs
+- Set weekly or daily activity goals
+- Benefit from progress summaries and streak monitoring
+- Require a simple, centralized tracking solution
+
+The project does not target:
+- Professional athletes requiring advanced biometric analytics
+- Medical rehabilitation tracking systems
+- Professional coaching platforms
+- Enterprise gym management systems
+
+The span is limited to personal fitness tracking
+and motivational reinforcement rather than elite-level
+performance optimization or medical applications.
+
+===== *Out-of-Scope*
+To clearly define project boundaries, the following aspects are excluded:
+
+- Detailed software architecture design
+- Database schema design
+- User interface layout specifications
+- Technology stack decisions
+- Wearable hardware integration
+- Medical diagnostics or injury tracking
+- Social media platform functionality
+- Financial or gym membership management
+
+The project does not aim to replace professional trainers,
+sports scientists, or medical systems. It is a personal tracking
+and motivational support tool.
