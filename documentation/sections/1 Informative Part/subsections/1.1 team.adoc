@@ -1,3 +1,28 @@
 = 1 Informative part
 
 == 1.1 Team
+The project for Milestone 1 is organized into 5 functional teams, each responsible for a specific dimension of the domain problem. 
+The structure reflects the need to address workout tracking, habit consistency, progress evaluation, engagement, 
+and user interaction in a coordinated and coherent manner.
+
+The teams operate under a shared objective: to reduce friction in fitness habit tracking and to support long-term consistency 
+through clarity, structure, and meaningful feedback. Plus all these teams are the 2 managers. In this context all team members are considered partners. 
+No external partners have been identified for this milestone; if any arise, their roles and responsibilities will be documented.
+
+The lists are presented in alphabetical order and indicate each group’s Team Leader. The Tasks column is reserved for recording completed issues. Each 
+Team will have it's description and what members participate on it. 
+
+=== Managers
+
+[cols="2,1,1", options="header"]
+|===
+| Student | GitHub username | Tasks
+
+| Diego A. Perez Gandarillas
+| https://github.com/diegoperez16[@diegoperez16]
+| 
+
+| Pedro A. Morales Cosme
+| https://github.com/pedroamorales[@pedroamorales]
+| 
+|===
