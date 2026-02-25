@@ -69,6 +69,8 @@ To clearly define project boundaries, the following aspects are excluded:
 - Medical diagnostics or injury tracking
 - Social media platform functionality
 - Financial or gym membership management
+- Nutrition tracking or meal planning
+- Dietary analytics or nutritional guidance
 
 The project does not aim to replace professional trainers,
 sports scientists, or medical systems. It is a personal tracking
