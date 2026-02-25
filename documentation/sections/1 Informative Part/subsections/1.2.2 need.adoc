@@ -1,1 +1,8 @@
-=== 1.2.2 Need
+==== 1.2.2 *Need*
+
+From this situation, several needs emerge within the personal fitness domain. Individuals need a clear and unified understanding of their physical activity patterns over time. Without consolidated visibility, it is difficult to evaluate improvement or identify inconsistency.
+Individuals need a low-effort and structured method for recording workouts and related activities. If tracking requires excessive time or cognitive effort, it becomes unsustainable.
+Individuals need measurable feedback regarding adherence to their goals. Without structured reflection, missed sessions and incomplete objectives remain abstract rather than concrete.
+Individuals need reinforcement mechanisms that support habit formation. Since physical results develop gradually, behavioral consistency must be supported independently of visible body changes.
+Beginner and intermediate gym participants need clarity rather than complexity in their tracking environment. Overwhelming tools discourage sustained engagement.
+Overall, there is a need for greater structure, visibility, and accountability in maintaining personal fitness routines.
