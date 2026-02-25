@@ -1,22 +1,30 @@
 == 1.*Informative part*
 
 === 1.1 *Team*
-The project for Milestone 1 is organized into 6 functional teams: Workouts, Streaks, Feedback, Notifications,Accounts and Design, and Documentation; plus 2 Managers.
-Each responsible for a specific dimension of the domain problem. 
-The structure reflects the need to address workout tracking, habit consistency, progress evaluation, engagement, 
-and user interaction in a coordinated and coherent manner.
+
+The project for Milestone 1 is organized into 5 functional teams: 
+Accounts and Design, Workout Data and Logging, Streaks,Notifications and Feedback, and Documentation; plus 2 Managers.
+
+Each team is responsible for a specific dimension of the domain problem. 
+The structure reflects the need to address workout data management, habit consistency, motivational feedback, 
+user engagement, and interface coherence in a coordinated and well-defined manner.
 
 The teams operate under a shared objective: to reduce friction in fitness habit tracking and to support long-term consistency 
-through clarity, structure, and meaningful feedback.In this context all team members are considered partners. 
-No external partners have been identified for this milestone; if any arise, their roles and responsibilities will be documented.
+through clarity, structure, and meaningful feedback.
 
-The lists are presented in alphabetical order and indicate each group’s Team Leader. The Tasks column is reserved for recording completed issues. Each 
-Team will have it's description and what members participate on it. 
+In this context, all team members are considered partners. 
+At this stage of the milestone, no external partners (such as domain experts or external stakeholders) 
+have been formally integrated into the project. If external partners are identified in later phases, 
+their roles and responsibilities will be explicitly documented.
+
+The lists below indicate each group’s Team Leader. 
+The Tasks column is reserved for recording completed issues as required by the task tracking policy.
 
 ==== *Managers:*
 
-The Managers are responsible for coordination, milestone alignment, and ensuring coherence across all functional teams. 
-They support decision-making, documentation consistency, and adherence to project guidelines.
+The Managers are responsible for coordination, milestone alignment, task validation, 
+and ensuring coherence across all functional teams. They oversee task readiness, scoring, 
+and milestone consistency as defined in the course specification.
 
 [cols="2,1,1", options="header"]
 |===
@@ -31,104 +39,217 @@ They support decision-making, documentation consistency, and adherence to projec
 | 
 |===
 
-==== *Workouts Team:*
 
-The Workouts Team is responsible for the domain dimension related to physical activity recording. 
-Their responsibility is to ensure that workout sessions, exercise activity, and session-related information are conceptually well-defined and consistently represented within the project’s documentation and reasoning process.
+==== *Accounts and Design Team:*
 
-This team focuses on understanding how gym sessions, running activities, and general cardio efforts are described in the real world and how those activities are structured from a domain perspective.
+The Accounts and Design Team is responsible for user identity management and conceptual interface coherence.
+
+Their responsibility includes reasoning about:
+- User accounts and authentication concepts
+- Personal workout history storage
+- Data continuity and ownership
+- Structural clarity and usability principles
+
+This team ensures that the project maintains simplicity and coherence in how user-related information is structured 
+within the domain.
 
 [cols="2,1,1", options="header"]
 |===
 | Student | GitHub username | Tasks
 
-| Member Name
-| https://github.com/username[@username]
-| 
+| Emmanuel Guadalupe Rodríguez (Team Leader)
+| https://github.com/Mannyrodd[@Mannyrodd]
+|
+
+| Alex M. Vazquez Galiano
+| https://github.com/AlexitoUpr[@AlexitoUpr]
+|
+
+| Ingrid Caraballo
+| https://github.com/Ingrid1089[@Ingrid1089]
+|
+
+| Carlos A. Ferrer Hayes
+| https://github.com/CarlosxFerrer[@CarlosxFerrer]
+|
+
+| Ian G. Ramos Villafañe
+| https://github.com/igrv2003[@igrv2003]
+|
+
+| Juan R. Rivera Rodríguez
+| https://github.com/JRRR0912[@JRRR0912]
+|
+
+| Wilson Morales
+| https://github.com/WilsonMorales8[@WilsonMorales8]
+|
+|===
+
+
+==== *Workout Data and Logging Team:*
+
+The Workout Data and Logging Team is responsible for the domain dimension related to physical activity recording.
+
+Their responsibility is to define how gym sessions, runs, cardio efforts, and workout attributes 
+(duration, calories, exercise type, notes) are conceptually structured and represented.
+
+This team ensures that workout tracking is treated as a domain concept grounded in observable fitness activity, 
+not merely as stored data.
+
+[cols="2,1,1", options="header"]
+|===
+| Student | GitHub username | Tasks
+
+| Jerac Duran (Team Leader)
+| https://github.com/jeracduran1[@jeracduran1]
+|
+
+| Yandiel Hernandez Otero
+| https://github.com/yandielhernandez[@yandielhernandez]
+|
+
+| Hector L. Rivera Betances
+| https://github.com/hector-rivera15[@hector-rivera15]
+|
+
+| Massini
+| https://github.com/Massinl[@Massinl]
+|
+
+| Lorenzo
+| https://github.com/Lorenzo-PT[@Lorenzo-PT]
+|
+
+| Joaquin E. Arraiza Morales
+| https://github.com/joaquin787[@joaquin787]
+|
 |===
 
 
 ==== *Streaks Team:*
 
-The Streaks Team is responsible for the domain aspects of habit continuity and attendance consistency. 
-Their responsibility is to reason about how repeated participation, missed sessions, and behavioral patterns are conceptualized and measured in the context of fitness habits.
+The Streaks Team is responsible for the conceptualization of consistency, attendance patterns, and behavioral continuity.
 
-This team ensures that consistency is treated as a domain concept rather than as a mere numerical metric.
+Their responsibility includes reasoning about:
+- Consecutive workout tracking
+- Missed-session impact
+- Habit formation logic
+- Visualization of long-term consistency
 
-[cols="2,1,1", options="header"]
-|===
-| Student | GitHub username | Tasks
-
-| Member Name
-| https://github.com/username[@username]
-| 
-|===
-
-
-==== *Feedback Team:*
-
-The Feedback Team is responsible for the domain dimension related to goal evaluation and performance reflection. 
-Their responsibility is to define how goals are understood, how progress is compared against expectations, and how summaries can represent achievement or deviation at a conceptual level.
-
-The focus of this team is on meaning-making: transforming recorded activity into interpretable progress.
+This team ensures that consistency is treated as a behavioral phenomenon rather than merely a numeric counter.
 
 [cols="2,1,1", options="header"]
 |===
 | Student | GitHub username | Tasks
 
-| Member Name
-| https://github.com/username[@username]
-| 
+| Ariana P. Rodríguez Méndez (Team Leader)
+| https://github.com/arianrodz21[@arianrodz21]
+|
+
+| Gabriel O. Visbal Rodríguez
+| https://github.com/Gabriel-Visbal[@Gabriel-Visbal]
+|
+
+| Jan Morales Vazquez
+| https://github.com/JanDavey[@JanDavey]
+|
+
+| Bruno Vergara
+| https://github.com/Brzno[@Brzno]
+|
+
+| Oscar A. Santana Colón
+| https://github.com/OSCAR-A-SANTANA[@OSCAR-A-SANTANA]
+|
+
+| Angel L. Ramos Rodríguez
+| https://github.com/angelramos1[@angelramos1]
+|
+
+| Enrique Vilela
+| https://github.com/EnriqueVilela2714[@EnriqueVilela2714]
+|
 |===
 
 
-==== *Notifications Team:*
+==== *Notifications and Feedback Team:*
 
-The Notifications Team is responsible for the engagement dimension of the domain. 
-Their responsibility is to analyze how reminders, encouragement, and motivational reinforcement function in the context of habit formation.
+The Notifications and Feedback Team is responsible for motivational reinforcement and goal evaluation.
 
-This team studies the behavioral implications of prompting and reinforcement without defining implementation mechanisms.
+Their responsibility includes:
+- Reminder logic and notification reasoning
+- Goal comparison and progress summaries
+- End-of-week evaluations
+- Conceptual framing of motivational feedback
+
+This team ensures that feedback mechanisms are aligned with habit formation principles and do not become feature overload.
 
 [cols="2,1,1", options="header"]
 |===
 | Student | GitHub username | Tasks
 
-| Member Name
-| https://github.com/username[@username]
-| 
-|===
+| Ivan O. Morales Martorell (Team Leader)
+| https://github.com/ivxnmorxles[@ivxnmorxles]
+|
 
+| Pedro M. Cortes Ramos
+| https://github.com/pedrocortess[@pedrocortess]
+|
 
-==== *Accounts and Design Team:*
+| Alejandro Mercado
+| https://github.com/AlejandroMB05[@AlejandroMB05]
+|
 
-The Accounts and Design Team is responsible for user identity and interaction coherence at a conceptual level. 
-Their responsibility is to reason about how personal history, continuity of records, and usability principles support clarity and reduce friction in the user’s experience.
+| Luis X. Sorrentini Renta
+| https://github.com/luissorrentini[@luissorrentini]
+|
 
-This team ensures that the project maintains simplicity and structural coherence in how user-related information is understood and organized within the domain.
+| Sebastian A. Santiago Perez
+| https://github.com/seba-15[@seba-15]
+|
 
-[cols="2,1,1", options="header"]
-|===
-| Student | GitHub username | Tasks
+| Gerald L. Rodríguez Rodríguez
+| https://github.com/geraldrodriguez1[@geraldrodriguez1]
+|
 
-| Member Name
-| https://github.com/username[@username]
-| 
+| Derek Velez Quiñones
+| https://github.com/DerekUnii[@DerekUnii]
+|
+
+| Edgar J. Gonzalez Vargas
+| https://github.com/Edgar-glz[@Edgar-glz]
+|
 |===
 
 ==== *Documentation Team:*
 
-The Documentation Team ensures that all project documentation is well-structured, accurate, and consistently maintained. 
-They are responsible for creating, organizing, reviewing, and updating materials so that every section remains clear, cohesive, and easy to navigate.
+The Documentation Team is responsible for ensuring structural coherence,
+clarity, and traceability across all project documentation.
+
+While all developers are responsible for documenting their work,
+this team focuses on:
+
+- Maintaining consistency of terminology across sections
+- Aligning documentation with milestone guidelines and grading rubrics
+- Ensuring traceability between domain concepts, requirements, and tasks
+- Reviewing structural integrity before milestone submission
+- Coordinating formatting according to documentation-as-code principles
+
+The Documentation Team does not replace individual responsibility for
+writing documentation. Instead, it acts as a coordination and quality
+assurance layer to ensure that the project deliverables remain coherent,
+traceable, and aligned with the course specification.
 
 [cols="2,1,1", options="header"]
 |===
 | Student | GitHub username | Tasks
 
-| Julian Vivas (Team leader)
+| Julian Vivas (Team Leader)
 | https://github.com/julivivas[@julivivas]
 | 
 
-| Alejendro Lopez
+| Alejandro Lopez
 | https://github.com/alejandro-lopez24[@alejandro-lopez24]
 | 
 
