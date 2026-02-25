@@ -1,1 +1,32 @@
 === 2.2.3 Domain Requirements
+
+*Session Representation*
+    The system shall represent each Workout Session as a distinct entity associated with:
+        •	Specific calendar date
+        •	Session type
+        •	Duration
+        •	Exercises Performed
+
+*Scheduling*
+    The system shall associate each workout session with a specific calendar date to represent the distribution of sessions across time.
+
+*Persistent Storage and Retrieval*
+    The system shall provide means to store Workout Sessions persistently and retrieve them in chronological order.
+
+*Streak Representation*
+    The system shall provide means to determine and represent sequences of consecutive Workout sessions across days or weeks as a Streak.
+
+*Streak Calculation*
+    The system shall compute whether a Workout session continues or breaks an existing Streak based on consecutive calendar units.
+
+*Weekly Aggregation*
+    The system shall provide means to aggregate workout sessions within calendar weeks
+
+*Weekly Comparison*
+    The system shall provide means to compare the number of sessions performed in the current week with previous weeks
+
+*Essential Information Recording*
+    The system shall provide means to record a Workout Session using only essential information: session type, duration, and optional short notes.
+
+*Separation of Nutrition Tracking*
+    The system shall not require Nutrition information as a precondition for recording a Workout Session.
