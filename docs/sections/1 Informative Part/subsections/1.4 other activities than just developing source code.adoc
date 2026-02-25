@@ -1,1 +1,106 @@
-== 1.4 Other Activities than just Developing Source Code
+=== *1.4 Other Activities than just Developing Source Code*
+
+The project does not only consist of implementing a mobile application or web app. 
+Before any reliable system can be developed, several foundational 
+engineering activities must take place. These activities are necessary 
+to reduce ambiguity, align the team, and ensure that the resulting system 
+addresses real domain needs rather than assumptions.
+
+==== *Domain Research*
+
+The current situation shows that fitness tracking is fragmented across 
+multiple tools and applications. Users often rely on separate systems 
+for workout logging, running metrics, and nutrition tracking. This 
+fragmentation creates cognitive overload and reduces long-term adherence.
+
+To properly understand this domain, the team conducted:
+
+* Review of existing fitness tracking applications to identify patterns 
+  of complexity and feature overload.
+* Analysis of habit-formation principles in productivity and educational 
+  platforms (e.g., streak systems and visual progress reinforcement).
+* Examination of athlete and student behavior regarding workout logging 
+  consistency.
+
+The need satisfied by this activity is the need for developers to 
+understand the fitness tracking domain independently of the system-to-be. 
+Without this understanding, the team risks designing features that do not 
+address the real causes of inconsistency.
+
+==== *Stakeholder Interaction*
+
+The primary stakeholders identified for this milestone include:
+
+* College students attempting to maintain gym consistency.
+* Beginner to intermediate gym-goers.
+* Casual runners and athletes.
+
+Initial informal discussions were conducted with peers who regularly 
+attend the gym. These conversations focused on:
+
+* Frustrations with switching between multiple apps.
+* Abandonment of tracking tools due to complexity.
+* Desire for quick logging workflows.
+
+Planned stakeholder interaction includes structured feedback sessions 
+once low-fidelity prototypes are available.
+
+The need satisfied by stakeholder interaction is validation of whether 
+the identified pain points reflect actual user experience rather than 
+team assumptions.
+
+==== *Concept Analysis*
+
+Through analysis of the problem background and discussions, the team 
+identified key domain-level concepts:
+
+* Workout session
+* Run
+* Streak
+* Goal
+* Habit consistency
+* Progress feedback
+
+These concepts emerged from comparing different user statements such as:
+“I forget what I did last week” and “I stop tracking because it takes too long.”
+
+From this comparison, we abstracted higher-level concerns:
+* The need for visibility of past performance.
+* The need for reduced friction in logging.
+* The motivational role of streak continuity.
+
+Concept analysis ensures that the system design is grounded in 
+domain phenomena rather than arbitrary feature decisions.
+
+==== *Validation Activities*
+
+Validation at this stage focuses on confirming that the identified needs 
+and abstractions correspond to real-world behavior.
+
+The team will validate by:
+
+* Presenting simplified user scenarios to stakeholders 
+  (e.g., logging a workout in under 30 seconds).
+* Comparing proposed workflows against existing app experiences.
+* Evaluating whether streak and weekly summaries improve perceived motivation.
+
+Validation is not intended to obtain approval for a finished product, 
+but to test whether the team’s understanding of the domain is accurate.
+
+==== *Connection to Identified Needs*
+
+All activities described above directly address previously identified needs:
+
+* The need to reduce friction in workout logging.
+* The need to centralize fitness tracking information.
+* The need to reinforce consistency through clear feedback.
+* The need to design for habit formation rather than feature overload.
+
+By conducting domain research, stakeholder interaction, concept analysis, 
+and validation planning before implementation, the project reduces the 
+risk of building a technically functional system that fails to support 
+long-term consistency.
+
+No technical implementation decisions are included in this section, 
+as its purpose is to document reasoning activities that precede 
+development.
