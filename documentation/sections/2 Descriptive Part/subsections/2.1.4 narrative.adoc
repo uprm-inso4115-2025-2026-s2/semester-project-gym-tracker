@@ -1,4 +1,4 @@
-=== 2.1.4 Domain Narrative
+=== *2.1.4 Domain Narrative*
 
 In everyday life, staying physically active is less about knowing what to do and more about repeatedly doing it despite changing schedules and motivation. Many people start a gym routine with excitement and clear intentions, but that early drive often competes with school, work, commuting, stress, and fatigue. When routines collide with these pressures, activity tends to become irregular. One skipped session is usually not the real problem; the real problem is how quickly irregularity turns into a new normal.
 
