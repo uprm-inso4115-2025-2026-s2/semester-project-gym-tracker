@@ -74,6 +74,8 @@ jobs:
         with:
           commit_message: "[Automated] Milestone Metrics Update"
           branch: inso-metrics
+          push_options: "--force"
+          create_branch: true
           file_pattern: metrics/*.md
           commit_user_name: GitHub Action
           commit_user_email: action@github.com
