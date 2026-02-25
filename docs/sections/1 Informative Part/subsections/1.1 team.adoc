@@ -124,7 +124,23 @@ They are responsible for creating, organizing, reviewing, and updating materials
 |===
 | Student | GitHub username | Tasks
 
-| Alejendro Lopez 
+| Julian Vivas (Team leader)
+| https://github.com/julivivas[@julivivas]
+| 
+
+| Alejendro Lopez
 | https://github.com/alejandro-lopez24[@alejandro-lopez24]
+| 
+
+| Wilson A. Morales
+| https://github.com/WilsonMorales8[@WilsonMorales8]
+| 
+
+| Alex Vazquez
+| https://github.com/AlexitoUpr[@AlexitoUpr]
+| 
+
+| Derek Vélez
+| https://github.com/DerekUnii[@DerekUnii]
 | 
 |===
