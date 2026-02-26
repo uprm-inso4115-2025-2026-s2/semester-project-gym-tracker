@@ -1,1 +1,47 @@
 === 2.2.3 Domain Requirements
+
+*Session Representation*
+    The system must provide means to represent each Workout Session as a distinct entity associated with:
+        •	Specific calendar date
+        •	Session type
+        •	Duration
+        •	Exercises Performed
+
+*Scheduling*
+    The system must provide means to associate each workout session with a specific calendar date to represent the distribution of sessions across time.
+
+*Goal Representation*
+    The system must provide means to define a Goal associated with a specific Time Frame.
+
+*Goal Evaluation*
+    The system must provide means to evaluate whether recorded Workout Sessions satisfy a defined Goal within its Time Frame.
+
+*Low-Effort Logging*
+    The system must provide means to record a Workout Session through a Quick Entry Workflow that minimizes required input steps.
+
+*Persistent Storage and Retrieval*
+    The system must provide means to store Workout Sessions persistently and retrieve them in chronological order.
+
+*Consistency Representation*
+    The system must provide means to compute and represent a measure of Consistency based on the distribution of Workout Sessions across time.
+
+*Streak Representation*
+    The system must provide means to determine and represent sequences of consecutive Workout sessions across days or weeks as a Streak.
+
+*Streak Calculation*
+    The system must provide means to compute whether a Workout session continues or breaks an existing Streak based on consecutive calendar units.
+
+*Weekly Aggregation*
+    The system must provide means to aggregate workout sessions within calendar weeks
+
+*Weekly Comparison*
+    The system must provide means to compare the number of sessions performed in the current week with previous weeks
+
+*Performance Summary Representation*
+    The system must provide means to generate a Performance Summary that aggregates Workout Sessions within a specified Time Frame and compares them to associated Goals.
+    
+*Essential Information Recording*
+    The system must provide means to record a Workout Session using only essential information: session type, duration, and optional short notes.
+
+*Separation of Nutrition Tracking*
+    The system must provide means to record a Workout Session without requiring Nutrition information as a precondition.
