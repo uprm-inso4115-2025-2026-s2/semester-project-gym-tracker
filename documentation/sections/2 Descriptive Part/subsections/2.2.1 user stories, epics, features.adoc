@@ -1,3 +1,0 @@
-== 2.2 Requirements
-
-=== 2.2.1 User Stories, Epics, Features
