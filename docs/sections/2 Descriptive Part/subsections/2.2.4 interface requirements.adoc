@@ -1,1 +1,48 @@
 === 2.2.4 Interface Requirements
+==== Definition
+
+In this project, _interface requirements_ describe how observable phenomena and concepts from the fitness-tracking domain are introduced into the system-to-be, kept up to date, corrected when entered incorrectly, and constrained by validation rules. They focus on the boundary between the outside world (users performing workouts and setting goals) and the system’s internal representations stored and managed by the web application (React + Supabase). These requirements capture how domain concepts become internal data, how changes in the domain are reflected inside the system, and what kinds of edits are allowed.
+
+Interface requirements do not specify UI pixel-level details or implementation-specific database schemas. Instead, they specify the mechanisms and constraints by which domain information is captured, updated, and verified.
+
+==== Domain Concepts Represented in the System
+
+The system must internally represent the following domain concepts, since they are relevant for simulating and tracking user behavior over time:
+
+* User
+* Workout Session
+* Goal (e.g., weekly workout frequency)
+* Streak / Consistency Indicator
+* Personal Progress History
+
+==== Interface Requirements
+
+===== User Initialization
+
+The system shall provide means for a real-world individual to create a user account, thereby initializing a persistent internal representation of a User. The system shall prevent duplicate accounts using the same email address and shall store the User record in persistent storage upon successful registration.
+
+===== Recording Real-World Workouts
+
+The system shall provide means for a User to record a Workout Session that occurred in the real world. At minimum, the system shall require a workout date and workout type and shall associate each recorded Workout Session with exactly one User before persisting it.
+
+===== Editing and Correction of Workout Data
+
+The system shall provide means for a User to edit previously recorded Workout Sessions in order to correct incorrect or incomplete entries. The system shall allow modification of workout attributes (e.g., date and type), and the system shall not allow reassignment of an existing Workout Session to a different User.
+
+===== Goal Initialization and Update
+
+The system shall provide means for a User to define and update measurable fitness Goals. The system shall validate that goal values are positive and shall prevent modification of completed historical goal records once they are marked complete.
+
+===== Automatic Streak Synchronization
+
+The system shall automatically update the Streak (or Consistency Indicator) whenever a Workout Session is added, modified, or removed. The streak value shall always be derived from stored Workout Session data and shall reset when the defined streak conditions are not met.
+
+===== Interface-Level Validation Constraints
+
+The system shall enforce interface-level validation constraints on domain data entry. Workout dates shall not be in the future, required fields shall not be empty, and goal values shall be positive integers. The system shall reject invalid input prior to persistence.
+
+==== Example Usage Scenario
+
+A user completes a gym workout on Monday evening, which occurs in the real world (domain). Later, the user logs into the web application and records a Workout Session by entering the date and workout type. Upon submission, the system creates a persistent internal representation of that Workout Session and recalculates progress and streak values derived from the updated workout history.
+
+If the user entered the wrong date, the system provides means to edit the recorded Workout Session. After the correction is saved, the system updates the stored representation and recalculates dependent indicators (such as the streak) so that the internal representation remains consistent with the user’s real-world activity.
