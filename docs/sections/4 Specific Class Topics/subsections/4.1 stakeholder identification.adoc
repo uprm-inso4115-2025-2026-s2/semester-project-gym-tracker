@@ -1,3 +1,107 @@
 = 4 Specific Class Topics
 
 == 4.1 Stakeholder Identification
+
+=== Lecture Definition
+
+According to the Domain Stakeholders lecture, stakeholders are individuals or groups who either:
+
+* Have an *interest* in the domain, or
+* *Depend* on the behavior, outcomes, or operation of the system.
+
+The following stakeholder identification applies this definition to the fitness tracking system domain.
+
+=== Initial Stakeholders
+
+The following stakeholder groups were identifiable in the initial project phase based on domain analysis, requirements discussion, and usage scenarios.
+
+==== 1. Primary Users – Gym-Goers / Fitness Enthusiasts
+
+*Interest:*
+They seek to log workouts, monitor progress, maintain streaks, and improve consistency.
+
+*Dependency:*
+They depend on accurate tracking of Workout Sessions, Goal evaluation, and clear visibility of Progress and Streak status.
+
+These users are directly affected by the system’s ability to represent and evaluate their fitness behavior.
+
+==== 2. Beginner / First-Time Gym Users
+
+*Interest:*
+They want structure, clarity, and motivational reinforcement to build consistent habits.
+
+*Dependency:*
+They depend on simple tracking mechanisms, understandable feedback, and consistent progress summaries to avoid discouragement.
+
+Their perspective strongly influences scope decisions related to simplicity and usability.
+
+==== 3. Goal-Oriented / Experienced Users
+
+*Interest:*
+They aim to achieve measurable targets and evaluate improvement over time.
+
+*Dependency:*
+They depend on reliable historical data, comparison of sessions, and meaningful goal evaluation outcomes.
+
+They require that the system preserve data integrity and reflect performance trends accurately.
+
+==== 4. System Administrators / Development Team
+
+*Interest:*
+They are responsible for maintaining system integrity, reliability, and alignment with requirements.
+
+*Dependency:*
+They depend on well-defined domain models, clear requirements, and predictable system behavior to implement and evolve the platform.
+
+This group influences architectural and technical decisions.
+
+==== 5. Platform Providers (e.g., Hosting / Backend Services)
+
+*Interest:*
+They require correct integration, API usage, and adherence to platform policies.
+
+*Dependency:*
+The system depends on them for authentication, persistent storage, and uptime.
+
+Though indirect, they are critical external stakeholders due to infrastructure reliance.
+
+==== 6. Future Trainers / Coaches (Potential Expansion Stakeholders)
+
+*Interest:*
+They may want insight into user consistency and performance trends.
+
+*Dependency:*
+They would depend on structured historical data and accurate summaries if future features allow coaching or review.
+
+While not in initial scope, recognizing them supports long-term domain awareness.
+
+=== Domain vs. Implementation Stakeholders
+
+Primary Users, Beginners, and Goal-Oriented Users are *domain stakeholders* because their interest lies in fitness behavior and outcomes.
+
+System Administrators and Platform Providers are *implementation stakeholders* because their interest centers on system operation and technical realization.
+
+Distinguishing these groups helps ensure that domain modeling remains focused on real-world fitness phenomena rather than purely technical concerns.
+
+=== Alignment with A3 and Project Scope
+
+The identified stakeholders reinforce the project’s emphasis on:
+
+* Workout logging as the core domain activity
+* Progress and streak tracking as motivational mechanisms
+* Weekly goal evaluation and accountability
+
+Nutrition tracking was intentionally limited in scope based on stakeholder tension observed in early discussions. This reflects alignment with A3 priorities and prevents scope overexpansion.
+
+=== Discovery of Additional Stakeholders
+
+It is likely that additional stakeholders exist beyond those initially identified. To discover them, the team will:
+
+* Conduct informal interviews or surveys with additional gym users.
+* Review online fitness communities to identify overlooked needs.
+* Revisit domain assumptions during each milestone.
+* Analyze feature requests or feedback emerging during development.
+
+When new stakeholders are identified, their interests and dependencies will be documented, and any resulting requirement changes will be reviewed for scope alignment before incorporation.
+
+This iterative identification process ensures that stakeholder analysis evolves alongside the system while maintaining domain focus.
