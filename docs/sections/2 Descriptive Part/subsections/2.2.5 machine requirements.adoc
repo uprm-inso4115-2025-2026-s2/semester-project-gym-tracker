@@ -1,1 +1,63 @@
 === 2.2.5 Machine Requirements
+
+==== Definition and Status
+
+Machine requirements describe measurable, verifiable quality attributes the system-to-be must satisfy (e.g., performance, scalability, availability, security, and maintainability). They constrain how well the fitness-tracking web application (React + Supabase) must behave under expected and stressed operating conditions.
+
+These requirements are still under development. Some thresholds will be refined as the team gathers usage expectations and runs basic load and reliability checks.
+
+==== Machine Requirements
+
+===== Interactive Response Time (Performance)
+
+For authenticated Users, the system shall complete the following interactive actions with a server-acknowledged result within *2.0 seconds* for at least *95%* of requests under normal load:
+
+* viewing the dashboard/progress summary,
+* creating a Workout Session,
+* editing a Workout Session,
+* creating or updating a Goal.
+
+“Server-acknowledged result” means the data is successfully written/read from persistent storage and the client receives confirmation.
+
+===== Concurrent Usage Target (Scalability)
+
+The system shall support at least *100 simultaneous active Users* performing typical actions (viewing dashboard, logging workouts, editing workouts, updating goals) without violating Initial Page Load Time response-time targets.
+
+If concurrency exceeds *100 simultaneous active Users*, the system shall continue operating and may degrade gracefully, but shall not lose persisted data or become unavailable.
+
+===== Availability (Reliability/Availability)
+
+The system shall achieve at least *99.0%* monthly availability for core features (authentication, viewing dashboard, creating/editing workouts, creating/updating goals), excluding scheduled maintenance windows announced at least 24 hours in advance.
+
+Criteria for acceptable maintenance frequency and duration remain to be determined and will be defined based on course timelines and hosting constraints.
+
+===== Data Durability on Failure (Reliability)
+
+When a write operation (e.g., logging a Workout Session or updating a Goal) returns success to the client, the system shall persist the change such that it remains retrievable after client refresh or reconnect. The system shall not acknowledge success unless the data is committed to persistent storage.
+
+===== Authentication and Session Security (Security)
+
+The system shall require authentication for all access to User-specific data. The system shall ensure that a User can only read or modify their own Workout Sessions, Goals, and Progress History via enforced authorization checks.
+
+The session timeout / token lifetime policy will be determined based on Supabase defaults and course security expectations.
+
+===== Protection of Data in Transit and at Rest (Security/Privacy)
+
+The system shall protect data in transit using HTTPS for all client-server communication. The system shall store User credentials only using secure, non-reversible hashing managed by the authentication provider (Supabase Auth).
+
+Requirements for additional at-rest encryption beyond managed provider defaults will be researched using Supabase documentation and project risk assessment.
+
+===== Operational Observability (Maintainability/Operability)
+
+The system shall provide means to detect and diagnose failures by recording, at minimum, timestamped error events for:
+
+* failed authentication attempts,
+* failed reads/writes to persistent storage,
+* unhandled application errors affecting core features.
+
+The specific logging retention period and monitoring strategy will be defined after the team selects deployment and monitoring tooling.
+
+==== Notes on Measurement and Validation
+
+* “Normal load” refers to typical course-expected usage patterns and will be approximated during testing with scripted actions matching Concurrent Usage Target.
+* Any undetermined values will be finalized by (1) reviewing Supabase platform constraints, and (2) running basic load tests to determine attainable thresholds without conflicting with other requirements.
