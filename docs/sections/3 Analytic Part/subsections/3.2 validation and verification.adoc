@@ -61,6 +61,7 @@ Unit tests are written and maintained by the development team and executed autom
 The following properties are verified:
 
 *Session Representation Property*
+
 When a Workout Session is created with:
 
 - A specific calendar date
@@ -71,20 +72,25 @@ When a Workout Session is created with:
 All attributes are stored and retrieved without modification.
 
 *Persistent Storage Property*
+
 Workout Sessions are retrievable in chronological order after storage.
 
 *Goal Evaluation Property*
+
 If the number of Workout Sessions recorded within a Goal’s Time Frame meets or exceeds the defined target, the system marks the Goal as satisfied.
 
 *Streak Calculation Property*
+
 If a Workout Session is logged on n consecutive calendar days, the system computes a streak value of n.
 
 If one full calendar unit is skipped, the streak resets according to the defined rule.
 
 *Weekly Aggregation Property*
+
 The system correctly aggregates Workout Sessions within calendar week boundaries.
 
 *Weekly Comparison Property*
+
 The system correctly compares the number of sessions in the current week with previous weeks.
 
 These unit tests verify correctness of individual components implementing the domain requirements.
