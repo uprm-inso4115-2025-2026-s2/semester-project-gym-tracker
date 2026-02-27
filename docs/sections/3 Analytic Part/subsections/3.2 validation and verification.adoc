@@ -58,6 +58,7 @@ Verification ensures that the implemented system behaves correctly and satisfies
 Unit tests are written and maintained by the development team and executed automatically upon code updates.
 
 The following properties are verified:
+
 *Session Representation Property*
     When a Workout Session is created with:
     - A specific calendar date
@@ -82,7 +83,7 @@ The following properties are verified:
 *Weekly Comparison Property*
     The system correctly compares the number of sessions in the current week with previous weeks.
 
-    These unit tests verify correctness of individual components implementing the domain requirements.
+These unit tests verify correctness of individual components implementing the domain requirements.
 
 ==== Issue Tracking and Resolution
 All defects discovered during testing or validation are recorded in a structured issue-tracking system. Each issue is categorized, prioritized, assigned for resolution, and retested.
@@ -91,19 +92,21 @@ This ensures systematic verification and controlled system evolution.
 
 ==== User Acceptance Testing
 Before deployment, representative users execute realistic end-to-end scenarios, such as:
-            - Maintaining a streak for seven consecutive days
-            - Logging sessions using only essential information
-            - Completing a goal within its Time Frame
-            - Reviewing weekly comparisons
 
-        User Acceptance Testing validates that the implemented system reflects the validated domain understanding and satisfies user expectations in realistic conditions.
+- Maintaining a streak for seven consecutive days
+- Logging sessions using only essential information
+- Completing a goal within its Time Frame
+- Reviewing weekly comparisons
+
+User Acceptance Testing validates that the implemented system reflects the validated domain understanding and satisfies user expectations in realistic conditions.
         
-        These sessions are observed and documented by the development team.
+These sessions are observed and documented by the development team.
 
 ==== Performance Benchmarking
 The system is evaluated against predefined performance criteria.
 
 Properties verified include:
+
 - Workout logging operations complete within acceptable response time under normal usage.
 
 - Weekly aggregation and goal evaluation calculations execute without noticeable delay.
