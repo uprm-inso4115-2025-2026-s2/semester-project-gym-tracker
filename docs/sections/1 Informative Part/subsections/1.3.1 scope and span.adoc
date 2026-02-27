@@ -10,6 +10,7 @@ observed fragmentation of fitness data across multiple tools and the resulting
 decline in user motivation and consistency.
 
 The scope of this project includes:
+
 *Domain Engineering*
 - Identification and formalization of key domain concepts such as
   workout session, run, exercise, goal, streak, progress, and activity frequency.
