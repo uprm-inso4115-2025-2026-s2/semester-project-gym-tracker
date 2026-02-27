@@ -11,28 +11,6 @@ The system is implemented as a web application using React on the client side an
 
 At a high level, the system consists of four major components:
 
-[plantuml]
-----
-@startuml
-actor User
-
-rectangle "Client (React Web App)" {
-  component "UI Components"
-  component "Application Logic"
-}
-
-rectangle "Backend (Supabase)" {
-  component "Authentication Service"
-  component "Database"
-}
-
-User --> "UI Components"
-"UI Components" --> "Application Logic"
-"Application Logic" --> "Authentication Service"
-"Application Logic" --> "Database"
-@enduml
-----
-
 ===== 1. Client Application (React Web App)
 
 The client application runs in the user’s browser and is responsible for:
