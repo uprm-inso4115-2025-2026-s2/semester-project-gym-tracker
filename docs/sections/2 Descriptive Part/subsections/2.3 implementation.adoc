@@ -1,1 +1,108 @@
 == 2.3 Implementation
+=== 2.3 Implementation Overview
+
+==== Purpose
+
+This section provides a high-level overview of how the fitness tracking system is realized. It describes the main architectural components, their responsibilities, and how they interact. The focus is on the “big picture” structure of the system rather than low-level implementation details.
+
+The system is implemented as a web application using React on the client side and Supabase as the backend platform for authentication and persistent storage.
+
+==== Architectural Overview
+
+At a high level, the system consists of four major components:
+
+[plantuml]
+----
+@startuml
+actor User
+
+rectangle "Client (React Web App)" {
+  component "UI Components"
+  component "Application Logic"
+}
+
+rectangle "Backend (Supabase)" {
+  component "Authentication Service"
+  component "Database"
+}
+
+User --> "UI Components"
+"UI Components" --> "Application Logic"
+"Application Logic" --> "Authentication Service"
+"Application Logic" --> "Database"
+@enduml
+----
+
+===== 1. Client Application (React Web App)
+
+The client application runs in the user’s browser and is responsible for:
+
+* Rendering screens (dashboard, workout logging, goal management).
+* Collecting user input (e.g., workout details, goal definitions).
+* Triggering requests to backend services.
+* Displaying feedback such as streak updates and weekly summaries.
+
+It implements the interaction logic that connects user actions to backend operations.
+
+===== 2. Authentication Service (Supabase Auth)
+
+The authentication component is responsible for:
+
+* User registration and login.
+* Session management.
+* Enforcing access control to user-specific data.
+
+All requests involving user data require valid authentication tokens.
+
+===== 3. Persistent Storage (Supabase Database)
+
+The database component stores domain-related data, including:
+
+* Users and account information.
+* Workout Sessions and related attributes.
+* Goals and goal evaluation results.
+* Attendance history used for streak and consistency evaluation.
+
+It ensures durability and retrieval of user-specific data.
+
+===== 4. Domain Logic (Application Layer)
+
+The application layer coordinates domain-related operations such as:
+
+* Recording a Workout Session.
+* Evaluating weekly goals.
+* Computing streak length.
+* Producing weekly summaries.
+
+This logic is executed in response to user actions and interacts with persistent storage to retrieve and update domain data.
+
+==== Key Interaction Flow (End-to-End Example)
+
+Example: Logging a Workout Session
+
+1. The User enters workout details in the client interface.
+2. The client validates required fields and sends a request to the backend.
+3. The backend verifies authentication.
+4. The Workout Session is persisted in the database.
+5. The application logic recomputes streak and goal evaluation.
+6. Updated results are returned to the client and displayed on the dashboard.
+
+This flow demonstrates how user interaction propagates across components, from UI to storage and back.
+
+==== Deployment View
+
+The system follows a client–server deployment model:
+
+* The React application is delivered to users via a web browser.
+* Backend services (authentication and database) are hosted on Supabase infrastructure.
+* Communication between client and backend occurs over HTTPS.
+
+==== Relation to Requirements
+
+The architecture supports:
+
+* Interface requirements (Section 2.2.4) by providing explicit mechanisms for recording, editing, and validating workout data.
+* Machine requirements (Section 2.2.5) through controlled authentication, secure communication, and measurable response behavior.
+* Domain concepts (Section 2.1.2) by mapping them to persistent representations and domain-level operations.
+
+This implementation overview captures the structural realization of the system without introducing low-level implementation details.
