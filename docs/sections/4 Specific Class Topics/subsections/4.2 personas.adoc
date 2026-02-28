@@ -1,16 +1,16 @@
 === 4.2 Personas
 
-The guideline emphasizes that personas can exist at multiple levels (domain, requirements, and even implementation stakeholders), and that we should prioritize personas for the most important stakeholder groups rather than creating them for everyone. :contentReference[oaicite:4]{index=4}
+The guideline emphasizes that personas can exist at multiple levels (domain, requirements, and even implementation stakeholders), and that we should prioritize personas for the most important stakeholder groups rather than creating them for everyone.
 
-In this milestone, we reuse and elevate the *primary user personas* already developed in Section 2.2.2, since they directly justify the user stories, epics, and requirements of the system-to-be. :contentReference[oaicite:5]{index=5}
+In this milestone, we reuse and elevate the *primary user personas* already developed in Section 2.2.2, since they directly justify the user stories, epics, and requirements of the system-to-be. 
 
 ==== Persona Set Used for Requirements Justification
 
 *Alejandro ("The Busy Beginner")*  
-Represents the beginner/first-time gym user stakeholder group. He motivates requirements related to low-effort logging, fast reuse of sessions, and non-discouraging streak behavior. :contentReference[oaicite:6]{index=6}
+Represents the beginner/first-time gym user stakeholder group. He motivates requirements related to low-effort logging, fast reuse of sessions, and non-discouraging streak behavior. 
 
 *Derek ("The Split-Tracker Runner")*  
-Represents users who mix runs and gym sessions and need unified tracking plus week-to-week comparisons. He motivates requirements around aggregation, comparisons, and low-friction defaults. :contentReference[oaicite:7]{index=7}
+Represents users who mix runs and gym sessions and need unified tracking plus week-to-week comparisons. He motivates requirements around aggregation, comparisons, and low-friction defaults. 
 
 *Ana ("The Habit Builder")*  
 Represents users who respond strongly to supportive tone and weekly accountability. She motivates requirements for weekly summary feedback, realistic goals, and reminders that avoid guilt-based pressure. :contentReference[oaicite:8]{index=8}
