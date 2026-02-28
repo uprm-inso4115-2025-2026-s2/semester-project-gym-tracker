@@ -1,8 +1,8 @@
-==== 4.4 Traceability
+=== 4.4 Traceability
 
 The purpose of traceability is to set up deliverables so we can answer impact questions (e.g., “if requirement X changes, which goals/personas/tests are affected?”). This section defines the tagging/linking scheme we will use across needs, goals, epics, requirements, and verification. 
 
-===== 4.4.1 Traceability Codes
+==== 4.4.1 Traceability Codes
 
 We will label artifacts with short IDs and reference them inline:
 
@@ -15,7 +15,7 @@ We will label artifacts with short IDs and reference them inline:
 - Verification checks/tests: V1, V2, ... (from Section 3.2)
 - GitHub issues/tasks: GH-### (issue number)
 
-===== 4.4.2 Minimal Traceability Matrix (Milestone 1)
+==== 4.4.2 Minimal Traceability Matrix (Milestone 1)
 
 [cols="1,3,2,2,2",options="header"]
 |===
@@ -46,7 +46,7 @@ We will label artifacts with short IDs and reference them inline:
 |DR: Streak Representation + Calculation; IR: Automatic Streak Synchronization; MR: Reliability (data durability)
 |===
 
-===== 4.4.3 How We Will Maintain Traceability
+==== 4.4.3 How We Will Maintain Traceability
 
 - Each requirement section will include a short “Supports: {G*, N*, Persona}” line.
 - Each verification item (Section 3.2) will reference the requirement IDs it verifies.
