@@ -1,8 +1,8 @@
-=== *2.2 Requirements*
+==== *2.2 Requirements*
 
-==== *2.2.1 User Stories, Epics, Features*
+===== *2.2.1 User Stories, Epics, Features*
 
-===== *Epic 1: Workout and Run Logging with Session Details*
+====== *Epic 1: Workout and Run Logging with Session Details*
 As a busy fitness user, I want to log gym sessions and runs with essential details so that I can remember what I did and build a consistent routine over time.
 
 Features::
@@ -21,7 +21,7 @@ User stories::
 * As Ana, I want to edit a past session entry so that my weekly summary reflects what actually happened if I logged something incorrectly.
 * As Ana, I want to record an optional “how it felt” note after a session so that I can connect progress with how sustainable the routine feels.
 
-===== *Epic 2: Consistency Tracking and Streaks*
+====== *Epic 2: Consistency Tracking and Streaks*
 As someone trying to build a habit, I want the system to track consistency and streaks so that I stay motivated to keep showing up over time.
 
 Features::
@@ -56,7 +56,7 @@ User stories::
 * As Alejandro, I want a simple “goal met / not met” result with a short, supportive explanation so that feedback stays clear and not overwhelming.
 * As Ana, I want to optionally add a quick weekly note about what worked or what got in the way so that I can improve my habits over time.
 
-===== *Epic 4: Reminders and Supportive Encouragement*
+====== *Epic 4: Reminders and Supportive Encouragement*
 As a habit-building user, I want reminders and motivational feedback so that I remember to log and stay consistent without feeling pressured.
 
 Features::
@@ -73,7 +73,7 @@ User stories::
 * As Ana, I want to receive a weekly encouragement message based on my summary so that I stay motivated for the next week.
 * As Alejandro, I want reminders to focus on restarting after missed days so that a busy week does not make me give up.
 
-===== *Epic 5: User Accounts and Personal History*
+====== *Epic 5: User Accounts and Personal History*
 As a regular user, I want my activity history stored in an account so that I can review my progress over time and get consistent summaries.
 
 Features::

@@ -1,329 +1,289 @@
-= 3 Analytic Part
+== 3. Analytic Part
 
-== 3.1 Concept Analysis
+=== 3.1 Concept Analysis
 
-==== Concept Derivation: Activity Structure
+This concept analysis transforms the rough sketch statements from the descriptive part into stable domain concepts, relationships, and terminology. The goal is to show how abstractions were derived (not just the final results).
 
-===== From Activity Descriptions to "Workout Session"
+==== 3.1.1 Concept Derivation: Activity Structure
 
-Side-by-side rough sketch statements:
+===== From Activity Descriptions to Workout Session
 
-  A: "Logging total workout time."
-  B: "What was done during a session."
-  C: "Exercises performed."
+.Rough sketch statements (side-by-side)
+[literal]
+A: "Logging total workout time."
+B: "What was done during a session."
+C: "Exercises performed."
 
-Semantic analysis:
+.Semantic analysis
+* All three statements refer to a bounded instance of physical activity.
+* Statement A suggests measurable duration.
+* Statement B implies structured content within that period.
+* Statement C suggests internal components of that instance.
 
-  All three statements refer to a bounded instance of physical activity.
-  - Statement A suggests measurable duration.
-  - Statement B implies structured content within that period.
-  - Statement C suggests internal components of that instance.
+.Common structure
+* A time-bounded activity composed of smaller activity units.
 
-Common structure:
+.Abstraction
+*WORKOUT SESSION*
 
-  A time-bounded activity composed of smaller activity units.
+.Definition
+A set period of structured physical activity performed by an individual.
 
-Abstraction:
+.Attributes
+* Duration
+* Set of Exercises
 
-  WORKOUT SESSION
+.Rationale
+This abstraction generalizes multiple descriptions into a single domain concept.
 
-Definition:
-  A set period of structured physical activity performed by an individual.
+===== From Components to Exercise
 
-Attributes:
-  - Duration
-  - Set of Exercises
+.Rough sketch statements (side-by-side)
+[literal]
+A: "Exercises performed."
+B: "List of exercise types."
+C: "What was done during a session."
 
-Rationale:
-  The abstraction generalizes multiple descriptions into a single domain concept.
+.Semantic analysis
+* Exercises are described as elements within a session.
+* Exercise type differentiates physical activity forms.
 
-===== From Components to "Exercise"
+.Common structure
+* A unit of physical activity that is part of a larger session.
 
-Side-by-side rough sketch statements:
+.Abstraction
+*EXERCISE*
 
-  A: "Exercises performed."
-  B: "List of exercise types."
-  C: "What was done during a session."
+.Definition
+A specific physical movement performed within a workout session.
 
-Semantic analysis:
+.Relationships
+* A Workout Session consists of one or more Exercises.
+* An Exercise may have Duration.
 
-  - Exercises are described as elements within a session.
-  - Exercise type differentiates physical activity forms.
-
-Common structure:
-
-  A unit of physical activity that is part of a larger session.
-
-Abstraction:
-
-  EXERCISE
-
-Definition:
-  A specific physical movement performed within a workout session.
-
-Relationship:
-  - A Workout Session consists of one or more Exercises.
-  - Exercise may have Duration.
-
-Justification:
-  Exercise is modeled as a part-of relationship within a Workout Session.
+.Justification
+Exercise is modeled as a part-of relationship within a Workout Session.
 
 ===== Distinguishing Attendance from Activity
 
-Side-by-side rough sketch statements:
+.Rough sketch statements (side-by-side)
+[literal]
+A: "Tracking the days a person attends the gym."
+B: "Tracking what was done during a workout."
 
-  A: "Tracking the days a person attends the gym."
-  B: "Tracking what was done during a workout."
+.Semantic analysis
+* Statement A refers to presence at a location.
+* Statement B refers to tracking the structured physical activity performed during a workout session.
+* Presence does not logically imply structured activity.
 
-Semantic analysis:
+.Terminology clash
+Attendance and Workout Activity were implicitly treated as interchangeable.
 
-  - Statement A refers to presence at a location.
-  - Statement B refers to tracking the structured physical activity performed during a workout session.
-  - Presence does not logically imply structured activity.
+.Resolution: introduce distinct concepts
+* *GYM ATTENDANCE*
+* *WORKOUT SESSION*
 
-Terminology clash:
+.Definitions
+* *GYM ATTENDANCE:* A calendar day on which an individual visits a training location.
+* *WORKOUT SESSION:* A structured period of physical activity.
 
-  Attendance and Workout Activity were implicitly treated as interchangeable.
+.Relationship
+* A Gym Attendance may contain zero or more Workout Sessions.
 
-Resolution:
+.Justification
+This separation preserves semantic clarity in the domain.
 
-  Introduce distinct concepts:
+==== 3.1.2 Concept Derivation: Temporal Patterns
 
-    GYM ATTENDANCE
-    WORKOUT SESSION
+===== From Repetition to Consistency
 
-Definitions:
+.Rough sketch statements (side-by-side)
+[literal]
+A: "Consistency over time."
+B: "Maintaining discipline."
+C: "People gradually stop going."
 
-  GYM ATTENDANCE:
-    A calendar day on which an individual visits a training location.
+.Semantic analysis
+* Statements refer to repeated behavior across time.
+* Focus is not on a single session but on pattern repetition.
 
-  Workout Session:
-    A structured period of physical activity.
+.Common structure
+* Recurring activity distributed across multiple days.
 
-Relationship:
-  - An GYM ATTENDANCE may contain zero or more Workout Sessions.
+.Abstraction
+*CONSISTENCY*
 
-Justification:
-  This separation preserves semantic clarity in the domain.
+.Definition
+The repeated occurrence of Workout Sessions across time.
 
-==== Concept Derivation: Temporal Patterns
+===== From Consecutive Days to Streak
 
-===== From Repetition to "Consistency"
+.Rough sketch statements (side-by-side)
+[literal]
+A: "Maintaining a streak."
+B: "Consecutive days of activity motivate discipline."
 
-Side-by-side rough sketch statements:
+.Semantic analysis
+* The term "streak" implies consecutiveness.
+* Not all repeated activity is consecutive.
 
-  A: "Consistency over time."
-  B: "Maintaining discipline."
-  C: "People gradually stop going."
+.Terminology clash
+The terms "streak" and "consistency" were used interchangeably.
 
-Semantic analysis:
+.Resolution: distinguish concepts
+* *Consistency:* repeated activity (non-consecutive allowed)
+* *Streak:* consecutive activity only
 
-  - Statements refer to repeated behavior across time.
-  - Focus is not on a single session but on pattern repetition.
+.Abstraction
+*STREAK*
 
-Common structure:
+.Definition
+A sequence of consecutive days containing workout activity.
 
-  Recurring activity distributed across multiple days.
+.Relationship
+* Streak is a specialized form of Consistency.
 
-Abstraction:
+==== 3.1.3 Concept Derivation: Goals and Evaluation
 
-  CONSISTENCY
+===== From Daily/Weekly Targets to Goal
 
-Definition:
-  The repeated occurrence of Workout Sessions across time.
+.Rough sketch statements (side-by-side)
+[literal]
+A: "Weekly overview compared to goals."
+B: "Daily versus weekly goals."
+C: "No agreement on which works best."
 
-===== From Consecutive Days to "Streak"
+.Semantic analysis
+* All statements describe target values.
+* Targets are evaluated within temporal boundaries.
+* Conflict exists regarding granularity (daily vs weekly).
 
-Side-by-side rough sketch statements:
+.Common structure
+* Target value + time boundary.
 
-  A: "Maintaining a streak."
-  B: "Consecutive days of activity motivate discipline."
+.Abstractions
+* *GOAL*
+* *TIME FRAME*
 
-Semantic analysis:
+.Definitions
+* *Goal:* A predefined target for workout frequency or activity level.
+* *Time Frame:* A bounded temporal interval (e.g., day, week).
 
-  - The term "streak" implies consecutiveness.
-  - Not all repeated activity is consecutive.
+.Higher-level abstraction
+*TEMPORAL GOAL STRUCTURE = Goal + Time Frame*
 
-Terminology clash:
+.Resolution of clash
+By abstracting upward, both daily and weekly goals become valid instances of the same structural concept.
 
-  The terms "streak" and "consistency" were used interchangeably.
+===== From Overviews to Performance Summary
 
-Resolution:
+.Rough sketch statements (side-by-side)
+[literal]
+A: "Weekly overview of activity."
+B: "Seeing progress motivates people."
 
-  Distinguish concepts:
+.Semantic analysis
+* Overview implies grouping.
+* Motivation is influenced by comparative results.
 
-    Consistency = repeated activity (non-consecutive allowed)
-    Streak      = consecutive activity only
+.Abstraction
+*PERFORMANCE SUMMARY*
 
-Abstraction:
+.Definition
+An aggregated representation of workout activity within a specified Time Frame.
 
-  STREAK
+.Relationships
+* Compares actual activity to Goal.
+* Influences Motivation.
 
-Definition:
-  A sequence of consecutive days containing workout activity.
-
-Relationship:
-  - Streak is a specialized form of Consistency.
-
-==== Concept Derivation: Goals and Evaluation
-
-===== From Daily/Weekly Targets to "Goal"
-
-Side-by-side rough sketch statements:
-
-  A: "Weekly overview compared to goals."
-  B: "Daily versus weekly goals."
-  C: "No agreement on which works best."
-
-Semantic analysis:
-
-  - All statements describe target values.
-  - Targets are evaluated within temporal boundaries.
-  - Conflict exists regarding granularity (daily vs weekly).
-
-Common structure:
-
-  Target value + time boundary.
-
-Abstraction:
-
-  GOAL
-  TIME FRAME
-
-Definitions:
-
-  Goal:
-    A predefined target for workout frequency or activity level.
-
-  Time Frame:
-    A bounded temporal interval (e.g., day, week).
-
-Higher-level abstraction:
-
-  TEMPORAL GOAL STRUCTURE = Goal + Time Frame
-
-Resolution of clash:
-  By abstracting upward, both daily and weekly goals become valid instances of the same structural concept.
-
-===== From Overviews to "Performance Summary"
-
-Side-by-side rough sketch statements:
-
-  A: "Weekly overview of activity."
-  B: "Seeing progress motivates people."
-
-Semantic analysis:
-
-  - Overview implies grouping.
-  - Motivation is influenced by comparative results.
-
-Abstraction:
-
-  PERFORMANCE SUMMARY
-
-Definition:
-  An aggregated representation of workout activity within a specified Time Frame.
-
-Relationship:
-  - Compares actual activity to Goal.
-  - Influences Motivation.
-
-==== Influencing Domain Factors
+==== 3.1.4 Influencing Domain Factors
 
 ===== Motivation
 
-Side-by-side rough sketch statements:
+.Rough sketch statements (side-by-side)
+[literal]
+A: "Declining motivation."
+B: "Streaks encourage discipline."
+C: "Lack of visible progress discourages people."
 
-  A: "Declining motivation."
-  B: "Streaks encourage discipline."
-  C: "Lack of visible progress discourages people."
+.Common structure
+* Psychological state affecting continuation of workout activity.
 
-Common structure:
+.Abstraction
+*MOTIVATION*
 
-  Psychological state affecting continuation of workout activity.
+.Definition
+A psychological state influencing sustained participation in workout activity.
 
-Abstraction:
-
-  MOTIVATION
-
-Definition:
-  A psychological state influencing sustained participation in  workout activity.
-
-Relationships:
-  - Influenced by Streak
-  - Influenced by Goal Achievement
-  - Influenced by Performance Summary
+.Relationships
+* Influenced by Streak
+* Influenced by Goal Achievement
+* Influenced by Performance Summary
 
 ===== Cognitive Effort
 
-Side-by-side rough sketch statements:
+.Rough sketch statements (side-by-side)
+[literal]
+A: "Tracking should not become burdensome."
+B: "Complexity discourages regular use."
 
-  A: "Tracking should not become burdensome."
-  B: "Complexity discourages regular use."
+.Common structure
+* Mental effort required to remember or reflect on an activity.
 
-Common structure:
+.Abstraction
+*COGNITIVE EFFORT*
 
-  Mental effort required to remember or reflect on a activity.
+.Definition
+The mental energy required to track or recall workout activity.
 
-Abstraction:
+.Relationship
+* Increased Cognitive Effort negatively affects Consistency.
 
-  COGNITIVE EFFORT
+==== 3.1.5 Domain Boundary Definition
 
-Definition:
-  The mental energy required to track or recall workout activity.
+.Rough sketch statements (side-by-side)
+[literal]
+A: "Nutrition tracking is related to fitness."
+B: "Including nutrition might broaden the focus."
 
-Relationship:
-  - Increased Cognitive Effort negatively affects Consistency.
+.Clash
+Whether nutrition belongs in the same conceptual scope.
 
-==== Domain Boundary Definition
+.Resolution
+Two related domains were identified:
+* Physical Training (core domain)
+* Nutrition Management (adjacent domain)
 
-Side-by-side rough sketch statements:
+.Decision
+Nutrition Management is excluded from the core domain model to preserve conceptual cohesion and prevent scope expansion beyond the identified core problem: workout consistency.
 
-  A: "Nutrition tracking is related to fitness."
-  B: "Including nutrition might broaden the focus."
-
-Clash:
-  Whether nutrition belongs in the same conceptual scope.
-
-Resolution:
-
-  Two domains:
-
-    1. Physical Training
-    2. Nutrition Management
-
-Decision:
-  Nutrition Management is adjacent but excluded from the core domain model to preserve conceptual cohesion.
-
-This boundary prevents scope expansion beyond the identified core problem: workout consistency.
-
-==== Consolidated Domain Vocabulary
+==== 3.1.6 Consolidated Domain Vocabulary
 
 The stabilized domain vocabulary consists of:
 
-  - Workout Session
-  - Exercise
-  - Duration
-  - Note
-  - GYM ATTENDANCE
-  - Consistency
-  - Streak
-  - Goal
-  - Time Frame
-  - Performance Summary
-  - Motivation
-  - Cognitive Effort
+* Workout Session
+* Exercise
+* Duration
+* Note
+* Gym Attendance
+* Consistency
+* Streak
+* Goal
+* Time Frame
+* Performance Summary
+* Motivation
+* Cognitive Effort
 
-==== Summary
+==== 3.1.7 Summary
 
 The concept analysis demonstrates that the central domain problem is sustained participation in structured physical training over time.
 
 The domain revolves around:
 
-  - Structuring activity into sessions
-  - Repeating activity across time
-  - Evaluating progress within temporal boundaries
-  - Influencing long-term motivation
-  - Reducing cognitive barriers to consistency
+* Structuring activity into sessions
+* Repeating activity across time
+* Evaluating progress within temporal boundaries
+* Influencing long-term motivation
+* Reducing cognitive barriers to consistency
 
 All abstractions and concepts were derived from the rough sketch statements, and terminology conflicts were resolved to establish a stable domain vocabulary.
