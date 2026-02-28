@@ -1,1 +1,37 @@
-== 4.2 Personas
+=== 4.2 Personas
+
+The guideline emphasizes that personas can exist at multiple levels (domain, requirements, and even implementation stakeholders), and that we should prioritize personas for the most important stakeholder groups rather than creating them for everyone. :contentReference[oaicite:4]{index=4}
+
+In this milestone, we reuse and elevate the *primary user personas* already developed in Section 2.2.2, since they directly justify the user stories, epics, and requirements of the system-to-be. :contentReference[oaicite:5]{index=5}
+
+==== Persona Set Used for Requirements Justification
+
+*Alejandro ("The Busy Beginner")*  
+Represents the beginner/first-time gym user stakeholder group. He motivates requirements related to low-effort logging, fast reuse of sessions, and non-discouraging streak behavior. :contentReference[oaicite:6]{index=6}
+
+*Derek ("The Split-Tracker Runner")*  
+Represents users who mix runs and gym sessions and need unified tracking plus week-to-week comparisons. He motivates requirements around aggregation, comparisons, and low-friction defaults. :contentReference[oaicite:7]{index=7}
+
+*Ana ("The Habit Builder")*  
+Represents users who respond strongly to supportive tone and weekly accountability. She motivates requirements for weekly summary feedback, realistic goals, and reminders that avoid guilt-based pressure. :contentReference[oaicite:8]{index=8}
+
+==== Persona-to-Epic Coverage
+
+[cols="1,3,3",options="header"]
+|===
+|Persona |Primary goals in this domain |Most relevant epics (Section 2.2.1)
+
+|Alejandro
+|Log quickly, remember sessions, avoid discouragement
+|Epic 1 (Logging), Epic 2 (Streaks), Epic 3 (Goals)
+
+|Derek
+|Unified tracking for runs + gym, easy comparisons over time
+|Epic 1 (Logging), Epic 3 (Goals/Comparison), Epic 5 (History)
+
+|Ana
+|Supportive habit-building, weekly reflection, gentle reminders
+|Epic 2 (Consistency), Epic 3 (Weekly summary), Epic 4 (Reminders)
+|===
+
+NOTE: In later milestones we may add an *implementation stakeholder persona* (e.g., a developer/administrator responsible for operational stability) to justify observability/security machine requirements, but it is not critical for milestone 1.
