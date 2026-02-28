@@ -1,6 +1,6 @@
 === 4.3 Domain and Requirements Acquisition
 
-This section documents a concrete plan for how we will continue acquiring domain knowledge and requirements beyond the initial brainstorming and informal stakeholder discussions already described in Section 1.4. The guideline explicitly asks for specificity and named resources, not generic statements. :contentReference[oaicite:9]{index=9}
+This section documents a concrete plan for how we will continue acquiring domain knowledge and requirements beyond the initial brainstorming and informal stakeholder discussions already described in Section 1.4. The guideline explicitly asks for specificity and named resources, not generic statements. 
 
 ==== 4.3.1 Acquisition Plan
 
@@ -32,12 +32,12 @@ We will acquire additional domain and requirement information using four complem
 
 ==== 4.3.2 Resources and Why We Use Them
 
-We will use diverse resources, as recommended by the guideline: stakeholders + “literature-like” sources + artifact review. :contentReference[oaicite:10]{index=10}
+We will use diverse resources, as recommended by the guideline: stakeholders + “literature-like” sources + artifact review. 
 
 Primary resources:
 - Direct stakeholders: UPRM students, beginner/intermediate gym users, casual runners.
 - Existing tools: fitness tracking apps (to identify friction patterns and common mental models).
-- Internal artifacts already produced: A3 problem background and countermeasures (to keep alignment with the project’s original problem framing). :contentReference[oaicite:11]{index=11}
+- Internal artifacts already produced: A3 problem background and countermeasures (to keep alignment with the project’s original problem framing).
 
 ==== 4.3.3 Incorporating New Findings
 
