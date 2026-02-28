@@ -9,7 +9,8 @@ Validation ensures that our interpretation of the domain, concepts, and user wor
 We validate core domain concepts such as Workout Session, Run, Streak, Goal, Consistency, and Progress Feedback by embedding them into concrete scenarios and presenting those scenarios to prospective users.
 
 For example, stakeholders were presented with the following scenario:
-    “A user completes a 30-minute run in the morning and a 45-minute strength workout in the evening. The system records these as two Workout Sessions on the same calendar date. Both sessions contribute to the users weekly aggregation and streak.”
+
+“A user completes a 30-minute run in the morning and a 45-minute strength workout in the evening. The system records these as two Workout Sessions on the same calendar date. Both sessions contribute to the users weekly aggregation and streak.”
 
 Participants were asked whether this reflects how they naturally perceive their workouts.
 
@@ -22,6 +23,7 @@ We clarified the Session Representation requirement to explicitly allow multiple
 =====  Scenario Testing with Stakeholders
 
 Structured scenario walkthroughs were conducted by the development team during the requirements analysis phase. These sessions focused on validating assumptions behind the following requirements:
+
 - Streak Representation and Streak Calculation
 - Goal Evaluation
 - Weekly Aggregation and Weekly Comparison
