@@ -1,4 +1,4 @@
-=== 2.2.3 Domain Requirements
+==== 2.2.3 Domain Requirements
 
 *Session Representation*
     The system must provide means to represent each Workout Session as a distinct entity associated with:

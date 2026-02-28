@@ -1,17 +1,17 @@
-== 2.3 Implementation
-=== 2.3 Implementation Overview
+=== 2.3 Implementation
+==== 2.3 Implementation Overview
 
-==== Purpose
+===== Purpose
 
 This section provides a high-level overview of how the fitness tracking system is realized. It describes the main architectural components, their responsibilities, and how they interact. The focus is on the “big picture” structure of the system rather than low-level implementation details.
 
 The system is implemented as a web application using React on the client side and Supabase as the backend platform for authentication and persistent storage.
 
-==== Architectural Overview
+===== Architectural Overview
 
 At a high level, the system consists of four major components:
 
-===== 1. Client Application (React Web App)
+====== 1. Client Application (React Web App)
 
 The client application runs in the user’s browser and is responsible for:
 
@@ -22,7 +22,7 @@ The client application runs in the user’s browser and is responsible for:
 
 It implements the interaction logic that connects user actions to backend operations.
 
-===== 2. Authentication Service (Supabase Auth)
+====== 2. Authentication Service (Supabase Auth)
 
 The authentication component is responsible for:
 
@@ -32,7 +32,7 @@ The authentication component is responsible for:
 
 All requests involving user data require valid authentication tokens.
 
-===== 3. Persistent Storage (Supabase Database)
+====== 3. Persistent Storage (Supabase Database)
 
 The database component stores domain-related data, including:
 
@@ -43,7 +43,7 @@ The database component stores domain-related data, including:
 
 It ensures durability and retrieval of user-specific data.
 
-===== 4. Domain Logic (Application Layer)
+====== 4. Domain Logic (Application Layer)
 
 The application layer coordinates domain-related operations such as:
 
@@ -54,7 +54,7 @@ The application layer coordinates domain-related operations such as:
 
 This logic is executed in response to user actions and interacts with persistent storage to retrieve and update domain data.
 
-==== Key Interaction Flow (End-to-End Example)
+===== Key Interaction Flow (End-to-End Example)
 
 Example: Logging a Workout Session
 
@@ -67,7 +67,7 @@ Example: Logging a Workout Session
 
 This flow demonstrates how user interaction propagates across components, from UI to storage and back.
 
-==== Deployment View
+===== Deployment View
 
 The system follows a client–server deployment model:
 
@@ -75,7 +75,7 @@ The system follows a client–server deployment model:
 * Backend services (authentication and database) are hosted on Supabase infrastructure.
 * Communication between client and backend occurs over HTTPS.
 
-==== Relation to Requirements
+===== Relation to Requirements
 
 The architecture supports:
 

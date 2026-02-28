@@ -1,6 +1,6 @@
-=== 2.1.2 Terminology
+==== 2.1.2 Terminology
 
-==== Domain Concepts
+===== Domain Concepts
 
 *Activity* (Domain Concept)  
 A physical action performed for fitness purposes, such as exercising,
@@ -46,7 +46,7 @@ over time.
 Short written annotations describing what occurred during a workout
 session or how it felt.
 
-==== Domain Events
+===== Domain Events
 
 *Workout has just been performed* (Domain Event)  
 A workout session has occurred at a specific time.
@@ -65,7 +65,7 @@ A missed day has occurred after one or more attendance days.
 A workout session has occurred on the day immediately following the
 previous attendance day.
 
-==== Domain Functions
+===== Domain Functions
 
 recordWorkout(activity: Activity, duration: Time, date: Day) : WorkoutSession  
 Creates a workout session representing an activity that has just occurred.
@@ -87,7 +87,7 @@ summarizeWeek(history: List WorkoutSession, goal: Goal) : WeeklySummary
 Produces an overview of activity, missed days, and goal achievement
 for a completed week.
 
-==== Requirement-Level Concepts
+===== Requirement-Level Concepts
 
 *User* (Requirement Concept)  
 A person whose activities and goals are tracked by the system.
@@ -108,7 +108,7 @@ streak status, or goal progress.
 A structured representation of weekly activity and goal evaluation
 produced for review.
 
-==== Implementation-Level Terms
+===== Implementation-Level Terms
 
 *Preset Entry* (Implementation Term)  
 A predefined workout or activity configuration used to speed up logging.

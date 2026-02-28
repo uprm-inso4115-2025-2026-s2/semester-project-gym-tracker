@@ -1,8 +1,8 @@
-= Appendix
+== Appendix
 
-== i. Generative AI Use Disclosure Statement
+=== i. Generative AI Use Disclosure Statement
 
-=== Tools Used
+==== Tools Used
 
 The team collected AI usage reports from all members through a shared GitHub Discussion. The following tools were reported:
 
@@ -11,7 +11,7 @@ The team collected AI usage reports from all members through a shared GitHub Dis
 * *GitHub Copilot* — used for repository organization, issue management, and documentation drafting.
 * *Grammarly* — used by one member for grammar and readability review.
 
-=== How AI Was Used
+==== How AI Was Used
 
 Team members reported three broad categories of use during this milestone.
 
@@ -21,16 +21,16 @@ Team members reported three broad categories of use during this milestone.
 
 *Issue and task management.* AI was used to help identify duplicate issues, suggest missing topics not yet covered, and organize ideas before creating or refining issues. GitHub Copilot was specifically used to analyze the correlation between documentation sections and tracked issues to support traceability.
 
-=== Verification Practice
+==== Verification Practice
 
 Across all reported uses, team members applied their own judgment before accepting AI output. Candidate sources were verified by visiting the original materials. Documentation suggestions were reviewed against course guidelines and revised to match team conventions. Issue structures were adjusted to reflect the team's own understanding of the domain and requirements.
 
 Members reported that AI sometimes produced incorrect URLs, outdated references, or suggestions too general for the project's specific domain. Human review was necessary in all cases.
 
-=== What AI Was Not Used For
+==== What AI Was Not Used For
 
 AI tools did not define domain concepts, write requirements, or determine project scope. The domain model, requirements, user stories, personas, and function signatures in this document were produced through team discussion and course-guided analysis. No AI tool substituted for understanding the domain or making design decisions.
 
-=== Team Responsibility
+==== Team Responsibility
 
 All content in this document was reviewed and approved before submission. AI tools served as a productivity aid. The design decisions, domain analysis, and requirement definitions reflect the team's own work.

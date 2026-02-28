@@ -1,6 +1,6 @@
-=== *2.2.2 Personas*
+==== *2.2.2 Personas*
 
-==== *Alejandro "The Busy Beginner"*
+===== *Alejandro "The Busy Beginner"*
 Background: Alejandro Perales is a 19-year-old college student at the University of Puerto Rico at Mayagüez (UPRM). He started going to the gym this semester because he wants more energy, confidence, and a routine that doesn’t fall apart during exam weeks. His days are a rotating mix of classes, group work, commuting, and late-night studying, so his schedule is never consistent for long. His “gym plan” usually lives in his head, which works… until it doesn’t, and then he forgets what he did last time.
 
 Alejandro is motivated by simple wins. If he can log a session quickly and see that he’s showing up week to week, he feels proud and stays on track. But if tracking feels like homework or asks for too many details, he drops it and the habit collapses.
@@ -21,7 +21,7 @@ Feature - Recent Sessions Reuse: Reuse a previous session as a starting point so
 Feature - Streaks With Recovery: Track consistency, but keep weekly progress visible even after a missed day to reduce discouragement.
 
 
-==== *Derek "The Split-Tracker Runner"*
+===== *Derek "The Split-Tracker Runner"*
 Background: Derek Vega is a 21-year-old college student who splits his training between running and basic gym sessions. He likes feeling organized, but his fitness tracking is scattered between memory, notes, and whatever app he happened to use last month. He’s not looking for a complicated “performance lab.” He wants one place to track the essentials and quickly compare how he’s doing over time.
 
 Derek stays motivated when he can answer simple questions like: “Did I run more this week?” or “Am I spending longer in strength sessions than last month?” If he can’t compare sessions easily, tracking feels pointless and he stops.
@@ -42,7 +42,7 @@ Feature - Session Comparison: Compare current sessions to past sessions (week-to
 Feature - Low-Friction Defaults: Provide presets or “recent activity” shortcuts so Derek can log quickly on busy days.
 
 
-==== *Ana "The Habit Builder"*
+===== *Ana "The Habit Builder"*
 Background: Ana Carolina is a 24-year old that's focused on building healthier habits long-term. Her goal is stability, not intensity. She wants an app that feels supportive and realistic: something that helps her keep showing up without turning fitness into guilt. Ana responds well to weekly check-ins and gentle reminders, because they make progress feel real and keep her accountable in a fair way.
 
 If an app is harsh, overly intense, or frames missed days like failure, Ana stops opening it. She wants feedback that celebrates effort, acknowledges gaps calmly, and makes it easy to restart.

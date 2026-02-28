@@ -1,4 +1,4 @@
-=== 2.1.6 Function Signatures
+==== 2.1.6 Function Signatures
 
 Notation uses the form:
 
@@ -6,7 +6,7 @@ functionName : InputTypes -> OutputTypes
 
 Where multiple outputs indicate updated state and produced results.
 
-==== Core Recording Functions
+===== Core Recording Functions
 
 recordWorkout :
     WorkoutHistory >< Activity >< Duration >< Day >< Notes
@@ -27,7 +27,7 @@ deleteWorkoutSession :
 
 Removes a recorded workout session from the history.
 
-==== Goal Management Functions
+===== Goal Management Functions
 
 setWeeklyGoal :
     WorkoutHistory >< GoalDefinition
@@ -47,7 +47,7 @@ removeGoal :
 
 Deletes a goal from the history.
 
-==== Evaluation and Analysis Functions
+===== Evaluation and Analysis Functions
 
 computeStreak :
     WorkoutHistory

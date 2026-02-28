@@ -1,10 +1,10 @@
-=== 2.3.1 Selected Fragments of the Implementation
+==== 2.3.1 Selected Fragments of the Implementation
 
 NOTE: This milestone covers design, organization, and research. The fragments below are illustrative design-phase representations. They are expressed as TypeScript to match the chosen stack (React + Supabase) and are included only where a purely natural-language explanation becomes imprecise or ambiguous. They complement — and do not repeat — descriptions already present in sections 2.1.2, 2.1.6, 2.2.3, and 2.2.4.
 
 ---
 
-==== Fragment 1 — WorkoutSession Data Shape
+===== Fragment 1 — WorkoutSession Data Shape
 
 Section 2.1.2 defines a _Workout Session_ as "a specific occurrence of a workout that has just taken place at a particular time and duration," and the _Session Representation_ requirement (2.2.3) specifies that each session must be associated with a calendar date, session type, duration, and exercises performed. Prose describes the concept; a type definition makes the exact shape of that record unambiguous — particularly which fields are required versus optional, and how the association with a User is expressed.
 
@@ -29,7 +29,7 @@ The `userId` field gives concrete form to the interface requirement (2.2.4) that
 
 ---
 
-==== Fragment 2 — Streak Computation
+===== Fragment 2 — Streak Computation
 
 The `computeStreak` function signature (2.1.6) states:
 
@@ -78,7 +78,7 @@ It also supports the _Automatic Streak Synchronization_ interface requirement (2
 
 ---
 
-==== Fragment 3 — Interface-Level Validation
+===== Fragment 3 — Interface-Level Validation
 
 Section 2.2.4 states three validation constraints using natural language:
 
@@ -133,7 +133,7 @@ These two validation functions correspond directly to the two domain concepts be
 
 ---
 
-==== Fragment 4 — Weekly Goal Evaluation
+===== Fragment 4 — Weekly Goal Evaluation
 
 The `evaluateWeeklyGoal` function signature (2.1.6) states:
 

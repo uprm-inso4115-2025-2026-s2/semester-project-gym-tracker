@@ -1,4 +1,4 @@
-=== 2.1.1 Domain Rough Sketch
+==== 2.1.1 Domain Rough Sketch
 
 In our brainstorming sessions, we explored the broader issue of maintaining consistency in gym routines and how people experience motivation over time. The discussion frequently returned to the difficulty individuals face in staying disciplined, especially after the initial excitement of starting a new workout routine fades. Several participants noted that many people begin going to the gym regularly but gradually stop due to lack of visible progress, forgetfulness, or declining motivation. A found pattern was the challenge of remembering and tracking what was done during a workout. Some mentioned that they often cannot recall how many times they went to the gym each week or what exercises they performed during their last session. This led to a discussion about how people currently track their workouts — some use note-taking apps, some rely on memory, and others do not track at all.
 
