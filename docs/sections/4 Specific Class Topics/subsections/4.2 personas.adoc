@@ -13,7 +13,7 @@ Represents the beginner/first-time gym user stakeholder group. He motivates requ
 Represents users who mix runs and gym sessions and need unified tracking plus week-to-week comparisons. He motivates requirements around aggregation, comparisons, and low-friction defaults. 
 
 *Ana ("The Habit Builder")*  
-Represents users who respond strongly to supportive tone and weekly accountability. She motivates requirements for weekly summary feedback, realistic goals, and reminders that avoid guilt-based pressure. :contentReference[oaicite:8]{index=8}
+Represents users who respond strongly to supportive tone and weekly accountability. She motivates requirements for weekly summary feedback, realistic goals, and reminders that avoid guilt-based pressure.
 
 ==== Persona-to-Epic Coverage
 
