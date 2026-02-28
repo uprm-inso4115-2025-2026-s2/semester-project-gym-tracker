@@ -1,3 +1,36 @@
 = Appendix
 
 == i. Generative AI Use Disclosure Statement
+
+=== Tools Used
+
+The team collected AI usage reports from all members through a shared GitHub Discussion. The following tools were reported:
+
+* *ChatGPT* — used by the majority of team members across research, documentation, and issue management tasks.
+* *Claude* — used by some members during the research phase for source discovery and formatting assistance.
+* *GitHub Copilot* — used for repository organization, issue management, and documentation drafting.
+* *Grammarly* — used by one member for grammar and readability review.
+
+=== How AI Was Used
+
+Team members reported three broad categories of use during this milestone.
+
+*Research support.* Several members used AI during the research phase to brainstorm directions, generate search keywords, identify candidate sources, and avoid redundancy across research tasks. In all cases, members read and verified the original materials independently. Sources suggested by AI were accepted only after manual confirmation that they were real, accessible, and relevant to the project scope. Some members noted that AI exposed them to sources and topics they would not have searched for on their own.
+
+*Documentation and writing.* AI was used to improve grammar, wording, and formatting consistency across issues and documentation sections. Some members used it to review whether their work met the milestone guidelines, or to organize ideas into a more structured form before writing. Members noted that AI did not handle complex cross-referencing well and that human review was necessary to catch inconsistencies.
+
+*Issue and task management.* AI was used to help identify duplicate issues, suggest missing topics not yet covered, and organize ideas before creating or refining issues. GitHub Copilot was specifically used to analyze the correlation between documentation sections and tracked issues to support traceability.
+
+=== Verification Practice
+
+Across all reported uses, team members applied their own judgment before accepting AI output. Candidate sources were verified by visiting the original materials. Documentation suggestions were reviewed against course guidelines and revised to match team conventions. Issue structures were adjusted to reflect the team's own understanding of the domain and requirements.
+
+Members reported that AI sometimes produced incorrect URLs, outdated references, or suggestions too general for the project's specific domain. Human review was necessary in all cases.
+
+=== What AI Was Not Used For
+
+AI tools did not define domain concepts, write requirements, or determine project scope. The domain model, requirements, user stories, personas, and function signatures in this document were produced through team discussion and course-guided analysis. No AI tool substituted for understanding the domain or making design decisions.
+
+=== Team Responsibility
+
+All content in this document was reviewed and approved before submission. AI tools served as a productivity aid. The design decisions, domain analysis, and requirement definitions reflect the team's own work.
