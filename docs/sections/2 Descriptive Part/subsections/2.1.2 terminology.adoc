@@ -1,0 +1,121 @@
+==== 2.1.2 Terminology
+
+===== Domain Concepts
+
+*Activity* (Domain Concept)  
+A physical action performed for fitness purposes, such as exercising,
+running, lifting weights, or performing cardio.
+
+*Exercise* (Domain Concept)  
+A structured form of activity performed as part of a workout,
+typically characterized by repetitions, duration, or intensity.
+
+*Workout* (Domain Concept)  
+A bounded period of time during which one or more exercises or
+activities are performed with the intention of improving fitness.
+
+*Workout Session* (Domain Concept)  
+A specific occurrence of a workout that has just taken place at a
+particular time and duration.
+
+*Attendance Day* (Domain Concept)  
+A calendar day on which a workout session has just occurred.
+
+*Missed Day* (Domain Concept)  
+A calendar day on which no workout session has occurred despite an
+intention or expectation of activity.
+
+*Goal* (Domain Concept)  
+A desired level of activity or performance defined over a period of
+time, such as completing a certain number of workouts in a week.
+
+*Weekly Activity Pattern* (Domain Concept)  
+The observable distribution of workout sessions across days in a week.
+
+*Consistency* (Domain Concept)  
+The degree to which workout sessions occur regularly over time.
+
+*Streak* (Domain Concept)  
+A sequence of consecutive attendance days with no intervening missed day.
+
+*Progress* (Domain Concept)  
+A change in activity patterns, performance, or consistency observed
+over time.
+
+*Workout Notes* (Domain Concept)  
+Short written annotations describing what occurred during a workout
+session or how it felt.
+
+===== Domain Events
+
+*Workout has just been performed* (Domain Event)  
+A workout session has occurred at a specific time.
+
+*Workout has just been skipped* (Domain Event)  
+An expected attendance day has passed without a workout occurring.
+
+*Goal period has just ended* (Domain Event)  
+A time interval associated with a goal (for example, a week) has
+completed.
+
+*Streak has just been broken* (Domain Event)  
+A missed day has occurred after one or more attendance days.
+
+*Streak has just been extended* (Domain Event)  
+A workout session has occurred on the day immediately following the
+previous attendance day.
+
+===== Domain Functions
+
+recordWorkout(activity: Activity, duration: Time, date: Day) : WorkoutSession  
+Creates a workout session representing an activity that has just occurred.
+
+compareSessions(a: WorkoutSession, b: WorkoutSession) : Comparison  
+Determines observable differences between two workout sessions,
+such as duration or exercise composition.
+
+evaluateConsistency(history: List WorkoutSession) : ConsistencyMeasure  
+Calculates the regularity of activity over a time span.
+
+computeStreak(history: List AttendanceDay) : StreakLength  
+Determines the length of the current consecutive attendance sequence.
+
+evaluateGoal(goal: Goal, history: List WorkoutSession) : GoalResult  
+Determines whether a goal has been achieved within its period.
+
+summarizeWeek(history: List WorkoutSession, goal: Goal) : WeeklySummary  
+Produces an overview of activity, missed days, and goal achievement
+for a completed week.
+
+===== Requirement-Level Concepts
+
+*User* (Requirement Concept)  
+A person whose activities and goals are tracked by the system.
+
+*Account* (Requirement Concept)  
+A persistent identity that allows a user’s workout history and goals
+to be stored.
+
+*Reminder* (Requirement Concept)  
+A system-generated prompt intended to encourage activity when no
+recent workout has occurred.
+
+*Notification* (Requirement Concept)  
+A message delivered by the system to inform a user about reminders,
+streak status, or goal progress.
+
+*Weekly Summary Table* (Requirement Concept)  
+A structured representation of weekly activity and goal evaluation
+produced for review.
+
+===== Implementation-Level Terms
+
+*Preset Entry* (Implementation Term)  
+A predefined workout or activity configuration used to speed up logging.
+
+*Quick Entry Workflow* (Implementation Term)  
+A sequence of interface steps designed to minimize the effort required
+to record a workout.
+
+*Motivational Message* (Implementation Term)  
+Text produced by the system to reinforce consistency or progress.

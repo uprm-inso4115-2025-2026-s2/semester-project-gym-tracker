@@ -1,0 +1,52 @@
+==== 2.1.5 Events, Actions, and Behaviors
+
+===== Domain Events
+
+The following events are observable from the stakeholder perspective
+and occur at specific moments in time.
+
+*Workout session has just been completed*  
+A person has finished performing one or more activities intended for fitness.
+
+*Workout session has just been recorded*  
+A completed workout has been added to the activity history.
+
+*Workout day has just been missed*  
+A day expected to include activity has passed without a workout session.
+
+*Streak has just been extended*  
+A workout has occurred on a day immediately following another attendance day.
+
+*Streak has just been broken*  
+A missed day has occurred following one or more consecutive attendance days.
+
+*Weekly goal period has just ended*  
+The time interval associated with a weekly goal has completed.
+
+*Weekly activity summary has just been evaluated*  
+The completed week’s activity has been compared against its goal.
+
+===== Actions
+
+*Perform workout*  
+A person engages in physical activity such as exercising, running, or lifting.
+
+*Record workout*  
+A person logs details of a completed workout session.
+
+*Set activity goal*  
+A person defines a target amount of activity for a future time period.
+
+*Review progress*  
+A person inspects their past activity and current consistency.
+
+===== Behaviors
+
+*Maintaining a workout routine*  
+A repeated pattern of performing workouts across days or weeks.
+
+*Building consistency*  
+A gradual increase in regularity of attendance over time.
+
+*Tracking progress over time*  
+A repeated cycle of performing workouts, recording them, and reviewing outcomes.

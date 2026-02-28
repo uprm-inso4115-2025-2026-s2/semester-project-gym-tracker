@@ -1,0 +1,88 @@
+==== 2.1.3 Domain Terminology in Relation to Domain Rough Sketch
+
+===== Purpose
+
+This section establishes traceability between the unprocessed observations in the Domain Rough Sketch (2.1.1) and the structured Domain Terminology (2.1.2). The terminology did not exist in the rough sketch in formal form; it was derived by abstracting recurring themes, resolving ambiguities, and grouping concrete examples into stable domain concepts.
+
+The goal of this section is to justify how raw discussion statements were transformed into precise domain-level definitions.
+
+===== Traceability from Rough Sketch to Terminology
+
+====== (1) “Difficulty remembering what was done during a workout”
+
+In the rough sketch, participants repeatedly mentioned forgetting what exercises they performed or how often they attended the gym. This observation led to the abstraction of:
+
+* *Workout Session* - a specific occurrence of a workout at a particular time.
+* *Workout Notes* - short annotations describing what occurred.
+* *Attendance Day* - a calendar day on which a workout session occurred.
+
+The rough sketch described concrete experiences (“I can’t remember what I did last week”). The terminology abstracts these into structured, repeatable domain concepts.
+
+====== (2) “Duolingo-like streak” and motivation through consecutive days
+
+The sketch frequently referenced maintaining a “streak” and the psychological effect of consecutive activity. From this, we formalized:
+
+* *Streak* - a sequence of consecutive attendance days.
+* *Missed Day* - a calendar day without a workout despite expectation.
+* *Consistency* - the degree of regular activity over time.
+
+The raw metaphor (“Duolingo-like”) was replaced with precise definitions that remove application-specific language and focus on observable domain phenomena.
+
+====== (3) “Weekly overview compared to goals”
+
+Participants proposed end-of-week feedback and accountability. This led to the formalization of:
+
+* *Goal* - a desired level of activity over a defined period.
+* *Weekly Activity Pattern* - distribution of sessions across a week.
+* *Goal period has just ended* (Domain Event).
+* *evaluateGoal(...) and summarizeWeek(...)* (Domain Functions).
+
+The sketch described an idea (“show if weekly goals were achieved”). The terminology converts that idea into explicit domain concepts, events, and evaluative functions.
+
+====== (4) “Tracking exercises, time, and comparison over time”
+
+The discussion mentioned logging exercises, duration, and comparing sessions to observe improvement or decline. This motivated:
+
+* *Activity* and *Exercise* - separating general physical action from structured workout components.
+* *compareSessions(...)* - abstracting the idea of noticing improvement.
+* *Progress* - change in patterns or performance over time.
+
+The terminology introduces abstraction by grouping different forms of tracking (time, exercise type, etc.) under consistent domain-level constructs.
+
+====== (5) “Nutrition and scope tension”
+
+The sketch included debate about nutrition tracking and whether it broadens scope excessively. The absence of a Nutrition domain concept in 2.1.2 is intentional. This reflects a conceptual boundary decision: nutrition was identified as related but not central to the current domain focus.
+
+This demonstrates that terminology is not a direct transcription of brainstorming but a filtered and scoped abstraction.
+
+===== Identified Abstractions
+
+Two key abstractions introduced during analysis are:
+
+1. *Attendance Day* as a generalization of “went to the gym today.”
+Rather than tying attendance strictly to a gym location, it abstracts any qualifying workout session occurring on a calendar day.
+
+2. *Consistency* as a higher-level concept grouping repeated attendance patterns.
+The rough sketch described motivation and discipline; the terminology abstracts these behavioral themes into an observable pattern metric.
+
+===== Ambiguity Resolution
+
+One ambiguity in the rough sketch was the interchangeable use of “workout,” “exercise,” and “activity.” During analysis, these were separated:
+
+* *Activity* - general physical action.
+* *Exercise* - structured component of a workout.
+* *Workout* - bounded time period of fitness effort.
+* *Workout Session* - a specific occurrence of a workout.
+
+This resolves synonym confusion and establishes a clear hierarchy of concepts.
+
+Another ambiguity involved “streak” versus “consistency.” The analysis distinguishes:
+
+* *Streak* - strictly consecutive attendance days.
+* *Consistency* - broader regularity over time, not necessarily consecutive.
+
+===== Domain-Level Focus
+
+This section remains strictly at the domain level. It does not introduce system-to-be mechanisms, UI structures, or storage concerns. The terminology reflects observable real-world phenomena and conceptual relationships derived from the brainstorming discussion.
+
+The structured domain terminology is therefore a processed, abstracted result of the rough sketch, not a restatement of it.
