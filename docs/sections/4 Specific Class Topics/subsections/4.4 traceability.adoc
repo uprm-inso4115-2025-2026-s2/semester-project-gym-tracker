@@ -1,6 +1,6 @@
 === 4.4 Traceability
 
-The purpose of traceability is to set up deliverables so we can answer impact questions (e.g., “if requirement X changes, which goals/personas/tests are affected?”). This section defines the tagging/linking scheme we will use across needs, goals, epics, requirements, and verification. :contentReference[oaicite:12]{index=12}
+The purpose of traceability is to set up deliverables so we can answer impact questions (e.g., “if requirement X changes, which goals/personas/tests are affected?”). This section defines the tagging/linking scheme we will use across needs, goals, epics, requirements, and verification. 
 
 ==== 4.4.1 Traceability Codes
 
@@ -52,4 +52,4 @@ We will label artifacts with short IDs and reference them inline:
 - Each verification item (Section 3.2) will reference the requirement IDs it verifies.
 - Each GitHub issue will include the relevant IDs in its description (e.g., "DR3, G2, N1") so work items remain traceable to stakeholder value.
 
-This scheme supports quick impact analysis when requirements evolve during later milestones. :contentReference[oaicite:13]{index=13}
+This scheme supports quick impact analysis when requirements evolve during later milestones.
