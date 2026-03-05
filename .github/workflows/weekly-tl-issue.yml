@@ -1,0 +1,75 @@
+name: Weekly Team Leaders Report Issue
+
+on:
+  schedule:
+    - cron: "0 12 * * 4" # Runs at 12:00 UTC every Thursday
+  workflow_dispatch: # Allows manual trigger from the GitHub UI
+
+jobs:
+  create_tl_weekly_issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Get current week date range
+        id: dates
+        run: |
+          THURSDAY=$(date -u +"%Y-%m-%d")
+          MONDAY=$(date -u -d "last monday" +"%Y-%m-%d" 2>/dev/null || date -u -v-mon +"%Y-%m-%d")
+          echo "thursday=$THURSDAY" >> $GITHUB_OUTPUT
+          echo "monday=$MONDAY" >> $GITHUB_OUTPUT
+
+      - name: Create weekly Team Leaders issue
+        run: |
+          gh issue create \
+            --repo "${{ github.repository }}" \
+            --title "[Team Report] Weekly Team Progress — Week of ${{ steps.dates.outputs.monday }}" \
+            --label "team-report" \
+            --body "## Objective
+
+          Team Leaders must submit a summary of what their team worked on during the week of **${{ steps.dates.outputs.monday }}** through **${{ steps.dates.outputs.thursday }}**.
+
+          ## Description
+
+          Each Team Leader is responsible for providing an update covering their team's contributions this week. Include completed tasks, in-progress work, blockers, and any relevant notes. This report helps maintain visibility across all teams and supports project tracking.
+
+          ## Acceptance Criteria
+
+          - [ ] **Team Leader 1** has submitted their team's weekly update as a comment on this issue
+          - [ ] **Team Leader 2** has submitted their team's weekly update as a comment on this issue
+          - [ ] **Team Leader 3** has submitted their team's weekly update as a comment on this issue
+          - [ ] **Team Leader 4** has submitted their team's weekly update as a comment on this issue
+          - [ ] All updates include: tasks completed, tasks in progress, and any blockers
+
+          ## Report Format
+
+          Each Team Leader should comment on this issue using the following format:
+
+          \`\`\`
+          ### Team: [Team Name]
+          **Team Leader:** @username
+
+          **Completed this week:**
+          -
+
+          **In progress:**
+          -
+
+          **Blockers / Notes:**
+          -
+          \`\`\`
+
+          ## Expected Time Frame
+
+          This week
+
+          ## Urgency
+
+          4
+
+          ## Difficulty
+
+          1 - Trivial"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
