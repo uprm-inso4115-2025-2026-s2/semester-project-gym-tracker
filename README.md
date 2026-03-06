@@ -1,8 +1,8 @@
 # Gym Tracker
 
-A web application for tracking gym sessions, runs, and fitness habits. Built with React + TypeScript and Supabase.
+A webapp for tracking gym sessions in a fun way. Built with React + TypeScript and Supabase.
 
-## Stack
+## Tech Stack
 
 - **Frontend**: React 19 + TypeScript (Vite)
 - **Backend**: Supabase (Auth + PostgreSQL)
@@ -11,7 +11,7 @@ A web application for tracking gym sessions, runs, and fitness habits. Built wit
 
 ```bash
 cp .env.example .env
-# Fill in VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY from your Supabase project
+# Corran esto para crear su propio .env file. Aqui van los environment variables de Supabase.
 
 npm install
 npm run dev
@@ -21,10 +21,8 @@ npm run dev
 
 | Command | Description |
 |---|---|
-| `npm run dev` | Start dev server with HMR |
+| `npm run dev` | Start dev server |
 | `npm run build` | Type-check and build for production |
-| `npm run lint` | Run ESLint |
-| `npm run preview` | Preview production build locally |
 
 ## Project Structure
 
@@ -34,7 +32,7 @@ src/
     auth/        # User registration, login, session management
     workouts/    # Session logging, editing, history
     streaks/     # Consecutive attendance, habit consistency
-    goals/       # Weekly goal setting, summaries, reminders
+    notifications/ # Goal setting, summaries, reminders, motivational feedback
   lib/
     supabaseClient.ts  # Supabase client singleton
     workouts.ts        # Domain logic (streak, goal evaluation, validation)
