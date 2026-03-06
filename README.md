@@ -19,7 +19,7 @@ npm install
 npm run dev
 ```
 
-The app will be running at `http://localhost:5173`.
+The app will be running at `http://localhost:5173` (port might change pero solo tendrias que cambiar los ultimos 4 digitos).
 
 ## Common Mistakes
 
