@@ -1,3 +1,0 @@
-include::subsections/aiDisclosureStatement.adoc[]
-
-include::subsections/logBook.adoc[]

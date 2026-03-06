@@ -1,3 +1,0 @@
-include::subsections/3.1 concept analysis.adoc[]
-
-include::subsections/3.2 validation and verification.adoc[]

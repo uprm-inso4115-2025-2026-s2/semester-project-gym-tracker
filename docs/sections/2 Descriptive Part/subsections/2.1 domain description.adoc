@@ -1,4 +1,0 @@
-== 2 Descriptive Part
-
-
-=== 2.1 Domain Description
