@@ -16,7 +16,7 @@ jobs:
         id: dates
         run: |
           THURSDAY=$(date -u +"%Y-%m-%d")
-          MONDAY=$(date -u -d "monday this week" +"%Y-%m-%d")
+          MONDAY=$(date -u -d "$(date -u +%Y-%m-%d) -$(date -u +%u) days + 1 day" +"%Y-%m-%d")
           echo "thursday=$THURSDAY" >> $GITHUB_OUTPUT
           echo "monday=$MONDAY" >> $GITHUB_OUTPUT
 
@@ -77,7 +77,7 @@ jobs:
         run: |
           gh issue create \
             --repo "${{ github.repository }}" \
-            --title "[Team Report] Weekly Team Progress - Week of ${{ steps.dates.outputs.monday }}" \
+            --title "[Team Leader] Weekly Team Progress - Week of ${{ steps.dates.outputs.monday }}" \
             --label "Issue in Progress,TL task,revised-by-manager" \
             --assignee "Mannyrodd,jeracduran1,arianrodz21,ivxnmorxles,julivivas" \
             --body-file /tmp/issue_body.md
