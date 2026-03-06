@@ -9,13 +9,23 @@ A webapp for tracking gym sessions in a fun way. Built with React + TypeScript a
 
 ## Getting Started
 
+You need **Node.js** installed, which includes `npm`. Download it from [nodejs.org](https://nodejs.org) — install the LTS version.
+
 ```bash
 cp .env.example .env
-# Corran esto para crear su propio .env file. Aqui van los environment variables de Supabase.
+# Fill in the Supabase URL and anon key (get them from the manager)
 
 npm install
 npm run dev
 ```
+
+The app will be running at `http://localhost:5173`.
+
+## Common Mistakes
+
+- **Forgot to create `.env`** — the app will fail silently or throw errors on login. Always run `cp .env.example .env` first.
+- **Skipped `npm install`** — if you see "Cannot find module" errors, run `npm install`.
+- **Wrong Node version** — if `npm install` throws unexpected errors, make sure you're on Node LTS (`node --version` should be v18 or higher).
 
 ## Scripts
 
