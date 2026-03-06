@@ -20,6 +20,59 @@ jobs:
           echo "thursday=$THURSDAY" >> $GITHUB_OUTPUT
           echo "monday=$MONDAY" >> $GITHUB_OUTPUT
 
+      - name: Build issue body
+        run: |
+          MONDAY="${{ steps.dates.outputs.monday }}"
+          THURSDAY="${{ steps.dates.outputs.thursday }}"
+          cat > /tmp/issue_body.md << EOF
+          ## Objective
+
+          Team Leaders must submit a summary of what their team worked on during the week of **${MONDAY}** through **${THURSDAY}**.
+
+          ## Description
+
+          Each Team Leader is responsible for providing an update covering their team's contributions this week. Include completed tasks, in-progress work, blockers, and any relevant notes. This report helps maintain visibility across all teams and supports project tracking.
+
+          ## Acceptance Criteria
+
+          - [ ] @Mannyrodd has submitted their team's weekly update as a comment on this issue
+          - [ ] @jeracduran1 has submitted their team's weekly update as a comment on this issue
+          - [ ] @arianrodz21 has submitted their team's weekly update as a comment on this issue
+          - [ ] @ivxnmorxles has submitted their team's weekly update as a comment on this issue
+          - [ ] @julivivas has submitted their team's weekly update as a comment on this issue
+          - [ ] All updates include: tasks completed, tasks in progress, and any blockers
+
+          ## Report Format
+
+          Each Team Leader should comment on this issue using the following format:
+
+          \`\`\`
+          ### Team: [Team Name]
+          **Team Leader:** @username
+
+          **Completed this week:**
+          -
+
+          **In progress:**
+          -
+
+          **Blockers / Notes:**
+          -
+          \`\`\`
+
+          ## Expected Time Frame
+
+          This week
+
+          ## Urgency
+
+          4
+
+          ## Difficulty
+
+          1 - Trivial
+          EOF
+
       - name: Create weekly Team Leaders issue
         run: |
           gh issue create \
@@ -27,54 +80,6 @@ jobs:
             --title "[Team Report] Weekly Team Progress - Week of ${{ steps.dates.outputs.monday }}" \
             --label "Issue in Progress,TL task,revised-by-manager" \
             --assignee "Mannyrodd,jeracduran1,arianrodz21,ivxnmorxles,julivivas" \
-            --body "$(cat <<'EOF'
-## Objective
-
-Team Leaders must submit a summary of what their team worked on during the week of **${{ steps.dates.outputs.monday }}** through **${{ steps.dates.outputs.thursday }}**.
-
-## Description
-
-Each Team Leader is responsible for providing an update covering their team's contributions this week. Include completed tasks, in-progress work, blockers, and any relevant notes. This report helps maintain visibility across all teams and supports project tracking.
-
-## Acceptance Criteria
-
-- [ ] @Mannyrodd has submitted their team's weekly update as a comment on this issue
-- [ ] @jeracduran1 has submitted their team's weekly update as a comment on this issue
-- [ ] @arianrodz21 has submitted their team's weekly update as a comment on this issue
-- [ ] @ivxnmorxles has submitted their team's weekly update as a comment on this issue
-- [ ] @julivivas has submitted their team's weekly update as a comment on this issue
-- [ ] All updates include: tasks completed, tasks in progress, and any blockers
-
-## Report Format
-
-Each Team Leader should comment on this issue using the following format:
-
-\`\`\`
-### Team: [Team Name]
-**Team Leader:** @username
-
-**Completed this week:**
--
-
-**In progress:**
--
-
-**Blockers / Notes:**
--
-\`\`\`
-
-## Expected Time Frame
-
-This week
-
-## Urgency
-
-4
-
-## Difficulty
-
-1 - Trivial
-EOF
-)"
+            --body-file /tmp/issue_body.md
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
