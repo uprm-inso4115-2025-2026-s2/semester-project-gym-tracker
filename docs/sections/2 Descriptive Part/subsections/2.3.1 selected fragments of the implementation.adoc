@@ -1,0 +1,187 @@
+==== 2.3.1 Selected Fragments of the Implementation
+
+NOTE: This milestone covers design, organization, and research. The fragments below are illustrative design-phase representations. They are expressed as TypeScript to match the chosen stack (React + Supabase) and are included only where a purely natural-language explanation becomes imprecise or ambiguous. They complement — and do not repeat — descriptions already present in sections 2.1.2, 2.1.6, 2.2.3, and 2.2.4.
+
+---
+
+===== Fragment 1 — WorkoutSession Data Shape
+
+Section 2.1.2 defines a _Workout Session_ as "a specific occurrence of a workout that has just taken place at a particular time and duration," and the _Session Representation_ requirement (2.2.3) specifies that each session must be associated with a calendar date, session type, duration, and exercises performed. Prose describes the concept; a type definition makes the exact shape of that record unambiguous — particularly which fields are required versus optional, and how the association with a User is expressed.
+
+[source,typescript]
+----
+type ActivityType = "gym" | "run" | "cardio" | "other";
+
+interface WorkoutSession {
+  id: string;                    // unique identifier
+  userId: string;                // association to exactly one User (see 2.2.4)
+  date: string;                  // ISO 8601 calendar date, e.g. "2026-02-24"
+  activityType: ActivityType;    // session type — required field
+  durationMinutes: number;       // duration in minutes — required field
+  exercises?: string[];          // exercise types performed — optional list
+  notes?: string;                // short annotation, optional (see Epic 1)
+}
+----
+
+This fragment clarifies that `exercises` and `notes` are deliberately optional, which directly supports the _Essential Information Recording_ requirement (2.2.3) — "record a Workout Session using only essential information: session type, duration, and optional short notes" — and Epic 1's feature "optional notes per session."
+
+The `userId` field gives concrete form to the interface requirement (2.2.4) that "the system shall associate each recorded Workout Session with exactly one User before persisting it."
+
+---
+
+===== Fragment 2 — Streak Computation
+
+The `computeStreak` function signature (2.1.6) states:
+
+----
+computeStreak : WorkoutHistory -> StreakLength
+----
+
+Section 2.1.2 defines a _Streak_ as "a sequence of consecutive attendance days with no intervening missed day," and the _Streak Calculation_ requirement (2.2.3) specifies that "the system must provide means to compute whether a workout session continues or breaks an existing streak based on consecutive calendar units."
+
+Natural language can state the rule, but the meaning of _consecutive_ hinges on a precise boundary condition: does a one-day gap break the streak or does a two-day gap? Without a code fragment this remains open to interpretation.
+
+[source,typescript]
+----
+function computeStreak(sessions: WorkoutSession[]): number {
+  if (sessions.length === 0) return 0;
+
+  // Deduplicate to one entry per calendar day, then sort descending
+  const uniqueDays = [
+    ...new Set(sessions.map((s) => s.date)),
+  ].sort((a, b) => (a < b ? 1 : -1));
+
+  let streak = 1;
+  for (let i = 0; i < uniqueDays.length - 1; i++) {
+    const current = new Date(uniqueDays[i]);
+    const previous = new Date(uniqueDays[i + 1]);
+    const diffDays =
+      (current.getTime() - previous.getTime()) / (1000 * 60 * 60 * 24);
+
+    if (diffDays === 1) {
+      streak++;          // consecutive day — streak continues
+    } else {
+      break;             // gap detected — streak ends
+    }
+  }
+
+  return streak;
+}
+----
+
+This fragment makes two design decisions explicit that prose cannot state without becoming unwieldy:
+
+1. Multiple sessions on the same day count as a single attendance day (deduplication step), consistent with the _Attendance Day_ domain concept (2.1.2).
+2. A gap of exactly one day is consecutive; any larger gap breaks the streak — directly implementing the _Streak has just been broken_ event (2.1.2, 2.1.5).
+
+It also supports the _Automatic Streak Synchronization_ interface requirement (2.2.4): because `computeStreak` is a pure function over stored session data, it can be re-evaluated every time a session is added, edited, or removed without additional state management.
+
+---
+
+===== Fragment 3 — Interface-Level Validation
+
+Section 2.2.4 states three validation constraints using natural language:
+
+* "Workout dates shall not be in the future."
+* "Required fields shall not be empty."
+* "Goal values shall be positive integers."
+
+These rules read clearly in isolation, but when considered together as a validation boundary they benefit from a concrete representation — especially the "not in the future" rule, which depends on the current date at the time of submission rather than a fixed value.
+
+[source,typescript]
+----
+interface ValidationResult {
+  valid: boolean;
+  errors: string[];
+}
+
+function validateWorkoutEntry(
+  date: string,
+  activityType: string | undefined,
+  durationMinutes: number | undefined
+): ValidationResult {
+  const errors: string[] = [];
+  const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
+
+  if (!date || date > today) {
+    errors.push("Workout date must not be in the future.");
+  }
+
+  if (!activityType) {
+    errors.push("Activity type is required.");
+  }
+
+  if (!durationMinutes || durationMinutes <= 0) {
+    errors.push("Duration must be a positive number.");
+  }
+
+  return { valid: errors.length === 0, errors };
+}
+
+function validateGoalEntry(targetDays: number | undefined): ValidationResult {
+  const errors: string[] = [];
+
+  if (!targetDays || !Number.isInteger(targetDays) || targetDays <= 0) {
+    errors.push("Goal must be a positive integer.");
+  }
+
+  return { valid: errors.length === 0, errors };
+}
+----
+
+These two validation functions correspond directly to the two domain concepts being entered at the interface boundary: _WorkoutSession_ and _Goal_ (2.1.2). The fragment shows that the system rejects invalid input before persistence (as required in 2.2.4) and returns structured errors rather than silently discarding bad data, which supports the _Editing and Correction of Workout Data_ interface requirement — a user must be told what is wrong in order to correct it.
+
+---
+
+===== Fragment 4 — Weekly Goal Evaluation
+
+The `evaluateWeeklyGoal` function signature (2.1.6) states:
+
+----
+evaluateWeeklyGoal : WorkoutHistory >< Goal >< Week -> GoalResult
+----
+
+The _Goal Evaluation_ requirement (2.2.3) says the system must "evaluate whether recorded Workout Sessions satisfy a defined Goal within its Time Frame." Epic 3 adds that users want a clear "goal met / not met" result and the ability to see how many active days remain.
+
+These two outcomes — a boolean result and a progress delta — are straightforward to name in prose but the relationship between them (counting distinct days in the week and comparing to a target) is cleaner with a short fragment, particularly because the _WeeklySummary_ domain concept (2.1.2) depends on the same computation.
+
+[source,typescript]
+----
+interface WeekBounds {
+  start: string; // ISO 8601, Monday of the week
+  end: string;   // ISO 8601, Sunday of the week
+}
+
+interface GoalResult {
+  achieved: boolean;
+  activeDays: number;
+  targetDays: number;
+  remaining: number; // sessions still needed to meet the goal
+}
+
+function evaluateWeeklyGoal(
+  sessions: WorkoutSession[],
+  targetDays: number,
+  week: WeekBounds
+): GoalResult {
+  const activeDays = new Set(
+    sessions
+      .filter((s) => s.date >= week.start && s.date <= week.end)
+      .map((s) => s.date)
+  ).size;
+
+  return {
+    achieved: activeDays >= targetDays,
+    activeDays,
+    targetDays,
+    remaining: Math.max(0, targetDays - activeDays),
+  };
+}
+----
+
+The `Set` over dates again applies the _Attendance Day_ concept — multiple sessions on the same day do not inflate the count. The `remaining` field directly supports the Epic 3 user story "As Derek, I want to see how far I am from my weekly goal during the week so that I can decide when to fit in a session," and the `achieved` boolean supports the "goal met / not met" result requested by Alejandro's user story in the same epic.
+
+---
+
+NOTE: This section will be updated in the upcoming milestone once the actual implementation is underway. At that point, the illustrative fragments above will be replaced or supplemented with excerpts drawn directly from the working codebase, reflecting the final structure, logic, and architectural decisions of the system as built.
+

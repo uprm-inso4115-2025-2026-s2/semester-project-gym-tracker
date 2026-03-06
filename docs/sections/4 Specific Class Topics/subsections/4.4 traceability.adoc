@@ -1,0 +1,55 @@
+=== 4.4 Traceability
+
+The purpose of traceability is to set up deliverables so we can answer impact questions (e.g., “if requirement X changes, which goals/personas/tests are affected?”). This section defines the tagging/linking scheme we will use across needs, goals, epics, requirements, and verification. 
+
+==== 4.4.1 Traceability Codes
+
+We will label artifacts with short IDs and reference them inline:
+
+- Needs: N1, N2, ... (from Section 1.2.2)
+- Derived goals: G1, G2, ... (from Section 1.5)
+- Epics: E1..E5 (from Section 2.2.1)
+- Domain requirements: DR1, DR2, ... (from Section 2.2.3)
+- Interface requirements: IR1, IR2, ... (from Section 2.2.4)
+- Machine requirements: MR1, MR2, ... (from Section 2.2.5)
+- Verification checks/tests: V1, V2, ... (from Section 3.2)
+- GitHub issues/tasks: GH-### (issue number)
+
+==== 4.4.2 Minimal Traceability Matrix (Milestone 1)
+
+[cols="1,3,2,2,2",options="header"]
+|===
+|Need (N*) |Need statement (Section 1.2.2) |Goals (G*) |Epics (E*) |Key requirements (DR*/IR*/MR*)
+
+|N1
+|Unified visibility of activity patterns over time (reduce fragmentation)
+|G2, G3
+|E1, E5
+|DR: Persistent Storage and Retrieval; IR: Recording Real-World Workouts; MR: Availability (core features)
+
+|N2
+|Low-effort structured workout logging (reduce friction)
+|G4
+|E1
+|DR: Low-Effort Logging; IR: Interface-Level Validation Constraints; MR: Interactive Response Time
+
+|N3
+|Measurable feedback for adherence to goals and summaries
+|G2, G5
+|E3
+|DR: Goal Evaluation; DR: Performance Summary Representation; IR: Goal Initialization and Update
+
+|N4
+|Reinforcement mechanisms to support habit formation (streaks + supportive feedback)
+|G1, G4
+|E2, E4
+|DR: Streak Representation + Calculation; IR: Automatic Streak Synchronization; MR: Reliability (data durability)
+|===
+
+==== 4.4.3 How We Will Maintain Traceability
+
+- Each requirement section will include a short “Supports: {G*, N*, Persona}” line.
+- Each verification item (Section 3.2) will reference the requirement IDs it verifies.
+- Each GitHub issue will include the relevant IDs in its description (e.g., "DR3, G2, N1") so work items remain traceable to stakeholder value.
+
+This scheme supports quick impact analysis when requirements evolve during later milestones.

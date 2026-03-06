@@ -1,0 +1,50 @@
+:pdf-page-size: Letter
+
+[cols="<,>", frame=none, grid=none, width=100%]
+|===
+//|image:
+//|image:
+|===
+
+[.spacer%hardbreaks]
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+
+[.text-center]
+[.lead]*GYM Tracker* +
+*First Milestone* +
+
+[.spacer%hardbreaks]
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+{nbsp}
+
+[.text-center]
+REQUISITOS DE INGENIERIA DE SOFTWARE (INSO4115) +
+Section 080 +
+Professor Marko Schütz +
+Friday, February 13, 2026
+
+<<<

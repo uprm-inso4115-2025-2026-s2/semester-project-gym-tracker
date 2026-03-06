@@ -1,0 +1,28 @@
+include::subsections/2.1 domain description.adoc[]
+
+include::subsections/2.1.1 domain rough sketch.adoc[]
+
+include::subsections/2.1.2 terminology.adoc[]
+
+include::subsections/2.1.3 domain terminology in relation to domain rough sketch.adoc[]
+
+include::subsections/2.1.4 narrative.adoc[]
+
+include::subsections/2.1.5 events, actions, and behaviors.adoc[]
+
+include::subsections/2.1.6 function signatures.adoc[]
+
+include::subsections/2.2.1 user stories, epics, features.adoc[]
+
+include::subsections/2.2.2 personas.adoc[]
+
+include::subsections/2.2.3 domain requirements.adoc[]
+
+include::subsections/2.2.4 interface requirements.adoc[]
+
+include::subsections/2.2.5 machine requirements.adoc[]
+
+include::subsections/2.3 implementation.adoc[]
+
+include::subsections/2.3.1 selected fragments of the implementation.adoc[]
+

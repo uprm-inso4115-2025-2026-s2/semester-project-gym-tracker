@@ -1,0 +1,80 @@
+==== 2.1.6 Function Signatures
+
+Notation uses the form:
+
+functionName : InputTypes -> OutputTypes
+
+Where multiple outputs indicate updated state and produced results.
+
+===== Core Recording Functions
+
+recordWorkout :
+    WorkoutHistory >< Activity >< Duration >< Day >< Notes
+    -> WorkoutHistory >< WorkoutSession
+
+Adds a completed workout session to the history and returns the updated
+history together with the created session.
+
+updateWorkoutSession :
+    WorkoutHistory >< WorkoutSession >< Activity >< Duration >< Notes
+    -> WorkoutHistory >< WorkoutSession
+
+Modifies an existing recorded workout session.
+
+deleteWorkoutSession :
+    WorkoutHistory >< WorkoutSession
+    -> WorkoutHistory
+
+Removes a recorded workout session from the history.
+
+===== Goal Management Functions
+
+setWeeklyGoal :
+    WorkoutHistory >< GoalDefinition
+    -> WorkoutHistory >< Goal
+
+Creates a new weekly goal and stores it in the history.
+
+updateGoal :
+    WorkoutHistory >< Goal >< GoalDefinition
+    -> WorkoutHistory >< Goal
+
+Modifies an existing goal.
+
+removeGoal :
+    WorkoutHistory >< Goal
+    -> WorkoutHistory
+
+Deletes a goal from the history.
+
+===== Evaluation and Analysis Functions
+
+computeStreak :
+    WorkoutHistory
+    -> StreakLength
+
+Determines the current number of consecutive attendance days.
+
+evaluateWeeklyGoal :
+    WorkoutHistory >< Goal >< Week
+    -> GoalResult
+
+Determines whether the goal for the specified week has been achieved.
+
+generateWeeklySummary :
+    WorkoutHistory >< Goal >< Week
+    -> WeeklySummary
+
+Produces an overview of attendance, missed days, and goal status.
+
+compareSessions :
+    WorkoutSession >< WorkoutSession
+    -> SessionComparison
+
+Evaluates differences between two sessions, such as duration or activity type.
+
+evaluateConsistency :
+    WorkoutHistory >< TimePeriod
+    -> ConsistencyMeasure
+
+Determines the regularity of workouts across a period of time.

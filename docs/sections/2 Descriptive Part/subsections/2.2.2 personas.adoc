@@ -1,0 +1,63 @@
+==== *2.2.2 Personas*
+
+===== *Alejandro "The Busy Beginner"*
+Background: Alejandro Perales is a 19-year-old college student at the University of Puerto Rico at Mayagüez (UPRM). He started going to the gym this semester because he wants more energy, confidence, and a routine that doesn’t fall apart during exam weeks. His days are a rotating mix of classes, group work, commuting, and late-night studying, so his schedule is never consistent for long. His “gym plan” usually lives in his head, which works… until it doesn’t, and then he forgets what he did last time.
+
+Alejandro is motivated by simple wins. If he can log a session quickly and see that he’s showing up week to week, he feels proud and stays on track. But if tracking feels like homework or asks for too many details, he drops it and the habit collapses.
+
+Age: 19 years old.
+Major: Engineering student (early coursework, still exploring specialties).
+Interests: Alejandro likes systems that feel efficient. He keeps a tight calendar, uses quick notes to remember assignments, and prefers tools that “get out of the way.” At the gym, he’s focused on basics: showing up, doing a reasonable workout, and gradually improving. He cares less about deep analytics and more about knowing what to do next time without guessing.
+
+Problems: Alejandro struggles with consistency under real student life pressure. When logging takes too long, he skips it. Once he skips it a few times, he stops tracking entirely and loses track of his routine. He also gets discouraged when an app makes missing one day feel like failure, because that turns a normal busy week into “I quit.”
+
+Quotes:
+"I just want to log it fast and move on. If it takes too long, I won’t do it."
+"If I can’t remember what I did last time, I’m basically starting over."
+
+Solutions:
+Feature - Quick Session Logging: Log a gym session in under a minute using essential fields (duration, exercise types, optional note).
+Feature - Recent Sessions Reuse: Reuse a previous session as a starting point so Alejandro doesn’t retype the same routine.
+Feature - Streaks With Recovery: Track consistency, but keep weekly progress visible even after a missed day to reduce discouragement.
+
+
+===== *Derek "The Split-Tracker Runner"*
+Background: Derek Vega is a 21-year-old college student who splits his training between running and basic gym sessions. He likes feeling organized, but his fitness tracking is scattered between memory, notes, and whatever app he happened to use last month. He’s not looking for a complicated “performance lab.” He wants one place to track the essentials and quickly compare how he’s doing over time.
+
+Derek stays motivated when he can answer simple questions like: “Did I run more this week?” or “Am I spending longer in strength sessions than last month?” If he can’t compare sessions easily, tracking feels pointless and he stops.
+
+Age: 21 years old.
+Major: Computer Science (upper-level coursework).
+Interests: Derek enjoys simple data that helps him make decisions. He likes consistency metrics, quick comparisons, and seeing trends without digging through clutter. He often keeps routines that repeat (same run route, similar gym sessions) and wants tracking that respects that reality.
+
+Problems: Derek’s main problem is fragmentation and friction. If runs and gym sessions live in different places, he can’t get a clean weekly picture. If logging requires too much manual entry, he skips it on busy days. Without an easy way to compare sessions week-to-week, the whole system feels like noise instead of feedback.
+
+Quotes:
+"I don’t need ten graphs. I just want to know if I’m improving."
+"If I have to retype the same stuff every time, I’m not tracking it."
+
+Solutions:
+Feature - Unified Activity Logging: Track both runs and gym sessions in one place with consistent structure.
+Feature - Session Comparison: Compare current sessions to past sessions (week-to-week and session-to-session) without advanced analytics.
+Feature - Low-Friction Defaults: Provide presets or “recent activity” shortcuts so Derek can log quickly on busy days.
+
+
+===== *Ana "The Habit Builder"*
+Background: Ana Carolina is a 24-year old that's focused on building healthier habits long-term. Her goal is stability, not intensity. She wants an app that feels supportive and realistic: something that helps her keep showing up without turning fitness into guilt. Ana responds well to weekly check-ins and gentle reminders, because they make progress feel real and keep her accountable in a fair way.
+
+If an app is harsh, overly intense, or frames missed days like failure, Ana stops opening it. She wants feedback that celebrates effort, acknowledges gaps calmly, and makes it easy to restart.
+
+Age: 24 years old.
+Major: Business Administration (working while finishing courses).
+Interests: Ana likes routines that reduce stress. She prefers clear summaries, simple goals, and encouraging tone. She’s the kind of person who will stick with a tool for months if it feels kind, consistent, and easy to understand.
+
+Problems: Ana struggles with motivation when progress feels invisible. Without a weekly summary, she underestimates missed days and loses momentum. Notifications are a delicate balance: too aggressive feels like pressure, too quiet and she forgets. She also needs goals that feel achievable, otherwise she disengages.
+
+Quotes:
+"If the app makes me feel bad, I’ll just stop opening it."
+"I need something that helps me restart, not something that punishes me."
+
+Solutions:
+Feature - Weekly Summary Table: An end-of-week summary that shows activity vs goals in a clear, non-judgmental way.
+Feature - Supportive Reminders: Reminders designed to encourage consistency without guilt-based wording.
+Feature - Simple Goals: Daily/weekly goals that focus on consistency and progress, not perfection.

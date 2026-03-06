@@ -1,0 +1,128 @@
+=== 3.2 Validation and Verification
+
+To ensure that our fitness tracking system accurately reflects the domain and meets user needs, we have established a structured plan for validation and verification.
+
+==== Validation Activities
+Validation ensures that our interpretation of the domain, concepts, and user workflows is accurate.
+
+===== Terminology and Concept Validation
+We validate core domain concepts such as Workout Session, Run, Streak, Goal, Consistency, and Progress Feedback by embedding them into concrete scenarios and presenting those scenarios to prospective users.
+
+For example, stakeholders were presented with the following scenario:
+
+“A user completes a 30-minute run in the morning and a 45-minute strength workout in the evening. The system records these as two Workout Sessions on the same calendar date. Both sessions contribute to the users weekly aggregation and streak.”
+
+Participants were asked whether this reflects how they naturally perceive their workouts.
+
+====== Gap identified
+Some users initially assumed that only one Workout Session per day was allowed.
+
+======  Remedy
+We clarified the Session Representation requirement to explicitly allow multiple Workout Sessions per calendar date, each treated as a distinct entity while still contributing to weekly aggregation and streak calculations.
+
+======  Scenario Testing with Stakeholders
+
+Structured scenario walkthroughs were conducted by the development team during the requirements analysis phase. These sessions focused on validating assumptions behind the following requirements:
+
+- Streak Representation and Streak Calculation
+- Goal Evaluation
+- Weekly Aggregation and Weekly Comparison
+- Low-Effort Logging
+
+Example scenario:
+    “A user logs workouts on Monday, Tuesday, and Wednesday. They skip Thursday. On Friday, they log another workout. The system computes the streak.”
+
+Stakeholders were asked whether the streak should:
+
+- Continue
+- Reset immediately
+- Allow a grace period.
+
+======  Gap identified
+Several participants expected some flexibility if a workout was forgotten but performed.
+
+======  Remedy
+We refined the Streak Calculation requirement to explicitly define streaks as sequences of consecutive calendar units. We also documented the possibility of introducing a configurable grace-period feature in future versions.
+
+===== User Experience Surveys
+Targeted surveys capture feedback on specific aspects of the system, such as ease of workout logging, clarity of progress feedback, and motivational effectiveness of streaks.
+
+Surveys are distributed at multiple stages, including interactions with low-fidelity prototypes, to validate concepts and refine designs based on user insights.
+
+===== In-System Feedback Tool
+A feedback feature within the prototype or app allows users to report issues, suggest improvements, and express satisfaction.
+
+This provides continuous validation, enabling the team to quickly identify usability problems or missing functionality and iterate on solutions.
+
+==== Verification Activities
+Verification ensures that the implemented system behaves correctly and satisfies functional and non-functional requirements.
+
+===== Unit Testing for Core Functionalities
+Unit tests are written and maintained by the development team and executed automatically upon code updates.
+
+The following properties are verified:
+
+*Session Representation Property*
+
+When a Workout Session is created with:
+
+- A specific calendar date
+- Session type
+- Duration
+- Exercises performed
+
+All attributes are stored and retrieved without modification.
+
+*Persistent Storage Property*
+
+Workout Sessions are retrievable in chronological order after storage.
+
+*Goal Evaluation Property*
+
+If the number of Workout Sessions recorded within a Goal’s Time Frame meets or exceeds the defined target, the system marks the Goal as satisfied.
+
+*Streak Calculation Property*
+
+If a Workout Session is logged on n consecutive calendar days, the system computes a streak value of n.
+
+If one full calendar unit is skipped, the streak resets according to the defined rule.
+
+*Weekly Aggregation Property*
+
+The system correctly aggregates Workout Sessions within calendar week boundaries.
+
+*Weekly Comparison Property*
+
+The system correctly compares the number of sessions in the current week with previous weeks.
+
+These unit tests verify correctness of individual components implementing the domain requirements.
+
+===== Issue Tracking and Resolution
+All defects discovered during testing or validation are recorded in a structured issue-tracking system. Each issue is categorized, prioritized, assigned for resolution, and retested.
+
+This ensures systematic verification and controlled system evolution.
+
+===== User Acceptance Testing
+Before deployment, representative users execute realistic end-to-end scenarios, such as:
+
+- Maintaining a streak for seven consecutive days
+- Logging sessions using only essential information
+- Completing a goal within its Time Frame
+- Reviewing weekly comparisons
+
+User Acceptance Testing validates that the implemented system reflects the validated domain understanding and satisfies user expectations in realistic conditions.
+        
+These sessions are observed and documented by the development team.
+
+===== Performance Benchmarking
+The system is evaluated against predefined performance criteria.
+
+Properties verified include:
+
+- Workout logging operations complete within acceptable response time under normal usage.
+
+- Weekly aggregation and goal evaluation calculations execute without noticeable delay.
+
+- Retrieval of stored sessions remains efficient for typical user data volumes.
+
+Performance verification ensures that non-functional requirements related to responsiveness and reliability are satisfied.
