@@ -13,7 +13,7 @@ You need **Node.js** installed, which includes `npm`. Download it from [nodejs.o
 
 ```bash
 cp .env.example .env
-# Fill in the Supabase URL and anon key (get them from the manager)
+# Fill in the Supabase URL and anon key (Estan en whatsapp Announcements)
 
 npm install
 npm run dev
