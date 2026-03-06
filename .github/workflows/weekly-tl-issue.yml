@@ -16,7 +16,7 @@ jobs:
         id: dates
         run: |
           THURSDAY=$(date -u +"%Y-%m-%d")
-          MONDAY=$(date -u -d "last monday" +"%Y-%m-%d" 2>/dev/null || date -u -v-mon +"%Y-%m-%d")
+          MONDAY=$(date -u -d "monday this week" +"%Y-%m-%d")
           echo "thursday=$THURSDAY" >> $GITHUB_OUTPUT
           echo "monday=$MONDAY" >> $GITHUB_OUTPUT
 
@@ -25,51 +25,53 @@ jobs:
           gh issue create \
             --repo "${{ github.repository }}" \
             --title "[Team Report] Weekly Team Progress — Week of ${{ steps.dates.outputs.monday }}" \
-            --label "team-report" \
-            --body "## Objective
+            --body "$(cat <<'EOF'
+## Objective
 
-          Team Leaders must submit a summary of what their team worked on during the week of **${{ steps.dates.outputs.monday }}** through **${{ steps.dates.outputs.thursday }}**.
+Team Leaders must submit a summary of what their team worked on during the week of **${{ steps.dates.outputs.monday }}** through **${{ steps.dates.outputs.thursday }}**.
 
-          ## Description
+## Description
 
-          Each Team Leader is responsible for providing an update covering their team's contributions this week. Include completed tasks, in-progress work, blockers, and any relevant notes. This report helps maintain visibility across all teams and supports project tracking.
+Each Team Leader is responsible for providing an update covering their team's contributions this week. Include completed tasks, in-progress work, blockers, and any relevant notes. This report helps maintain visibility across all teams and supports project tracking.
 
-          ## Acceptance Criteria
+## Acceptance Criteria
 
-          - [ ] **Team Leader 1** has submitted their team's weekly update as a comment on this issue
-          - [ ] **Team Leader 2** has submitted their team's weekly update as a comment on this issue
-          - [ ] **Team Leader 3** has submitted their team's weekly update as a comment on this issue
-          - [ ] **Team Leader 4** has submitted their team's weekly update as a comment on this issue
-          - [ ] All updates include: tasks completed, tasks in progress, and any blockers
+- [ ] **Team Leader 1** has submitted their team's weekly update as a comment on this issue
+- [ ] **Team Leader 2** has submitted their team's weekly update as a comment on this issue
+- [ ] **Team Leader 3** has submitted their team's weekly update as a comment on this issue
+- [ ] **Team Leader 4** has submitted their team's weekly update as a comment on this issue
+- [ ] All updates include: tasks completed, tasks in progress, and any blockers
 
-          ## Report Format
+## Report Format
 
-          Each Team Leader should comment on this issue using the following format:
+Each Team Leader should comment on this issue using the following format:
 
-          \`\`\`
-          ### Team: [Team Name]
-          **Team Leader:** @username
+\`\`\`
+### Team: [Team Name]
+**Team Leader:** @username
 
-          **Completed this week:**
-          -
+**Completed this week:**
+-
 
-          **In progress:**
-          -
+**In progress:**
+-
 
-          **Blockers / Notes:**
-          -
-          \`\`\`
+**Blockers / Notes:**
+-
+\`\`\`
 
-          ## Expected Time Frame
+## Expected Time Frame
 
-          This week
+This week
 
-          ## Urgency
+## Urgency
 
-          4
+4
 
-          ## Difficulty
+## Difficulty
 
-          1 - Trivial"
+1 - Trivial
+EOF
+)"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
