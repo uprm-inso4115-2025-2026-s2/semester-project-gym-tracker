@@ -24,7 +24,9 @@ jobs:
         run: |
           gh issue create \
             --repo "${{ github.repository }}" \
-            --title "[Team Report] Weekly Team Progress — Week of ${{ steps.dates.outputs.monday }}" \
+            --title "[Team Report] Weekly Team Progress - Week of ${{ steps.dates.outputs.monday }}" \
+            --label "Issue in Progress,TL task,revised-by-manager" \
+            --assignee "Mannyrodd,jeracduran1,arianrodz21,ivxnmorxles,julivivas" \
             --body "$(cat <<'EOF'
 ## Objective
 
@@ -36,10 +38,11 @@ Each Team Leader is responsible for providing an update covering their team's co
 
 ## Acceptance Criteria
 
-- [ ] **Team Leader 1** has submitted their team's weekly update as a comment on this issue
-- [ ] **Team Leader 2** has submitted their team's weekly update as a comment on this issue
-- [ ] **Team Leader 3** has submitted their team's weekly update as a comment on this issue
-- [ ] **Team Leader 4** has submitted their team's weekly update as a comment on this issue
+- [ ] @Mannyrodd has submitted their team's weekly update as a comment on this issue
+- [ ] @jeracduran1 has submitted their team's weekly update as a comment on this issue
+- [ ] @arianrodz21 has submitted their team's weekly update as a comment on this issue
+- [ ] @ivxnmorxles has submitted their team's weekly update as a comment on this issue
+- [ ] @julivivas has submitted their team's weekly update as a comment on this issue
 - [ ] All updates include: tasks completed, tasks in progress, and any blockers
 
 ## Report Format
