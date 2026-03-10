@@ -322,36 +322,33 @@ jobs:
           # Write all inputs to files to avoid shell quoting issues
           cat /tmp/scrum_content.txt /tmp/tl_content.txt /tmp/issues_done.txt > /tmp/all_context.txt
 
-          python3 -c "
-import json
-print(json.dumps({
-  'milestone': '${MILESTONE}',
-  'week': '${WEEK}',
-  'monday': '${MONDAY}',
-  'friday': '${FRIDAY}',
-  'issue_count': '${ISSUE_COUNT}'
-}))
-" > /tmp/prompt_meta.json
+          echo "$MILESTONE"   > /tmp/meta_milestone.txt
+          echo "$WEEK"        > /tmp/meta_week.txt
+          echo "$MONDAY"      > /tmp/meta_monday.txt
+          echo "$FRIDAY"      > /tmp/meta_friday.txt
+          echo "$ISSUE_COUNT" > /tmp/meta_issue_count.txt
 
           python3 << 'PYEOF' > /tmp/synthesis.txt
           import json, urllib.request, urllib.error, os
 
-          with open('/tmp/prompt_meta.json') as f:
-              meta = json.load(f)
-          with open('/tmp/all_context.txt') as f:
-              context = f.read()
+          milestone   = open('/tmp/meta_milestone.txt').read().strip()
+          week        = open('/tmp/meta_week.txt').read().strip()
+          monday      = open('/tmp/meta_monday.txt').read().strip()
+          friday      = open('/tmp/meta_friday.txt').read().strip()
+          issue_count = open('/tmp/meta_issue_count.txt').read().strip()
+          context     = open('/tmp/all_context.txt').read()
 
           prompt = (
               "You are a project manager assistant synthesizing weekly progress for a software engineering team.\n"
               "Summarize the following information into a clear, concise weekly progress report for "
-              "Milestone " + meta['milestone'] + ", Week " + meta['week'] +
-              " (" + meta['monday'] + " to " + meta['friday'] + ").\n\n"
+              "Milestone " + milestone + ", Week " + week +
+              " (" + monday + " to " + friday + ").\n\n"
               "The report should include:\n"
               "1. A brief overview of team progress this week\n"
               "2. Key accomplishments from each team (based on TL reports)\n"
               "3. Blockers and risks identified\n"
               "4. Scrum discussion highlights and action items\n"
-              "5. Issue completion stats: " + meta['issue_count'] + " issues closed this week, with a breakdown by team if possible\n"
+              "5. Issue completion stats: " + issue_count + " issues closed this week, with a breakdown by team if possible\n"
               "6. A short outlook for next week\n\n"
               "Keep the tone professional and use plain markdown. Do not use em-dashes.\n\n"
               "---\n\n"
