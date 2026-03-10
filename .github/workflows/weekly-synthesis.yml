@@ -2,7 +2,7 @@ name: Weekly Progress Synthesis
 
 on:
   schedule:
-    - cron: "0 15 * * 5" # Runs at 15:00 UTC (10:00 AM EST) every Friday
+    - cron: "30 18 * * 5" # Runs at 18:30 UTC (1:30 PM EST) every Friday
   workflow_dispatch:
     inputs:
       milestone_number:
