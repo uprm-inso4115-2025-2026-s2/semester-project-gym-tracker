@@ -74,11 +74,10 @@ jobs:
         run: |
           DISCUSSION_TITLE="Scrum Prep Milestone ${MILESTONE} - Week ${WEEK}"
 
-          # Use GraphQL to search discussions by title
-          QUERY=$(cat <<'GRAPHQL'
-          query($owner: String!, $repo: String!, $title: String!) {
+          # Use GraphQL to fetch recent discussions (ordered by most recently updated)
+          QUERY='query($owner: String!, $repo: String!) {
             repository(owner: $owner, name: $repo) {
-              discussions(first: 20, orderBy: {field: UPDATED_AT, direction: DESC}) {
+              discussions(first: 50, orderBy: {field: UPDATED_AT, direction: DESC}) {
                 nodes {
                   title
                   body
@@ -91,9 +90,7 @@ jobs:
                 }
               }
             }
-          }
-          GRAPHQL
-          )
+          }'
 
           REPO_OWNER="${{ github.repository_owner }}"
           REPO_NAME="${{ github.event.repository.name }}"
@@ -102,29 +99,49 @@ jobs:
             -f query="$QUERY" \
             -f owner="$REPO_OWNER" \
             -f repo="$REPO_NAME" \
-            -f title="$DISCUSSION_TITLE" 2>/dev/null || echo '{"data":{"repository":{"discussions":{"nodes":[]}}}}')
+            2>/dev/null || echo '{"data":{"repository":{"discussions":{"nodes":[]}}}}')
 
-          # Filter to the matching discussion and extract body + comments
-          SCRUM_CONTENT=$(echo "$RESPONSE" | python3 -c "
-          import sys, json
-          data = json.load(sys.stdin)
-          title_target = '$DISCUSSION_TITLE'
-          nodes = data.get('data',{}).get('repository',{}).get('discussions',{}).get('nodes',[])
+          echo "$RESPONSE" > /tmp/graphql_response.json
+          echo "$DISCUSSION_TITLE" > /tmp/discussion_title.txt
+
+          # Try exact title match first, then fall back to most recent Scrum Prep discussion
+          python3 << 'PYEOF' > /tmp/scrum_content.txt
+          import json
+
+          with open('/tmp/graphql_response.json') as f:
+              data = json.load(f)
+
+          with open('/tmp/discussion_title.txt') as f:
+              title_target = f.read().strip()
+          nodes = data.get('data', {}).get('repository', {}).get('discussions', {}).get('nodes', [])
+
+          def format_discussion(node):
+              body = node.get('body', '(no body)')
+              comments = node.get('comments', {}).get('nodes', [])
+              parts = [f'## Discussion: {node["title"]}', body]
+              for c in comments:
+                  author = (c.get('author') or {}).get('login', 'unknown')
+                  parts.append(f'### Comment by @{author}')
+                  parts.append(c['body'])
+              return '\n\n'.join(parts)
+
+          # Try exact match first
           for node in nodes:
-              if title_target.lower() in node.get('title','').lower():
-                  body = node.get('body','(no body)')
-                  comments = node.get('comments',{}).get('nodes',[])
-                  parts = [f'## Discussion: {node[\"title\"]}', body]
-                  for c in comments:
-                      parts.append(f'### Comment by @{c[\"author\"][\"login\"]}')
-                      parts.append(c['body'])
-                  print('\n\n'.join(parts))
-                  sys.exit(0)
-          print(f'(No discussion found matching: {title_target})')
-          " 2>/dev/null || echo "(Failed to parse discussion response)")
+              if title_target.lower() in node.get('title', '').lower():
+                  print(format_discussion(node))
+                  raise SystemExit(0)
 
-          # Write to file to avoid env var size limits
-          echo "$SCRUM_CONTENT" > /tmp/scrum_content.txt
+          # Fall back to most recent Scrum Prep discussion
+          for node in nodes:
+              if 'scrum prep' in node.get('title', '').lower():
+                  print(f'(Note: exact match not found for "{title_target}", using most recent Scrum Prep discussion)')
+                  print()
+                  print(format_discussion(node))
+                  raise SystemExit(0)
+
+          print(f'(No Scrum Prep discussion found)')
+          PYEOF
+
           echo "Found $(wc -l < /tmp/scrum_content.txt) lines of scrum content"
 
       - name: Fetch TL Weekly Report issue and comments
@@ -135,48 +152,73 @@ jobs:
           MONDAY="${{ steps.meta.outputs.monday }}"
           TL_TITLE="[Team Leader] Weekly Team Progress - Week of ${MONDAY}"
 
-          # Search for the TL issue by title
-          ISSUE_JSON=$(gh issue list \
+          # Fetch recent issues (all states), search for TL report
+          gh issue list \
             --repo "${{ github.repository }}" \
             --state all \
-            --limit 50 \
-            --json number,title,body \
-            2>/dev/null || echo "[]")
+            --limit 100 \
+            --json number,title,body,createdAt \
+            > /tmp/all_issues.json 2>/dev/null || echo "[]" > /tmp/all_issues.json
 
-          TL_ISSUE=$(echo "$ISSUE_JSON" | python3 -c "
-          import sys, json
-          data = json.load(sys.stdin)
-          target = '$TL_TITLE'.lower()
+          echo "$TL_TITLE" > /tmp/tl_title.txt
+
+          python3 << 'PYEOF' > /tmp/tl_issue_number.txt
+          import json
+
+          with open('/tmp/all_issues.json') as f:
+              data = json.load(f)
+
+          with open('/tmp/tl_title.txt') as f:
+              tl_title = f.read().strip().lower()
+
+          # Try exact week match first
           for issue in data:
-              if target in issue.get('title','').lower():
-                  print(json.dumps(issue))
-                  sys.exit(0)
-          print('{}')
-          " 2>/dev/null || echo "{}")
+              if tl_title in issue.get('title', '').lower():
+                  print(issue['number'])
+                  raise SystemExit(0)
 
-          ISSUE_NUMBER=$(echo "$TL_ISSUE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('number',''))" 2>/dev/null || echo "")
+          # Fall back to most recent TL weekly report issue
+          for issue in data:
+              title = issue.get('title', '').lower()
+              if '[team leader] weekly team progress' in title:
+                  print(issue['number'])
+                  raise SystemExit(0)
+
+          print('')
+          PYEOF
+
+          ISSUE_NUMBER=$(cat /tmp/tl_issue_number.txt | tr -d '[:space:]')
 
           if [ -n "$ISSUE_NUMBER" ]; then
+            ISSUE_DETAIL=$(gh api \
+              repos/${{ github.repository }}/issues/${ISSUE_NUMBER} \
+              2>/dev/null || echo '{}')
+
             COMMENTS_JSON=$(gh api \
               repos/${{ github.repository }}/issues/${ISSUE_NUMBER}/comments \
               2>/dev/null || echo "[]")
 
-            echo "$TL_ISSUE" | python3 -c "
-          import sys, json
-          d = json.load(sys.stdin)
-          print(f'## TL Report Issue: {d.get(\"title\",\"\")}')
-          print(d.get('body','(no body)'))
-          " > /tmp/tl_content.txt 2>/dev/null
+            echo "$ISSUE_DETAIL" > /tmp/tl_issue_detail.json
+            echo "$COMMENTS_JSON" > /tmp/tl_comments.json
 
-            echo "$COMMENTS_JSON" | python3 -c "
-          import sys, json
-          comments = json.load(sys.stdin)
+            python3 << 'PYEOF' > /tmp/tl_content.txt
+          import json
+
+          with open('/tmp/tl_issue_detail.json') as f:
+              d = json.load(f)
+          with open('/tmp/tl_comments.json') as f:
+              comments = json.load(f)
+
+          print(f'## TL Report Issue: {d.get("title", "")}')
+          print(d.get('body', '(no body)'))
+          print()
           for c in comments:
-              print(f'### TL Comment by @{c[\"user\"][\"login\"]}')
+              print(f'### TL Comment by @{c["user"]["login"]}')
               print(c['body'])
-          " >> /tmp/tl_content.txt 2>/dev/null
+              print()
+          PYEOF
           else
-            echo "(No TL weekly report found for week of ${MONDAY})" > /tmp/tl_content.txt
+            echo "(No TL weekly report issue found)" > /tmp/tl_content.txt
           fi
 
           echo "Found $(wc -l < /tmp/tl_content.txt) lines of TL report content"
@@ -197,13 +239,23 @@ jobs:
             --json number,title,closedAt,labels,assignees \
             2>/dev/null || echo "[]")
 
-          echo "$CLOSED_ISSUES" | python3 -c "
-          import sys, json
-          from datetime import datetime, timezone
+          echo "$CLOSED_ISSUES" > /tmp/closed_issues.json
+          echo "$MONDAY" > /tmp/week_monday.txt
+          echo "$FRIDAY" > /tmp/week_friday.txt
 
-          data = json.load(sys.stdin)
-          monday = datetime.fromisoformat('${MONDAY}T00:00:00+00:00')
-          friday = datetime.fromisoformat('${FRIDAY}T23:59:59+00:00')
+          python3 << 'PYEOF' > /tmp/issues_done.txt
+          import json
+          from datetime import datetime
+
+          with open('/tmp/closed_issues.json') as f:
+              data = json.load(f)
+          with open('/tmp/week_monday.txt') as f:
+              monday_str = f.read().strip()
+          with open('/tmp/week_friday.txt') as f:
+              friday_str = f.read().strip()
+
+          monday = datetime.fromisoformat(f'{monday_str}T00:00:00+00:00')
+          friday = datetime.fromisoformat(f'{friday_str}T23:59:59+00:00')
 
           weekly = []
           for issue in data:
@@ -219,17 +271,17 @@ jobs:
           print()
           for issue in weekly:
               labels = ', '.join(l['name'] for l in issue.get('labels', []))
-              assignees = ', '.join(f'@{a[\"login\"]}' for a in issue.get('assignees', []))
-              print(f'- #{issue[\"number\"]}: {issue[\"title\"]}')
+              assignees = ', '.join(f'@{a["login"]}' for a in issue.get('assignees', []))
+              print(f'- #{issue["number"]}: {issue["title"]}')
               if labels:
                   print(f'  Labels: {labels}')
               if assignees:
                   print(f'  Assignees: {assignees}')
-          " > /tmp/issues_done.txt 2>/dev/null
+          PYEOF
 
-          ISSUE_COUNT=$(grep -c "^- #" /tmp/issues_done.txt || echo 0)
-          echo "count=$ISSUE_COUNT" >> $GITHUB_OUTPUT
-          echo "Found $ISSUE_COUNT closed issues this week"
+          ISSUE_COUNT=$(grep -c "^- #" /tmp/issues_done.txt 2>/dev/null) || ISSUE_COUNT=0
+          echo "count=${ISSUE_COUNT}" >> $GITHUB_OUTPUT
+          echo "Found ${ISSUE_COUNT} closed issues this week"
 
       - name: Synthesize with Gemini
         id: synthesis
