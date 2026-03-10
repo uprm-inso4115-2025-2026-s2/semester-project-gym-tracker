@@ -43,7 +43,7 @@ jobs:
           # Milestone 2: Feb 27 - Apr 03
           # Milestone 3: Apr 03 - May 08
           # Week-within-milestone is derived from the current Monday date.
-          MILESTONE_2_START="2026-02-27"
+          MILESTONE_2_START="2026-02-28"
           MILESTONE_3_START="2026-04-03"
           MILESTONE_3_END="2026-05-08"
 
@@ -367,7 +367,8 @@ jobs:
               data=json.dumps(payload).encode(),
               headers={
                   'Authorization': 'Bearer ' + api_key,
-                  'content-type': 'application/json'
+                  'Content-Type': 'application/json',
+                  'User-Agent': 'github-actions/weekly-synthesis'
               }
           )
 
