@@ -308,10 +308,10 @@ jobs:
           echo "count=${ISSUE_COUNT}" >> $GITHUB_OUTPUT
           echo "Found ${ISSUE_COUNT} closed issues this week"
 
-      - name: Synthesize with Claude
+      - name: Synthesize with Groq
         id: synthesis
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
           MILESTONE="${{ steps.meta.outputs.milestone }}"
           WEEK="${{ steps.meta.outputs.week }}"
@@ -356,18 +356,17 @@ jobs:
           )
 
           payload = {
-              "model": "claude-haiku-4-5-20251001",
+              "model": "llama-3.3-70b-versatile",
               "max_tokens": 2048,
               "messages": [{"role": "user", "content": prompt}]
           }
 
-          api_key = os.environ.get('ANTHROPIC_API_KEY', '')
+          api_key = os.environ.get('GROQ_API_KEY', '')
           req = urllib.request.Request(
-              'https://api.anthropic.com/v1/messages',
+              'https://api.groq.com/openai/v1/chat/completions',
               data=json.dumps(payload).encode(),
               headers={
-                  'x-api-key': api_key,
-                  'anthropic-version': '2023-06-01',
+                  'Authorization': 'Bearer ' + api_key,
                   'content-type': 'application/json'
               }
           )
@@ -375,12 +374,12 @@ jobs:
           try:
               with urllib.request.urlopen(req) as resp:
                   data = json.load(resp)
-              print(data['content'][0]['text'])
+              print(data['choices'][0]['message']['content'])
           except urllib.error.HTTPError as e:
               body = e.read().decode()
-              print(f'(Claude synthesis failed)\n\nRaw response snippet:\n{body[:500]}')
+              print(f'(Groq synthesis failed)\n\nRaw response snippet:\n{body[:500]}')
           except Exception as ex:
-              print(f'(Claude synthesis failed: {ex})')
+              print(f'(Groq synthesis failed: {ex})')
           PYEOF
 
           echo "Synthesis complete ($(wc -w < /tmp/synthesis.txt) words)"
