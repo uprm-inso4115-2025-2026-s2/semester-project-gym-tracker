@@ -31,18 +31,41 @@ jobs:
           #   Milestone 3: weeks 9-12  (Mar 16 - Apr 12)
           #   Milestone 4: weeks 13-16 (Apr 13 - May 10)
 
-          SEMESTER_START="2026-01-19"
+          # Always anchor to the current week's Monday and Friday,
+          # regardless of what day the workflow runs.
           TODAY=$(date -u +"%Y-%m-%d")
-          START_EPOCH=$(date -u -d "$SEMESTER_START" +%s)
-          TODAY_EPOCH=$(date -u -d "$TODAY" +%s)
-          DIFF_DAYS=$(( (TODAY_EPOCH - START_EPOCH) / 86400 ))
-          OVERALL_WEEK=$(( DIFF_DAYS / 7 + 1 ))
+          DOW=$(date -u +%u)  # 1=Monday ... 7=Sunday
+          MONDAY=$(date -u -d "$TODAY -$(( DOW - 1 )) days" +"%Y-%m-%d")
+          FRIDAY=$(date -u -d "$TODAY +$(( 5 - DOW )) days" +"%Y-%m-%d")
 
-          # Milestone / week-within-milestone
-          if   [ "$OVERALL_WEEK" -le 4  ]; then MILESTONE=1; WEEK_IN_MILESTONE=$(( OVERALL_WEEK ))
-          elif [ "$OVERALL_WEEK" -le 8  ]; then MILESTONE=2; WEEK_IN_MILESTONE=$(( OVERALL_WEEK - 4 ))
-          elif [ "$OVERALL_WEEK" -le 12 ]; then MILESTONE=3; WEEK_IN_MILESTONE=$(( OVERALL_WEEK - 8 ))
-          else                                   MILESTONE=4; WEEK_IN_MILESTONE=$(( OVERALL_WEEK - 12 ))
+          # Milestone boundaries based on the actual semester schedule.
+          # Milestone 1: Jan 26 - Feb 23  (weeks anchored to first Monday Jan 26)
+          # Milestone 2: Feb 23 - Mar 23
+          # Milestone 3: Mar 23 - Apr 20
+          # Milestone 4: Apr 20 - May 11
+          # Week-within-milestone is derived from the current Monday date.
+          MILESTONE_2_START="2026-02-23"
+          MILESTONE_3_START="2026-03-23"
+          MILESTONE_4_START="2026-04-20"
+          MILESTONE_4_END="2026-05-11"
+
+          MON_EPOCH=$(date -u -d "$MONDAY" +%s)
+          M2_EPOCH=$(date -u -d "$MILESTONE_2_START" +%s)
+          M3_EPOCH=$(date -u -d "$MILESTONE_3_START" +%s)
+          M4_EPOCH=$(date -u -d "$MILESTONE_4_START" +%s)
+
+          if   [ "$MON_EPOCH" -lt "$M2_EPOCH" ]; then
+            MILESTONE=1
+            WEEK_IN_MILESTONE=$(( (MON_EPOCH - $(date -u -d "2026-01-26" +%s)) / 604800 + 1 ))
+          elif [ "$MON_EPOCH" -lt "$M3_EPOCH" ]; then
+            MILESTONE=2
+            WEEK_IN_MILESTONE=$(( (MON_EPOCH - M2_EPOCH) / 604800 + 1 ))
+          elif [ "$MON_EPOCH" -lt "$M4_EPOCH" ]; then
+            MILESTONE=3
+            WEEK_IN_MILESTONE=$(( (MON_EPOCH - M3_EPOCH) / 604800 + 1 ))
+          else
+            MILESTONE=4
+            WEEK_IN_MILESTONE=$(( (MON_EPOCH - M4_EPOCH) / 604800 + 1 ))
           fi
 
           # Allow manual overrides from workflow_dispatch inputs
@@ -52,11 +75,6 @@ jobs:
           if [ -n "${{ github.event.inputs.week_number }}" ]; then
             WEEK_IN_MILESTONE="${{ github.event.inputs.week_number }}"
           fi
-
-          # Date range for this week (Monday to Friday)
-          FRIDAY=$(date -u +"%Y-%m-%d")
-          DAY_OF_WEEK=$(date -u +%u)  # 1=Monday ... 7=Sunday
-          MONDAY=$(date -u -d "$FRIDAY -$(( DAY_OF_WEEK - 1 )) days" +"%Y-%m-%d")
 
           echo "milestone=$MILESTONE"           >> $GITHUB_OUTPUT
           echo "week=$WEEK_IN_MILESTONE"         >> $GITHUB_OUTPUT
@@ -329,7 +347,7 @@ jobs:
 
           # Call Gemini API
           RESPONSE=$(curl -s \
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}" \
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}" \
             -H "Content-Type: application/json" \
             -d "$(python3 -c "
           import json, sys
