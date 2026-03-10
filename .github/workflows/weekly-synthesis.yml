@@ -39,20 +39,17 @@ jobs:
           FRIDAY=$(date -u -d "$TODAY +$(( 5 - DOW )) days" +"%Y-%m-%d")
 
           # Milestone boundaries based on the actual semester schedule.
-          # Milestone 1: Jan 26 - Feb 23  (weeks anchored to first Monday Jan 26)
-          # Milestone 2: Feb 23 - Mar 23
-          # Milestone 3: Mar 23 - Apr 20
-          # Milestone 4: Apr 20 - May 11
+          # Milestone 1: Jan 26 - Feb 27
+          # Milestone 2: Feb 27 - Apr 03
+          # Milestone 3: Apr 03 - May 08
           # Week-within-milestone is derived from the current Monday date.
-          MILESTONE_2_START="2026-02-23"
-          MILESTONE_3_START="2026-03-23"
-          MILESTONE_4_START="2026-04-20"
-          MILESTONE_4_END="2026-05-11"
+          MILESTONE_2_START="2026-02-27"
+          MILESTONE_3_START="2026-04-03"
+          MILESTONE_3_END="2026-05-08"
 
           MON_EPOCH=$(date -u -d "$MONDAY" +%s)
           M2_EPOCH=$(date -u -d "$MILESTONE_2_START" +%s)
           M3_EPOCH=$(date -u -d "$MILESTONE_3_START" +%s)
-          M4_EPOCH=$(date -u -d "$MILESTONE_4_START" +%s)
 
           if   [ "$MON_EPOCH" -lt "$M2_EPOCH" ]; then
             MILESTONE=1
@@ -60,12 +57,9 @@ jobs:
           elif [ "$MON_EPOCH" -lt "$M3_EPOCH" ]; then
             MILESTONE=2
             WEEK_IN_MILESTONE=$(( (MON_EPOCH - M2_EPOCH) / 604800 + 1 ))
-          elif [ "$MON_EPOCH" -lt "$M4_EPOCH" ]; then
+          else
             MILESTONE=3
             WEEK_IN_MILESTONE=$(( (MON_EPOCH - M3_EPOCH) / 604800 + 1 ))
-          else
-            MILESTONE=4
-            WEEK_IN_MILESTONE=$(( (MON_EPOCH - M4_EPOCH) / 604800 + 1 ))
           fi
 
           # Allow manual overrides from workflow_dispatch inputs
