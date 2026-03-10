@@ -1,0 +1,353 @@
+name: Weekly Progress Synthesis
+
+on:
+  schedule:
+    - cron: "0 15 * * 5" # Runs at 15:00 UTC (10:00 AM EST) every Friday
+  workflow_dispatch:
+    inputs:
+      milestone_number:
+        description: "Milestone number (e.g. 2)"
+        required: false
+        default: ""
+      week_number:
+        description: "Week number within the milestone (e.g. 2)"
+        required: false
+        default: ""
+
+jobs:
+  synthesize_weekly_progress:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Compute week metadata
+        id: meta
+        run: |
+          # Week numbers anchor from 2026-01-19 (first Monday of the semester).
+          # Milestone boundaries (adjust as the semester progresses):
+          #   Milestone 1: weeks 1-4   (Jan 19 - Feb 15)
+          #   Milestone 2: weeks 5-8   (Feb 16 - Mar 15)
+          #   Milestone 3: weeks 9-12  (Mar 16 - Apr 12)
+          #   Milestone 4: weeks 13-16 (Apr 13 - May 10)
+
+          SEMESTER_START="2026-01-19"
+          TODAY=$(date -u +"%Y-%m-%d")
+          START_EPOCH=$(date -u -d "$SEMESTER_START" +%s)
+          TODAY_EPOCH=$(date -u -d "$TODAY" +%s)
+          DIFF_DAYS=$(( (TODAY_EPOCH - START_EPOCH) / 86400 ))
+          OVERALL_WEEK=$(( DIFF_DAYS / 7 + 1 ))
+
+          # Milestone / week-within-milestone
+          if   [ "$OVERALL_WEEK" -le 4  ]; then MILESTONE=1; WEEK_IN_MILESTONE=$(( OVERALL_WEEK ))
+          elif [ "$OVERALL_WEEK" -le 8  ]; then MILESTONE=2; WEEK_IN_MILESTONE=$(( OVERALL_WEEK - 4 ))
+          elif [ "$OVERALL_WEEK" -le 12 ]; then MILESTONE=3; WEEK_IN_MILESTONE=$(( OVERALL_WEEK - 8 ))
+          else                                   MILESTONE=4; WEEK_IN_MILESTONE=$(( OVERALL_WEEK - 12 ))
+          fi
+
+          # Allow manual overrides from workflow_dispatch inputs
+          if [ -n "${{ github.event.inputs.milestone_number }}" ]; then
+            MILESTONE="${{ github.event.inputs.milestone_number }}"
+          fi
+          if [ -n "${{ github.event.inputs.week_number }}" ]; then
+            WEEK_IN_MILESTONE="${{ github.event.inputs.week_number }}"
+          fi
+
+          # Date range for this week (Monday to Friday)
+          FRIDAY=$(date -u +"%Y-%m-%d")
+          DAY_OF_WEEK=$(date -u +%u)  # 1=Monday ... 7=Sunday
+          MONDAY=$(date -u -d "$FRIDAY -$(( DAY_OF_WEEK - 1 )) days" +"%Y-%m-%d")
+
+          echo "milestone=$MILESTONE"           >> $GITHUB_OUTPUT
+          echo "week=$WEEK_IN_MILESTONE"         >> $GITHUB_OUTPUT
+          echo "monday=$MONDAY"                  >> $GITHUB_OUTPUT
+          echo "friday=$FRIDAY"                  >> $GITHUB_OUTPUT
+
+          echo "Milestone $MILESTONE, Week $WEEK_IN_MILESTONE ($MONDAY to $FRIDAY)"
+
+      - name: Fetch Scrum Discussion content
+        id: scrum
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MILESTONE: ${{ steps.meta.outputs.milestone }}
+          WEEK: ${{ steps.meta.outputs.week }}
+        run: |
+          DISCUSSION_TITLE="Scrum Prep Milestone ${MILESTONE} - Week ${WEEK}"
+
+          # Use GraphQL to search discussions by title
+          QUERY=$(cat <<'GRAPHQL'
+          query($owner: String!, $repo: String!, $title: String!) {
+            repository(owner: $owner, name: $repo) {
+              discussions(first: 20, orderBy: {field: UPDATED_AT, direction: DESC}) {
+                nodes {
+                  title
+                  body
+                  comments(first: 50) {
+                    nodes {
+                      author { login }
+                      body
+                    }
+                  }
+                }
+              }
+            }
+          }
+          GRAPHQL
+          )
+
+          REPO_OWNER="${{ github.repository_owner }}"
+          REPO_NAME="${{ github.event.repository.name }}"
+
+          RESPONSE=$(gh api graphql \
+            -f query="$QUERY" \
+            -f owner="$REPO_OWNER" \
+            -f repo="$REPO_NAME" \
+            -f title="$DISCUSSION_TITLE" 2>/dev/null || echo '{"data":{"repository":{"discussions":{"nodes":[]}}}}')
+
+          # Filter to the matching discussion and extract body + comments
+          SCRUM_CONTENT=$(echo "$RESPONSE" | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          title_target = '$DISCUSSION_TITLE'
+          nodes = data.get('data',{}).get('repository',{}).get('discussions',{}).get('nodes',[])
+          for node in nodes:
+              if title_target.lower() in node.get('title','').lower():
+                  body = node.get('body','(no body)')
+                  comments = node.get('comments',{}).get('nodes',[])
+                  parts = [f'## Discussion: {node[\"title\"]}', body]
+                  for c in comments:
+                      parts.append(f'### Comment by @{c[\"author\"][\"login\"]}')
+                      parts.append(c['body'])
+                  print('\n\n'.join(parts))
+                  sys.exit(0)
+          print(f'(No discussion found matching: {title_target})')
+          " 2>/dev/null || echo "(Failed to parse discussion response)")
+
+          # Write to file to avoid env var size limits
+          echo "$SCRUM_CONTENT" > /tmp/scrum_content.txt
+          echo "Found $(wc -l < /tmp/scrum_content.txt) lines of scrum content"
+
+      - name: Fetch TL Weekly Report issue and comments
+        id: tl_report
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          MONDAY="${{ steps.meta.outputs.monday }}"
+          TL_TITLE="[Team Leader] Weekly Team Progress - Week of ${MONDAY}"
+
+          # Search for the TL issue by title
+          ISSUE_JSON=$(gh issue list \
+            --repo "${{ github.repository }}" \
+            --state all \
+            --limit 50 \
+            --json number,title,body \
+            2>/dev/null || echo "[]")
+
+          TL_ISSUE=$(echo "$ISSUE_JSON" | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          target = '$TL_TITLE'.lower()
+          for issue in data:
+              if target in issue.get('title','').lower():
+                  print(json.dumps(issue))
+                  sys.exit(0)
+          print('{}')
+          " 2>/dev/null || echo "{}")
+
+          ISSUE_NUMBER=$(echo "$TL_ISSUE" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('number',''))" 2>/dev/null || echo "")
+
+          if [ -n "$ISSUE_NUMBER" ]; then
+            COMMENTS_JSON=$(gh api \
+              repos/${{ github.repository }}/issues/${ISSUE_NUMBER}/comments \
+              2>/dev/null || echo "[]")
+
+            echo "$TL_ISSUE" | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          print(f'## TL Report Issue: {d.get(\"title\",\"\")}')
+          print(d.get('body','(no body)'))
+          " > /tmp/tl_content.txt 2>/dev/null
+
+            echo "$COMMENTS_JSON" | python3 -c "
+          import sys, json
+          comments = json.load(sys.stdin)
+          for c in comments:
+              print(f'### TL Comment by @{c[\"user\"][\"login\"]}')
+              print(c['body'])
+          " >> /tmp/tl_content.txt 2>/dev/null
+          else
+            echo "(No TL weekly report found for week of ${MONDAY})" > /tmp/tl_content.txt
+          fi
+
+          echo "Found $(wc -l < /tmp/tl_content.txt) lines of TL report content"
+
+      - name: Fetch closed issues this week
+        id: issues_done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          MONDAY="${{ steps.meta.outputs.monday }}"
+          FRIDAY="${{ steps.meta.outputs.friday }}"
+
+          # Fetch issues closed this week
+          CLOSED_ISSUES=$(gh issue list \
+            --repo "${{ github.repository }}" \
+            --state closed \
+            --limit 200 \
+            --json number,title,closedAt,labels,assignees \
+            2>/dev/null || echo "[]")
+
+          echo "$CLOSED_ISSUES" | python3 -c "
+          import sys, json
+          from datetime import datetime, timezone
+
+          data = json.load(sys.stdin)
+          monday = datetime.fromisoformat('${MONDAY}T00:00:00+00:00')
+          friday = datetime.fromisoformat('${FRIDAY}T23:59:59+00:00')
+
+          weekly = []
+          for issue in data:
+              closed_at = issue.get('closedAt', '')
+              if not closed_at:
+                  continue
+              closed_dt = datetime.fromisoformat(closed_at.replace('Z', '+00:00'))
+              if monday <= closed_dt <= friday:
+                  weekly.append(issue)
+
+          print(f'## Issues Closed This Week ({len(weekly)} total)')
+          print(f'Date range: {monday.date()} to {friday.date()}')
+          print()
+          for issue in weekly:
+              labels = ', '.join(l['name'] for l in issue.get('labels', []))
+              assignees = ', '.join(f'@{a[\"login\"]}' for a in issue.get('assignees', []))
+              print(f'- #{issue[\"number\"]}: {issue[\"title\"]}')
+              if labels:
+                  print(f'  Labels: {labels}')
+              if assignees:
+                  print(f'  Assignees: {assignees}')
+          " > /tmp/issues_done.txt 2>/dev/null
+
+          ISSUE_COUNT=$(grep -c "^- #" /tmp/issues_done.txt || echo 0)
+          echo "count=$ISSUE_COUNT" >> $GITHUB_OUTPUT
+          echo "Found $ISSUE_COUNT closed issues this week"
+
+      - name: Synthesize with Gemini
+        id: synthesis
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          MILESTONE="${{ steps.meta.outputs.milestone }}"
+          WEEK="${{ steps.meta.outputs.week }}"
+          MONDAY="${{ steps.meta.outputs.monday }}"
+          FRIDAY="${{ steps.meta.outputs.friday }}"
+          ISSUE_COUNT="${{ steps.issues_done.outputs.count }}"
+
+          SCRUM_CONTENT=$(cat /tmp/scrum_content.txt)
+          TL_CONTENT=$(cat /tmp/tl_content.txt)
+          ISSUES_DONE=$(cat /tmp/issues_done.txt)
+
+          # Build the prompt
+          PROMPT=$(cat <<PROMPT
+          You are a project manager assistant synthesizing weekly progress for a software engineering team.
+          Summarize the following information into a clear, concise weekly progress report for Milestone ${MILESTONE}, Week ${WEEK} (${MONDAY} to ${FRIDAY}).
+
+          The report should include:
+          1. A brief overview of team progress this week
+          2. Key accomplishments from each team (based on TL reports)
+          3. Blockers and risks identified
+          4. Scrum discussion highlights and action items
+          5. Issue completion stats: ${ISSUE_COUNT} issues closed this week, with a breakdown by team if possible
+          6. A short outlook for next week
+
+          Keep the tone professional and use plain markdown. Do not use em-dashes.
+
+          ---
+
+          ${SCRUM_CONTENT}
+
+          ---
+
+          ${TL_CONTENT}
+
+          ---
+
+          ${ISSUES_DONE}
+          PROMPT
+          )
+
+          # Call Gemini API
+          RESPONSE=$(curl -s \
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d "$(python3 -c "
+          import json, sys
+          prompt = sys.stdin.read()
+          payload = {
+              'contents': [{
+                  'parts': [{'text': prompt}]
+              }],
+              'generationConfig': {
+                  'temperature': 0.4,
+                  'maxOutputTokens': 2048
+              }
+          }
+          print(json.dumps(payload))
+          " <<< "$PROMPT")" 2>/dev/null || echo '{}')
+
+          SYNTHESIS=$(echo "$RESPONSE" | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          try:
+              text = data['candidates'][0]['content']['parts'][0]['text']
+              print(text)
+          except (KeyError, IndexError):
+              print('(Gemini synthesis failed - check GEMINI_API_KEY secret and API response)')
+              import json as j
+              print()
+              print('Raw response snippet:')
+              print(str(data)[:500])
+          " 2>/dev/null || echo "(Failed to parse Gemini response)")
+
+          echo "$SYNTHESIS" > /tmp/synthesis.txt
+          echo "Synthesis complete ($(wc -w < /tmp/synthesis.txt) words)"
+
+      - name: Create weekly synthesis issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          MILESTONE="${{ steps.meta.outputs.milestone }}"
+          WEEK="${{ steps.meta.outputs.week }}"
+          MONDAY="${{ steps.meta.outputs.monday }}"
+          FRIDAY="${{ steps.meta.outputs.friday }}"
+          ISSUE_COUNT="${{ steps.issues_done.outputs.count }}"
+
+          SYNTHESIS=$(cat /tmp/synthesis.txt)
+          ISSUES_DONE=$(cat /tmp/issues_done.txt)
+
+          cat > /tmp/synthesis_body.md << EOF
+          # Weekly Progress Summary - Milestone ${MILESTONE}, Week ${WEEK}
+          **Period:** ${MONDAY} to ${FRIDAY}
+          **Issues closed this week:** ${ISSUE_COUNT}
+
+          ---
+
+          ${SYNTHESIS}
+
+          ---
+
+          <details>
+          <summary>Issues Closed This Week (raw list)</summary>
+
+          ${ISSUES_DONE}
+
+          </details>
+
+          ---
+          *This report was generated automatically from Scrum discussions and TL weekly reports.*
+          EOF
+
+          gh issue create \
+            --repo "${{ github.repository }}" \
+            --title "[Weekly Summary] Milestone ${MILESTONE} - Week ${WEEK} (${MONDAY})" \
+            --label "revised-by-manager" \
+            --body-file /tmp/synthesis_body.md
