@@ -62,12 +62,25 @@ jobs:
             WEEK_IN_MILESTONE=$(( (MON_EPOCH - M3_EPOCH) / 604800 + 1 ))
           fi
 
-          # Allow manual overrides from workflow_dispatch inputs
+          # Allow manual overrides from workflow_dispatch inputs.
+          # When week is overridden, recalculate Monday/Friday to match
+          # the correct week so issue fetching uses the right date range.
           if [ -n "${{ github.event.inputs.milestone_number }}" ]; then
             MILESTONE="${{ github.event.inputs.milestone_number }}"
           fi
           if [ -n "${{ github.event.inputs.week_number }}" ]; then
             WEEK_IN_MILESTONE="${{ github.event.inputs.week_number }}"
+            # Pick the right milestone start to anchor from
+            if [ "$MILESTONE" = "1" ]; then
+              MS_START="2026-01-26"
+            elif [ "$MILESTONE" = "2" ]; then
+              MS_START="$MILESTONE_2_START"
+            else
+              MS_START="$MILESTONE_3_START"
+            fi
+            OFFSET_WEEKS=$(( WEEK_IN_MILESTONE - 1 ))
+            MONDAY=$(date -u -d "$MS_START +${OFFSET_WEEKS} weeks" +"%Y-%m-%d")
+            FRIDAY=$(date -u -d "$MONDAY +4 days" +"%Y-%m-%d")
           fi
 
           echo "milestone=$MILESTONE"           >> $GITHUB_OUTPUT
@@ -295,10 +308,10 @@ jobs:
           echo "count=${ISSUE_COUNT}" >> $GITHUB_OUTPUT
           echo "Found ${ISSUE_COUNT} closed issues this week"
 
-      - name: Synthesize with Gemini
+      - name: Synthesize with Claude
         id: synthesis
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           MILESTONE="${{ steps.meta.outputs.milestone }}"
           WEEK="${{ steps.meta.outputs.week }}"
@@ -306,73 +319,72 @@ jobs:
           FRIDAY="${{ steps.meta.outputs.friday }}"
           ISSUE_COUNT="${{ steps.issues_done.outputs.count }}"
 
-          SCRUM_CONTENT=$(cat /tmp/scrum_content.txt)
-          TL_CONTENT=$(cat /tmp/tl_content.txt)
-          ISSUES_DONE=$(cat /tmp/issues_done.txt)
+          # Write all inputs to files to avoid shell quoting issues
+          cat /tmp/scrum_content.txt /tmp/tl_content.txt /tmp/issues_done.txt > /tmp/all_context.txt
 
-          # Build the prompt
-          PROMPT=$(cat <<PROMPT
-          You are a project manager assistant synthesizing weekly progress for a software engineering team.
-          Summarize the following information into a clear, concise weekly progress report for Milestone ${MILESTONE}, Week ${WEEK} (${MONDAY} to ${FRIDAY}).
+          cat > /tmp/prompt_meta.json << EOF
+          {
+            "milestone": "${MILESTONE}",
+            "week": "${WEEK}",
+            "monday": "${MONDAY}",
+            "friday": "${FRIDAY}",
+            "issue_count": "${ISSUE_COUNT}"
+          }
+          EOF
 
-          The report should include:
-          1. A brief overview of team progress this week
-          2. Key accomplishments from each team (based on TL reports)
-          3. Blockers and risks identified
-          4. Scrum discussion highlights and action items
-          5. Issue completion stats: ${ISSUE_COUNT} issues closed this week, with a breakdown by team if possible
-          6. A short outlook for next week
+          python3 << 'PYEOF' > /tmp/synthesis.txt
+          import json, urllib.request, urllib.error, os
 
-          Keep the tone professional and use plain markdown. Do not use em-dashes.
+          with open('/tmp/prompt_meta.json') as f:
+              meta = json.load(f)
+          with open('/tmp/all_context.txt') as f:
+              context = f.read()
 
-          ---
+          prompt = f"""You are a project manager assistant synthesizing weekly progress for a software engineering team.
+Summarize the following information into a clear, concise weekly progress report for Milestone {meta['milestone']}, Week {meta['week']} ({meta['monday']} to {meta['friday']}).
 
-          ${SCRUM_CONTENT}
+The report should include:
+1. A brief overview of team progress this week
+2. Key accomplishments from each team (based on TL reports)
+3. Blockers and risks identified
+4. Scrum discussion highlights and action items
+5. Issue completion stats: {meta['issue_count']} issues closed this week, with a breakdown by team if possible
+6. A short outlook for next week
 
-          ---
+Keep the tone professional and use plain markdown. Do not use em-dashes.
 
-          ${TL_CONTENT}
+---
 
-          ---
+{context}"""
 
-          ${ISSUES_DONE}
-          PROMPT
+          payload = {
+              "model": "claude-haiku-4-5-20251001",
+              "max_tokens": 2048,
+              "messages": [{"role": "user", "content": prompt}]
+          }
+
+          api_key = os.environ.get('ANTHROPIC_API_KEY', '')
+          req = urllib.request.Request(
+              'https://api.anthropic.com/v1/messages',
+              data=json.dumps(payload).encode(),
+              headers={
+                  'x-api-key': api_key,
+                  'anthropic-version': '2023-06-01',
+                  'content-type': 'application/json'
+              }
           )
 
-          # Call Gemini API
-          RESPONSE=$(curl -s \
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}" \
-            -H "Content-Type: application/json" \
-            -d "$(python3 -c "
-          import json, sys
-          prompt = sys.stdin.read()
-          payload = {
-              'contents': [{
-                  'parts': [{'text': prompt}]
-              }],
-              'generationConfig': {
-                  'temperature': 0.4,
-                  'maxOutputTokens': 2048
-              }
-          }
-          print(json.dumps(payload))
-          " <<< "$PROMPT")" 2>/dev/null || echo '{}')
-
-          SYNTHESIS=$(echo "$RESPONSE" | python3 -c "
-          import sys, json
-          data = json.load(sys.stdin)
           try:
-              text = data['candidates'][0]['content']['parts'][0]['text']
-              print(text)
-          except (KeyError, IndexError):
-              print('(Gemini synthesis failed - check GEMINI_API_KEY secret and API response)')
-              import json as j
-              print()
-              print('Raw response snippet:')
-              print(str(data)[:500])
-          " 2>/dev/null || echo "(Failed to parse Gemini response)")
+              with urllib.request.urlopen(req) as resp:
+                  data = json.load(resp)
+              print(data['content'][0]['text'])
+          except urllib.error.HTTPError as e:
+              body = e.read().decode()
+              print(f'(Claude synthesis failed)\n\nRaw response snippet:\n{body[:500]}')
+          except Exception as ex:
+              print(f'(Claude synthesis failed: {ex})')
+          PYEOF
 
-          echo "$SYNTHESIS" > /tmp/synthesis.txt
           echo "Synthesis complete ($(wc -w < /tmp/synthesis.txt) words)"
 
       - name: Create weekly synthesis issue
