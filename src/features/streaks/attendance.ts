@@ -1,11 +1,4 @@
-// Represent a workout session logged by the user.
-export type Workout = {
-    id: string;
-    date: string;     //Format YYYY-MM-DD
-    userId: string;
-    durationMinutes: number;
-    notes?: string
-}
+import type { WorkoutSession } from "../../types";
 
 // Possible attendance states for a given day. 
 export type AttendanceStatus = "attended" | "missed";
@@ -15,7 +8,7 @@ export type AttendanceStatus = "attended" | "missed";
 // Is considered "attended" if the user has logged at least one workout.
 export function getDayAttendance(
     date: string,
-    workouts: Workout[]
+    workouts: WorkoutSession[]
 ): AttendanceStatus {
 
     // Check if any workout occured on the given date.
@@ -26,7 +19,7 @@ export function getDayAttendance(
 // Generate an atendance map for multiple dates.
 export function getAttendanceMap(
     date: string[],
-    workouts: Workout[]
+    workouts: WorkoutSession[]
 ): Record<string, AttendanceStatus> {
     const attendanceData = new Set(workouts.map((w) => w.date));
     return Object.fromEntries(
@@ -35,8 +28,21 @@ export function getAttendanceMap(
 }
 
 // A mock data for using to testing before connecting to Supabase datebase
-export const mockWorkouts: Workout[] =[
-    {id: "1", date: "2026-02-01", userId: "user_01", durationMinutes: 40},
-    {id: "2", date: "2026-04-10", userId: "user_01", durationMinutes: 45},
-    {id: "3", date: "2026-05-02", userId: "user_01", durationMinutes: 60, notes: "Leg Day"},
+export const mockWorkouts: WorkoutSession[] =[
+    {id: "1",  
+        userId: "user_01", 
+        date: "2026-02-01", 
+        activityType: "gym",
+        durationMinutes: 40},
+    {id: "2", 
+        userId: "user_01", 
+        date: "2026-04-10", 
+        activityType: "run",
+        durationMinutes: 45},
+    {id: "3", 
+        userId: "user_01", 
+        date: "2026-05-02", 
+        activityType: "other",
+        durationMinutes: 60, 
+        notes: "Leg Day"},
 ]
