@@ -424,5 +424,5 @@ jobs:
             --repo "${{ github.repository }}" \
             --title "[Weekly Summary] Milestone ${MILESTONE} - Week ${WEEK} (${MONDAY})" \
             --label "revised-by-manager" \
-            --assignee "diegoperez16,pedromorales" \
+            --assignee "diegoperez16,pedroamorales" \
             --body-file /tmp/synthesis_body.md
