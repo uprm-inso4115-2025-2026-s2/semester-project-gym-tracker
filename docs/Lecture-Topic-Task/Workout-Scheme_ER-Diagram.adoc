@@ -1,0 +1,193 @@
+= Data Modeling and Entity–Relationship Design for a Workout Tracking System
+
+
+== Objective
+
+Research the principles of relational database modeling through the design of an Entity–Relationship (ER) schema for a workout tracking system. The goal is to analyze how workout sessions, exercises, and comparative performance data can be represented using normalized relational structures that support efficient storage, retrieval, and analysis.
+
+== Introduction
+
+In order to achieve our goals we used the concepts from the lecture *Domain Analysis and Concept Formation* to the design of the workout tracking system database schema. The objective is to use domain analysis techniques to identify the fundamental concepts within the workout logging domain and translate them into a structured relational data model.
+
+Following the methodology presented in the lecture, the project begins by analyzing domain description units related to workout tracking. From these descriptions, higher-level concepts are formed by identifying recurring entities, actions, and relationships. These concepts are then abstracted and organized into consistent domain terminology that represents the core elements of the system.
+
+Using this concept formation process, key domain entities such as workout sessions, exercises, workout exercises, and session comparisons are identified and formalized. These abstractions guide the creation of the database schema and the relationships between tables.
+
+Additionally, the domain analysis process helps detect potential inconsistencies, conflicts, or incomplete descriptions within the domain model before implementation. By refining the conceptual model first, the resulting schema becomes clearer, more consistent, and easier to extend as new features are added to the system.
+
+
+== Domain Analysis and Concept Formation
+
+Domain analysis begins by reviewing descriptions of how the system will be used. These descriptions are broken into domain description units, which represent statements about the system’s behavior or environment.
+
+For the workout tracking system, the following example domain descriptions can be identified:
+
+* Users log workout sessions.
+* A workout session can contain multiple exercises.
+* Exercises may appear in many different workouts.
+* Exercises record sets, repetitions, and weight used.
+* Users may compare two workout sessions to analyze progress.
+
+From these domain descriptions, higher-level domain concepts are formed through abstraction.
+
+[cols="1,3", options="header"]
+|===
+|Domain Description |Concept
+
+|Workout session with duration, calories, and notes
+|Workout Session
+
+|Exercise definitions such as squat, deadlift, or running
+|Exercise
+
+|Exercises performed within a workout
+|Workout Exercise
+
+|Comparing two workouts to analyze improvement
+|Session Comparison
+|===
+
+These abstractions transform simple textual descriptions into structured domain concepts. Once the main concepts are identified, they can be represented as entities in a relational database schema.
+
+This process also helps identify inconsistencies or incomplete definitions in the system description. By refining the domain narrative before implementation, the database design becomes more logically consistent and easier to maintain.
+
+== Table 1: Workout Sessions
+
+[cols="1,1,3", options="header"]
+|===
+|Field |Type |Description
+
+|id
+|uuid (PK)
+|Workout session identifier
+
+|user_id
+|uuid (FK → auth.users.id)
+|Owner of the workout session
+
+|workout_type
+|text
+|Type of workout (Gym, Run, Cardio)
+
+|duration_minutes
+|integer
+|Total session length in minutes
+
+|calories_burned
+|integer
+|Estimated calories burned
+
+|notes
+|text
+|Optional workout notes
+
+|created_at
+|timestamp
+|Date and time when the workout was logged
+|===
+
+This table stores each workout session logged by a user. Because the system uses Supabase authentication, the user_id references the authenticated user. Each new workout entry creates a new row in this table, making it the central component of the system.
+
+== Table 2: Exercises
+
+[cols="1,1,3", options="header"]
+|===
+|Field |Type |Description
+
+|id
+|uuid (PK)
+|Unique identifier for the exercise
+
+|name
+|text
+|Exercise name (Deadlift, Squat, Running, etc.)
+
+|category
+|text
+|Exercise type (Strength or Cardio)
+|===
+
+This table stores all exercise definitions available in the system. Instead of repeatedly writing exercise names inside workouts, exercises are stored once and referenced through foreign keys. This reduces duplication and keeps the database organized.
+
+== Table 3: Workout Exercises
+
+[cols="1,1,3", options="header"]
+|===
+|Field |Type |Description
+
+|id
+|uuid (PK)
+|Record identifier
+
+|workout_id
+|uuid (FK → workout_sessions.id)
+|Reference to a workout session
+
+|exercise_id
+|uuid (FK → exercises.id)
+|Reference to an exercise
+
+|sets
+|integer
+|Number of sets performed
+
+|reps
+|integer
+|Number of repetitions
+
+|weight
+|float
+|Weight used for the exercise
+|===
+
+This table links workouts with exercises. A workout can contain many exercises, and an exercise can appear in many workouts. This creates a many-to-many relationship that is resolved using this junction table.
+
+== Table 4: Session Comparison
+
+[cols="1,1,3", options="header"]
+|===
+|Field |Type |Description
+
+|id
+|uuid (PK)
+|Comparison record identifier
+
+|workout_a
+|uuid (FK → workout_sessions.id)
+|First workout session
+
+|workout_b
+|uuid (FK → workout_sessions.id)
+|Second workout session
+
+|comparison_notes
+|text
+|Notes about improvements or differences
+|===
+
+This table supports the feature of comparing two workout sessions. It allows users to evaluate progress over time and store notes describing performance improvements or observations between sessions.
+
+== Table 5: Summary
+
+[cols="1,3", options="header"]
+|===
+|Table |Role
+
+|Workout Sessions
+|Stores each workout session logged by a user
+
+|Exercises
+|Stores exercise definitions and categories
+
+|Workout Exercises
+|Links workouts with exercises performed
+
+|Session Comparison
+|Stores comparisons between two workout sessions
+|===
+
+== ER Diagram
+
+The following diagram represents the database structure and relationships between tables.
+
+image::er_diagram.png[ER Diagram, align="center"]
