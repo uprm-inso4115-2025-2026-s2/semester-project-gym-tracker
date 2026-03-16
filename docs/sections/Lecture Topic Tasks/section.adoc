@@ -1,0 +1,2 @@
+// BASE EXAMPLE OF HOW INCLUDE MUST LOOK LIKE
+include::subsections/instructions.adoc[]
