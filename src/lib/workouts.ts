@@ -3,7 +3,7 @@ import type { WorkoutSession, ValidationResult, GoalResult, WeekBounds, GoalProg
 
 
 
-function isCompletedWorkout(session: WorkoutSession): boolean {
+function isCompletedWorkout(session: WorkoutSession): boolean {   
   return session.completed !== false;
 }
 // ─── Streak Computation ───────────────────────────────────────────────────────

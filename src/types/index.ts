@@ -51,5 +51,5 @@ export interface GoalProgress {
 
 export interface ValidationResult {
   valid: boolean;
-  errors: string[];
+  errors: string[];   
 }
