@@ -1,0 +1,58 @@
+=== Modeling Failure States in Domain Operations
+
+Alejandro E. López Rodríguez
+
+Operations in the fitness tracking domain do not always produce valid outcomes. Many
+actions depend on constraints that must be satisfied before a valid domain state can be created.
+When those constraints are violated, the operation cannot successfully produce the expected result.
+Modeling these situations explicitly helps ensure that the domain description reflects realistic
+behaviors that occur when workouts and exercises are recorded. Within the fitness tracking
+domain, several operations depend on the availability and validity of information describing
+workout activity. Recording a workout session, logging exercises, or updating workout streaks all
+require certain domain conditions to be satisfied. If those conditions are not met, the operation
+cannot produce a valid domain object. Instead of assuming that every operation succeeds, the
+domain model must represent the possibility that an operation produces no valid result.
+
+One way to represent this behavior is to model domain operations with outcomes that may
+either return a valid result or indicate failure. This prevents invalid domain states from being
+introduced into the model while still capturing the full range of behaviors that can occur in the
+domain. Consider the operation responsible for recording a completed workout session. A valid
+workout record requires that the session contains at least one exercise and valid performance data.
+If these conditions are not satisfied, the operation cannot produce a valid workout record.
+
+recordWorkout : WorkoutLog >< WorkoutSession -> WorkoutLog >< Option WorkoutRecord
+
+This operation attempts to insert a new workout record into the workout log. If the session
+satisfies the required constraints, the result includes the updated workout log and the newly created
+workout record. If the constraints are violated, the log remains unchanged and the result indicates
+failure. A similar situation appears when logging an exercise set. Each exercise set must contain
+valid performance values such as repetitions or duration. If the values fall outside the valid domain
+range, the operation cannot produce a valid exercise set.
+
+logExerciseSet : WorkoutSession >< Exercise >< RepetitionCount -> WorkoutSession >< Option
+ExerciseSet
+
+If the repetition count is greater than zero and the exercise exists within the session context,
+the operation produces a valid exercise set entry. Otherwise, the operation does not produce a
+result. Failure states may also arise when updating domain behaviors that depend on historical
+activity. For example, updating a workout streak requires verifying that the new workout maintains
+the expected temporal continuity.
+
+updateWorkoutStreak : WorkoutHistory >< WorkoutRecord -> WorkoutHistory >< Option Streak
+
+If the new workout record satisfies the continuity conditions for the streak, the operation
+produces an updated streak value. If the continuity requirement is not satisfied, the streak cannot
+be updated, and the operation produces no new streak state. These cases illustrate why domain
+operations must account for failure outcomes. For example, a workout session may be recorded
+without any exercises attached to it, or an exercise set may contain invalid repetition values such
+as zero. In these situations, the operation cannot produce a valid domain object without violating
+domain constraints. Representing the possibility of failure prevents the domain model from
+accepting invalid states.
+
+Modeling failure states in this way ensures the accuracy of the domain description theories.
+Instead of forcing all operations to succeed, the model explicitly acknowledges that certain domain
+actions may not produce valid results. This approach preserves domain integrity and ensures that
+operations respect the constraints that govern workout tracking activities. These modeled
+outcomes also provide a clear basis for later implementation. When the system implements these
+operations, the same conditions can be used to validate input data and prevent invalid domain
+states from being introduced into the system.
