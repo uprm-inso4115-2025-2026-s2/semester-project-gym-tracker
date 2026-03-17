@@ -4,7 +4,7 @@
 
 This section establishes traceability between the unprocessed observations in the Domain Rough Sketch (2.1.1) and the structured Domain Terminology (2.1.2). The terminology did not exist in the rough sketch in formal form; it was derived by abstracting recurring themes, resolving ambiguities, and grouping concrete examples into stable domain concepts.
 
-The goal of this section is to justify how raw discussion statements were transformed into precise domain-level definitions.
+The goal of this section is to justify how raw discussion statements were transformed into precise domain-level definitions while ensuring consistency, clarity, and appropriate abstraction as discussed in lecture.
 
 ===== Traceability from Rough Sketch to Terminology
 
@@ -16,7 +16,7 @@ In the rough sketch, participants repeatedly mentioned forgetting what exercises
 * *Workout Notes* - short annotations describing what occurred.
 * *Attendance Day* - a calendar day on which a workout session occurred.
 
-The rough sketch described concrete experiences (“I can’t remember what I did last week”). The terminology abstracts these into structured, repeatable domain concepts.
+The rough sketch described concrete experiences (“I can’t remember what I did last week”). The terminology abstracts these into structured, repeatable domain concepts, ensuring that informal observations are consistently represented at the domain level.
 
 ====== (2) “Duolingo-like streak” and motivation through consecutive days
 
@@ -26,7 +26,7 @@ The sketch frequently referenced maintaining a “streak” and the psychologica
 * *Missed Day* - a calendar day without a workout despite expectation.
 * *Consistency* - the degree of regular activity over time.
 
-The raw metaphor (“Duolingo-like”) was replaced with precise definitions that remove application-specific language and focus on observable domain phenomena.
+The raw metaphor (“Duolingo-like”) was replaced with precise definitions that remove application-specific language and resolve ambiguity, focusing instead on observable domain phenomena such as consecutive attendance and behavioral patterns.
 
 ====== (3) “Weekly overview compared to goals”
 
@@ -67,22 +67,26 @@ The rough sketch described motivation and discipline; the terminology abstracts 
 
 ===== Ambiguity Resolution
 
-One ambiguity in the rough sketch was the interchangeable use of “workout,” “exercise,” and “activity.” During analysis, these were separated:
+One ambiguity in the rough sketch was the interchangeable use of “workout,” “exercise,” and “activity.” During analysis, these were separated to ensure consistency:
 
-* *Activity* - general physical action.
-* *Exercise* - structured component of a workout.
-* *Workout* - bounded time period of fitness effort.
-* *Workout Session* - a specific occurrence of a workout.
+* Activity - general physical action.
+* Exercise - structured component of a workout.
+* Workout - general concept of a fitness effort.
+* Workout Session - a specific occurrence of a workout tied to time.
 
-This resolves synonym confusion and establishes a clear hierarchy of concepts.
+This refinement ensures that each term represents a distinct level of abstraction and avoids overlap in meaning.
 
 Another ambiguity involved “streak” versus “consistency.” The analysis distinguishes:
 
-* *Streak* - strictly consecutive attendance days.
-* *Consistency* - broader regularity over time, not necessarily consecutive.
+* Streak - strictly consecutive attendance days.
+* Consistency - broader regularity over time, not necessarily consecutive.
+
+These distinctions improve conceptual clarity and align terminology with lecture principles on ambiguity reduction.
 
 ===== Domain-Level Focus
 
 This section remains strictly at the domain level. It does not introduce system-to-be mechanisms, UI structures, or storage concerns. The terminology reflects observable real-world phenomena and conceptual relationships derived from the brainstorming discussion.
 
-The structured domain terminology is therefore a processed, abstracted result of the rough sketch, not a restatement of it.
+Additionally, certain elements mentioned in the rough sketch, such as detailed nutrition tracking, were intentionally excluded from the terminology. This reflects a scope decision to maintain focus on workout consistency and motivation, preventing unnecessary domain expansion.
+
+The structured domain terminology is therefore a processed, abstracted, and evaluated result of the rough sketch, not a direct restatement of it.

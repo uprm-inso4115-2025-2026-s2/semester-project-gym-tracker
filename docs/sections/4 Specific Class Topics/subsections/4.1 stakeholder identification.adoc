@@ -13,7 +13,7 @@ The following stakeholder identification applies this definition to the fitness 
 
 ==== Initial Stakeholders
 
-The following stakeholder groups were identifiable in the initial project phase based on domain analysis, requirements discussion, and usage scenarios.
+The following stakeholder groups were identifiable in the initial project phase based on domain analysis, requirements discussion, and usage scenarios. During evaluation, overlaps and classification boundaries were analyzed to ensure correctness and consistency with lecture-defined stakeholder concepts.
 
 ===== 1. Primary Users – Gym-Goers / Fitness Enthusiasts
 
@@ -33,7 +33,7 @@ They want structure, clarity, and motivational reinforcement to build consistent
 *Dependency:*
 They depend on simple tracking mechanisms, understandable feedback, and consistent progress summaries to avoid discouragement.
 
-Their perspective strongly influences scope decisions related to simplicity and usability.
+This stakeholder represents a specialization of Primary Users rather than a completely separate category. The distinction is maintained to reflect differences in usability needs and domain expectations.
 
 ===== 3. Goal-Oriented / Experienced Users
 
@@ -73,15 +73,23 @@ They may want insight into user consistency and performance trends.
 *Dependency:*
 They would depend on structured historical data and accurate summaries if future features allow coaching or review.
 
-While not in initial scope, recognizing them supports long-term domain awareness.
+This stakeholder is not currently active within the system scope but is included to reflect potential domain expansion. Their inclusion supports domain awareness without introducing immediate requirements.
 
 ==== Domain vs. Implementation Stakeholders
 
-Primary Users, Beginners, and Goal-Oriented Users are *domain stakeholders* because their interest lies in fitness behavior and outcomes.
+Primary Users (including Beginners and Goal-Oriented Users) are *domain stakeholders* because their interest lies in fitness behavior, motivation, and observable outcomes such as consistency, streaks, and progress.
 
-System Administrators and Platform Providers are *implementation stakeholders* because their interest centers on system operation and technical realization.
+System Administrators and Platform Providers are *implementation stakeholders* because their concerns relate to system realization, infrastructure, and operational reliability rather than domain phenomena.
 
-Distinguishing these groups helps ensure that domain modeling remains focused on real-world fitness phenomena rather than purely technical concerns.
+To strengthen traceability with domain terminology (Section 2.1.2), stakeholder dependencies can be mapped as follows:
+
+* Primary Users → Workout Session, Streak, Progress, Goal
+* Beginners → Workout Session, Weekly Activity Pattern, Consistency
+* Goal-Oriented Users → Goal, Progress, compareSessions(...)
+* System Administrators → Domain model consistency and system behavior
+* Platform Providers → Account, persistence, and availability
+
+This mapping ensures consistency between stakeholder needs and domain concepts while maintaining a clear separation between domain and implementation concerns.
 
 ==== Alignment with A3 and Project Scope
 
