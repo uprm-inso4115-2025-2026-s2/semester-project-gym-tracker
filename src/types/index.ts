@@ -10,6 +10,7 @@ export interface WorkoutSession {
   durationMinutes: number;
   exercises?: string[];
   notes?: string;
+  completed?: boolean;
 }
 
 // ─── Goal ─────────────────────────────────────────────────────────────────────
@@ -35,6 +36,17 @@ export interface GoalResult {
   remaining: number;
 }
 
+export type ProgressStatus = "not_started" | "in_progress" | "completed";
+
+export interface GoalProgress {
+  dailyGoalMet: boolean;
+  weeklyGoalMet: boolean;
+  activeDaysThisWeek: number;
+  targetDaysForWeek: number;
+  remainingDaysForWeek: number;
+  status: ProgressStatus;
+
+}
 // ─── Validation ───────────────────────────────────────────────────────────────
 
 export interface ValidationResult {
