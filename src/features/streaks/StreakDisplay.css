@@ -30,3 +30,33 @@
   font-size: 32px;
   font-weight: 800;
 }
+
+/* Broken state */
+.streak-broken-card {
+  width: 100%;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  background: white;
+  border: 2px solid #f97316;
+  color: #7c2d12;
+}
+
+.streak-broken-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #dc2626;
+}
+
+.streak-broken-message {
+  margin: 0.5rem 0 0;
+  color: #7c2d12;
+  opacity: 0.92;
+}
+
+.streak-broken-record {
+  margin: 0.75rem 0 0;
+  font-size: 14px;
+  color: #9a3412;
+}

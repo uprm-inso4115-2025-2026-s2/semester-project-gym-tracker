@@ -1,18 +1,32 @@
 import type { WorkoutSession } from "../../types";
 import { computeStreak } from "../../lib/workouts";
 import StreakEmptyState, { type StreakEmptyStateProps } from "./StreakEmptyState";
+import StreakBrokenState, { type StreakBrokenStateProps } from "./StreakBrokenState";
 import "./StreakDisplay.css";
 
 type StreakDisplayProps = {
   sessions: WorkoutSession[];
+  isBroken?: boolean;
+  longestStreak?: number;
   emptyStateProps?: StreakEmptyStateProps;
+  brokenStateProps?: StreakBrokenStateProps;
 };
 
-export default function StreakDisplay({ sessions, emptyStateProps }: StreakDisplayProps) {
+export default function StreakDisplay({
+  sessions,
+  isBroken,
+  longestStreak,
+  emptyStateProps,
+  brokenStateProps,
+}: StreakDisplayProps) {
   const streakCount = computeStreak(sessions);
 
-  if (streakCount <= 0) {
+  if (sessions.length === 0) {
     return <StreakEmptyState {...emptyStateProps} />;
+  }
+
+  if (isBroken || streakCount === 0) {
+    return <StreakBrokenState longestStreak={longestStreak} {...brokenStateProps} />;
   }
 
   return (
