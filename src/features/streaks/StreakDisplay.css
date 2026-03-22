@@ -60,3 +60,36 @@
   font-size: 14px;
   color: #9a3412;
 }
+
+/* Milestone badge */
+.streak-milestone-badge {
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+  background: white;
+  border: 2px solid transparent;
+}
+
+.streak-milestone-badge--reached {
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.streak-milestone-badge--pending {
+  border-color: #93c5fd;
+  color: #1e3a8a;
+  opacity: 0.95;
+}
+
+.streak-milestone-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.streak-milestone-subtitle {
+  margin: 0.4rem 0 0;
+  font-size: 13px;
+  font-weight: 600;
+}

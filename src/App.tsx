@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage, SignupPage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
-import { StreakDisplay } from "./features/streaks";
+import { StreakDisplay, StreakMilestoneBadge } from "./features/streaks";
 import type { WorkoutSession } from "./types";
 
 function StreakPreviewPage() {
@@ -8,6 +8,7 @@ function StreakPreviewPage() {
   const pastSession: WorkoutSession[] = [
     { id: "1", userId: "demo", date: "2025-01-01", activityType: "gym", durationMinutes: 60 },
   ];
+  const milestonePreview = [3, 7, 14, 30];
   const missingSupabaseEnv =
     !import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY;
 
@@ -58,6 +59,13 @@ function StreakPreviewPage() {
 
         <p style={{ fontSize: 13, color: "#cbd5e1", margin: "1.5rem 0 0.5rem" }}>Broken state:</p>
         <StreakDisplay sessions={pastSession} isBroken longestStreak={7} />
+
+        <p style={{ fontSize: 13, color: "#cbd5e1", margin: "1.5rem 0 0.5rem" }}>Milestone badges:</p>
+        <div style={{ display: "grid", gap: "0.5rem" }}>
+          {milestonePreview.map((value) => (
+            <StreakMilestoneBadge key={value} milestoneDays={value} reached={value <= 7} />
+          ))}
+        </div>
       </section>
     </main>
   );
