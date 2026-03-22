@@ -1,0 +1,32 @@
+.streak-card {
+  width: 100%;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  background: white;
+  color: #1b3ea8;
+}
+
+.streak-empty-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.streak-empty-message {
+  margin: 0.5rem 0 0;
+  color: #1b3ea8;
+  opacity: 0.92;
+}
+
+.streak-label {
+  margin: 0;
+  color: #1b3ea8;
+  font-weight: bold;
+}
+
+.streak-count {
+  margin: 0.25rem 0 0;
+  font-size: 32px;
+  font-weight: 800;
+}
