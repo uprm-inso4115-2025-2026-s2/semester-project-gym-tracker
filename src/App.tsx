@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
 import WorkoutHistoryPage from "./features/workouts/WorkoutHistoryPage";
@@ -5,8 +6,27 @@ import WeeklyProgress from "./features/streaks/WeeklyProgress";
 import { StreakDisplay, StreakMilestoneBadge } from "./features/streaks";
 import SettingsPage from "./features/streaks/SettingsPage";
 import NotFoundPage from "./features/ui/NotFoundPage";
+import DailyGoalProgress from "./features/feedback/DailyGoalProgress";
+import WeeklyProgressSummary from "./features/feedback/WeeklyProgressSummary";
+import { supabase } from "./lib/supabaseClient";
 import type { WorkoutSession } from "./types";
 import "./App.css";
+
+type GoalFeedbackRow = {
+  id: string;
+  user_id: string;
+  type: string;
+  period_date: string;
+  recorded_value: number;
+};
+
+function getStartOfWeek(date = new Date()) {
+  const d = new Date(date);
+  const diff = d.getDay() === 0 ? -6 : 1 - d.getDay();
+  d.setDate(d.getDate() + diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
 
 function StreakPreviewPage() {
   const previewSessions: WorkoutSession[] = [];
@@ -73,7 +93,44 @@ function StreakPreviewPage() {
 function HomePage() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const sessions: WorkoutSession[] = [];
+  const [sessions, setSessions] = useState<WorkoutSession[]>([]);
+
+  useEffect(() => {
+    async function fetchSessions() {
+      if (!user) return;
+      const { data, error } = await supabase
+        .from("goals_feedback")
+        .select("id, user_id, type, period_date, recorded_value")
+        .eq("user_id", user.id)
+        .eq("type", "daily")
+        .gt("recorded_value", 0)
+        .order("period_date", { ascending: false });
+      if (error) {
+        console.error("Error fetching sessions:", error);
+        setSessions([]);
+      } else {
+        setSessions(((data as GoalFeedbackRow[]) ?? []).map((row) => ({
+          id: row.id,
+          userId: row.user_id,
+          date: row.period_date,
+          activityType: "gym",
+          durationMinutes: 60,
+        })));
+      }
+    }
+    fetchSessions();
+    window.addEventListener("progress-updated", fetchSessions);
+    return () => window.removeEventListener("progress-updated", fetchSessions);
+  }, [user]);
+
+  const weeklyCompletedDays = useMemo(() => {
+    const startOfWeek = getStartOfWeek();
+    return new Set(
+      sessions
+        .filter((s) => new Date(`${s.date}T00:00:00`) >= startOfWeek)
+        .map((s) => s.date)
+    ).size;
+  }, [sessions]);
 
   return (
     <main className="home-main" style={{ position: "relative" }}>
@@ -117,7 +174,12 @@ function HomePage() {
       <div className="home-weekly">
         <StreakDisplay sessions={sessions} />
       </div>
-      
+
+      <div style={{ width: "100%", maxWidth: "760px", margin: "0 auto 1.5rem" }}>
+        <DailyGoalProgress />
+        <WeeklyProgressSummary />
+      </div>
+
       <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginBottom: "2rem" }}>
         <button
           onClick={() => navigate("/profile")}
@@ -152,7 +214,7 @@ function HomePage() {
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <WeeklyProgress completedDays={5} />
+        <WeeklyProgress completedDays={weeklyCompletedDays} />
       </div>
     </main>
   );
