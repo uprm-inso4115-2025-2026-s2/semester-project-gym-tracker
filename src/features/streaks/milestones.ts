@@ -1,5 +1,5 @@
 import type { WorkoutSession } from "../../types";
-import { computeStreak } from "../../lib/workouts";
+import { computeStreakFromSessions } from "./streakcalc";
 
 // Milestone Thresholds
 
@@ -19,7 +19,7 @@ export function detectStreakMilestone(
   sessions: WorkoutSession[],
   achievedMilestones: number[]
 ): MilestoneCheckResult {
-  const streak = computeStreak(sessions);
+  const streak = computeStreakFromSessions(sessions);
   const milestone = STREAK_MILESTONES.find((m) => m === streak);
 
   if (!milestone) {
