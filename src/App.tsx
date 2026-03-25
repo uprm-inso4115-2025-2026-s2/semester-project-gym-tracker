@@ -1,8 +1,9 @@
+import WeeklyProgress from "./features/streaks/WeeklyProgress";
 function App() {
   return (
-    <main>
-      <h1>Gym Tracker</h1>
-    </main>
+    <div>
+      <WeeklyProgress completedDays={5} />
+    </div>
   );
 }
 
