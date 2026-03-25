@@ -1,0 +1,132 @@
+= Utilizing MoSCoW Method for Requirements Prioritization
+:toc:
+:toclevels: 2
+
+== Overview
+
+This document describes the workflow and decision process used to prioritize system requirements using the MoSCoW method. The goal is to define which features are essential for the MVP and which can be deferred.
+
+---
+
+== Workflow Diagram
+
+----
+
++---------------------------+
+|       Gather Inputs       |
+|---------------------------|
+| - Domain Concepts         |
+| - Stakeholders            |
+| - Features                |
++------------+--------------+
+             |
+             v
++---------------------------+
+|   Gather Requirements    |
+|---------------------------|
+| - Functional              |
+| - Core Features           |
++------------+--------------+
+             |
+             v
++---------------------------+
+|   Apply MoSCoW Division   |
+|---------------------------|
+|  MUST, SHOULD, CAN, WON’T |
++------------+--------------+
+             |
+             v
++---------------------------+
+|   Stakeholder Validation  |
+|---------------------------|
+|     Align priorities      |
++------------+--------------+
+             |
+             v
++---------------------------+
+|     Define MVP Scope      |
+|---------------------------|
+|   Extract MUST features   |
++------------+--------------+
+             |
+             v
++---------------------------+
+|       Final Output        |
+|---------------------------|
+|     MoSCoW Table + MVP    |
++---------------------------+
+
+----
+
+=== Description
+
+- *Gather Inputs*: Collect all relevant system information such as features (e.g., workout logging), stakeholders, and domain concepts.
+- *Compile Requirements*: Convert features into structured functional requirements.
+- *Apply MoSCoW*: Each requirement is categorized based on importance.
+- *Stakeholder Validation*: Ensure prioritization aligns with user expectations and system goals.
+- *Define MVP*: Extract all "Must Have" items to define the first deliverable version.
+- *Final Output*: Produce a clear prioritization table and MVP scope.
+
+---
+
+== Requirement Filtration Flow
+
+----
+
+           +---------------------+
+           |     Requirement     |
+           +----------+----------+
+                      |
+          +-----------+------------+
+          |                        |
+          v                        v
+    Is it critical?         Can it be delayed?
+          |                        |
+         YES                       |
+          v                        v
+      MUST HAVE               SHOULD HAVE
+                                   |
+                                   v
+                             Is it optional?
+                                   |
+                            +------+------+
+                            |             |
+                           YES            NO
+                            |             |
+                            v             v
+                       COULD HAVE     WON’T HAVE
+
+----
+
+=== Description
+
+This filtration flow ensures accurate requirement classification:
+- If the requirement is *critical*, it becomes a **MUST**.
+- If it can be delayed but still important → **SHOULD**.
+- Optional enhancements → **CAN / COULD**.
+- Features outside current scope → **WON'T**.
+
+---
+
+== MoSCoW Prioritization Table Example
+
+[cols="1,3,2", options="header"]
+|===
+| Category | Description | System Requirement / Feature
+
+| Must Have
+| Core functionality required for system operation
+| Workout logging, user authentication
+
+| Should Have
+| Important but not critical for MVP
+| Workout history, progress charts
+
+| Could Have
+| Optional enhancements that improve experience
+| Badges, streak rewards
+
+| Won’t Have
+| Deferred for future inclusion
+| AI-Generated workout plans
+|===
