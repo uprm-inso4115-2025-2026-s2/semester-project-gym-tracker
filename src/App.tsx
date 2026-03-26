@@ -1,11 +1,6 @@
-import WeeklyProgress from "./features/streaks/WeeklyProgress";
-function App() {
-  return (
-    <div>
-      <WeeklyProgress completedDays={5} />
-    </div>
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage, SignupPage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
+import WeeklyProgress from "./features/streaks/WeeklyProgress";
 
 function HomePage() {
   const { user } = useAuth();
@@ -15,6 +10,10 @@ function HomePage() {
       <h1>Gym Tracker</h1>
       <p style={{ marginBottom: "2rem" }}>Logged in as: {user?.email}</p>
       
+      <div style={{ marginBottom: "2rem", display: "flex", justifyContent: "center" }}>
+        <WeeklyProgress completedDays={5} />
+      </div>
+
       <button 
         onClick={() => signOut()}
         style={{ padding: "0.5rem 1rem", cursor: "pointer", background: "#ef4444", color: "white", border: "none", borderRadius: "4px" }}
