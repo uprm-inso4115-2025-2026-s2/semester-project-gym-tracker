@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../../assets/logo.png";
+const logo = "/Colored-Logo.svg";
 import "./LoginPage.css";
 import { signInWithEmail } from "./api";
 import { useAuth } from "./AuthContext";
