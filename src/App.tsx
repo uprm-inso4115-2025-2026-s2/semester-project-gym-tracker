@@ -1,9 +1,3 @@
-import WeeklyProgress from "./features/streaks/WeeklyProgress";
-function App() {
-  return (
-    <div>
-      <WeeklyProgress completedDays={5} />
-    </div>
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage, SignupPage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
 import { StreakDisplay, StreakMilestoneBadge } from "./features/streaks";
