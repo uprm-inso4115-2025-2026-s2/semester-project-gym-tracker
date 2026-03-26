@@ -11,6 +11,9 @@ import type { WorkoutSession } from "./types";
 
 function StreakPreviewPage() {
   const previewSessions: WorkoutSession[] = [];
+  const pastSession: WorkoutSession[] = [
+    { id: "1", userId: "demo", date: "2025-01-01", activityType: "gym", durationMinutes: 60 },
+  ];
   const missingSupabaseEnv =
     !import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY;
 
@@ -56,7 +59,11 @@ function StreakPreviewPage() {
           {missingSupabaseEnv ? " Supabase is not configured yet." : ""}
         </p>
 
+        <p style={{ fontSize: 13, color: "#cbd5e1", marginBottom: "0.5rem" }}>Empty state:</p>
         <StreakDisplay sessions={previewSessions} />
+
+        <p style={{ fontSize: 13, color: "#cbd5e1", margin: "1.5rem 0 0.5rem" }}>Broken state:</p>
+        <StreakDisplay sessions={pastSession} isBroken longestStreak={7} />
       </section>
     </main>
   );
