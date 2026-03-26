@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
 import WeeklyProgress from "./features/streaks/WeeklyProgress";
+import NotFoundPage from "./features/ui/NotFoundPage";
 import "./App.css";
 
 function HomePage() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
