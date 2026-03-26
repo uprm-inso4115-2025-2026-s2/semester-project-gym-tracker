@@ -1,43 +1,3 @@
-/*
-  Objective: Streak Tracking Domain Attributes & Validation
-
-  Core Domain Entity: UserStreak
-  - streak_current: number (>=0, default 0)
-  - streak_longest: number (>=streak_current, default 0)
-  - grace_period_active: boolean (default false)
-  - grace_period_start_date: Date|null (set on first missed day, null when inactive)
-  - last_workout_date: Date|null (timestamp of last qualifying workout)
-  - user_timezone: string (IANA timezone, default UTC)
-
-  Validation rules:
-  - Valid workout criteria: exercises >= 1 OR duration_minutes >= 5
-  - No future workout_date
-  - Max backdating: 48 hours (per requirement)
-  - Day boundary: local timezone midnight via Intl.DateTimeFormat
-
-  Attribute behavior rules:
-  - streak_current increments on consecutive day workout
-  - grace period starts on first missed day, lasts 2 missed days
-  - streak resets at third consecutive missed day
-  - streak_longest updates when streak_current > streak_longest
-  - grace_period_active true IFF grace_period_start_date != null
-  - last_workout_date <= current date
-
-  Supabase schema (for production DB integration):
-  table user_streaks:
-    id uuid PK
-    user_id uuid FK users(id)
-    streak_current integer not null default 0 check >= 0
-    streak_longest integer not null default 0 check >= streak_current
-    grace_period_active boolean not null default false
-    grace_period_start_date timestamptz null
-    last_workout_date timestamptz null
-    user_timezone text not null default 'UTC'
-    created_at timestamptz not null default now()
-    updated_at timestamptz not null default now()
-
-*/
-
 import type { WorkoutSession } from "../../types";
 
 // --- Core Domain Types -------------------------------------------------------
@@ -136,6 +96,12 @@ function localDateForTimezone(date: Date, timezone: string): Date {
   return new Date(Date.UTC(year, month - 1, day));
 }
 
+function daysBetweenUtcDates(date1: Date, date2: Date): number {
+  const d1 = new Date(Date.UTC(date1.getUTCFullYear(), date1.getUTCMonth(), date1.getUTCDate()));
+  const d2 = new Date(Date.UTC(date2.getUTCFullYear(), date2.getUTCMonth(), date2.getUTCDate()));
+  return Math.round((d2.getTime() - d1.getTime()) / (24 * 60 * 60 * 1000));
+}
+
 export function isConsecutiveDay(
   lastDate: Date | null,
   currentDate: Date | null,
@@ -202,6 +168,117 @@ export function applyWorkoutToStreak(streak: UserStreak, workout: WorkoutSession
   };
 }
 
+export function applyMissedDayProgress(streak: UserStreak, currentDate: Date = new Date()): UserStreak {
+  const graceStatus = getGracePeriodStatus(streak.grace_period_active, streak.grace_period_start_date, currentDate);
+
+  if (!streak.grace_period_active) {
+    if (!streak.last_workout_date) {
+      return {
+        ...streak,
+        grace_period_active: true,
+        grace_period_start_date: new Date(Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate())),
+        updated_at: new Date(),
+      };
+    }
+
+    const daysSinceLastWorkout = daysBetweenUtcDates(streak.last_workout_date, currentDate);
+    if (daysSinceLastWorkout <= 1) {
+      return {
+        ...streak,
+        updated_at: new Date(),
+      };
+    }
+
+    if (daysSinceLastWorkout === 2) {
+      const graceStart = new Date(Date.UTC(streak.last_workout_date.getUTCFullYear(), streak.last_workout_date.getUTCMonth(), streak.last_workout_date.getUTCDate() + 1));
+      return {
+        ...streak,
+        grace_period_active: true,
+        grace_period_start_date: graceStart,
+        updated_at: new Date(),
+      };
+    }
+
+    // If more than 2 days have passed without a workout, the grace period is expired and streak resets
+    return {
+      ...streak,
+      streak_current: 0,
+      grace_period_active: false,
+      grace_period_start_date: null,
+      last_workout_date: null,
+      updated_at: new Date(),
+    };
+  }
+
+  if (graceStatus === GracePeriodStatus.EXPIRED) {
+    return {
+      ...streak,
+      streak_current: 0,
+      grace_period_active: false,
+      grace_period_start_date: null,
+      last_workout_date: null,
+      updated_at: new Date(),
+    };
+  }
+
+  return {
+    ...streak,
+    updated_at: new Date(),
+  };
+}
+
 export function hasQualifyingWorkoutInSession(session: WorkoutSession): boolean {
   return isValidWorkoutDay(session.exercises?.length ?? 0, session.durationMinutes);
 }
+
+export function computeStreakFromSessions(sessions: WorkoutSession[]): number {
+  const qualifyingSessions = sessions
+    .filter((session) => (session.completed ?? true) && isValidWorkoutDay(session.exercises?.length ?? 0, session.durationMinutes));
+
+  if (!qualifyingSessions.length) return 0;
+
+  const uniqueDates = Array.from(new Set(qualifyingSessions.map((s) => s.date))).sort();
+
+  let streak = 1;
+  for (let i = uniqueDates.length - 1; i > 0; i--) {
+    const today = new Date(uniqueDates[i]);
+    const yesterday = new Date(uniqueDates[i - 1]);
+
+    if (isConsecutiveDay(yesterday, today)) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+
+  return streak;
+}
+
+export const StreakCalculator = {
+  isValidWorkoutDay,
+  getGracePeriodStatus,
+  computeStreakStatus,
+  applyWorkoutToStreak,
+  updateStreakWithWorkout: (streak: UserStreak, workout: WorkoutSession, currentDate: Date = new Date()) => {
+    if (!isValidWorkoutDay(workout.exercises?.length ?? 0, workout.durationMinutes)) {
+      const updated = { ...streak, updated_at: currentDate };
+      return { updated, previous: streak, is_new_record: false };
+    }
+
+    const workoutDate = new Date(workout.date);
+    const isConsecutive = isConsecutiveDay(streak.last_workout_date, workoutDate, streak.user_timezone);
+    const nextStreak = isConsecutive ? streak.streak_current + 1 : 1;
+    const updated = {
+      ...streak,
+      streak_current: nextStreak,
+      streak_longest: Math.max(streak.streak_longest, nextStreak),
+      grace_period_active: false,
+      grace_period_start_date: null,
+      last_workout_date: workoutDate,
+      updated_at: currentDate,
+    };
+
+    return { updated, previous: streak, is_new_record: nextStreak > streak.streak_longest };
+  },
+  applyMissedDayProgress,
+};

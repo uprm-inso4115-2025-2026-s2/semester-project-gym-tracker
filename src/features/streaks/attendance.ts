@@ -1,4 +1,5 @@
 import type { WorkoutSession } from "../../types";
+import { isValidWorkoutDay } from "./streakcalc";
 
 // Possible attendance states for a given day. 
 export type AttendanceStatus = "attended" | "missed";
@@ -11,8 +12,11 @@ export function getDayAttendance(
     workouts: WorkoutSession[]
 ): AttendanceStatus {
 
-    // Check if any workout occured on the given date.
-    const wasAttended = workouts.some((workout) => workout.date === date);
+    // Check if any qualifying workout occurred on the given date.
+    const wasAttended = workouts.some((workout) =>
+        workout.date === date &&
+        isValidWorkoutDay(workout.exercises?.length ?? 0, workout.durationMinutes)
+    );
     return wasAttended  ? "attended" : "missed";
 }
 
