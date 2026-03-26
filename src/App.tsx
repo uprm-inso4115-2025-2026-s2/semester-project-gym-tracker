@@ -1,13 +1,28 @@
-import WeeklyProgress from "./features/streaks/WeeklyProgress";
-function App() {
-  return (
-    <div>
-      <WeeklyProgress completedDays={5} />
-    </div>
+import { useEffect, useMemo, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage, SignupPage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
+import { getUserWorkoutSessions, type WorkoutSessionRecord } from "./features/workouts/api";
+import WeeklyProgress from "./features/streaks/WeeklyProgress";
 import { StreakDisplay, StreakMilestoneBadge } from "./features/streaks";
-import type { WorkoutSession } from "./types";
+import type { ActivityType, WorkoutSession } from "./types";
+
+function normalizeActivityType(value: string): ActivityType {
+  if (value === "gym" || value === "run" || value === "cardio" || value === "other") {
+    return value;
+  }
+  return "other";
+}
+
+function mapWorkoutRecordToSession(record: WorkoutSessionRecord): WorkoutSession {
+  return {
+    id: record.id,
+    userId: record.user_id,
+    date: record.created_at.slice(0, 10),
+    activityType: normalizeActivityType(record.workout_type),
+    durationMinutes: record.duration_minutes ?? 0,
+    notes: record.notes ?? undefined,
+  };
+}
 
 function StreakPreviewPage() {
   const previewSessions: WorkoutSession[] = [];
@@ -79,7 +94,38 @@ function StreakPreviewPage() {
 
 function HomePage() {
   const { user } = useAuth();
-  const sessions: WorkoutSession[] = [];
+  const [sessions, setSessions] = useState<WorkoutSession[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadSessions() {
+      if (!user?.id) {
+        if (isMounted) setSessions([]);
+        return;
+      }
+
+      try {
+        const records = await getUserWorkoutSessions(user.id);
+        if (isMounted) {
+          setSessions(records.map(mapWorkoutRecordToSession));
+        }
+      } catch {
+        if (isMounted) setSessions([]);
+      }
+    }
+
+    void loadSessions();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [user?.id]);
+
+  const completedDays = useMemo(() => {
+    const uniqueDays = new Set(sessions.map((s) => s.date));
+    return Math.min(7, uniqueDays.size);
+  }, [sessions]);
   
   return (
     <main style={{ padding: "2rem", textAlign: "center" }}>
@@ -88,6 +134,10 @@ function HomePage() {
 
       <div style={{ maxWidth: 350, margin: "0 auto 2rem" }}>
         <StreakDisplay sessions={sessions} />
+      </div>
+
+      <div style={{ maxWidth: 400, margin: "0 auto 2rem" }}>
+        <WeeklyProgress completedDays={completedDays} />
       </div>
       
       <button 

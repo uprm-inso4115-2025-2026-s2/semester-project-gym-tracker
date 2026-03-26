@@ -1,5 +1,5 @@
 import type { WorkoutSession } from "../../types";
-import { computeStreak } from "../../lib/workouts";
+import { computeStreakFromSessions } from "./streakcalc";
 import StreakEmptyState, { type StreakEmptyStateProps } from "./StreakEmptyState";
 import StreakBrokenState, { type StreakBrokenStateProps } from "./StreakBrokenState";
 import "./StreakDisplay.css";
@@ -19,7 +19,7 @@ export default function StreakDisplay({
   emptyStateProps,
   brokenStateProps,
 }: StreakDisplayProps) {
-  const streakCount = computeStreak(sessions);
+  const streakCount = computeStreakFromSessions(sessions);
 
   if (sessions.length === 0) {
     return <StreakEmptyState {...emptyStateProps} />;

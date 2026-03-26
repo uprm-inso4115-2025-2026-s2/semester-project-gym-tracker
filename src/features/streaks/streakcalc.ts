@@ -1,3 +1,5 @@
+import { supabase } from "../../lib/supabaseClient";
+import { validateWorkoutEntry } from "../../lib/workouts";
 import type { WorkoutSession } from "../../types";
 
 // --- Core Domain Types -------------------------------------------------------
@@ -43,38 +45,12 @@ export type StreakUpdateResult = {
   message: string;
 };
 
-export const ResetReason = {
-  GRACE_EXPIRED: "grace_expired",
-  MANUAL: "manual",
-  ADMIN: "admin",
-} as const;
-
-export type ResetReason = (typeof ResetReason)[keyof typeof ResetReason];
-
-export type ValidateWorkoutDay = (
-  exercises: number,
-  duration_minutes: number,
-  criteria?: ValidWorkoutCriteria
-) => boolean;
-
-export type IsConsecutiveDay = (
-  lastDate: Date,
-  currentDate: Date,
-  timezone: string
-) => boolean;
-
-export type CalculateDaysBetween = (
-  date1: Date,
-  date2: Date,
-  timezone: string
-) => number;
-
 // --- Utility helpers ---------------------------------------------------------
 const DEFAULT_CRITERIA: ValidWorkoutCriteria = { min_exercises: 1, min_duration_minutes: 5 };
 
-export const isValidWorkoutDay: ValidateWorkoutDay = (
-  exercises,
-  duration_minutes,
+export const isValidWorkoutDay = (
+  exercises: number,
+  duration_minutes: number,
   criteria = DEFAULT_CRITERIA
 ) => {
   return exercises >= criteria.min_exercises || duration_minutes >= criteria.min_duration_minutes;
@@ -227,8 +203,175 @@ export function applyMissedDayProgress(streak: UserStreak, currentDate: Date = n
   };
 }
 
-export function hasQualifyingWorkoutInSession(session: WorkoutSession): boolean {
-  return isValidWorkoutDay(session.exercises?.length ?? 0, session.durationMinutes);
+const STREAK_TABLE = "user_streaks";
+
+function formatIsoDate(date: Date): string {
+  return date.toISOString().split("T")[0];
+}
+
+export async function getUserStreak(userId: string): Promise<UserStreak | null> {
+  const { data, error } = await supabase
+    .from(STREAK_TABLE)
+    .select("*")
+    .eq("user_id", userId)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    throw error;
+  }
+
+  return (data as UserStreak) ?? null;
+}
+
+export async function upsertUserStreak(streak: UserStreak): Promise<UserStreak> {
+  const { data, error } = await supabase
+    .from(STREAK_TABLE)
+    .upsert(streak, { onConflict: "id" })
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  if (!data) {
+    throw new Error("Failed to upsert user streak.");
+  }
+
+  return data as UserStreak;
+}
+
+export async function processWorkoutEvent(
+  workout: WorkoutSession,
+  userId: string,
+  currentDate: Date = new Date()
+): Promise<StreakUpdateResult> {
+  const validation = validateWorkoutEntry(workout.date, workout.activityType, workout.durationMinutes);
+  if (!validation.valid) {
+    return {
+      success: false,
+      new_streak_count: 0,
+      is_new_record: false,
+      message: validation.errors.join(" "),
+    };
+  }
+
+  if (!isValidWorkoutDay(workout.exercises?.length ?? 0, workout.durationMinutes)) {
+    return {
+      success: false,
+      new_streak_count: 0,
+      is_new_record: false,
+      message: "Workout does not qualify.",
+    };
+  }
+
+  const previous = (await getUserStreak(userId)) || {
+    id: `${userId}-streak`,
+    user_id: userId,
+    streak_current: 0,
+    streak_longest: 0,
+    grace_period_active: false,
+    grace_period_start_date: null,
+    last_workout_date: null,
+    user_timezone: "UTC",
+    created_at: currentDate,
+    updated_at: currentDate,
+  };
+
+  const updated = applyWorkoutToStreak(previous, workout);
+  const saved = await upsertUserStreak(updated);
+
+  return {
+    success: true,
+    new_streak_count: saved.streak_current,
+    is_new_record: saved.streak_current > previous.streak_longest,
+    message: "Streak updated from workout event.",
+  };
+}
+
+export async function checkGracePeriodForUser(userId: string, currentDate: Date = new Date()): Promise<UserStreak | null> {
+  const streak = await getUserStreak(userId);
+  if (!streak) return null;
+
+  const graceStatus = getGracePeriodStatus(streak.grace_period_active, streak.grace_period_start_date, currentDate);
+
+  if (graceStatus === GracePeriodStatus.EXPIRED) {
+    const reset = {
+      ...streak,
+      streak_current: 0,
+      grace_period_active: false,
+      grace_period_start_date: null,
+      last_workout_date: null,
+      updated_at: currentDate,
+    };
+
+    return await upsertUserStreak(reset);
+  }
+
+  return streak;
+}
+
+export async function dailyStreakMaintenance(currentDate: Date = new Date()): Promise<number> {
+  const dateString = formatIsoDate(currentDate);
+  const { data, error } = await supabase
+    .from(STREAK_TABLE)
+    .select("user_id")
+    .or(`grace_period_active.eq.true,last_workout_date.lt.${dateString}`);
+
+  if (error) {
+    throw error;
+  }
+
+  const users = data ?? [];
+  let updatedCount = 0;
+
+  for (const row of users) {
+    const result = await checkGracePeriodForUser(row.user_id, currentDate);
+    if (result) updatedCount++;
+  }
+
+  return updatedCount;
+}
+
+export async function safeUpdateStreakState(userId: string, updater: (streak: UserStreak) => UserStreak): Promise<UserStreak | null> {
+  const existing = await getUserStreak(userId);
+  if (!existing) return null;
+
+  const backup = { ...existing };
+  const updated = updater(existing);
+
+  try {
+    return await upsertUserStreak(updated);
+  } catch (err) {
+    await upsertUserStreak(backup);
+    throw err;
+  }
+}
+
+export async function invokeUpdateOnWorkout(workout: WorkoutSession, userId: string) {
+  const { data, error } = await supabase.rpc("update_on_workout", {
+    p_user_id: userId,
+    p_workout: workout,
+  });
+
+  if (error) throw error;
+
+  return (data as StreakUpdateResult) ?? {
+    success: false,
+    new_streak_count: 0,
+    is_new_record: false,
+    message: "RPC did not return result",
+  };
+}
+
+export async function invokeCheckGracePeriod(userId: string, currentDate: Date = new Date()) {
+  const { data, error } = await supabase.rpc("check_grace_period", {
+    p_user_id: userId,
+    p_current_date: currentDate.toISOString(),
+  });
+
+  if (error) throw error;
+
+  return (data as UserStreak) ?? null;
 }
 
 export function computeStreakFromSessions(sessions: WorkoutSession[]): number {
@@ -254,31 +397,28 @@ export function computeStreakFromSessions(sessions: WorkoutSession[]): number {
   return streak;
 }
 
-export const StreakCalculator = {
-  isValidWorkoutDay,
-  getGracePeriodStatus,
-  computeStreakStatus,
-  applyWorkoutToStreak,
-  updateStreakWithWorkout: (streak: UserStreak, workout: WorkoutSession, currentDate: Date = new Date()) => {
-    if (!isValidWorkoutDay(workout.exercises?.length ?? 0, workout.durationMinutes)) {
-      const updated = { ...streak, updated_at: currentDate };
-      return { updated, previous: streak, is_new_record: false };
-    }
+export function updateStreakWithWorkout(
+  streak: UserStreak,
+  workout: WorkoutSession,
+  currentDate: Date = new Date()
+) {
+  if (!isValidWorkoutDay(workout.exercises?.length ?? 0, workout.durationMinutes)) {
+    const updated = { ...streak, updated_at: currentDate };
+    return { updated, previous: streak, is_new_record: false };
+  }
 
-    const workoutDate = new Date(workout.date);
-    const isConsecutive = isConsecutiveDay(streak.last_workout_date, workoutDate, streak.user_timezone);
-    const nextStreak = isConsecutive ? streak.streak_current + 1 : 1;
-    const updated = {
-      ...streak,
-      streak_current: nextStreak,
-      streak_longest: Math.max(streak.streak_longest, nextStreak),
-      grace_period_active: false,
-      grace_period_start_date: null,
-      last_workout_date: workoutDate,
-      updated_at: currentDate,
-    };
+  const workoutDate = new Date(workout.date);
+  const isConsecutive = isConsecutiveDay(streak.last_workout_date, workoutDate, streak.user_timezone);
+  const nextStreak = isConsecutive ? streak.streak_current + 1 : 1;
+  const updated = {
+    ...streak,
+    streak_current: nextStreak,
+    streak_longest: Math.max(streak.streak_longest, nextStreak),
+    grace_period_active: false,
+    grace_period_start_date: null,
+    last_workout_date: workoutDate,
+    updated_at: currentDate,
+  };
 
-    return { updated, previous: streak, is_new_record: nextStreak > streak.streak_longest };
-  },
-  applyMissedDayProgress,
-};
+  return { updated, previous: streak, is_new_record: nextStreak > streak.streak_longest };
+}
