@@ -1,23 +1,21 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage, SignupPage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
 import WeeklyProgress from "./features/streaks/WeeklyProgress";
+import "./App.css";
 
 function HomePage() {
   const { user } = useAuth();
-  
+
   return (
-    <main style={{ padding: "2rem", textAlign: "center" }}>
-      <h1>Gym Tracker</h1>
-      <p style={{ marginBottom: "2rem" }}>Logged in as: {user?.email}</p>
-      
-      <div style={{ marginBottom: "2rem", display: "flex", justifyContent: "center" }}>
+    <main className="home-main">
+      <h1 className="home-title">Gym Tracker</h1>
+      <p className="home-subtitle">Logged in as: {user?.email}</p>
+
+      <div className="home-weekly">
         <WeeklyProgress completedDays={5} />
       </div>
 
-      <button 
-        onClick={() => signOut()}
-        style={{ padding: "0.5rem 1rem", cursor: "pointer", background: "#ef4444", color: "white", border: "none", borderRadius: "4px" }}
-      >
+      <button className="btn-logout" onClick={() => signOut()}>
         Logout
       </button>
     </main>

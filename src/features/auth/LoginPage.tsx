@@ -87,7 +87,7 @@ export default function LoginPage() {
             </button>
           </div>
 
-          {errorMsg && <p style={{ color: "red", fontSize: "0.9rem", margin: "0.5rem 0", alignSelf: "flex-start" }}>{errorMsg}</p>}
+          {errorMsg && <p className="login-error">{errorMsg}</p>}
 
           <button type="submit" className="login-button" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
