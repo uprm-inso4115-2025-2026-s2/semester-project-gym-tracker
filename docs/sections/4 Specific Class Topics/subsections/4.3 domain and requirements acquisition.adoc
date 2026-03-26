@@ -47,57 +47,56 @@ When new findings affect the domain model or requirements:
 - We update domain/interface/machine requirements, and record the reason for change in the logbook and linked GitHub issues.
 - We update traceability links (Section 4.4) so changes can be followed from new evidence → updated requirements → updated tests/tasks.
 
-= Notification System – Domain Attributes Analysis
+==== 4.3.4 Notification System – Domain Attributes Analysis
+:author: AlejandroMB05
+===== Identified Attributes
 
-== Identified Attributes
+*1. notificationID* +
+*Purpose:* Uniquely identifies each notification in the system. +
+*Reasoning:* Needed to track, update, or delete specific notifications.
 
-=== 1. notificationID
-*Purpose:* Uniquely identifies each notification in the system.  
-*Reasoning:* Needed to track, update, or delete specific notifications.  
+*2. userID* +
+*Purpose:* Specifies which user receives the notification. +
+*Reasoning:* Notifications must be tied to a specific user.
 
-=== 2. userID
-*Purpose:* Specifies which user receives the notification.  
-*Reasoning:* Notifications must be tied to a specific user.  
+*3. type* +
+*Purpose:* Categorizes the notification (e.g., reminder, inactivity alert, workout completion). +
+*Reasoning:* Helps differentiate the behavior and purpose of notifications.
 
-=== 3. type
-*Purpose:* Categorizes the notification (e.g., reminder, inactivity alert, workout completion).  
-*Reasoning:* Helps differentiate the behavior and purpose of notifications.  
+*4. message* +
+*Purpose:* The content displayed to the user. +
+*Reasoning:* Communicates the purpose of the notification clearly.
 
-=== 4. message
-*Purpose:* The content displayed to the user.  
-*Reasoning:* Communicates the purpose of the notification clearly.  
+*5. timestamp* +
+*Purpose:* Indicates when the notification was created or triggered. +
+*Reasoning:* Important for time-based logic such as reminders or inactivity tracking.
 
-=== 5. timestamp
-*Purpose:* Indicates when the notification was created or triggered.  
-*Reasoning:* Important for time-based logic such as reminders or inactivity tracking.  
+*6. status* +
+*Purpose:* Indicates whether the notification is unread, read, or dismissed. +
+*Reasoning:* Tracks user interaction with notifications.
 
-=== 6. status
-*Purpose:* Indicates whether the notification is unread, read, or dismissed.  
-*Reasoning:* Tracks user interaction with notifications.  
+*7. triggerType* +
+*Purpose:* Describes what caused the notification. +
+*Examples:* scheduled reminder, inactivity, workout completed. +
+*Reasoning:* Helps trace why a notification exists.
 
-=== 7. triggerType
-*Purpose:* Describes what caused the notification.  
-*Examples:* scheduled reminder, inactivity, workout completed  
-*Reasoning:* Helps trace why a notification exists.  
-
-
-== Domain Relationships
+===== Domain Relationships
 
 The attributes connect to other parts of the system as follows:
 
-* *userID → User domain*  
+* *userID → User domain* +
   Defines who receives the notification.
 
-* *relatedWorkoutID → Workout domain*  
+* *relatedWorkoutID → Workout domain* +
   Links notifications to specific workouts or sessions.
 
-* *triggerType → Activity / Event domain*  
+* *triggerType → Activity / Event domain* +
   Represents what caused the notification (e.g., inactivity, completion).
 
-* *timestamp & scheduledTime → Time-based logic*  
+* *timestamp & scheduledTime → Time-based logic* +
   Supports reminders, scheduling, and inactivity detection.
 
-== Summary
+===== Summary
 
 The notification domain includes a set of attributes that define how notifications are represented in the system. These attributes allow notifications to be uniquely identified, categorized, timed, and associated with user actions or system events.
 
