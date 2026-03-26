@@ -70,3 +70,10 @@ export async function getCurrencyWeekSummary(
 ): Promise<WeeklySummary> {
     return (await getWeeklySummaries(userId, 1, today))[0];
 }
+
+// Usage example:
+// const summaries = await getWeeklySummaries("user-uuid-here", 4);
+// const thisWeek = await getCurrentWeekSummary("user-uuid-here");
+//
+// summaries[0].daysAttended     → number (0–7)
+// summaries[0].attendanceMap    → { "2026-03-24": "attended", "2026-03-25": "missed", ... }
