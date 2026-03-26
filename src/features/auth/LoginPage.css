@@ -151,3 +151,26 @@
   margin-bottom: var(--space-3);
   object-fit: contain;
 }
+
+/* "Forgot Password?" link below the password field */
+.forgot-link {
+  align-self: flex-end;
+  font-size: var(--font-body-md);
+  color: rgba(25, 28, 30, 0.5);
+  text-decoration: none;
+  margin-bottom: var(--space-1);
+  transition: color 0.2s;
+}
+
+.forgot-link:hover {
+  color: var(--primary);
+}
+
+/* Inline confirmation / success state */
+.success-message {
+  color: var(--secondary);
+  font-size: var(--font-body-md);
+  margin: var(--space-2) 0;
+  text-align: center;
+  line-height: 1.5;
+}

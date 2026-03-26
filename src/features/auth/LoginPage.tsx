@@ -87,6 +87,10 @@ export default function LoginPage() {
             </button>
           </div>
 
+          <Link to="/forgot-password" className="forgot-link">
+            Forgot Password?
+          </Link>
+
           {errorMsg && <p className="login-error">{errorMsg}</p>}
 
           <button type="submit" className="login-button" disabled={loading}>
