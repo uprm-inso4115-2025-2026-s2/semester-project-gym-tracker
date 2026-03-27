@@ -1,0 +1,5 @@
+== Lecture Topic Tasks
+
+=== Instructions
+
+Lecture Topic Tasks must have a tangible output of some sort. Developers should simply add their LTT as a file in the subsections folder. It is important to note that the previous instructions of branch management also apply to this section. Additionally, each developer is responsible of adding their LTT files in the section.adoc file which is inside the Lecture Topic Task folder. A base example of the include code already appears in said file.
