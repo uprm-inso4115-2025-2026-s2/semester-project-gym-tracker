@@ -104,14 +104,14 @@ Together, they provide a flexible structure that can support future features suc
 
 ==== 4.3.5 User Account Management - Domain Acquisition
 :author: Ingrid1089
-==== Purpose and Relevance
+===== Purpose and Relevance
 Gathering, analyzing, and structuring knowledge about a specific problem domain from various sources helps define requirements for the project. This process can be applied in the context of account management and authentication behavior to understand how users interact with account systems, profile usage, personalization preferences, and the information users expect. The data gathered will help design and implement an engaging, secure, and usable account system.
 
 Instead of designing features based on assumptions, domain acquisition allows the team to better understand, and design based on existing applications and the behaviors that govern them. These behaviors can be in the form of user identity management, personal preferences, and unique features the application grants the user (e.g. streak system, personal history). Examining these behaviors and patterns, the project can have a foundation that understands what users expect from account management systems.
 
 This task focuses on acquiring domain knowledge related to user accounts, login processes, and profile management in fitness tracking applications.
 
-==== Domain knowledge sources
+===== Domain knowledge sources
 To effectively acquire knowledge about account management behavior in fitness tracking systems, several applications and technological patterns were examined.
 
 *MyFitnessPal – Fitness Tracking Platform*
@@ -140,7 +140,7 @@ Information coming from the users that interact with the platform provides excel
 
 Information like this highlights the importance of flexible profile dashboards and customizable activity display options in fitness tracking platforms. For this project these insights suggest that the system should support configurable activity information and allow users to organize workout data that matches their account preferences.
 
-==== Domain Insights for Gym Tracker
+===== Domain Insights for Gym Tracker
 The analysis of multiple fitness platforms has revealed several important patterns in terms of user account management systems and how these are designed in these applications.
 
 1. User accounts function as a central entity that connects personal identity with activity data, Platforms such as MyFitnessPal and Strava are examples of how accounts store personal attributed and associate recorded activities with individual users. This design allows systems to maintain long-term records of workouts and generate summaries of user activity.
@@ -151,5 +151,5 @@ The analysis of multiple fitness platforms has revealed several important patter
 
 4. Community feedback is an important source of information because it's directly from the user. From the sources studied, users expect flexibility in how their information is displayed and organized in their accounts. Users request features that enable them to customize their profiles, dashboards, categorize activities, and filter logs. These expectations highlight the importance of designing account systems that provide both a structured and a customizable presentation of information.
 
-==== Conclusions
+===== Conclusions
 The domain acquisition process provided substantial information and valuable insights into how user accounts should function to be effective, engaging, and secure. By examining applications such as MyFitnessPal and Strava, which provided concrete examples of important design choices. Studying information on authentication mechanisms through various sources, the team could identify key features that must be implemented to design a user account system that is secure. Community posts and discussions also proved to be a good source of information due to the direct feedback from the users that interact with the platform. Their feedback helps developers implement features that were often overlooked during the software development cycle. These insights help inform the design of the Gym Tracker application and ensure that its account management system aligns with common practices in modern fitness tracking platforms.
