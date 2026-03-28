@@ -111,6 +111,155 @@ Instead of designing features based on assumptions, domain acquisition allows th
 
 This task focuses on acquiring domain knowledge related to user accounts, login processes, and profile management in fitness tracking applications.
 
+==== 4.3.6 Notification Types and Delivery States Data Model
+:author: Gerald Rodríguez
+
+This section defines the data model for the Notifications module in the Gym Tracker system. Its purpose is to establish the entities, fields, relationships, and notification categories needed to support user notifications in a Supabase-compatible database structure.
+
+The model extends the previously identified domain attributes (Section 4.3.4) by formalizing how notifications are stored, categorized, and tracked throughout their lifecycle.
+
+It supports key notification categories relevant to the project scope, including workout reminders, motivational messages, and weekly progress summaries. Additionally, it incorporates delivery state tracking, user association, trigger timing, and message content.
+
+This design serves as the foundation for future SQL migrations and notification system implementation.
+
+===== Overview
+
+The notification system is modeled using two related entities:
+
+* `notification_types` — defines the available categories of notifications
+* `notifications` — stores individual notifications created for users
+
+===== Entities
+
+===== `notification_types`
+
+[cols="1,1,1,1,3", options="header"]
+|===
+|Field |Type |Nullable |Default |Description
+
+|id
+|uuid
+|NO
+|gen_random_uuid()
+|Primary key
+
+|code
+|text
+|NO
+|—
+|Unique internal identifier
+
+|name
+|text
+|NO
+|—
+|Human-readable name
+
+|description
+|text
+|YES
+|null
+|Optional description
+
+|created_at
+|timestamptz
+|NO
+|now()
+|Creation timestamp
+|===
+
+===== `notifications`
+
+[cols="1,1,1,1,3", options="header"]
+|===
+|Field |Type |Nullable |Default |Description
+
+|id
+|uuid
+|NO
+|gen_random_uuid()
+|Primary key
+
+|user_id
+|uuid
+|NO
+|—
+|Foreign key referencing `auth.users.id`
+
+|type_id
+|uuid
+|NO
+|—
+|Foreign key referencing `notification_types.id`
+
+|title
+|text
+|NO
+|—
+|Notification title
+
+|message
+|text
+|NO
+|—
+|Notification body
+
+|trigger_at
+|timestamptz
+|YES
+|null
+|Scheduled delivery time
+
+|sent_at
+|timestamptz
+|YES
+|null
+|Actual delivery timestamp
+
+|status
+|text
+|NO
+|'pending'
+|Delivery state
+
+|created_at
+|timestamptz
+|NO
+|now()
+|Creation timestamp
+|===
+
+===== Notification Categories
+
+The system supports multiple notification categories:
+
+* Workout Reminder  
+* Motivational Message  
+* Weekly Progress Summary  
+
+These categories allow the system to tailor message content, trigger conditions, and user experience.
+
+===== Delivery Status
+
+Notification delivery is modeled using a status field:
+
+* `pending` — notification created but not yet sent  
+* `sent` — successfully delivered  
+* `failed` — delivery attempt failed  
+* `dismissed` — user has acknowledged or ignored the notification  
+
+===== Relationships
+
+* A user can receive many notifications  
+* Each notification belongs to exactly one user  
+* Each notification is associated with one notification type  
+
+===== ERD Representation
+
+[source,text]
+----
+auth.users → notifications → notification_types
+----
 ===== Domain knowledge sources
 To effectively acquire knowledge about account management behavior in fitness tracking systems, several applications and technological patterns were examined.
 
