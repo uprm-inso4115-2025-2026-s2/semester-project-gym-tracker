@@ -289,8 +289,7 @@ The domain revolves around:
 All abstractions and concepts were derived from the rough sketch statements, and terminology conflicts were resolved to establish a stable domain vocabulary.
 
 ==== 3.1.8 Concept Derivation: Notification System Domain Analysis and Concept Formation
-
-
+:author: AlenjadroMB05
 #For the notification system of the Gym Tracker app, we identify and define the core domain concepts involved.#
 
 ===== Core Concepts
