@@ -5,6 +5,6 @@
 |===
 | Section Name | Member | Added or Modified | Description
 
-| Blank | Blank Blank | Added | Blank blank blank blank blank blank blank blank.
+| 3.1 Concept Analysis | AlejandroMB05 | Added | Added domain analysis for the notification system, including identification of core concepts such as Notification, User, Notification Trigger, Workout Event, and User Preferences.
 
 |===
