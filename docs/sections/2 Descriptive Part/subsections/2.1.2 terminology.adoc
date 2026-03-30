@@ -2,120 +2,150 @@
 
 ===== Domain Concepts
 
-*Activity* (Domain Concept)  
+#*Activity* (Domain Concept, Category: Entity)#  
 A physical action performed for fitness purposes, such as exercising,
 running, lifting weights, or performing cardio.
 
-*Exercise* (Domain Concept)  
+#*Exercise* (Domain Concept, Category: Entity)#  
 A structured form of activity performed as part of a workout,
 typically characterized by repetitions, duration, or intensity.
 
-*Workout* (Domain Concept)  
+#*Workout* (Domain Concept, Category: Entity)#  
 A bounded period of time during which one or more exercises or
 activities are performed with the intention of improving fitness.
 
-*Workout Session* (Domain Concept)  
+#*Workout Session* (Domain Concept, Category: Entity)#  
 A specific occurrence of a workout that has just taken place at a
 particular time and duration.
 
-*Attendance Day* (Domain Concept)  
+#*Attendance Day* (Domain Concept, Category: Entity)#  
 A calendar day on which a workout session has just occurred.
 
-*Missed Day* (Domain Concept)  
+#*Missed Day* (Domain Concept, Category: Entity)#  
 A calendar day on which no workout session has occurred despite an
 intention or expectation of activity.
 
-*Goal* (Domain Concept)  
+#*Goal* (Domain Concept, Category: Entity)#  
 A desired level of activity or performance defined over a period of
 time, such as completing a certain number of workouts in a week.
 
-*Weekly Activity Pattern* (Domain Concept)  
+#*Weekly Activity Pattern* (Domain Concept, Category: Behavior)#  
 The observable distribution of workout sessions across days in a week.
 
-*Consistency* (Domain Concept)  
+#*Consistency* (Domain Concept, Category: Behavior)#  
 The degree to which workout sessions occur regularly over time.
 
-*Streak* (Domain Concept)  
+#*Streak* (Domain Concept, Category: Behavior)#  
 A sequence of consecutive attendance days with no intervening missed day.
 
-*Progress* (Domain Concept)  
+#*Progress* (Domain Concept, Category: Behavior)#  
 A change in activity patterns, performance, or consistency observed
 over time.
 
-*Workout Notes* (Domain Concept)  
+#*Workout Notes* (Domain Concept, Category: Entity)#  
 Short written annotations describing what occurred during a workout
 session or how it felt.
 
+#*Reminder* (Domain Concept, Category: Entity)#  
+#A prompt or cue intended to encourage activity when no recent workout
+has occurred. It is classified as a domain entity because it can exist
+independently of software, for example as an alarm, calendar note,
+sticky note, or verbal reminder.#
+
 ===== Domain Events
 
-*Workout has just been performed* (Domain Event)  
+#*Workout has just been performed* (Domain Event, Category: Event)#  
 A workout session has occurred at a specific time.
 
-*Workout has just been skipped* (Domain Event)  
+#*Workout has just been skipped* (Domain Event, Category: Event)#  
 An expected attendance day has passed without a workout occurring.
 
-*Goal period has just ended* (Domain Event)  
+#*Goal period has just ended* (Domain Event, Category: Event)#  
 A time interval associated with a goal (for example, a week) has
 completed.
 
-*Streak has just been broken* (Domain Event)  
+#*Streak has just been broken* (Domain Event, Category: Event)#  
 A missed day has occurred after one or more attendance days.
 
-*Streak has just been extended* (Domain Event)  
+#*Streak has just been extended* (Domain Event, Category: Event)#  
 A workout session has occurred on the day immediately following the
 previous attendance day.
 
 ===== Domain Functions
 
-recordWorkout(activity: Activity, duration: Time, date: Day) : WorkoutSession  
+#recordWorkout(activity: Activity, duration: Time, date: Day) : WorkoutSession
+(Category: Function)#  
 Creates a workout session representing an activity that has just occurred.
 
-compareSessions(a: WorkoutSession, b: WorkoutSession) : Comparison  
+#compareSessions(a: WorkoutSession, b: WorkoutSession) : Comparison
+(Category: Function)#  
 Determines observable differences between two workout sessions,
 such as duration or exercise composition.
 
-evaluateConsistency(history: List WorkoutSession) : ConsistencyMeasure  
+#evaluateConsistency(history: List WorkoutSession) : ConsistencyMeasure
+(Category: Function)#  
 Calculates the regularity of activity over a time span.
 
-computeStreak(history: List AttendanceDay) : StreakLength  
+#computeStreak(history: List AttendanceDay) : StreakLength
+(Category: Function)#  
 Determines the length of the current consecutive attendance sequence.
 
-evaluateGoal(goal: Goal, history: List WorkoutSession) : GoalResult  
+#evaluateGoal(goal: Goal, history: List WorkoutSession) : GoalResult
+(Category: Function)#  
 Determines whether a goal has been achieved within its period.
 
-summarizeWeek(history: List WorkoutSession, goal: Goal) : WeeklySummary  
+#summarizeWeek(history: List WorkoutSession, goal: Goal) : WeeklySummary
+(Category: Function)#  
 Produces an overview of activity, missed days, and goal achievement
 for a completed week.
 
 ===== Requirement-Level Concepts
 
-*User* (Requirement Concept)  
+#*User* (Requirement Concept, Category: Entity)#  
 A person whose activities and goals are tracked by the system.
 
-*Account* (Requirement Concept)  
+#*Account* (Requirement Concept, Category: Entity)#  
 A persistent identity that allows a user’s workout history and goals
 to be stored.
 
-*Reminder* (Requirement Concept)  
-A system-generated prompt intended to encourage activity when no
-recent workout has occurred.
-
-*Notification* (Requirement Concept)  
+#*Notification* (Requirement Concept, Category: Entity)#  
 A message delivered by the system to inform a user about reminders,
 streak status, or goal progress.
 
-*Weekly Summary Table* (Requirement Concept)  
+#*Weekly Summary Table* (Requirement Concept, Category: Entity)#  
 A structured representation of weekly activity and goal evaluation
 produced for review.
 
 ===== Implementation-Level Terms
 
-*Preset Entry* (Implementation Term)  
+#*Preset Entry* (Implementation Term, Category: Entity)#  
 A predefined workout or activity configuration used to speed up logging.
 
-*Quick Entry Workflow* (Implementation Term)  
+#*Quick Entry Workflow* (Implementation Term, Category: Behavior)#  
 A sequence of interface steps designed to minimize the effort required
 to record a workout.
 
-*Motivational Message* (Implementation Term)  
-Text produced by the system to reinforce consistency or progress.
+#*Motivational Message* (Implementation Term, Category: Entity)#  
+#Text produced by the system to reinforce consistency or progress.
+It is kept as an implementation term rather than a domain concept,
+because the domain-level phenomenon is motivation or encouragement,
+while a motivational message is a specific system-produced textual
+artifact.#
+
+===== Categorization Notes
+
+#*Reminder* is categorized as an entity because it can exist independently
+of software. However, if the focus were on the act of reminding, it could
+also be conceptualized as a behavior or event.#
+
+#*Notification* is categorized as an entity because this section refers to
+the delivered message itself. If the focus were on delivery, it could also
+be conceptualized as an event.#
+
+#*Weekly Summary Table* is categorized as an entity, while
+summarizeWeek(...) is categorized as a function. This distinguishes the
+produced artifact from the operation that generates it.#
+
+#*Streak*, *Consistency*, *Progress*, and *Weekly Activity Pattern* are
+categorized as behaviors because they describe temporal patterns or changes
+over time rather than standalone objects.#
