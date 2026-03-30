@@ -286,48 +286,44 @@ The domain revolves around:
 * Influencing long-term motivation
 * Reducing cognitive barriers to consistency
 
-#All abstractions and concepts were derived from the rough sketch statements, and terminology conflicts were resolved to establish a stable domain vocabulary.#
+All abstractions and concepts were derived from the rough sketch statements, and terminology conflicts were resolved to establish a stable domain vocabulary.
+
+==== 3.1.8 Concept Derivation: Notification System Domain Analysis and Concept Formation
 
 
+#For the notification system of the Gym Tracker app, we identify and define the core domain concepts involved.#
 
-= Notification System Domain Analysis and Concept Formation
+===== Core Concepts
 
-== Overview
+====== Notification
+#A brief message that is sent to the user that reminds them of their workouts.#
 
-For the notification system of the Gym Tracker app, we identify and define the core domain concepts involved.
+====== User
+#A person who uses the Gym Tracker app and receives notifications.#
 
-== Core Concepts
+====== Notification Trigger
+#An event that triggers a notification to be sent to the user (e.g., missed workout).#
 
-=== 1. Notification
-A brief message that is sent to the user that reminds them of their workouts.
+====== Workout Event
+#An activity that could be ongoing, completed, or missed that may trigger a notification.#
 
-=== 2. User
-A person who uses the Gym Tracker app and receives notifications.
+====== User Preferences
+#Settings where a user decides what notifications they want to receive or not.#
 
-=== 3. Notification Trigger
-An event that triggers a notification to be sent to the user (e.g., missed workout).
+===== Relationships Between Concepts
 
-=== 4. Workout Event
-An activity that could be ongoing, completed, or missed that may trigger a notification.
+* #Users receive notifications about their workout events.#
+* #A notification trigger generates a notification for the user.#
+* #A workout event can cause a notification trigger (e.g., starting a workout in the app).#
+* #Users can adjust their preferences to limit the quantity or type of notifications received.#
 
-=== 5. User Preferences
-Settings where a user decides what notifications they want to receive or not.
+===== Example Scenarios
 
-== Relationships Between Concepts
+* #A user has a scheduled workout → the system creates a reminder notification.#
+* #A user hasn't logged activity for several days → a notification is triggered due to inactivity.#
+* #A user completes a workout → a notification may appear showing progress or completion.#
 
-* Users receive notifications about their workout events.
-* A notification trigger generates a notification for the user.
-* A workout event can cause a notification trigger (e.g., starting a workout in the app).
-* Users can adjust their preferences to limit the quantity or type of notifications received.
+===== Summary
 
-== Example Scenarios
-
-* A user has a scheduled workout → the system creates a reminder notification.
-* A user hasn’t logged activity for several days → a notification is triggered due to inactivity.
-* A user completes a workout → a notification may appear showing progress or completion.
-
-== Summary
-
-The notification system domain consists of several key concepts, including notifications, users, notification triggers, workout events, and user preferences.
-
-Notifications are generated when specific triggers occur, such as workout creation or inactivity. These notifications are delivered to users based on their preferences, helping improve engagement and maintain workout consistency.
+#The notification system domain consists of several key concepts, including notifications, users, notification triggers, workout events, and user preferences.
+Notifications are generated when specific triggers occur, such as workout creation or inactivity. These notifications are delivered to users based on their preferences, helping improve engagement and maintain workout consistency.#
