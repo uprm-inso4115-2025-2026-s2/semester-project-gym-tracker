@@ -7,4 +7,10 @@
 
 | Blank | Blank Blank | Added | Blank blank blank blank blank blank blank blank.
 
+| LTT98 | Ivan Morales | Added | Added LTT98 covering stakeholder perspectives on the fitness consistency problem, identifying three user profiles: beginner, experienced enthusiast, and goal-oriented user.
+
+| LTT252 | Ivan Morales | Added | Added LTT252 classifying gym tracker domain concepts into four tangibility categories: humanly tangible, physically tangible, intangible-imprecise, and intangible-precise, with modeling implications for each.
+
+| LTT253 | Ivan Morales | Added | Added LTT253 classifying workout session phenomena as continuous, discrete, hybrid, and chaotic, with modeling implications for each classification.
+
 |===
