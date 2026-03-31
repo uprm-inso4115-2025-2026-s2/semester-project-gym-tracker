@@ -87,9 +87,13 @@ export function isFeatureRelevantToPersona(featureId, personaId) {
 
 export function validateFeatureAgainstPersonaExpectations(featureId, personaId) {
   const persona = getPersonaById(personaId);
-  if (!persona) return false;
+  const feature = getFeatureById(featureId);
 
-  return persona.featureExpectations.includes(featureId);
+  if (!persona || !feature) return false;
+
+  return persona.featureExpectations.some(
+    (expectation) => expectation.toLowerCase() === feature.name.toLowerCase()
+  );
 }
 
 export function getFeatureValidationSummary(featureId) {
@@ -133,13 +137,15 @@ export function getPersonaValidationSummary(personaId) {
 }
 
 export function getUnmappedPersonaExpectations() {
-  const featureIds = new Set(features.map((feature) => feature.id));
+  const featureNames = new Set(
+    features.map((feature) => feature.name.toLowerCase())
+  );
 
   return personas.map((persona) => ({
     personaId: persona.id,
     personaName: persona.name,
     unmappedExpectations: persona.featureExpectations.filter(
-      (featureId) => !featureIds.has(featureId)
+      (expectedFeature) => !featureNames.has(expectedFeature.toLowerCase())
     ),
   }));
 }
