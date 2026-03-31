@@ -7,6 +7,7 @@
 
 | Blank | Blank Blank | Added | Blank blank blank blank blank blank blank blank.
 
-| LTT98 | Ivan Morales | Added | Added LTT98 covering stakeholder perspectives on the fitness consistency problem, including three user profiles: beginner, experienced enthusiast, and goal-oriented user.
+| 4.1 Stakeholder Identification | Ivan Morales | Added | Integrated stakeholder perspective analysis (Issue #98) into Section 4.1; added per-group perspective descriptions, comparative summary table, and perspective alignment notes; marked with NOTE admonition change bar for M2 visibility.
+
 
 |===

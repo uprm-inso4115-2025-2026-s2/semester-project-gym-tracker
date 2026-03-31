@@ -113,3 +113,71 @@ It is likely that additional stakeholders exist beyond those initially identifie
 When new stakeholders are identified, their interests and dependencies will be documented, and any resulting requirement changes will be reviewed for scope alignment before incorporation.
 
 This iterative identification process ensures that stakeholder analysis evolves alongside the system while maintaining domain focus.
+
+==== 4.1.1 Stakeholder Perspectives on the Fitness Consistency Problem
+
+****
+The fitness consistency problem is not experienced uniformly across stakeholder groups. The same gap between intention and behavior is interpreted differently depending on a user's experience level and motivation structure. The following perspective analysis maps each primary user stakeholder to their distinct view of the problem and the modeling implication that follows.
+
+[discrete]
+===== Beginner / First-Time Gym User Perspective
+
+For the beginner, fitness inconsistency is fundamentally a problem of overwhelming complexity and lack of direction. The barrier is not laziness, it is not knowing where to start. Without a structured plan, sessions are skipped because deciding what to do feels harder than the workout itself. Each missed session reinforces the belief that fitness is not for them, creating a cycle of low confidence and avoidance. There is no visible progress to anchor to because they do not yet know how to measure small wins.
+
+_Core perception: "I don't know what to do or if I'm doing it right, so I stop showing up."_
+
+The system must prioritize simplicity and clear structure for this group. Onboarding flows, preset routines, and low effort logging paths directly address this stakeholder's barrier.
+
+[discrete]
+===== Intermediate / Experienced Fitness Enthusiast Perspective
+
+For the experienced enthusiast, inconsistency is a problem of stagnation and diminishing motivation over time. They are not confused about what to do, they have done it before. When the body adapts and results slow down, the emotional reward of working out diminishes. Skipped sessions happen not from confusion but from a quiet feeling that it is not working anymore.
+
+_Core perception: "I know what to do, but I've stopped seeing results, so it's hard to stay motivated to keep going."_
+
+The system must surface measurable progress and historical trends for this group. Data that proves effort is still producing results, even when results are less dramatic, is what sustains their engagement.
+
+[discrete]
+===== Goal-Oriented User Perspective
+
+For the goal-oriented user, inconsistency is a problem of disconnection between daily effort and long term outcomes. They have clear motivation and know what they want to achieve, but they struggle to maintain consistency when individual sessions feel arbitrary. Missing a session is not just a lost workout, it is a deviation from a plan, and without a system to log, review, and recalibrate, small disruptions cascade into abandoned goals.
+
+_Core perception: "I know what I want to achieve, but I lose consistency when I can't see whether I'm actually on track to get there."_
+
+The system must function as an accountability and progress record for this group. Goal tracking, session logging tied to targets, and deviation visibility are the critical features.
+
+[discrete]
+===== Comparative Perspective Summary
+
+[cols="1,1,1,1", options="header"]
+|===
+| | Beginner | Experienced Enthusiast | Goal-Oriented User
+
+| Root of inconsistency
+| Confusion and lack of direction
+| Stagnation
+| Disconnect from long-term goals
+
+| Relationship to motivation
+| Never fully established
+| Was present, now fading
+| Present but fragile without data
+
+| Primary need of the tracker
+| Simplicity and clear structure
+| Progress visibility and variety
+| Accountability and goal tracking
+
+| How they interpret a skipped session
+| "I don't belong here"
+| "This isn't working anymore"
+| "I'm falling behind on my goal"
+|===
+
+[discrete]
+===== Notes on Perspective Alignment
+
+* The Beginner and Goal-Oriented User perspectives are complementary — both require structured guidance, but for different reasons.
+* The Experienced Enthusiast and Goal-Oriented User are partially aligned — both care about measurable progress, but one is motivated by seeing past results while the other is driven by future targets.
+* The Beginner and Experienced Enthusiast represent opposing ends of a spectrum — one lacks confidence and knowledge, the other has knowledge but lacks continued motivation.
+****
