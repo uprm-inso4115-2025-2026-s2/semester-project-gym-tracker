@@ -5,6 +5,6 @@
 |===
 | Section Name | Member | Added or Modified | Description
 
-| Blank | Blank Blank | Added | Blank blank blank blank blank blank blank blank.
+| 2.1.2 Terminology | Alex Vazquez | Modified | Validated terminology completeness by narrating a domain scenario using domain terms only; identified and added missing concepts (Workout History, Time Frame, Week, Weekly Summary); documented the scenario and the relationships revealed by the walkthrough.
 
 |===
