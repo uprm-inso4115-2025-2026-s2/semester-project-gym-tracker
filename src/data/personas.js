@@ -102,3 +102,6 @@ export function isFeatureAlignedWithPersona(personaId, featureName) {
     expectation.toLowerCase().includes(featureName.toLowerCase())
   );
 }
+export function getPersonaById(personaId) {
+  return personas.find((persona) => persona.id === personaId) || null;
+}

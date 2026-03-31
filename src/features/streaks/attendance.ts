@@ -30,23 +30,3 @@ export function getAttendanceMap(
         date.map((date) => [date, attendanceData.has(date) ? "attended" : "missed"])
     );
 }
-
-// A mock data for using to testing before connecting to Supabase datebase
-export const mockWorkouts: WorkoutSession[] =[
-    {id: "1",  
-        userId: "user_01", 
-        date: "2026-02-01", 
-        activityType: "gym",
-        durationMinutes: 40},
-    {id: "2", 
-        userId: "user_01", 
-        date: "2026-04-10", 
-        activityType: "run",
-        durationMinutes: 45},
-    {id: "3", 
-        userId: "user_01", 
-        date: "2026-05-02", 
-        activityType: "other",
-        durationMinutes: 60, 
-        notes: "Leg Day"},
-]
