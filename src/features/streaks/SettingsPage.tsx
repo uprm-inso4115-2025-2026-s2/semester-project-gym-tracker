@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../auth";
+import { NotificationPreferencesPanel } from "../notifications";
+import type { NotificationPreferences } from "../../types";
 
 type WeightUnit = "kg" | "lb";
 type WeekStart = "mon" | "sun";
@@ -9,6 +11,25 @@ export default function SettingsPage() {
   const { user } = useAuth();
   const [weightUnit, setWeightUnit] = useState<WeightUnit>("kg");
   const [weekStart, setWeekStart] = useState<WeekStart>("mon");
+
+
+  const [notificationPreferences, setNotificationPreferences] =
+  useState<NotificationPreferences>({
+    enabled: true,
+    reminderTime: "18:00",
+  });
+
+useEffect(() => {
+  const saved = localStorage.getItem("notificationPreferences");
+  if (saved) {
+    setNotificationPreferences(JSON.parse(saved));
+  }
+}, []);
+
+function handleNotificationPreferencesChange(updated: NotificationPreferences) {
+  setNotificationPreferences(updated);
+  localStorage.setItem("notificationPreferences", JSON.stringify(updated));
+}
 
   return (
     <main
@@ -148,6 +169,24 @@ export default function SettingsPage() {
             Sunday
           </label>
         </div>
+
+        {/* Notification Preferences */}
+         <div
+            style={{
+            marginTop: "1.5rem",  
+            marginBottom: "1.5rem", 
+            padding: "1rem",
+            borderRadius: "8px",
+            background: "#ecc9da5c",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+          }}
+         >
+          <NotificationPreferencesPanel
+            value={notificationPreferences}
+            onChange={handleNotificationPreferencesChange}
+          />
+        </div>
+
       </section>
     </main>
   );
