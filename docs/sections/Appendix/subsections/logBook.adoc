@@ -5,6 +5,6 @@
 |===
 | Section Name | Member | Added or Modified | Description
 
-| Blank | Blank Blank | Added | Blank blank blank blank blank blank blank blank.
+| Section 4 (Domain Attributes)  | Hector Rivera | Added | Integrated Lecture Topic "Workout Data Validation and Integrity" into the Domain Attributes section. Refactored documentation structure according to guidelines (Discussions #221 and #277) and defined validation rules for key attributes such as weight, reps, and sets to ensure data integrity.
 
 |===
