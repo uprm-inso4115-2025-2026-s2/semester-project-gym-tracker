@@ -114,9 +114,8 @@ When new stakeholders are identified, their interests and dependencies will be d
 
 This iterative identification process ensures that stakeholder analysis evolves alongside the system while maintaining domain focus.
 
-==== 4.1.1 Stakeholder Perspectives on the Fitness Consistency Problem
+==== [.mark]#4.1.1 Stakeholder Perspectives on the Fitness Consistency Problem#
 
-****
 The fitness consistency problem is not experienced uniformly across stakeholder groups. The same gap between intention and behavior is interpreted differently depending on a user's experience level and motivation structure. The following perspective analysis maps each primary user stakeholder to their distinct view of the problem and the modeling implication that follows.
 
 [discrete]
@@ -180,4 +179,3 @@ The system must function as an accountability and progress record for this group
 * The Beginner and Goal-Oriented User perspectives are complementary — both require structured guidance, but for different reasons.
 * The Experienced Enthusiast and Goal-Oriented User are partially aligned — both care about measurable progress, but one is motivated by seeing past results while the other is driven by future targets.
 * The Beginner and Experienced Enthusiast represent opposing ends of a spectrum — one lacks confidence and knowledge, the other has knowledge but lacks continued motivation.
-****
