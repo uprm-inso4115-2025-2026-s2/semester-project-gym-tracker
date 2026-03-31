@@ -9,7 +9,7 @@ export const features = [
   },
   {
     id: "workout_templates",
-    name: "Workout Templates",
+    name: "Predefined workout templates",
     description: "Provides reusable workout structures for faster logging.",
     supportedPersonas: ["beginner_lifter", "intermediate_lifter"],
   },
