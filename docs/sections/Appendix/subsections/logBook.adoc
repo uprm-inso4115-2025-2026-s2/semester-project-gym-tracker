@@ -5,6 +5,6 @@
 |===
 | Section Name | Member | Added or Modified | Description
 
-| Blank | Blank Blank | Added | Blank blank blank blank blank blank blank blank.
+| 2.1.2 Terminology / 2.1.6 Function Signatures | Alex Vazquez | Modified/Added | Made the history input consistent across the domain model by using WorkoutHistory for computeStreak; added GymGoer and retrieveWorkoutHistory to define how a GymGoer's WorkoutSessions are obtained; documented the justification in the function-signature section.
 
 |===
