@@ -1,0 +1,173 @@
+=== Tangibility Classification of Domain Concepts in the Gym Tracker
+
+Ivan Morales
+
+The Domain Attributes lecture establishes that phenomena in a domain are not uniformly
+observable or measurable. Some are experienced directly through the senses, some require
+instruments to detect, and others exist only as abstract constructs that may or may not be
+formally specifiable. The lecture defines four tangibility categories: humanly tangible,
+physically tangible, intangible-imprecise, and intangible-precise. Misclassifying a concept's
+tangibility leads to modeling problems. Treating an imprecise phenomenon as if it were formally
+specifiable introduces false precision into requirements. Failing to recognize a physically
+tangible phenomenon may result in missing the input or measurement mechanism that the system
+must support.
+
+This analysis applies that classification framework to the gym tracker domain to identify which
+concepts can be formally captured, which can only be approximated, and which must be inferred
+from measurable proxies.
+
+==== Humanly Tangible Concepts
+
+A humanly tangible phenomenon is one that a person can directly perceive through the senses
+without requiring instruments. It is observable to the human body as a first person experience.
+
+The first humanly tangible concept in the gym tracker domain is physical fatigue during a
+workout session. A user directly experiences fatigue as a felt sensation, muscular heaviness,
+reduced force output, and shortness of breath, without needing any external device to confirm
+its presence. Fatigue is real and unambiguous to the person experiencing it, yet it cannot be
+read off a sensor.
+
+The modeling implication is that fatigue cannot be directly captured as a system field. The
+system can only receive it as user-reported input, such as a perceived exertion rating entered
+after a set. The model must treat this value as a subjective signal rather than an objective
+measurement and should not conflate it with physiological metrics such as heart rate.
+
+The second humanly tangible concept is the experience of performing an exercise repetition.
+The user perceives each repetition as a discrete physical act, lifting, lowering, and completing
+a movement, through direct bodily sensation. No instrument is required to know that a
+repetition occurred.
+
+The modeling implication is that repetitions should be recorded as user confirmed counts
+rather than derived from sensor data in a typical gym tracker context. The domain treats a
+repetition as an event whose occurrence is self evident to the person performing it.
+
+==== Physically Tangible Concepts
+
+A physically tangible phenomenon is one that requires a measurement instrument or sensor to
+capture precisely. The phenomenon exists in the physical world but is not fully or reliably
+accessible through unassisted human perception alone.
+
+The first physically tangible concept is heart rate. While a user may sense that their heart is
+beating faster during exertion, the precise value in beats per minute is not humanly perceptible
+without measurement. It requires a heart rate monitor, a chest strap, or a wristband sensor to
+produce a quantified reading.
+
+heartRate : Time -> ℕ  (measured in beats per minute via sensor)
+
+The modeling implication is that heart rate data should be treated as an instrument derived
+stream. The system should model it as a timestamped sequence of sensor readings rather than
+as a single user entered field. If the instrument is absent, the concept cannot be represented
+in the domain accurately.
+
+The second physically tangible concept is load lifted per set. The weight placed on a barbell or
+set on a machine is a physical quantity that exists independently of the user's perception of it.
+Its precise value is determined by the equipment itself, the labeled plates, the machine dial,
+or a connected digital scale, not by the user's subjective sense of heaviness.
+
+load : Set -> ℝ⁺  (measured in lbs or kg via equipment markings or digital display)
+
+The modeling implication is that load should be stored as a numeric value sourced from a
+physical measurement reference. The system must validate it against the physically possible
+increments of real equipment rather than accepting arbitrary floating point entries.
+
+==== Intangible-Imprecise Concepts
+
+An intangible imprecise phenomenon is one that has no direct physical manifestation and cannot
+be formally specified without loss of meaning. Attempts to quantify it precisely will always
+produce a reduction or distortion of the actual concept.
+
+Motivation to train is an intangible imprecise concept within the gym tracker domain. Motivation
+influences whether a user shows up, how hard they push during a session, and whether they
+abandon a planned workout. It is real in its effects but has no agreed upon formal definition,
+no single instrument that captures it, and no enumerable value set that describes it without
+oversimplifying. A numeric "motivation score" entered by the user is not motivation, it is
+only the user's own imprecise self report of a phenomenon they cannot fully introspect.
+
+The modeling implication is that motivation must not be represented as a precise field in the
+domain model. The system can collect indirect evidence of it, attendance patterns, session
+completion rates, notes entered by the user, but should not present any single derived
+value as a formal measure of motivation. Any analytics built around this concept must be
+clearly labeled as proxies, not direct measurements.
+
+A second intangible-imprecise concept is workout quality. The overall quality of a given session, whether the form was good, whether the effort was meaningful, whether the sessiona dvanced the user's goals, is a composite judgment that cannot be reduced to any single measurable quantity. Two sessions with identical logged values may differ dramatically in actual quality. There is no instrument or formula that captures this concept completely.
+
+The modeling implication is that workout quality should not be computed or assigned by the
+system. If user feedback is collected, it should be stored as an unstructured or ordinal input
+that the system treats as a subjective signal, not as a precise domain value.
+
+==== Intangible-Precise Concepts
+
+An intangible-precise phenomenon is one that has no direct physical manifestation but can be
+formally and unambiguously defined using mathematical or logical structure. These concepts are
+abstract but are fully specifiable within the domain model.
+
+The first intangible-precise concept is workout streak. A streak has no physical form, it
+cannot be seen or felt directly, but it is precisely defined as a count of consecutive days on
+which at least one workout session was recorded, interrupted by any day on which no session
+was recorded.
+
+streak : WorkoutHistory -> ℕ
+streak(h) = length of the longest suffix of h with no gaps in attendance
+
+The modeling implication is that streak is a derived value computed from the workout history.
+It should never be stored as a user entered field. The domain model must define it formally in
+terms of attendance data, and the system must recompute it whenever the history changes.
+
+The second intangible-precise concept is total training volume for a session or period. Volume
+is defined as the product of sets, repetitions, and load summed across all exercises. It has no
+physical location, but its definition is exact and its computation is deterministic.
+
+volume : Session -> ℝ⁺
+volume(s) = Σ (sets_i × reps_i × load_i) for all exercises i in s
+
+The modeling implication is that volume is a derived aggregate that the system should compute
+from the discrete and physical data already logged. It is formally specifiable and requires no
+approximation, but it must be distinguished from physical tangible phenomena, volume is a
+mathematical construction over measurements, not a measurement itself.
+
+==== Summary of Tangibility Classifications
+
+[cols="1,1,2,2", options="header"]
+|===
+| Concept | Tangibility Category | Justification | Modeling Implication
+
+| Physical fatigue
+| Humanly tangible
+| Perceived directly through bodily sensation; no instrument required
+| Captured only as user reported perceived exertion; treated as a subjective signal
+
+| Exercise repetition
+| Humanly tangible
+| User perceives each rep as a discrete physical act through direct sensation
+| Recorded as user confirmed count; not derived from sensors in standard context
+
+| Heart rate
+| Physically tangible
+| Precise bpm value requires a sensor; unassisted perception is insufficient
+| Modeled as an instrument derived timestamped sequence; absent without sensor
+
+| Load lifted per set
+| Physically tangible
+| Determined by equipment markings or digital display; not fully accessible by perception alone
+| Stored as a numeric value referenced to physical equipment increments
+
+| Motivation to train
+| Intangible-imprecise
+| No formal definition, no reliable instrument, no value set that captures it without distortion
+| Must not be modeled as a precise field; only indirect proxies such as attendance patterns may be collected
+
+| Workout quality
+| Intangible-imprecise
+| Composite judgment irreducible to any single measurable quantity
+| User feedback collected as ordinal or unstructured input; not computed by the system
+
+| Workout streak
+| Intangible-precise
+| Abstract but formally defined as consecutive days with recorded sessions
+| Derived value computed from attendance history; never user entered
+
+| Total training volume
+| Intangible-precise
+| Mathematical aggregate with an exact formula over logged discrete and physical data
+| Computed deterministically from sets, reps, and load; not stored as a raw field
+|===
