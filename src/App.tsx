@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
+import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
+import WorkoutHistoryPage from "./features/workouts/WorkoutHistoryPage";
+import WeeklyProgress from "./features/streaks/WeeklyProgress";
 import { StreakDisplay, StreakMilestoneBadge } from "./features/streaks";
 import SettingsPage from "./features/streaks/SettingsPage";
 import NotFoundPage from "./features/ui/NotFoundPage";
@@ -23,21 +25,25 @@ function StreakPreviewPage() {
   const milestonePreview = [3, 7, 14, 30];
 
   return (
-    <main style={{
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      background: "linear-gradient(to bottom, #5f84e8, #0d2f8b)",
-      fontFamily: "Arial, sans-serif",
-    }}>
-      <section style={{
-        width: "100%",
-        maxWidth: 500,
-        padding: "30px 24px",
-        textAlign: "center",
-        color: "white",
-      }}>
+    <main
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "linear-gradient(to bottom, #5f84e8, #0d2f8b)",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <section
+        style={{
+          width: "100%",
+          maxWidth: 500,
+          padding: "30px 24px",
+          textAlign: "center",
+          color: "white",
+        }}
+      >
         <h1 style={{ fontSize: 28, marginTop: 0, marginBottom: 18, fontWeight: "bold" }}>
           Streaks Preview
         </h1>
@@ -51,7 +57,9 @@ function StreakPreviewPage() {
         <p style={{ fontSize: 13, color: "#cbd5e1", margin: "1.5rem 0 0.5rem" }}>Broken state:</p>
         <StreakDisplay sessions={pastSession} isBroken={true} longestStreak={7} />
 
-        <p style={{ fontSize: 13, color: "#cbd5e1", margin: "1.5rem 0 0.5rem" }}>Milestone badges:</p>
+        <p style={{ fontSize: 13, color: "#cbd5e1", margin: "1.5rem 0 0.5rem" }}>
+          Milestone badges:
+        </p>
         <div style={{ display: "grid", gap: "0.5rem" }}>
           {milestonePreview.map((value) => (
             <StreakMilestoneBadge key={value} milestoneDays={value} reached={value <= 7} />
@@ -109,10 +117,43 @@ function HomePage() {
       <div className="home-weekly">
         <StreakDisplay sessions={sessions} />
       </div>
+      
+      <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginBottom: "2rem" }}>
+        <button
+          onClick={() => navigate("/profile")}
+          style={{
+            padding: "0.5rem 1rem",
+            cursor: "pointer",
+            background: "#ffffff",
+            color: "#111827",
+            border: "1px solid #d1d5db",
+            borderRadius: "4px",
+          }}
+        >
+          Profile
+        </button>
+        <button
+          onClick={() => navigate("/history")}
+          style={{
+            padding: "0.5rem 1rem",
+            cursor: "pointer",
+            background: "#ffffff",
+            color: "#111827",
+            border: "1px solid #d1d5db",
+            borderRadius: "4px",
+          }}
+        >
+          Workout History
+        </button>
 
-      <button className="btn-logout" onClick={() => signOut()}>
-        Logout
-      </button>
+        <button className="btn-logout" onClick={() => signOut()}>
+          Logout
+        </button>
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <WeeklyProgress completedDays={5} />
+      </div>
     </main>
   );
 }
@@ -130,6 +171,23 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/history"
+            element={
+              <ProtectedRoute>
+                <WorkoutHistoryPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import type { WorkoutSession } from "../../types";
-import { computeStreak } from "../../lib/workouts";
+import { computeStreakFromSessions } from "./streakcalc";
 import StreakEmptyState, { type StreakEmptyStateProps } from "./StreakEmptyState";
 import "./StreakDisplay.css";
 
@@ -61,7 +61,7 @@ export default function StreakDisplay({
 }: StreakDisplayProps) {
   // TODO: replace with real currentStreak from Supabase when available
   const currentStreak = sessions.length > 0
-    ? computeStreak(sessions)
+    ? computeStreakFromSessions(sessions)
     : MOCK_STREAK_DATA.currentStreak;
 
   const isStreakBroken = isBroken || currentStreak === 0;
