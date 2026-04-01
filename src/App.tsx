@@ -1,5 +1,14 @@
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import { LoginPage, SignupPage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
+import {
+  LoginPage,
+  SignupPage,
+  AuthProvider,
+  ProtectedRoute,
+  useAuth,
+  signOut,
+} from "./features/auth";
+import WorkoutHistoryPage from "./features/workouts/WorkoutHistoryPage";
+import WeeklyProgress from "./features/streaks/WeeklyProgress";
 import { StreakDisplay, StreakMilestoneBadge } from "./features/streaks";
 import SettingsPage from "./features/streaks/SettingsPage";
 import type { WorkoutSession } from "./types";
@@ -17,21 +26,25 @@ function StreakPreviewPage() {
   const milestonePreview = [3, 7, 14, 30];
 
   return (
-    <main style={{
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      background: "linear-gradient(to bottom, #5f84e8, #0d2f8b)",
-      fontFamily: "Arial, sans-serif",
-    }}>
-      <section style={{
-        width: "100%",
-        maxWidth: 500,
-        padding: "30px 24px",
-        textAlign: "center",
-        color: "white",
-      }}>
+    <main
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "linear-gradient(to bottom, #5f84e8, #0d2f8b)",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <section
+        style={{
+          width: "100%",
+          maxWidth: 500,
+          padding: "30px 24px",
+          textAlign: "center",
+          color: "white",
+        }}
+      >
         <h1 style={{ fontSize: 28, marginTop: 0, marginBottom: 18, fontWeight: "bold" }}>
           Streaks Preview
         </h1>
@@ -42,7 +55,9 @@ function StreakPreviewPage() {
         <p style={{ fontSize: 13, color: "#cbd5e1", margin: "1.5rem 0 0.5rem" }}>Broken state:</p>
         <StreakDisplay sessions={activeSessions} isBroken={true} longestStreak={67} />
 
-        <p style={{ fontSize: 13, color: "#cbd5e1", margin: "1.5rem 0 0.5rem" }}>Milestone badges:</p>
+        <p style={{ fontSize: 13, color: "#cbd5e1", margin: "1.5rem 0 0.5rem" }}>
+          Milestone badges:
+        </p>
         <div style={{ display: "grid", gap: "0.5rem" }}>
           {milestonePreview.map((value) => (
             <StreakMilestoneBadge key={value} milestoneDays={value} reached={value <= 7} />
@@ -59,8 +74,15 @@ function HomePage() {
   const sessions: WorkoutSession[] = [];
 
   return (
-    <main style={{ padding: "2rem", textAlign: "center", position: "relative" }}>
-      {/* Settings icon - top right */}
+    <main
+      style={{
+        padding: "2rem",
+        textAlign: "center",
+        background: "#ffffff",
+        minHeight: "100vh",
+        position: "relative",
+      }}
+    >
       <button
         onClick={() => navigate("/settings")}
         aria-label="Settings"
@@ -101,19 +123,39 @@ function HomePage() {
         <StreakDisplay sessions={sessions} />
       </div>
 
-      <button
-        onClick={() => signOut()}
-        style={{
-          padding: "0.5rem 1rem",
-          cursor: "pointer",
-          background: "#ef4444",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-        }}
-      >
-        Logout
-      </button>
+      <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginBottom: "2rem" }}>
+        <button
+          onClick={() => navigate("/history")}
+          style={{
+            padding: "0.5rem 1rem",
+            cursor: "pointer",
+            background: "#ffffff",
+            color: "#111827",
+            border: "1px solid #d1d5db",
+            borderRadius: "4px",
+          }}
+        >
+          Workout History
+        </button>
+
+        <button
+          onClick={() => signOut()}
+          style={{
+            padding: "0.5rem 1rem",
+            cursor: "pointer",
+            background: "#ef4444",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+          }}
+        >
+          Logout
+        </button>
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <WeeklyProgress completedDays={5} />
+      </div>
     </main>
   );
 }
@@ -128,6 +170,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <HomePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/history"
+            element={
+              <ProtectedRoute>
+                <WorkoutHistoryPage />
               </ProtectedRoute>
             }
           />
