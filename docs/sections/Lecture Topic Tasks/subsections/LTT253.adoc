@@ -1,0 +1,165 @@
+=== Classifying Domain Phenomena in a Gym Tracker Workout Session
+
+Ivan Morales
+
+The Domain Attributes lecture establishes four fundamental attributes for classifying domain
+phenomena: continuous, discrete, hybrid, and chaotic. A workout session in the gym tracker is
+not uniform in its nature. It contains events that are discrete, data streams that are continuous,
+behaviors that blend both attributes, and patterns that resist reliable prediction. Classifying
+these phenomena accurately is essential for selecting modeling strategies that preserve the
+fidelity of the domain.
+
+To support this analysis, a simulated workout session is constructed and used as the basis for
+classification across all four attribute types. A user performs a strength training session on a
+single day. The session consists of three exercises: bench press performed for four sets of ten
+repetitions at 135 lbs, squat performed for three sets of eight repetitions at 185 lbs, and a
+twenty-minute treadmill run at variable pace. Rest intervals between sets range from sixty to one
+hundred twenty seconds. Heart rate is monitored continuously throughout the session. This
+simulation is realistic in scope and covers phenomena from all four attribute categories.
+
+==== Continuous Phenomena
+
+A continuous phenomenon is one that exists without interruption and whose value at any point in
+time is drawn from an unbroken range. Two such phenomena are present in the simulated session.
+
+The first is heart rate. During the session, the user's heart rate rises and falls in response to
+exertion and recovery. It does not jump between fixed values but changes smoothly as a function
+of time and activity intensity. Heart rate exists as a real-valued signal over the duration of the
+session.
+
+heartRate : Time -> ℝ⁺
+
+This phenomenon is continuous because its domain is time and its range is an unbroken interval
+of positive real values. The appropriate modeling approach is to treat heart rate as a time-series
+signal rather than a static field. In practice, the system should sample it at fixed intervals and
+store those samples as a sequence of timestamped readings. Averages, peaks, and trends can then
+be derived from this sequence during analysis.
+
+The second continuous phenomenon is the duration of the session itself. Time flows
+uninterrupted from the moment the session begins to the moment it ends. Elapsed time is not
+constructed from discrete events, it accumulates continuously regardless of what actions the
+user takes within the session.
+
+sessionDuration : SessionStart × SessionEnd -> ℝ⁺
+
+The modeling implication is that duration should be computed from two timestamps rather than
+manually entered as an integer. Representing it as a derived quantity from continuous time
+prevents inconsistencies that arise when users log duration subjectively.
+
+==== Discrete Phenomena
+
+A discrete phenomenon is one that takes on values from a countable, enumerable set. Two such
+phenomena are present in the simulated session.
+
+The first is the repetition count per set. When the user performs ten repetitions of bench press,
+the count advances by one at each completed repetition. The value is always a non negative
+whole number. Fractional or irrational repetition counts have no meaning in this domain.
+
+repCount : Set -> ℕ
+
+The appropriate modeling approach is to represent repetition count as an integer field constrained
+to non negative values. Domain invariants should enforce that a set with zero repetitions is not
+considered a completed set.
+
+The second discrete phenomenon is the load used per set. In the simulated session, the user
+selects 135 lbs for bench press and 185 lbs for squat. These values are chosen from the
+physically available increments of the equipment. While load is technically a real number, the
+actual values in practice are constrained to a finite set of selectable increments determined by
+the available plates or machine settings.
+
+load : Set -> LoadIncrement
+
+The modeling implication is that load should be validated against a defined set of acceptable
+values rather than accepted as an arbitrary floating point number. This prevents domain invalid
+entries such as 67.67 lbs, which no real gym session would produce.
+
+==== Hybrid Phenomena
+
+A hybrid phenomenon contains both continuous and discrete components that are inseparable
+from one another and must be modeled together to accurately represent the domain reality.
+
+The treadmill run in the simulated session is a hybrid phenomenon. The run has a discrete
+structure: it is one exercise, it lasts a defined number of minutes, and it counts as one entry in
+the session log. However, pace during the run varies continuously over time. The user accelerates
+and decelerates throughout the twenty minutes in a way that cannot be reduced to a single fixed
+value without losing meaningful domain information.
+
+treadmillRun = (duration : ℕ, pace : Time -> ℝ⁺)
+
+The discrete component is the run's existence as a bounded, counted exercise entry within the
+session. The continuous component is the pace signal evolving throughout that bounded interval.
+A modeling approach that treats pace as a single average value would collapse the continuous
+component into a discrete one, discarding temporal variation. A modeling approach that records
+only the raw pace signal without a discrete boundary would lose the session structure needed to
+associate the data with a specific exercise entry.
+
+The appropriate strategy is to model the treadmill run as a composite object: a discrete record
+that anchors the exercise within the session, and an attached sequence of sampled pace values
+that represents the continuous component. Summary statistics such as average pace and peak
+pace can be derived from the continuous samples, while the discrete record governs how the
+run participates in the broader session structure.
+
+==== Chaotic and Partial Phenomena
+
+A chaotic or partial phenomenon is one whose behavior cannot be reliably predicted or
+completely captured even when prior conditions are fully known. One such phenomenon is
+present in the simulated session.
+
+User adherence to the planned workout is a chaotic phenomenon. The session is planned as
+four sets of bench press, three sets of squat, and a twenty minute run. However, the actual
+execution may deviate in ways that cannot be determined from prior data alone. The user may
+terminate a set early due to fatigue, skip the final exercise, increase the load on the second set
+spontaneously, or extend the run beyond the planned duration. These deviations are not random
+in a statistical sense, but they are not deterministically predictable from the session plan or
+historical data.
+
+plannedSession ≠ executedSession in general
+
+This phenomenon is partial because the system can only capture what the user explicitly records.
+Effort quality during a set, perceived exertion, and the decision to modify or abandon a
+planned activity all exist within the domain but may never be introduced into the system. The
+system's representation of the session is always an incomplete projection of the domain reality.
+
+The appropriate modeling approach does not attempt to predict or enforce adherence. Instead,
+the model should separate the planned session from the recorded session as two distinct domain
+objects. Deviations are then captured implicitly through the difference between plan and log.
+This design acknowledges the chaotic nature of the phenomenon without attempting to eliminate
+it, and it preserves the domain information needed to identify patterns of inconsistency over
+time.
+
+==== Summary of Classifications
+
+[cols="1,1,2,2", options="header"]
+|===
+| Phenomenon | Attribute Type | Justification | Modeling Implication
+
+| Heart rate during session
+| Continuous
+| Varies smoothly over time with no fixed enumerable values
+| Store as a sequence of timestamped samples; derive statistics from the series
+
+| Session duration
+| Continuous
+| Accumulated from unbroken flow of time between two timestamps
+| Compute from start and end timestamps; do not accept as manual integer input
+
+| Repetition count per set
+| Discrete
+| Takes only non negative whole number values; fractional reps have no domain meaning
+| Model as a constrained integer field; enforce non-zero invariant for completed sets
+
+| Load per set
+| Discrete
+| Selected from a finite set of equipment defined increments
+| Validate against an enumerated set of acceptable values; reject arbitrary decimals
+
+| Treadmill run (structure + pace)
+| Hybrid
+| Discrete as a bounded exercise entry; continuous as a time varying pace signal
+| Composite record: discrete anchor for session structure, sampled series for pace data
+
+| User adherence to planned workout
+| Chaotic / Partial
+| Deviations are unpredictable; execution always diverges from plan in ways the system cannot fully observe
+| Separate planned and recorded session as distinct objects; treat differences as deviation signals
+|===

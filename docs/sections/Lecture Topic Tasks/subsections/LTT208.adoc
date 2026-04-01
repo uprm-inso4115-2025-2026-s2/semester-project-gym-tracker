@@ -1,0 +1,73 @@
+=== Modeling Domain–System Interface Boundaries for Workout Tracking
+
+Alejandro E. López Rodríguez
+
+The fitness tracking domain consists of real-world phenomena that occur
+independently of any software system. Workout sessions, exercises, attendance,
+and consistency patterns exist as part of physical activity performed by
+individuals. The system-to-be does not create these phenomena, but rather
+observes, records, and represents them. For this reason, it is necessary to
+analyze the boundary between the domain and the system in order to understand
+how real-world events are translated into system representations.
+
+At the domain level, a workout session is a physical occurrence in which an
+individual performs one or more exercises over a bounded period of time. This
+event exists regardless of whether it is recorded. The system, however, can only
+operate on representations of such events. As a result, there exists a boundary
+at which a real-world workout transitions into a recorded workout session within
+the system.
+
+performWorkout : Person >< Activity >< Duration -> WorkoutSession (domain event)
+
+recordWorkout :
+    WorkoutHistory >< Activity >< Duration >< Day >< Notes
+    -> WorkoutHistory >< WorkoutSession (system operation)
+
+The first expression represents a domain phenomenon: a workout session has
+just been performed. The second represents a system-level operation that
+introduces a representation of that phenomenon into the system. The boundary is
+crossed when the performed workout is recorded. Until this action occurs, the
+system has no knowledge of the event.
+
+A similar situation arises with attendance. In the domain, attendance refers to
+the fact that an individual has visited the gym on a particular day. This is an
+observable phenomenon independent of any system. Within the system, attendance
+is derived from recorded workout sessions.
+
+deriveAttendance :
+    WorkoutHistory >< Day -> AttendanceStatus
+
+This shows that the system does not directly observe attendance but infers it
+from recorded data. The accuracy of this representation depends on whether all
+relevant workout sessions have been recorded. If a session is not recorded, the
+system will incorrectly represent the day as missed.
+
+Another example of the domain–system boundary appears in the modeling of
+streaks. In the domain, a streak is a pattern of consecutive attendance days.
+This pattern exists as a real-world phenomenon based on actual behavior.
+Within the system, streaks are computed from recorded sessions.
+
+computeStreak :
+    WorkoutHistory -> StreakLength
+
+The correctness of the computed streak depends entirely on the completeness and
+accuracy of the recorded history. This illustrates that the system representation
+is a reflection of the domain rather than the domain itself.
+
+The introduction of domain information into the system follows a consistent
+pattern. First, a real-world event occurs, such as a workout being performed.
+Second, the event is intentionally recorded through a system operation. Third,
+the recorded data becomes part of the persistent history. Finally, higher-level
+concepts such as attendance, streaks, and consistency are derived from this
+history.
+
+This process can be summarized as follows:
+
+Domain Event → Recording Action → Stored Representation → Derived Information
+
+Each step in this process introduces the possibility of divergence between the
+domain and the system. If a workout is performed but not recorded, the system
+fails to represent that activity. If incorrect data is recorded, the system
+represents the domain inaccurately. Therefore, maintaining consistency between
+the domain and the system depends on accurate and timely recording of domain
+events.
