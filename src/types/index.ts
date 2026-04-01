@@ -53,3 +53,10 @@ export interface ValidationResult {
   valid: boolean;
   errors: string[];   
 }
+
+export interface NotificationPreferences {
+  enabled: boolean;
+  reminderTime: string; // "HH:MM"
+}
+
+
