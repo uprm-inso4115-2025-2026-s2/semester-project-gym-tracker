@@ -11,4 +11,7 @@
 | 2.1.2 Terminology | Alex Vazquez | Modified | Validated terminology completeness by narrating a domain scenario using domain terms only; identified and added missing concepts (Workout History, Time Frame, Week, Weekly Summary); documented the scenario and the relationships revealed by the walkthrough.
 | 2.2.4 Interface Requirements | Alex Vazquez | Modified | Rewrote the usage scenario section as specific story-form narratives with concrete actors, situations, and step by step actions; removed generic scenario wording; added non-happy-path scenarios covering late logging and editing, missed-day recovery after a broken streak, and invalid input rejection before persistence.
 
+| 4.1 Stakeholder Identification | Ivan Morales | Added | Integrated stakeholder perspective analysis (Issue #98) into Section 4.1; added per-group perspective descriptions, comparative summary table, and perspective alignment notes; marked with NOTE admonition change bar for M2 visibility.
+
+
 |===
