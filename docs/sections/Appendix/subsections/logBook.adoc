@@ -5,6 +5,6 @@
 |===
 | Section Name | Member | Added or Modified | Description
 
-| 2.2.3 Domain Requirements | Alex Vazquez | Modified | Added six candidate-resolution cases inside Domain Requirements: three from further elicitation and three from resolution tactics. Each case states the inconsistency, the method used, and the candidate resolution. Linked to issue #[issue number].
+| 2.2.3 Domain Requirements | Alex Vazquez | Modified | Added six candidate-resolution cases inside Domain Requirements: three from further elicitation and three from resolution tactics. Each case states the inconsistency, the method used, and the candidate resolution. Linked to issue #[342].
 
 |===
