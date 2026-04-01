@@ -1,10 +1,4 @@
-=== ii. LogBook
-
-[width="100%", cols="4*", options="header", frame=all, grid=all, halign=center]
-
-|===
-| Section Name | Member | Added or Modified | Description
-
-| Blank | Blank Blank | Added | Blank blank blank blank blank blank blank blank.
-
-|===
+|4.3.6 Notification Types and Delivery States Data Model
+|Gerald Rodríguez
+|Added
+|Defined a structured data model for notifications including entities (notification_types, notifications), delivery states, relationships, and ERD representation. Extended Section 4.3.4 domain attributes into a database-ready design.
