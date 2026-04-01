@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import type { WorkoutSession } from "../../types";
-import { computeStreak } from "../../lib/workouts";
+import { computeStreakFromSessions } from "./streakcalc";
 import StreakEmptyState, { type StreakEmptyStateProps } from "./StreakEmptyState";
 import StreakBrokenState, { type StreakBrokenStateProps } from "./StreakBrokenState";
 import "./StreakDisplay.css";
