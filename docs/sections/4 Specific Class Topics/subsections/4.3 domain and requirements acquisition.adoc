@@ -46,3 +46,154 @@ When new findings affect the domain model or requirements:
 - We revise epics/user stories if stakeholder goals shift.
 - We update domain/interface/machine requirements, and record the reason for change in the logbook and linked GitHub issues.
 - We update traceability links (Section 4.4) so changes can be followed from new evidence → updated requirements → updated tests/tasks.
+
+==== 4.3.4 Notification System – Domain Attributes Analysis
+:author: AlejandroMB05
+===== Identified Attributes
+
+*1. notificationID* +
+*Purpose:* Uniquely identifies each notification in the system. +
+*Reasoning:* Needed to track, update, or delete specific notifications.
+
+*2. userID* +
+*Purpose:* Specifies which user receives the notification. +
+*Reasoning:* Notifications must be tied to a specific user.
+
+*3. type* +
+*Purpose:* Categorizes the notification (e.g., reminder, inactivity alert, workout completion). +
+*Reasoning:* Helps differentiate the behavior and purpose of notifications.
+
+*4. message* +
+*Purpose:* The content displayed to the user. +
+*Reasoning:* Communicates the purpose of the notification clearly.
+
+*5. timestamp* +
+*Purpose:* Indicates when the notification was created or triggered. +
+*Reasoning:* Important for time-based logic such as reminders or inactivity tracking.
+
+*6. status* +
+*Purpose:* Indicates whether the notification is unread, read, or dismissed. +
+*Reasoning:* Tracks user interaction with notifications.
+
+*7. triggerType* +
+*Purpose:* Describes what caused the notification. +
+*Examples:* scheduled reminder, inactivity, workout completed. +
+*Reasoning:* Helps trace why a notification exists.
+
+===== Domain Relationships
+
+The attributes connect to other parts of the system as follows:
+
+* *userID → User domain* +
+  Defines who receives the notification.
+
+* *relatedWorkoutID → Workout domain* +
+  Links notifications to specific workouts or sessions.
+
+* *triggerType → Activity / Event domain* +
+  Represents what caused the notification (e.g., inactivity, completion).
+
+* *timestamp & scheduledTime → Time-based logic* +
+  Supports reminders, scheduling, and inactivity detection.
+
+===== Summary
+
+The notification domain includes a set of attributes that define how notifications are represented in the system. These attributes allow notifications to be uniquely identified, categorized, timed, and associated with user actions or system events.
+
+Together, they provide a flexible structure that can support future features such as reminders, inactivity alerts, and progress updates while remaining independent of implementation details.
+
+==== 4.3.5 User Account Management - Domain Acquisition
+:author: Ingrid1089
+===== Purpose and Relevance
+Gathering, analyzing, and structuring knowledge about a specific problem domain from various sources helps define requirements for the project. This process can be applied in the context of account management and authentication behavior to understand how users interact with account systems, profile usage, personalization preferences, and the information users expect. The data gathered will help design and implement an engaging, secure, and usable account system.
+
+Instead of designing features based on assumptions, domain acquisition allows the team to better understand, and design based on existing applications and the behaviors that govern them. These behaviors can be in the form of user identity management, personal preferences, and unique features the application grants the user (e.g. streak system, personal history). Examining these behaviors and patterns, the project can have a foundation that understands what users expect from account management systems.
+
+This task focuses on acquiring domain knowledge related to user accounts, login processes, and profile management in fitness tracking applications.
+
+===== Domain knowledge sources
+To effectively acquire knowledge about account management behavior in fitness tracking systems, several applications and technological patterns were examined.
+
+*MyFitnessPal – Fitness Tracking Platform*
+
+MyFitnessPal is a popular platform that allows users to track calories, macros, food and workouts. By design, it relies heavily on a structured user account management system that stores personal information and enables multiple features that complement the management system. The account system stores user attributes such as age, weight, height, dietary goals, and activity preferences. With this information, the platform can calculate daily calorie targets and track user progress.Additionally, the account management system allows users to maintain a history of meals and workouts, allowing the user to visualize long-term progress and trends. This illustrates how user accounts function as the central entity that connects user identity with activity tracking behavior.
+
+In terms of the project, the insight acquired highlights the importance of user accounts in connecting the physical activity data with individual users. By associating workouts, sessions, and activity history, the system can track and centralize the progress of the user over time. The key feature is to give the user a visualization of their progress to support consistency and long-term habit formation.
+ 
+*Strava – Activity Tracking Platform*
+
+Strava is a fitness tracking platform that is designed for recording and analyzing activities. It is particularly popular among cyclists and runners for its many tracking and routing features. Another reason for its popularity is the social media aspect of it that allows users to compete and have leaderboards. Similarly to other applications, Strava also relies on a structured user account system. Through this system, users can log activities and maintain a record of their sessions over time. Strava can generate a summary of activity data that allows users to view several statistics such as distance, duration, and frequency of workouts. A popular feature that is based on this information is the fitness score Strava has.
+
+A key feature examined in this research was Strava’s profile page and its features. It includes several elements that enable better representation of the user in the system. Some key elements include profile information such as name, profile picture, biography, and connection with other users through followers and following lists. The profile also contains an activity feed that displays recently recorded activities and performance summaries. Additionally, Strava provides user accounts with options to adjust privacy settings to determine whether the information is visible to everyone, only followers, or themselves. This illustrates how user profiles act as a representation of user identity within activity tracking systems.
+
+In terms of the Gym Tracker project, this platform provides a good example of structured profiles that manage both identity information and activity records. Implementing profile features such as identity information, activity history, and privacy settings allows the platform to better represent personalized information to each user.
+ 
+*Authentication Systems in User Account Management*
+Authentication systems have become an essential component of virtually all applications that require any personal information from the user. These systems have been designed and implemented with protection in mind by verifying the identity of users before they are granted access to any personal data stored within an account. The most basic form we see is with email and passwords, although systems have been developed to support third-party authentication through Google or Apple.
+
+These mechanisms ensure that any sensitive information associated with users remains protected from any unauthorized access. In fitness tracking systems, this is important since all information stored, analyzed, and shown is completely personal to a user account. Additionally, authentication processes support session management, which in turn allows users to remain logged in while interacting with the platform.
+ 
+For the project, authentication is a top priority to implement and a critical feature to ensure that all records, history, and personal profile information remain securely associated with the correct user account. By implementing this feature, the platform can protect user data while allowing them to access and manage their records through personal accounts.
+ 
+*Community Discussion and Feedback*
+Information coming from the users that interact with the platform provides excellent insight on features and system design. A community discussion around the topic of Strava was reviewed for this section. In one discussion users talked about potential improvements to the platform in the form of being able to customize activity logs in their accounts, adding additional categories, and allowing the display of both metric and imperial units for performance statistics. Another user suggested that in the profile page the activities section should feature better filtering to see their logs in the account. User suggestions indicate that users value account systems that allow them to customize how their activity data is presented and organized.
+
+Information like this highlights the importance of flexible profile dashboards and customizable activity display options in fitness tracking platforms. For this project these insights suggest that the system should support configurable activity information and allow users to organize workout data that matches their account preferences.
+
+===== Domain Insights for Gym Tracker
+The analysis of multiple fitness platforms has revealed several important patterns in terms of user account management systems and how these are designed in these applications.
+
+1. User accounts function as a central entity that connects personal identity with activity data, Platforms such as MyFitnessPal and Strava are examples of how accounts store personal attributed and associate recorded activities with individual users. This design allows systems to maintain long-term records of workouts and generate summaries of user activity.
+
+2. Accounts are commonly represented through structured profiles that manage organization of identity information and activity records. Successful profile pages include personal information such as name, profile images, and biographies and integrate them along with activity feeds, performance summaries, and interaction features. This design structure allows users to easily access their personal activity history and understand their fitness behavior over time.
+
+3. Authentication mechanisms are a vital part of protecting user information. Login systems verify user identity and ensure activity records and personal data remain accessible only to the authorized user. This feature becomes a fundamental requirement for any application that utilizes personal data.
+
+4. Community feedback is an important source of information because it's directly from the user. From the sources studied, users expect flexibility in how their information is displayed and organized in their accounts. Users request features that enable them to customize their profiles, dashboards, categorize activities, and filter logs. These expectations highlight the importance of designing account systems that provide both a structured and a customizable presentation of information.
+
+===== Conclusions
+The domain acquisition process provided substantial information and valuable insights into how user accounts should function to be effective, engaging, and secure. By examining applications such as MyFitnessPal and Strava, which provided concrete examples of important design choices. Studying information on authentication mechanisms through various sources, the team could identify key features that must be implemented to design a user account system that is secure. Community posts and discussions also proved to be a good source of information due to the direct feedback from the users that interact with the platform. Their feedback helps developers implement features that were often overlooked during the software development cycle. These insights help inform the design of the Gym Tracker application and ensure that its account management system aligns with common practices in modern fitness tracking platforms.
+
+==== 4.3.6 Workout Data Validation and Integrity - Domain Attributes
+:author: Héctor L. Rivera Betances
+===== 1. Introduction
+
+#Workout tracking apps depend a lot on the data users enter, such as weight, reps, sets, and exercise type. If this data isn’t properly validated, it can become inconsistent or incorrect, which affects features like progress tracking and performance analysis. That’s why data validation is important—it helps keep the information logical and reliable.#
+
+===== 2. Importance of Data Integrity
+
+#Data integrity is essential in fitness apps because training decisions are often based on this information. If users enter incorrect values, like negative weights or zero reps, the system can produce misleading results. Keeping data accurate builds user trust, improves analysis, and helps prevent system errors.#
+
+===== 3. Common Data Validation Issues
+
+#Some common problems include negative or zero values, missing fields, wrong data types, or unrealistic numbers. For example, entering an extremely high weight or using an invalid format can break calculations like training volume or progress tracking.#
+
+===== 4. Validation Strategies
+
+#Validation can happen at different levels. Frontend validation gives users immediate feedback, while backend validation ensures the data is correct no matter how it’s submitted. Using both together makes the system more reliable.#
+
+===== 5. Technical Considerations
+
+#From a technical perspective, it’s important to define clear and reusable validation rules. For example, functions can check that weight, reps, and sets are greater than zero. Database constraints and proper data types also help maintain data integrity.#
+
+===== 6. Example Validation Logic
+
+#A good validation system checks that each workout entry meets basic requirements before being stored. This includes making sure numeric values are positive and that all required fields are filled.#
+
+===== 7. Benefits and Limitations
+
+#The main benefit is more accurate and reliable data. However, if validation rules are too strict, they might limit flexibility for advanced users. It’s important to find a balance between control and usability.#
+
+===== 8. Conclusion
+
+#Validating workout data is essential for building a reliable and scalable fitness app. By ensuring consistency and accuracy, the system can provide meaningful insights and support long-term progress.#
+
+===== 9. Validation Rules Table
+
+[cols="1,1,1", options="header"]
+|===
+| Field | Validation Rule | Example
+| Weight | >= 0 | 135 lbs
+| Reps | > 1 | 8
+| Sets | > 1 | 3
+|===
