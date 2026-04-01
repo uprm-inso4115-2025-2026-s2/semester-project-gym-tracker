@@ -1,19 +1,18 @@
-import { BrowserRouter, Routes, Route, useNavigate} from "react-router-dom";
-import {
-  LoginPage,
-  SignupPage,
-  ProfilePage, AuthProvider,
-  ProtectedRoute,
-  useAuth,
-  signOut,
-} from "./features/auth";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
 import WorkoutHistoryPage from "./features/workouts/WorkoutHistoryPage";
 import WeeklyProgress from "./features/streaks/WeeklyProgress";
 import { StreakDisplay, StreakMilestoneBadge } from "./features/streaks";
 import SettingsPage from "./features/streaks/SettingsPage";
+import NotFoundPage from "./features/ui/NotFoundPage";
 import type { WorkoutSession } from "./types";
+import "./App.css";
 
 function StreakPreviewPage() {
+  const previewSessions: WorkoutSession[] = [];
+  const pastSession: WorkoutSession[] = [
+    { id: "1", userId: "demo", date: "2025-01-01", activityType: "gym", durationMinutes: 60 },
+  ];
   const activeSessions: WorkoutSession[] = [
     { id: "1", userId: "demo", date: "2026-03-20", activityType: "gym", durationMinutes: 45 },
     { id: "2", userId: "demo", date: "2026-03-21", activityType: "gym", durationMinutes: 50 },
@@ -52,8 +51,11 @@ function StreakPreviewPage() {
         <p style={{ fontSize: 13, color: "#cbd5e1", marginBottom: "0.5rem" }}>Active state:</p>
         <StreakDisplay sessions={activeSessions} isBroken={false} longestStreak={67} />
 
+        <p style={{ fontSize: 13, color: "#cbd5e1", margin: "1.5rem 0 0.5rem" }}>Empty state:</p>
+        <StreakDisplay sessions={previewSessions} />
+
         <p style={{ fontSize: 13, color: "#cbd5e1", margin: "1.5rem 0 0.5rem" }}>Broken state:</p>
-        <StreakDisplay sessions={activeSessions} isBroken={true} longestStreak={67} />
+        <StreakDisplay sessions={pastSession} isBroken={true} longestStreak={7} />
 
         <p style={{ fontSize: 13, color: "#cbd5e1", margin: "1.5rem 0 0.5rem" }}>
           Milestone badges:
@@ -74,15 +76,8 @@ function HomePage() {
   const sessions: WorkoutSession[] = [];
 
   return (
-    <main
-      style={{
-        padding: "2rem",
-        textAlign: "center",
-        background: "#ffffff",
-        minHeight: "100vh",
-        position: "relative",
-      }}
-    >
+    <main className="home-main" style={{ position: "relative" }}>
+      {/* Settings icon - top right */}
       <button
         onClick={() => navigate("/settings")}
         aria-label="Settings"
@@ -116,14 +111,13 @@ function HomePage() {
         </svg>
       </button>
 
-      <h1>Gym Tracker</h1>
-      <p style={{ marginBottom: "2rem" }}>Logged in as: {user?.email}</p>
+      <h1 className="home-title">Gym Tracker</h1>
+      <p className="home-subtitle">Logged in as: {user?.email}</p>
 
-      <div style={{ maxWidth: 350, margin: "0 auto 2rem" }}>
+      <div className="home-weekly">
         <StreakDisplay sessions={sessions} />
       </div>
       
-
       <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginBottom: "2rem" }}>
         <button
           onClick={() => navigate("/profile")}
@@ -152,17 +146,7 @@ function HomePage() {
           Workout History
         </button>
 
-        <button
-          onClick={() => signOut()}
-          style={{
-            padding: "0.5rem 1rem",
-            cursor: "pointer",
-            background: "#ef4444",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-          }}
-        >
+        <button className="btn-logout" onClick={() => signOut()}>
           Logout
         </button>
       </div>
@@ -206,6 +190,8 @@ function App() {
 
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/streaks-preview" element={<StreakPreviewPage />} />
           <Route
             path="/settings"
@@ -215,6 +201,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

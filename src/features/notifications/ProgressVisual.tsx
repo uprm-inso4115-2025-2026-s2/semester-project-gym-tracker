@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
+import "./ProgressVisual.css";
 
 interface WorkoutProgress {
   sets_completed: number;
@@ -222,21 +223,21 @@ export default function ProgressVisual({ userId }: ProgressVisualProps) {
       current: progress.sets_completed ?? 0,
       target: progress.sets_target ?? 1,
       unit: "sets",
-      color: "var(--accent-green)",
+      color: "var(--secondary-fixed)",
     },
     {
       label: "REPS",
       current: progress.reps_completed ?? 0,
       target: progress.reps_target ?? 1,
       unit: "reps",
-      color: "var(--accent-amber)",
+      color: "var(--primary-container)",
     },
     {
       label: "VOLUME",
       current: progress.volume_kg ?? 0,
       target: progress.volume_target_kg ?? 1,
       unit: "kg",
-      color: "var(--accent-blue)",
+      color: "var(--primary)",
     },
   ];
 
@@ -246,7 +247,6 @@ export default function ProgressVisual({ userId }: ProgressVisualProps) {
 
   return (
     <>
-      <style>{styles}</style>
       <div className="pg-container">
         <div className="pg-header">
           <div className="pg-header-left">
@@ -270,229 +270,3 @@ export default function ProgressVisual({ userId }: ProgressVisualProps) {
     </>
   );
 }
-
-const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap');
-
-  :root {
-    --bg:           #0d0f10;
-    --surface:      #161a1d;
-    --surface-2:    #1e2428;
-    --border:       #2a3038;
-    --track:        #2a3038;
-    --text:         #e8ecef;
-    --muted:        #5a6470;
-    --accent-green: #39ff84;
-    --accent-amber: #ffb830;
-    --accent-blue:  #38bdf8;
-  }
-
-  .pg-container {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'JetBrains Mono', monospace;
-    padding: 1.5rem;
-    border-radius: 16px;
-    max-width: 480px;
-    width: 100%;
-    margin: 0 auto;
-    border: 1px solid var(--border);
-  }
-
-  .pg-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1.75rem;
-  }
-  .pg-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 2.4rem;
-    font-weight: 900;
-    letter-spacing: 0.08em;
-    margin: 0;
-    line-height: 1;
-  }
-  .pg-period {
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    display: block;
-    margin-top: 0.3rem;
-  }
-  .overall-badge {
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.6rem 1rem;
-    text-align: center;
-    min-width: 64px;
-  }
-  .overall-pct {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 2rem;
-    font-weight: 900;
-    line-height: 1;
-    color: var(--accent-green);
-  }
-  .overall-label {
-    font-size: 0.9rem;
-    color: var(--muted);
-  }
-
-  .rings-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-  }
-  .ring-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem 0.75rem 0.85rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.45rem;
-  }
-  .ring-svg { overflow: visible; }
-  .ring-arc {
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
-    transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .ring-pct {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 900;
-    fill: var(--text);
-  }
-  .ring-unit {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem;
-    fill: var(--muted);
-    letter-spacing: 0.05em;
-  }
-  .ring-label {
-    font-size: 0.62rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-  .ring-values {
-    font-size: 0.7rem;
-    color: var(--muted);
-    display: flex;
-    gap: 2px;
-    align-items: center;
-  }
-  .ring-current { color: var(--text); font-weight: 600; }
-  .ring-sep { color: var(--border); }
-
-  .streak-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem;
-  }
-  .streak-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.85rem;
-  }
-  .section-label {
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-  .streak-count {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--accent-green);
-  }
-  .streak-unit { font-size: 0.75rem; color: var(--muted); }
-  .streak-bar {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.3rem;
-  }
-  .streak-day {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  .streak-pip {
-    width: 100%;
-    height: 8px;
-    border-radius: 4px;
-    background: var(--track);
-    transition: background 0.3s;
-  }
-  .streak-day.active .streak-pip {
-    background: var(--accent-green);
-    box-shadow: 0 0 6px var(--accent-green);
-  }
-  .streak-day-label {
-    font-size: 0.6rem;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    font-weight: 600;
-  }
-
-  .skeleton {
-    background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s infinite;
-    border-radius: 6px;
-  }
-  @keyframes shimmer {
-    0%   { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-  .skeleton-header   { flex-direction: column; gap: 0.5rem; }
-  .skeleton-title    { height: 2.4rem; width: 140px; }
-  .skeleton-subtitle { height: 0.8rem; width: 80px; }
-  .skeleton-ring     { height: 160px; }
-  .skeleton-circle   { width: 108px; height: 108px; border-radius: 50%; }
-  .skeleton-label    { height: 0.6rem; width: 50px; }
-
-  .empty-state {
-    text-align: center;
-    padding: 3rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .empty-icon { font-size: 3rem; color: var(--muted); line-height: 1; }
-  .empty-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin: 0;
-    letter-spacing: 0.05em;
-  }
-  .empty-body {
-    font-size: 0.75rem;
-    color: var(--muted);
-    line-height: 1.6;
-    max-width: 260px;
-    margin: 0;
-  }
-  .error-state { padding: 2rem; text-align: center; }
-  .error-msg   { color: #ff6b6b; font-size: 0.75rem; }
-
-  @media (max-width: 360px) {
-    .rings-grid { grid-template-columns: 1fr; }
-    .ring-card  { flex-direction: row; padding: 0.75rem; }
-  }
-`;

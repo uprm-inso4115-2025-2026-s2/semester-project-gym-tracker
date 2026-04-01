@@ -1,98 +1,176 @@
 .login-page {
-  min-height: 100vh;
+  /* Break out of #root's max-width / padding so the bg covers the full viewport */
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  z-index: 10;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to bottom, #5f84e8, #0d2f8b);
-  font-family: Arial, sans-serif;
+  background: linear-gradient(160deg, #dce6f8 0%, var(--surface) 60%);
+  font-family: var(--font-family-body);
+  padding: var(--space-3);
 }
 
 .login-card {
   width: 100%;
-  max-width: 350px;
-  padding: 30px 24px;
+  max-width: 390px;
+  padding: var(--space-6) var(--space-3);
   text-align: center;
-  color: white;
+  color: var(--on-surface);
+  background-color: var(--surface-container-lowest);
+  border-radius: var(--radius-xl);
+  /* Stronger, multi-layer shadow for real depth */
+  box-shadow:
+    0 2px 8px rgba(25, 28, 30, 0.08),
+    0 12px 40px rgba(25, 28, 30, 0.12);
 }
 
 .login-title {
-  font-size: 28px;
-  margin-bottom: 25px;
-  font-weight: bold;
+  font-family: var(--font-family-display);
+  font-size: var(--font-headline-md);
+  font-weight: 800;
+  margin-bottom: var(--space-3);
+  color: var(--on-surface);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 .login-input {
   width: 100%;
-  padding: 12px 14px;
-  border-radius: 8px;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
   border: none;
-  margin-bottom: 15px;
-  font-size: 16px;
+  outline: none;                         /* kill browser default outline */
+  background-color: var(--surface-container-low);
+  color: var(--on-surface);
+  margin-bottom: var(--space-2);
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-md);
   box-sizing: border-box;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Readable placeholder — on-surface at ~55% opacity */
+.login-input::placeholder {
+  color: rgba(25, 28, 30, 0.45);
+}
+
+.login-input:focus {
+  background-color: var(--surface-container-lowest);
+  box-shadow: 0 0 0 2px rgba(0, 75, 202, 0.25), var(--ambient-shadow);
 }
 
 /* password field container */
 .password-field {
   position: relative;
+  width: 100%;
 }
 
-/* space for the icon */
+/* Ensure password input fills its container and has no rogue border */
 .password-field input {
-  padding-right: 40px;
+  padding-right: 44px;
+  border: none;
+  outline: none;
 }
 
 /* eye icon button */
 .toggle-password {
   position: absolute;
-  right: 10px;
-  top: 42%;
-  transform: translateY(-50%);
+  right: 14px;
+  top: 50%;
+  transform: translateY(-60%);
   border: none;
   background: none;
   cursor: pointer;
-  color: #444;
-  font-size: 18px;
+  color: rgba(25, 28, 30, 0.4);
+  font-size: 16px;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.toggle-password:hover {
+  color: var(--primary);
 }
 
 .login-button {
   width: 100%;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 14px;
+  margin-top: var(--space-1);
+  border-radius: var(--radius-full);
   border: none;
-  background: white;
-  color: #1b3ea8;
-  font-weight: bold;
-  font-size: 16px;
+  background: var(--power-gradient);
+  color: #ffffff;
+  font-family: var(--font-family-body);
+  font-weight: 700;
+  font-size: var(--font-body-md);
   cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: opacity 0.2s ease, transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.login-button:hover {
+.login-button:hover:not(:disabled) {
   opacity: 0.9;
+  transform: scale(1.01);
 }
 
-.toggle-password:hover {
-  color: #1b3ea8;
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Error message below form */
+.login-error {
+  color: var(--error);
+  font-size: var(--font-body-md);
+  margin: var(--space-1) 0;
+  align-self: flex-start;
+  text-align: left;
 }
 
 .signup-text {
-  margin-top: 18px;
-  font-size: 14px;
-  color: white;
+  margin-top: var(--space-3);
+  font-size: var(--font-body-md);
+  color: rgba(25, 28, 30, 0.55);
 }
 
 .signup-link {
-  font-weight: bold;
-  color: white;
-  text-decoration: underline;
-  cursor: pointer;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
 }
 
 .signup-link:hover {
-  opacity: 0.85;
+  text-decoration: underline;
 }
 
 .login-logo {
-  width: 320px;
-  margin-bottom: 20px;
+  width: 100px;
+  margin-bottom: var(--space-3);
   object-fit: contain;
+}
+
+/* "Forgot Password?" link below the password field */
+.forgot-link {
+  align-self: flex-end;
+  font-size: var(--font-body-md);
+  color: rgba(25, 28, 30, 0.5);
+  text-decoration: none;
+  margin-bottom: var(--space-1);
+  transition: color 0.2s;
+}
+
+.forgot-link:hover {
+  color: var(--primary);
+}
+
+/* Inline confirmation / success state */
+.success-message {
+  color: var(--secondary);
+  font-size: var(--font-body-md);
+  margin: var(--space-2) 0;
+  text-align: center;
+  line-height: 1.5;
 }

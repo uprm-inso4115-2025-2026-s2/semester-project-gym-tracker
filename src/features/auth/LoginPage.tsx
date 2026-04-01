@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../../assets/logo.png";
+const logo = "/Colored-Logo.svg";
 import "./LoginPage.css";
 import { signInWithEmail } from "./api";
 import { useAuth } from "./AuthContext";
@@ -87,7 +87,11 @@ export default function LoginPage() {
             </button>
           </div>
 
-          {errorMsg && <p style={{ color: "red", fontSize: "0.9rem", margin: "0.5rem 0", alignSelf: "flex-start" }}>{errorMsg}</p>}
+          <Link to="/forgot-password" className="forgot-link">
+            Forgot Password?
+          </Link>
+
+          {errorMsg && <p className="login-error">{errorMsg}</p>}
 
           <button type="submit" className="login-button" disabled={loading}>
             {loading ? "Logging in..." : "Login"}

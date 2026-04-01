@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import type { WorkoutSession } from "../../types";
 import { computeStreakFromSessions } from "./streakcalc";
 import StreakEmptyState, { type StreakEmptyStateProps } from "./StreakEmptyState";
-import StreakBrokenState, { type StreakBrokenStateProps } from "./StreakBrokenState";
 import "./StreakDisplay.css";
 
 // ---------------------------------------------------------------------------
@@ -20,7 +19,6 @@ type StreakDisplayProps = {
   /** All-time longest streak. Hardcoded for now; wire to Supabase later. */
   longestStreak?: number;
   emptyStateProps?: StreakEmptyStateProps;
-  brokenStateProps?: StreakBrokenStateProps;
 };
 
 // --- Individual streak card --------------------------------------------------
@@ -60,11 +58,10 @@ export default function StreakDisplay({
   // TODO: replace MOCK_STREAK_DATA.longestStreak with real Supabase value
   longestStreak = MOCK_STREAK_DATA.longestStreak,
   emptyStateProps,
-  brokenStateProps,
 }: StreakDisplayProps) {
   // TODO: replace with real currentStreak from Supabase when available
   const currentStreak = sessions.length > 0
-    ? computeStreak(sessions)
+    ? computeStreakFromSessions(sessions)
     : MOCK_STREAK_DATA.currentStreak;
 
   const isStreakBroken = isBroken || currentStreak === 0;

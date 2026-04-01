@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../../assets/logo.png";
+const logo = "/Colored-Logo.svg";
 import "./LoginPage.css";
 import { signUpWithEmail } from "./api";
 import { useAuth } from "./AuthContext";
@@ -126,7 +126,7 @@ export default function SignupPage() {
             </button>
           </div>
 
-          {errorMsg && <p style={{ color: "red", fontSize: "0.9rem", margin: "0.5rem 0", alignSelf: "flex-start" }}>{errorMsg}</p>}
+          {errorMsg && <p className="login-error">{errorMsg}</p>}
 
           <button type="submit" className="login-button" disabled={loading}>
             {loading ? "Signing up..." : "Sign Up"}
