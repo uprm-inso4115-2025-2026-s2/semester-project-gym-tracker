@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import { useAuth } from "../auth";
+import LogWorkoutModal from "../workouts/LogWorkoutModal";
 
 type ProgressData = {
   current: number;
@@ -20,6 +21,7 @@ export default function DailyGoalProgress() {
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showLogModal, setShowLogModal] = useState(false);
 
   const fetchDailyGoal = useCallback(async () => {
     if (!user) return;
@@ -280,7 +282,7 @@ export default function DailyGoalProgress() {
       <p style={{ marginBottom: "0.75rem" }}>{percentage.toFixed(0)}% complete</p>
 
       <button
-        onClick={handleAddWorkout}
+        onClick={() => setShowLogModal(true)}
         disabled={loading}
         style={{
           padding: "0.7rem 1.1rem",
@@ -305,6 +307,13 @@ export default function DailyGoalProgress() {
         <p style={{ marginTop: "0.75rem", color: "#b91c1c", fontWeight: "bold" }}>
           {errorMessage}
         </p>
+      )}
+
+      {showLogModal && (
+        <LogWorkoutModal
+          onClose={() => setShowLogModal(false)}
+          onWorkoutLogged={handleAddWorkout}
+        />
       )}
     </div>
   );

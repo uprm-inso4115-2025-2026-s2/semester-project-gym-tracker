@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+const logo = "/Colored-Logo.svg";
 import {
   LoginPage,
   SignupPage,
@@ -166,6 +167,7 @@ function HomePage() {
 
   return (
     <main className="home-main" style={{ position: "relative" }}>
+      {/* Settings gear — top right */}
       <button
         onClick={() => navigate("/settings")}
         aria-label="Settings"
@@ -183,86 +185,45 @@ function HomePage() {
           justifyContent: "center",
         }}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="26"
-          height="26"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#374151"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--on-surface,#191c1e)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="3" />
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
         </svg>
       </button>
 
+      {/* Logo + greeting */}
+      <img src={logo} alt="Gym Tracker" className="home-logo" />
       <h1 className="home-title">Gym Tracker</h1>
-      <p className="home-subtitle">Logged in as: {user?.email}</p>
+      <p className="home-subtitle">{user?.email}</p>
 
-      <div className="home-weekly">
-        {loadingStreaks ? <p>Loading streaks...</p> : <StreakDisplay sessions={sessions} />}
+      {/* Streak card */}
+      <div className="home-card">
+        {loadingStreaks
+          ? <p style={{ margin: 0, textAlign: "center", color: "var(--outline-variant)" }}>Loading streaks…</p>
+          : <StreakDisplay sessions={sessions} />}
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          gap: "1rem",
-          justifyContent: "center",
-          marginBottom: "2rem",
-          flexWrap: "wrap",
-        }}
-      >
-        <button
-          onClick={() => navigate("/profile")}
-          style={{
-            padding: "0.5rem 1rem",
-            cursor: "pointer",
-            background: "#ffffff",
-            color: "#111827",
-            border: "1px solid #d1d5db",
-            borderRadius: "4px",
-          }}
-        >
-          Profile
-        </button>
-        <button
-          onClick={() => navigate("/history")}
-          style={{
-            padding: "0.5rem 1rem",
-            cursor: "pointer",
-            background: "#ffffff",
-            color: "#111827",
-            border: "1px solid #d1d5db",
-            borderRadius: "4px",
-          }}
-        >
-          Workout History
-        </button>
-
-        <button className="btn-logout" onClick={() => signOut()}>
-          Logout
-        </button>
-      </div>
-
-      <div style={{ display: "flex", justifyContent: "center", marginBottom: "2rem" }}>
+      {/* Weekly progress card */}
+      <div className="home-card">
         <WeeklyProgress completedDays={weeklyCompletedDays} />
       </div>
 
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "760px",
-          margin: "0 auto",
-          display: "grid",
-          gap: "1.5rem",
-        }}
-      >
+      {/* Daily goal card */}
+      <div className="home-card" style={{ textAlign: "left" }}>
         <DailyGoalProgress />
+      </div>
+
+      {/* Weekly summary card */}
+      <div className="home-card" style={{ textAlign: "left" }}>
         <WeeklyProgressSummary />
       </div>
+
+      {/* Navigation */}
+      <nav className="home-nav">
+        <button className="home-nav-btn" onClick={() => navigate("/profile")}>Profile</button>
+        <button className="home-nav-btn" onClick={() => navigate("/history")}>Workout History</button>
+        <button className="btn-logout" onClick={() => signOut()}>Logout</button>
+      </nav>
     </main>
   );
 }
