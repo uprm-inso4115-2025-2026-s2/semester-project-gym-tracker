@@ -18,14 +18,15 @@
   margin: 0;
   font-size: 28px;
   font-weight: 800;
-  color: white;
+  color: var(--gt-primary, #1b3ea8);
   letter-spacing: -0.5px;
 }
 
 .streak-display__subtitle {
   margin: 0.35rem 0 0;
   font-size: 14px;
-  color: white;
+  color: var(--gt-primary, #1b3ea8);
+  opacity: 0.75;
 }
 
 /* Two-column card grid ----------------------------------------------------- */
