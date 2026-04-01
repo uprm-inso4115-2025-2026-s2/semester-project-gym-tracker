@@ -22,7 +22,7 @@
 .home-subtitle {
   font-family: var(--font-family-body);
   font-size: var(--font-body-md);
-  color: var(--outline-variant);
+  color: #4b5563;
   margin-bottom: var(--space-4);
 }
 
