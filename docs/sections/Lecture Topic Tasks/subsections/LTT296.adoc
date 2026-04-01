@@ -1,0 +1,46 @@
+=== Domain Analysis Applied to Gym Tracker
+
+The Gym Tracker Web-App can be analyzed as a structured domain where users interact with fitness-related data and actions.
+The domain contains key entities such as users, wourkout sessions, excercises, and ways to see your different 
+performances. All of these "entites", represent descritions of domains that can be abstracted into higher level concepts. 
+
+From the domain perspective, the user is the main player who interacts with the system. A workout session acts as the 
+central concept, which functions as the container that joins the exercises, the duration, the burned calories and other
+variables. This all alings with the idea of making concepts from different related elements, where individual actions,
+like logging exercises, are abstracted into a more open activity, like a workout session
+
+Exercises and their attributes (sets, reps, weight) can be combined into a concept representing exersice performance, 
+while metrics such as calories burned and duration can be abstracted into fitness tracking data. These abstractions help 
+simplify the system by organizing low level details into important categories, basically like how domain concepts are 
+made from detailed descriptions.
+
+The relationships between these concepts are also part of the domain. A user usually creates multiple workout sessions, 
+and each session contains multiple exercises, and then each exercise records performance data. This structure shows a 
+clear domain narrative where actions and data flow logically through the system.
+
+Domain analisys its also about identifying inconsistencies and incomplete requirements. In the project, some possible 
+examples could include missing validations for user authentifications before logging their workouts, or unclear handling 
+of invalid data (such as incorrect UUID formats for example), and database restrictions like low level security 
+preventing anauthorized inserts. These issues could show gaps between what we want for our domain and our current 
+implementations.
+
+Additionally, the system must ensure consistency in how data is stored and accessed. For example, table names not 
+matching, this represents domain inconsistencies that could lead to mistakes in the web-app logic. Fixing these 
+inconsistencies ensures alignment between the conceptual domain and the technical implementation.
+
+Finally, the gym tracker domain can be rewritten into a simplified narrative:
+
+- Users log workout sessions
+- Workout sessions contain exercises and performance data
+- Exercises record sets, reps, and weights
+- The system stores and retrieves this data for tracking progress
+
+This abstraction demonstrates how domain analysis helps transform detailed system components into a clear, organized 
+structure that supports both development and requirement validation
+
+
+
+
+
+
+

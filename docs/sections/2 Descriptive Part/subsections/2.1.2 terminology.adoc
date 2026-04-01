@@ -24,12 +24,45 @@ A calendar day on which a workout session has just occurred.
 #*Missed Day* (Domain Concept, Category: Entity)#  
 A calendar day on which no workout session has occurred despite an
 intention or expectation of activity.
+#*GymGoer* (Domain Concept, Category: Entity)#  
+#An individual who performs WorkoutSessions, has Attendance Days and
+Missed Days across time, and may have one or more Goals related to
+fitness activity.#
+
+#*WorkoutHistory* (Domain Concept, Category: Entity)#  
+#An ordered collection of WorkoutSessions associated with a GymGoer
+across time. Attendance Days, Missed Days, Consistency, and Streak are
+determined from this history.#
+
+*Workout Session* (Domain Concept)  
+A specific occurrence of a workout that has just taken place at a
+particular time and duration.
+
+#*Workout History* (Domain Concept, Category: Entity)#  
+#An ordered collection of Workout Sessions across time. Attendance Days,
+Missed Days, Consistency, and Streak are determined from this history.#
+
+*Attendance Day* (Domain Concept)  
+A calendar day on which a workout session has just occurred.
+
+#*Goal* (Domain Concept, Category: Entity)#  
+#A desired level of activity or performance defined within a specific
+Time Frame, such as completing a certain number of workouts in a Week.#
 
 #*Goal* (Domain Concept, Category: Entity)#  
 A desired level of activity or performance defined over a period of
 time, such as completing a certain number of workouts in a week.
 
 #*Weekly Activity Pattern* (Domain Concept, Category: Behavior)#  
+#*Time Frame* (Domain Concept, Category: Entity)#  
+#A bounded temporal interval within which activity or a Goal is evaluated,
+such as a day or a Week.#
+
+#*Week* (Domain Concept, Category: Entity)#  
+#A seven-day Time Frame used for weekly aggregation, Goal evaluation, and
+summary generation.#
+
+*Weekly Activity Pattern* (Domain Concept)  
 The observable distribution of workout sessions across days in a week.
 
 #*Consistency* (Domain Concept, Category: Behavior)#  
@@ -51,6 +84,9 @@ session or how it felt.
 has occurred. It is classified as a domain entity because it can exist
 independently of software, for example as an alarm, calendar note,
 sticky note, or verbal reminder.#
+#*Weekly Summary* (Domain Concept, Category: Entity)#  
+#An overview of Workout Sessions, Attendance Days, Missed Days, and Goal
+evaluation within a Week.#
 
 ===== Domain Events
 
@@ -89,6 +125,14 @@ Calculates the regularity of activity over a time span.
 #computeStreak(history: List AttendanceDay) : StreakLength
 (Category: Function)#  
 Determines the length of the current consecutive attendance sequence.
+#computeStreak(history: WorkoutHistory) : StreakLength
+(Category: Function)#  
+#Determines the length of the current consecutive attendance sequence
+from a WorkoutHistory.#
+
+#retrieveWorkoutHistory(gymGoer: GymGoer) : WorkoutHistory
+(Category: Function)#  
+#Determines the WorkoutHistory associated with a given GymGoer.#
 
 #evaluateGoal(goal: Goal, history: List WorkoutSession) : GoalResult
 (Category: Function)#  
@@ -149,3 +193,34 @@ produced artifact from the operation that generates it.#
 #*Streak*, *Consistency*, *Progress*, and *Weekly Activity Pattern* are
 categorized as behaviors because they describe temporal patterns or changes
 over time rather than standalone objects.#
+*Motivational Message* (Implementation Term)  
+Text produced by the system to reinforce consistency or progress.
+
+===== #Terminology Completeness Validation#
+
+#A terminology walkthrough was used to test whether the domain story could
+be told using domain terms only.#
+
+#Scenario used for validation: A Goal requires three Attendance Days within
+one Week. In that Week, a Workout Session has just been performed on
+Monday and Tuesday. These Workout Sessions belong to the same Workout
+History and produce two Attendance Days. On Wednesday, no Workout Session
+occurs, so a Missed Day occurs. On Thursday, another Workout Session has
+just been performed. The Workout History for that Week now contains three
+Workout Sessions distributed across one Week, with three Attendance Days
+and one Missed Day. From this Workout History, the domain can determine a
+Streak, evaluate Consistency, evaluate the Goal within its Time Frame, and
+produce a Weekly Summary.#
+
+#Gap discovered during walkthrough: this scenario required the terms
+Workout History, Time Frame, Week, and Weekly Summary. These concepts were
+already being used implicitly by the domain model and related function
+signatures, but they were not previously defined in the terminology
+section.#
+
+#Resolution: the missing terms were added to the terminology. The
+relationships used in the walkthrough are: a Workout History contains
+Workout Sessions; Attendance Days and Missed Days are derived from the
+distribution of Workout Sessions across calendar days; a Week is a Time
+Frame; and a Weekly Summary aggregates Workout Sessions, Attendance Days,
+Missed Days, and Goal evaluation within that Week.#
