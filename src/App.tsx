@@ -1,8 +1,8 @@
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate} from "react-router-dom";
 import {
   LoginPage,
   SignupPage,
-  AuthProvider,
+  ProfilePage, AuthProvider,
   ProtectedRoute,
   useAuth,
   signOut,
@@ -122,8 +122,22 @@ function HomePage() {
       <div style={{ maxWidth: 350, margin: "0 auto 2rem" }}>
         <StreakDisplay sessions={sessions} />
       </div>
+      
 
       <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginBottom: "2rem" }}>
+        <button
+          onClick={() => navigate("/profile")}
+          style={{
+            padding: "0.5rem 1rem",
+            cursor: "pointer",
+            background: "#ffffff",
+            color: "#111827",
+            border: "1px solid #d1d5db",
+            borderRadius: "4px",
+          }}
+        >
+          Profile
+        </button>
         <button
           onClick={() => navigate("/history")}
           style={{
@@ -181,6 +195,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/streaks-preview" element={<StreakPreviewPage />} />
