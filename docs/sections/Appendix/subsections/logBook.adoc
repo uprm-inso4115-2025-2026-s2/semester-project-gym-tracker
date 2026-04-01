@@ -5,6 +5,7 @@
 |===
 | Section Name | Member | Added or Modified | Description
 
+| 3.1 Concept Analysis | AlejandroMB05 | Added | Added domain analysis for the notification system, including identification of core concepts such as Notification, User, Notification Trigger, Workout Event, and User Preferences.
 | Section 4 (Domain Attributes)  | Hector Rivera | Added | Integrated Lecture Topic "Workout Data Validation and Integrity" into the Domain Attributes section. Refactored documentation structure according to guidelines (Discussions #221 and #277) and defined validation rules for key attributes such as weight, reps, and sets to ensure data integrity.
 | 2.1.2 Terminology | Alex Vazquez | Modified | Added category labels (entity, function, event, behavior) to all terminology terms; reclassified Reminder as a domain concept/entity; justified Motivational Message as an implementation term; documented borderline dual-categorization cases for Reminder, Notification, and Weekly Summary Table.
 | 2.1.2 Terminology / 2.1.6 Function Signatures | Alex Vazquez | Modified/Added | Made the history input consistent across the domain model by using WorkoutHistory for computeStreak; added GymGoer and retrieveWorkoutHistory to define how a GymGoer's WorkoutSessions are obtained; documented the justification in the function-signature section.
