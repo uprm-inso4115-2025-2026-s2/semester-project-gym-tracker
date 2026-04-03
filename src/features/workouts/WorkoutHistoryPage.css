@@ -40,6 +40,13 @@
   color: rgba(25, 28, 30, 0.55);
 }
 
+.history-header-actions {
+  display: flex;
+  gap: var(--space-1);
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .history-back-btn {
   display: inline-flex;
   align-items: center;
@@ -62,6 +69,38 @@
   color: #ffffff;
 }
 
+.history-select-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.1rem;
+  background: var(--surface-container-lowest);
+  color: rgba(25, 28, 30, 0.65);
+  border: 1.5px solid rgba(25, 28, 30, 0.2);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-md);
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.history-select-btn:hover {
+  border-color: rgba(25, 28, 30, 0.4);
+  color: var(--on-surface);
+}
+
+.history-select-btn--active {
+  background: var(--error);
+  color: #ffffff;
+  border-color: var(--error);
+}
+
+.history-select-btn--active:hover {
+  opacity: 0.88;
+  color: #ffffff;
+}
+
 /* ── Status messages ── */
 .history-status {
   background: var(--surface-container-lowest);
@@ -80,8 +119,43 @@
   font-size: var(--font-body-md);
 }
 
-/* ── Sessions list ── */
+/* ── Date groups ── */
 .history-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.date-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.date-group-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.date-group-header::before,
+.date-group-header::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(25, 28, 30, 0.12);
+}
+
+.date-group-label {
+  font-size: var(--font-label-sm);
+  font-weight: 700;
+  color: rgba(25, 28, 30, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.date-group-sessions {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
@@ -95,6 +169,13 @@
     0 2px 8px rgba(25, 28, 30, 0.07),
     0 8px 28px rgba(25, 28, 30, 0.06);
   overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+
+.session-card--selected {
+  box-shadow:
+    0 0 0 2px var(--primary),
+    0 4px 16px rgba(0, 75, 202, 0.15);
 }
 
 .session-card-header {
@@ -114,13 +195,46 @@
   align-items: center;
   gap: var(--space-2);
   text-align: left;
+  transition: background 0.15s;
 }
 
 .session-card-trigger:hover {
   background: var(--surface-container-low);
 }
 
-.session-delete-btn {
+/* Checkbox button (select mode) */
+.session-checkbox-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  border-right: 1px solid var(--surface-container-high);
+  padding: 0 var(--space-2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.session-checkbox {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(25, 28, 30, 0.25);
+  background: transparent;
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.session-checkbox--checked {
+  background: var(--primary);
+  border-color: var(--primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Edit icon button */
+.session-edit-icon-btn {
   flex-shrink: 0;
   background: none;
   border: none;
@@ -133,63 +247,9 @@
   transition: color 0.15s, background 0.15s;
 }
 
-.session-delete-btn:hover {
-  color: var(--error);
-  background: #fff0f0;
-}
-
-/* ── Confirm delete bar ── */
-.session-confirm-delete {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-  padding: var(--space-1) var(--space-3);
-  background: #fff0f0;
-  border-top: 1px solid rgba(186, 26, 26, 0.15);
-  flex-wrap: wrap;
-}
-
-.confirm-delete-text {
-  margin: 0;
-  font-size: var(--font-body-md);
-  font-weight: 600;
-  color: var(--error);
-}
-
-.confirm-delete-actions {
-  display: flex;
-  gap: var(--space-1);
-}
-
-.confirm-delete-yes {
-  padding: 0.35rem 0.9rem;
-  border-radius: var(--radius-full);
-  background: var(--error);
-  color: #ffffff;
-  border: none;
-  font-family: var(--font-family-body);
-  font-size: var(--font-body-md);
-  font-weight: 700;
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-
-.confirm-delete-yes:disabled {
-  opacity: 0.6;
-  cursor: default;
-}
-
-.confirm-delete-cancel {
-  padding: 0.35rem 0.9rem;
-  border-radius: var(--radius-full);
-  background: none;
-  color: var(--error);
-  border: 1.5px solid var(--error);
-  font-family: var(--font-family-body);
-  font-size: var(--font-body-md);
-  font-weight: 700;
-  cursor: pointer;
+.session-edit-icon-btn:hover {
+  color: var(--primary);
+  background: rgba(0, 75, 202, 0.06);
 }
 
 .session-type {
@@ -326,29 +386,7 @@
   padding: var(--space-1) 0;
 }
 
-/* ── Edit session ── */
-.session-edit-trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-bottom: var(--space-2);
-  padding: 0.4rem 0.9rem;
-  background: none;
-  border: 1.5px solid var(--primary);
-  border-radius: var(--radius-full);
-  color: var(--primary);
-  font-family: var(--font-family-body);
-  font-size: var(--font-body-md);
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-
-.session-edit-trigger:hover {
-  background: var(--primary);
-  color: #ffffff;
-}
-
+/* ── Edit form ── */
 .detail-input {
   width: 100%;
   margin-top: 0.35rem;
@@ -410,4 +448,46 @@
   font-size: var(--font-body-md);
   font-weight: 700;
   cursor: pointer;
+}
+
+/* ── Select mode bottom bar ── */
+.select-mode-bar {
+  position: fixed;
+  bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--on-surface);
+  color: var(--surface);
+  box-shadow: 0 -2px 16px rgba(25, 28, 30, 0.18);
+}
+
+.select-mode-count {
+  margin: 0;
+  font-size: var(--font-body-md);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.select-mode-delete-btn {
+  padding: 0.5rem 1.4rem;
+  background: var(--error);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-md);
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.select-mode-delete-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
