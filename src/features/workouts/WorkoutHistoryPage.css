@@ -97,8 +97,14 @@
   overflow: hidden;
 }
 
+.session-card-header {
+  display: flex;
+  align-items: stretch;
+}
+
 .session-card-trigger {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   background: none;
   border: none;
   padding: var(--space-2) var(--space-3);
@@ -112,6 +118,78 @@
 
 .session-card-trigger:hover {
   background: var(--surface-container-low);
+}
+
+.session-delete-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  border-left: 1px solid var(--surface-container-high);
+  padding: 0 var(--space-2);
+  cursor: pointer;
+  color: rgba(25, 28, 30, 0.35);
+  display: flex;
+  align-items: center;
+  transition: color 0.15s, background 0.15s;
+}
+
+.session-delete-btn:hover {
+  color: var(--error);
+  background: #fff0f0;
+}
+
+/* ── Confirm delete bar ── */
+.session-confirm-delete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  background: #fff0f0;
+  border-top: 1px solid rgba(186, 26, 26, 0.15);
+  flex-wrap: wrap;
+}
+
+.confirm-delete-text {
+  margin: 0;
+  font-size: var(--font-body-md);
+  font-weight: 600;
+  color: var(--error);
+}
+
+.confirm-delete-actions {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.confirm-delete-yes {
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-full);
+  background: var(--error);
+  color: #ffffff;
+  border: none;
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-md);
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.confirm-delete-yes:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.confirm-delete-cancel {
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-full);
+  background: none;
+  color: var(--error);
+  border: 1.5px solid var(--error);
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-md);
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .session-type {
@@ -246,4 +324,90 @@
   color: rgba(25, 28, 30, 0.45);
   font-size: var(--font-body-md);
   padding: var(--space-1) 0;
+}
+
+/* ── Edit session ── */
+.session-edit-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: var(--space-2);
+  padding: 0.4rem 0.9rem;
+  background: none;
+  border: 1.5px solid var(--primary);
+  border-radius: var(--radius-full);
+  color: var(--primary);
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-md);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.session-edit-trigger:hover {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.detail-input {
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.35rem 0.5rem;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--surface-container-lowest);
+  color: var(--on-surface);
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-md);
+  font-weight: 600;
+  box-sizing: border-box;
+  outline: none;
+  box-shadow: 0 0 0 1.5px rgba(0, 75, 202, 0.25);
+}
+
+.detail-input:focus {
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.detail-textarea {
+  resize: vertical;
+  min-height: 64px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.session-edit-actions {
+  display: flex;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.edit-save-btn {
+  padding: 0.5rem 1.2rem;
+  background: var(--power-gradient);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-md);
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.edit-save-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.edit-cancel-btn {
+  padding: 0.5rem 1.2rem;
+  background: none;
+  border: 1.5px solid rgba(25, 28, 30, 0.25);
+  border-radius: var(--radius-full);
+  color: rgba(25, 28, 30, 0.65);
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-md);
+  font-weight: 700;
+  cursor: pointer;
 }

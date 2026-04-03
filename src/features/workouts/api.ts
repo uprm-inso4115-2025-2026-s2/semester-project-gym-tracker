@@ -17,6 +17,7 @@ export type WorkoutExerciseRecord = {
   sets: number | null;
   reps: number | null;
   weight: number | null;
+  exercises: { name: string } | null;
 };
 
 /**
@@ -53,7 +54,7 @@ export async function getWorkoutExercisesBySessionId(
 ): Promise<WorkoutExerciseRecord[]> {
   const { data, error } = await supabase
     .from("workout_exercises")
-    .select("record_id, workout_id, exercise_id, sets, reps, weight")
+    .select("record_id, workout_id, exercise_id, sets, reps, weight, exercises(name)")
     .eq("workout_id", workoutId);
 
   if (error) {
@@ -62,4 +63,31 @@ export async function getWorkoutExercisesBySessionId(
   }
 
   return data ?? [];
+}
+
+export async function deleteWorkoutSession(workoutId: string): Promise<void> {
+  const { error } = await supabase
+    .from("workout_sessions")
+    .delete()
+    .eq("workout_id", workoutId);
+
+  if (error) {
+    console.error("Error deleting workout session:", error.message);
+    throw error;
+  }
+}
+
+export async function updateWorkoutSession(
+  workoutId: string,
+  updates: Partial<Pick<WorkoutSessionRecord, "workout_type" | "duration_minutes" | "calories_burned" | "notes">>
+): Promise<void> {
+  const { error } = await supabase
+    .from("workout_sessions")
+    .update(updates)
+    .eq("workout_id", workoutId);
+
+  if (error) {
+    console.error("Error updating workout session:", error.message);
+    throw error;
+  }
 }

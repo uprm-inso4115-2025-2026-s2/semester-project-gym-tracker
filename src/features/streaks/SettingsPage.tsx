@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../auth";
 import { NotificationPreferencesPanel } from "../notifications";
 import type { NotificationPreferences } from "../../types";
+import { supabase } from "../../lib/supabaseClient";
 import "./SettingsPage.css";
 
 type WeightUnit = "kg" | "lb";
@@ -19,11 +20,29 @@ export default function SettingsPage() {
     });
 
   useEffect(() => {
+    const meta = user?.user_metadata;
+
+    const unit = meta?.weight_unit ?? localStorage.getItem("weightUnit");
+    if (unit === "kg" || unit === "lb") setWeightUnit(unit);
+
+    const start = meta?.week_start ?? localStorage.getItem("weekStart");
+    if (start === "mon" || start === "sun") setWeekStart(start);
+
     const saved = localStorage.getItem("notificationPreferences");
-    if (saved) {
-      setNotificationPreferences(JSON.parse(saved));
-    }
-  }, []);
+    if (saved) setNotificationPreferences(JSON.parse(saved));
+  }, [user]);
+
+  async function handleWeightUnitChange(unit: WeightUnit) {
+    setWeightUnit(unit);
+    localStorage.setItem("weightUnit", unit);
+    await supabase.auth.updateUser({ data: { weight_unit: unit } });
+  }
+
+  async function handleWeekStartChange(start: WeekStart) {
+    setWeekStart(start);
+    localStorage.setItem("weekStart", start);
+    await supabase.auth.updateUser({ data: { week_start: start } });
+  }
 
   function handleNotificationPreferencesChange(updated: NotificationPreferences) {
     setNotificationPreferences(updated);
@@ -56,7 +75,7 @@ export default function SettingsPage() {
               <input
                 type="radio"
                 checked={weightUnit === "kg"}
-                onChange={() => setWeightUnit("kg")}
+                onChange={() => handleWeightUnitChange("kg")}
               />
               kg
             </label>
@@ -64,7 +83,7 @@ export default function SettingsPage() {
               <input
                 type="radio"
                 checked={weightUnit === "lb"}
-                onChange={() => setWeightUnit("lb")}
+                onChange={() => handleWeightUnitChange("lb")}
               />
               lb
             </label>
@@ -79,7 +98,7 @@ export default function SettingsPage() {
               <input
                 type="radio"
                 checked={weekStart === "mon"}
-                onChange={() => setWeekStart("mon")}
+                onChange={() => handleWeekStartChange("mon")}
               />
               Monday
             </label>
@@ -87,7 +106,7 @@ export default function SettingsPage() {
               <input
                 type="radio"
                 checked={weekStart === "sun"}
-                onChange={() => setWeekStart("sun")}
+                onChange={() => handleWeekStartChange("sun")}
               />
               Sunday
             </label>
