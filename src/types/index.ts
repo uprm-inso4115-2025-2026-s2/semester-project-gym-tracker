@@ -8,17 +8,26 @@ export interface WorkoutSession {
   date: string; // ISO 8601, e.g. "2026-02-24"
   activityType: ActivityType;
   durationMinutes: number;
-  exercises?: Exersice[];
   notes?: string;
 }
 
 // ─── Exercise ──────────────────────────────────────────────────────────────────
 
-export interface Exersice {
+export interface Exercise {
+  sessionId: string;
+  id: string;
   name: string;
   weight: number[];
   reps: number;
   sets: number;
+}
+
+// ─── Session Comparison ──────────────────────────────────────────────────────────────────
+
+export interface SessionComparison {
+  id: string;
+  workoutAId: string; 
+  workoutBId: string; 
 }
 
 // ─── Goal ─────────────────────────────────────────────────────────────────────

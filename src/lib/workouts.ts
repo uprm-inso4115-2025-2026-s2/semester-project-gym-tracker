@@ -1,4 +1,4 @@
-import type { WorkoutSession, ValidationResult, GoalResult, WeekBounds } from "../types";
+import type { WorkoutSession, ValidationResult, GoalResult, WeekBounds, Exercise } from "../types";
 
 // ─── Streak Computation ───────────────────────────────────────────────────────
 
@@ -84,7 +84,12 @@ export function validateGoalEntry(targetDays: number | undefined): ValidationRes
 
 // ─── Session Comparison ───────────────────────────────────────────────────────
 
-export function compareSessions(session1: WorkoutSession, session2: WorkoutSession) {
+export function compareSessions(
+  session1: WorkoutSession,
+  exercises1: Exercise[],
+  session2: WorkoutSession,
+  exercises2: Exercise[]
+){
 
   let result = "";
 
@@ -99,29 +104,23 @@ export function compareSessions(session1: WorkoutSession, session2: WorkoutSessi
     result += "Durations are equal.\n";
 
 
-  // ─── Get exercise ────────────────────────────────────────────────────────
-  const exercises1 = session1.exercises ?? [];
-  const exercises2 = session2.exercises ?? [];
-
-  // Find common exercises by name
+  // ─── Find common exercises ──────────────────────────
   const commonExercise = new Set(
     exercises1
       .map(e => e.name)
       .filter(name => exercises2.some(e2 => e2.name === name))
   );
 
-  // If no common exercises, stop comparison
   if (commonExercise.size === 0) {
     result += "No common exercises to compare.\n";
     return result.trim();
   }
 
-  // ─── Initialize totals ───────────────────────────────
+  // ─── Totals ─────────────────────────────────────────
   let totalReps1 = 0, totalReps2 = 0;
   let totalSets1 = 0, totalSets2 = 0;
 
-
-  // ─── Compare each common exercise ────────────────────
+  // ─── Compare each exercise ──────────────────────────
   for (const name of commonExercise) {
 
     const ex1 = exercises1.find(e => e.name === name)!;
@@ -129,13 +128,13 @@ export function compareSessions(session1: WorkoutSession, session2: WorkoutSessi
 
     result += `\nExercise: ${name}\n`;
 
-    // Accumulate totals
+    // Totals
     totalReps1 += ex1.reps;
     totalReps2 += ex2.reps;
     totalSets1 += ex1.sets;
     totalSets2 += ex2.sets;
 
-    // ─── Compare reps ─────────────────────
+    // ─── Reps ─────────────────────
     const repsDiff = ex1.reps - ex2.reps;
 
     if (repsDiff > 0)
@@ -145,7 +144,7 @@ export function compareSessions(session1: WorkoutSession, session2: WorkoutSessi
     else
       result += `  Reps are equal\n`;
 
-    // ─── Compare sets ─────────────────────
+    // ─── Sets ─────────────────────
     const setsDiff = ex1.sets - ex2.sets;
 
     if (setsDiff > 0)
@@ -155,7 +154,7 @@ export function compareSessions(session1: WorkoutSession, session2: WorkoutSessi
     else
       result += `  Sets are equal\n`;
 
-    // ─── Compare weight per set ─────────────────────
+    // ─── Weight per set ───────────
     const weights1 = ex1.weight ?? [];
     const weights2 = ex2.weight ?? [];
 
@@ -181,7 +180,7 @@ export function compareSessions(session1: WorkoutSession, session2: WorkoutSessi
     }
   }
 
-  // ─── Final totals comparison ─────────────────────────
+  // ─── Totals comparison ──────────────────────────────
   result += `\n--- Totals ---\n`;
 
   const totalSetsDiff = totalSets1 - totalSets2;
