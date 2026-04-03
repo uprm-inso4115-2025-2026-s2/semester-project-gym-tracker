@@ -1,0 +1,238 @@
+/* ==========================================================================
+   Streak Display — two-card layout (current + longest)
+   Matches Figma: Streaks Visualizer design
+   ========================================================================== */
+
+/* Wrapper ----------------------------------------------------------------- */
+.streak-display {
+  width: 100%;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+.streak-display__header {
+  margin-bottom: 1.75rem;
+}
+
+.streak-display__title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.streak-display__subtitle {
+  margin: 0.35rem 0 0;
+  font-size: 14px;
+  color: white;
+}
+
+/* Two-column card grid ----------------------------------------------------- */
+.streak-display__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+@media (max-width: 360px) {
+  .streak-display__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Base card --------------------------------------------------------------- */
+.streak-card {
+  border-radius: 16px;
+  padding: 24px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: 2px solid transparent;
+}
+
+.streak-card__label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.streak-card__count {
+  margin: 0;
+  font-size: 52px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.streak-card__unit {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Badge pill -------------------------------------------------------------- */
+.streak-card__badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 5px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Active variant — teal/mint (Figma: top-left card) ----------------------- */
+.streak-card--active {
+  background-color: #b2ede0;
+  border-color: #7dd8c6;
+  color: #0d5c4a;
+}
+
+.streak-card--active .streak-card__label {
+  color: #0d8a6b;
+}
+
+.streak-card--active .streak-card__count {
+  color: #0a3d2e;
+}
+
+.streak-card__badge--active {
+  background-color: #2abf9c;
+  color: #033d2e;
+}
+
+/* Broken variant — pink/red (Figma: bottom-left card) --------------------- */
+.streak-card--broken {
+  background-color: #f5c6c6;
+  border-color: #f09090;
+  color: #7c1e1e;
+}
+
+.streak-card--broken .streak-card__label {
+  color: #b91c1c;
+}
+
+.streak-card--broken .streak-card__count {
+  color: #4a0f0f;
+}
+
+.streak-card__badge--broken {
+  background-color: #f08080;
+  color: #4a0f0f;
+}
+
+/* Longest variant — amber/yellow (Figma: right column) -------------------- */
+.streak-card--longest {
+  background-color: #fde68a;
+  border-color: #fbbf24;
+  color: #78350f;
+}
+
+.streak-card--longest .streak-card__label {
+  color: #b45309;
+}
+
+.streak-card--longest .streak-card__count {
+  color: #3b1a00;
+}
+
+.streak-card__badge--longest {
+  background-color: #f59e0b;
+  color: #3b1a00;
+}
+
+/* ==========================================================================
+   Legacy classes — kept for StreakBrokenState, StreakEmptyState,
+   and StreakMilestoneBadge 
+   ========================================================================== */
+
+.streak-empty-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.streak-empty-message {
+  margin: 0.5rem 0 0;
+  color: #1b3ea8;
+  opacity: 0.92;
+}
+
+.streak-label {
+  margin: 0;
+  color: #1b3ea8;
+  font-weight: bold;
+}
+
+.streak-count {
+  margin: 0.25rem 0 0;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.streak-broken-card {
+  width: 100%;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  background: white;
+  border: 2px solid #f97316;
+  color: #7c2d12;
+}
+
+.streak-broken-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #dc2626;
+}
+
+.streak-broken-message {
+  margin: 0.5rem 0 0;
+  color: #7c2d12;
+  opacity: 0.92;
+}
+
+.streak-broken-record {
+  margin: 0.75rem 0 0;
+  font-size: 14px;
+  color: #9a3412;
+}
+
+.streak-milestone-badge {
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+  background: white;
+  border: 2px solid transparent;
+}
+
+.streak-milestone-badge--reached {
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.streak-milestone-badge--pending {
+  border-color: #93c5fd;
+  color: #1e3a8a;
+  opacity: 0.95;
+}
+
+.streak-milestone-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.streak-milestone-subtitle {
+  margin: 0.4rem 0 0;
+  font-size: 13px;
+  font-weight: 600;
+}
