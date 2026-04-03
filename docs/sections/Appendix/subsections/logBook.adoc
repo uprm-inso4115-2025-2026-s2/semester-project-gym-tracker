@@ -16,6 +16,6 @@
 
 | 4.1 Stakeholder Identification | Ivan Morales | Added | Integrated stakeholder perspective analysis (Issue #98) into Section 4.1; added per-group perspective descriptions, comparative summary table, and perspective alignment notes; marked with NOTE admonition change bar for M2 visibility.
 
-| 2.2.4 Interface Requirements | Derek Velez | Modified | Rewrote perfomance to match current industry standards. Added specific response-time targets for different types of interactions (in-app, server-backed, initial load) under normal load conditions; defined "server-acknowledged result" for clarity; linked performance requirements to concurrent usage targets and degradation strategies.
+| 2.2.5 Machine Requirements | Derek Velez | Modified | Rewrote performance to match current industry standards. Added specific response-time targets for different types of interactions (in-app, server-backed, initial load) under normal load conditions; defined "server-acknowledged result" for clarity; linked performance requirements to concurrent usage targets and degradation strategies.
 
 |===
