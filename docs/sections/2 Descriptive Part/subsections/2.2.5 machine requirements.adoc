@@ -28,9 +28,9 @@ These requirements are still under development. Some thresholds will be refined 
 
 #Under load exceeding 100 concurrent active sessions:#
 
-* #The system shall continue operating without data loss or service unavailability. #
+* #The system shall continue operating without data loss or service unavailability.#
 
-* #The system may degrade gracefully as follows: #
+* #The system may degrade gracefully as follows:#
 
 ** #Response times may increase but shall remain ≤ 2.5 seconds for at least 90% of requests.# 
 
