@@ -118,3 +118,9 @@ but the Streak reflects the real attendance pattern.#
 
 *Separation of Nutrition Tracking*
     The system must provide means to record a Workout Session without requiring Nutrition information as a precondition.
+
+#*Workout Ownership*#
+    #The system must provide means to associate Workout Sessions with a specific Gym goer, ensuring that each Gym goer's workout history is distinct and private.#
+
+#*Data Validation Rules*#
+    #The system must provide means to enforce data validation rules for Workout Session entries, such as preventing future dates and ensuring required attributes are provided.#
