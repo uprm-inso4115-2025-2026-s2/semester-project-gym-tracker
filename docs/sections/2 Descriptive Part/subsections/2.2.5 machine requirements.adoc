@@ -22,7 +22,7 @@ These requirements are still under development. Some thresholds will be refined 
 
 ====== Concurrent Usage Target (Scalability)
 
-#The system shall support at least 100 concurrent active sessions performing typical actions (viewing dashboard, logging workouts, editing workouts, updating goals) without violating Initial Page Load Time response-time targets.
+#The system shall support at least 100 concurrent active sessions performing typical actions (viewing dashboard, logging workouts, editing workouts, updating goals) without violating Initial Page Load Time response-time targets.#
 
 #* “Concurrent” refers to overlapping user activity within a time window.#
 
@@ -30,33 +30,33 @@ These requirements are still under development. Some thresholds will be refined 
 
 #* The system shall continue operating without data loss or service unavailability. #
 
-#* The system may degrade gracefully as follows: #
+*# The system may degrade gracefully as follows: #
 
-#** Response times may increase but shall remain ≤ 2.5 seconds for at least 90% of requests.# 
+**# Response times may increase but shall remain ≤ 2.5 seconds for at least 90% of requests.# 
 
-#** The system shall not allow indefinite delays or request starvation for any active user.# 
+**# The system shall not allow indefinite delays or request starvation for any active user.# 
 
-#** The system shall provide user-facing feedback (“High system load—responses may be slower than usual”) when performance degradation is detected.#
+**# The system shall provide user-facing feedback (“High system load—responses may be slower than usual”) when performance degradation is detected.#
 
 ====== Availability (Reliability/Availability)
 
 #The system shall achieve at least 99.9% monthly availability for core features:#
 
-#* authentication#
+*# authentication#
 
-#* viewing dashboard#
+*# viewing dashboard#
 
-#* creating/editing workouts#
+*# creating/editing workouts#
 
-#* creating/updating goals#.
+*# creating/updating goals#.
 
 #The system shall be designed to minimize or eliminate downtime during updates through techniques such as:# 
 
-#* Rolling deployments#
+*# Rolling deployments#
 
-#* Hot standby#
+*# Hot standby#
 
-If schedule maintenance is unavoidable, it shall be rare, justified and communicated to users at least 24 hours in advance.#
+#If schedule maintenance is unavoidable, it shall be rare, justified and communicated to users at least 24 hours in advance.#
 
 ====== Data Durability on Failure (Reliability)
 
