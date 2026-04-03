@@ -5,7 +5,7 @@ import type { WorkoutSession } from "../../types";
 // Convert WorkoutSessionRecord (Supabase) -> WorkoutSession (internal domain)
 function toWorkoutSession(record: WorkoutSessionRecord): WorkoutSession {
     return{
-        id: record.id,
+        id: record.workout_id,
         userId: record.user_id,
         date: record.created_at.split("T")[0],
         activityType: "gym",

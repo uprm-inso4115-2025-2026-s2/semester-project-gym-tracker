@@ -1,101 +1,116 @@
+/* ── Root container ── */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: var(--space-4);
 }
 
-/* ── HomePage shell ── */
+/* ══════════════════════════════════════════
+   HOME PAGE — dashboard layout
+   ══════════════════════════════════════════ */
+
 .home-main {
-  /* Break out of #root's padding so the gradient fills the viewport */
-  margin: calc(-1 * var(--space-4));
-  min-height: calc(100vh + var(--space-4));
-  background: linear-gradient(160deg, #dce6f8 0%, var(--surface, #f7f9fb) 55%);
-  padding: var(--space-6) var(--space-3) var(--space-8);
-  text-align: center;
+  /* Same pattern as all other pages — escapes #root cleanly */
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #dce6f8 0%, var(--surface) 60%);
+  font-family: var(--font-family-body);
+  padding: var(--space-3) var(--space-2) calc(60px + env(safe-area-inset-bottom, 0px) + var(--space-3));
+  box-sizing: border-box;
 }
 
-/* ── Logo ── */
+/* ── Header row: logo left, greeting right ── */
+.home-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: 720px;
+  margin: 0 auto var(--space-3);
+}
+
 .home-logo {
-  width: 140px;
-  margin: 0 auto var(--space-2);
-  display: block;
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.home-greeting {
+  flex: 1;
+  min-width: 0;
 }
 
 .home-title {
   font-family: var(--font-family-display);
-  font-size: var(--font-headline-md);
+  font-size: var(--font-title-md);
   font-weight: 800;
   color: var(--on-surface);
   letter-spacing: -0.01em;
-  margin: 0 0 var(--space-1);
+  margin: 0;
 }
 
 .home-subtitle {
   font-family: var(--font-family-body);
   font-size: var(--font-body-md);
-  color: var(--outline-variant, #6b7280);
-  margin: 0 0 var(--space-4);
+  color: rgba(25, 28, 30, 0.5);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* ── Card wrapper for each section ── */
-.home-card {
-  background: var(--surface-container-lowest, #ffffff);
-  border-radius: var(--radius-xl, 1.5rem);
-  box-shadow: 0 2px 8px rgba(25,28,30,0.07), 0 8px 28px rgba(25,28,30,0.06);
-  padding: var(--space-3);
-  width: 100%;
-  max-width: 560px;
-  margin: 0 auto var(--space-3);
-  text-align: left;
+/* ── Dashboard grid ── */
+.home-dashboard {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 720px;
+  margin: 0 auto;
+
+  /* Mobile default: single column */
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "streaks"
+    "weekly"
+    "daily"
+    "summary";
 }
 
-.home-weekly {
-  display: flex;
-  justify-content: center;
-  margin-bottom: var(--space-3);
+/* Tablet and up: 2 columns */
+@media (min-width: 540px) {
+  .home-dashboard {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "streaks  streaks"
+      "weekly   daily"
+      "summary  summary";
+  }
 }
 
-/* ── Navigation button row ── */
-.home-nav {
-  display: flex;
-  gap: var(--space-1);
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: var(--space-3);
+/* Wide: streaks left, right col stacked */
+@media (min-width: 720px) {
+  .home-dashboard {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "streaks  weekly"
+      "streaks  daily"
+      "summary  summary";
+  }
 }
 
-.home-nav-btn {
-  padding: 0.55rem 1.25rem;
-  cursor: pointer;
-  background: var(--surface-container-lowest, #ffffff);
-  color: var(--primary, #004bca);
-  border: 1.5px solid var(--primary, #004bca);
-  border-radius: var(--radius-full, 9999px);
-  font-family: var(--font-family-body);
-  font-size: 0.85rem;
-  font-weight: 700;
-  transition: background 0.15s ease, color 0.15s ease;
-}
+.dash-streaks  { grid-area: streaks;  }
+.dash-weekly   { grid-area: weekly;   }
+.dash-daily    { grid-area: daily;    }
+.dash-summary  { grid-area: summary;  }
 
-.home-nav-btn:hover {
-  background: var(--primary, #004bca);
-  color: #ffffff;
-}
-
-.btn-logout {
-  padding: 0.55rem 1.25rem;
-  cursor: pointer;
-  background: transparent;
-  color: var(--error, #ba1a1a);
-  border: 1.5px solid var(--error, #ba1a1a);
-  border-radius: var(--radius-full, 9999px);
-  font-family: var(--font-family-body);
-  font-size: 0.85rem;
-  font-weight: 700;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.btn-logout:hover {
-  background: var(--error, #ba1a1a);
-  color: #ffffff;
+/* ── Dashboard card ── */
+.dash-card {
+  background: var(--surface-container-lowest);
+  border-radius: var(--radius-xl);
+  box-shadow:
+    0 2px 8px rgba(25, 28, 30, 0.07),
+    0 6px 20px rgba(25, 28, 30, 0.05);
+  padding: var(--space-2);
+  box-sizing: border-box;
+  overflow: hidden;
 }

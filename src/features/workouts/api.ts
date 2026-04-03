@@ -1,17 +1,17 @@
 import { supabase } from "../../lib/supabaseClient";
 
 export type WorkoutSessionRecord = {
-  id: string;
+  workout_id: string;
   user_id: string;
   workout_type: string;
   duration_minutes: number | null;
   calories_burned: number | null;
   notes: string | null;
-  created_at: string;
+  created_at: string | null;
 };
 
 export type WorkoutExerciseRecord = {
-  id: string;
+  record_id: string;
   workout_id: string;
   exercise_id: string;
   sets: number | null;
@@ -30,7 +30,7 @@ export async function getUserWorkoutSessions(
   const { data, error } = await supabase
     .from("workout_sessions")
     .select(
-      "id, user_id, workout_type, duration_minutes, calories_burned, notes, created_at"
+      "workout_id, user_id, workout_type, duration_minutes, calories_burned, notes, created_at"
     )
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
@@ -53,7 +53,7 @@ export async function getWorkoutExercisesBySessionId(
 ): Promise<WorkoutExerciseRecord[]> {
   const { data, error } = await supabase
     .from("workout_exercises")
-    .select("id, workout_id, exercise_id, sets, reps, weight")
+    .select("record_id, workout_id, exercise_id, sets, reps, weight")
     .eq("workout_id", workoutId);
 
   if (error) {

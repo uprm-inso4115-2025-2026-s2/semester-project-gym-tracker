@@ -7,11 +7,11 @@
 .streak-display {
   width: 100%;
   text-align: center;
-  padding: 1.5rem 0;
+  padding: 0.25rem 0;
 }
 
 .streak-display__header {
-  margin-bottom: 1.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .streak-display__title {

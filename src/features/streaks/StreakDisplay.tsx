@@ -4,24 +4,12 @@ import { computeStreakFromSessions } from "./streakcalc";
 import StreakEmptyState, { type StreakEmptyStateProps } from "./StreakEmptyState";
 import "./StreakDisplay.css";
 
-// ---------------------------------------------------------------------------
-// 🔧 MOCK DATA — replace with real Supabase values when available
-// ---------------------------------------------------------------------------
-const MOCK_STREAK_DATA = {
-  currentStreak: 7,
-  longestStreak: 67,
-};
-// ---------------------------------------------------------------------------
-
 type StreakDisplayProps = {
   sessions: WorkoutSession[];
   isBroken?: boolean;
-  /** All-time longest streak. Hardcoded for now; wire to Supabase later. */
   longestStreak?: number;
   emptyStateProps?: StreakEmptyStateProps;
 };
-
-// --- Individual streak card --------------------------------------------------
 
 type StreakCardProps = {
   label: string;
@@ -50,20 +38,13 @@ function StreakCard({ label, days, variant, badge, delay = 0 }: StreakCardProps)
   );
 }
 
-// --- Main display -----------------------------------------------------------
-
 export default function StreakDisplay({
   sessions,
   isBroken,
-  // TODO: replace MOCK_STREAK_DATA.longestStreak with real Supabase value
-  longestStreak = MOCK_STREAK_DATA.longestStreak,
+  longestStreak = 0,
   emptyStateProps,
 }: StreakDisplayProps) {
-  // TODO: replace with real currentStreak from Supabase when available
-  const currentStreak = sessions.length > 0
-    ? computeStreakFromSessions(sessions)
-    : MOCK_STREAK_DATA.currentStreak;
-
+  const currentStreak = sessions.length > 0 ? computeStreakFromSessions(sessions) : 0;
   const isStreakBroken = isBroken || currentStreak === 0;
 
   if (sessions.length === 0 && !isBroken) {
@@ -78,38 +59,17 @@ export default function StreakDisplay({
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <h2 style={{ color: "#111827" }}>Your Streaks 🔥</h2>
-        <p style={{ color: "#6b7280" }}>Keep the momentum going!</p>
+        <h2 className="streak-display__title">Your Streaks 🔥</h2>
+        <p className="streak-display__subtitle">Keep the momentum going!</p>
       </motion.div>
 
       <div className="streak-display__grid">
-        {/* Current streak */}
         {isStreakBroken ? (
-          <StreakCard
-            label="Current"
-            days={0}
-            variant="broken"
-            badge="Broken"
-            delay={0.05}
-          />
+          <StreakCard label="Current" days={0} variant="broken" badge="Broken" delay={0.05} />
         ) : (
-          <StreakCard
-            label="Current"
-            days={currentStreak}
-            variant="active"
-            badge="Active"
-            delay={0.05}
-          />
+          <StreakCard label="Current" days={currentStreak} variant="active" badge="Active" delay={0.05} />
         )}
-
-        {/* Longest / all-time streak */}
-        <StreakCard
-          label="Longest"
-          days={longestStreak ?? 0}
-          variant="longest"
-          badge="All-time"
-          delay={0.15}
-        />
+        <StreakCard label="Longest" days={longestStreak} variant="longest" badge="All-time" delay={0.15} />
       </div>
     </div>
   );

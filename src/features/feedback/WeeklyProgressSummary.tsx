@@ -120,49 +120,45 @@ export default function WeeklyProgressSummary() {
       : 0;
 
   return (
-    <div
-      style={{
-        padding: "1.5rem",
-        borderRadius: "12px",
-        background: "rgba(255, 255, 255, 0.95)",
-        color: "#24364b",
-        marginTop: "1rem",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-      }}
-    >
-      <h2 style={{ marginBottom: "0.75rem" }}>Weekly Progress Summary</h2>
+    <div style={{ padding: "0.25rem 0" }}>
+      <h2 style={{
+        margin: "0 0 var(--space-1)",
+        fontFamily: "var(--font-family-display)",
+        fontSize: "var(--font-title-md)",
+        fontWeight: 700,
+        color: "var(--on-surface)",
+      }}>
+        Weekly Summary
+      </h2>
 
-      <p style={{ marginBottom: "0.5rem" }}>
-        Workouts completed: {data.workoutsCompleted} / {data.weeklyGoal}
+      <p style={{ margin: "0 0 var(--space-1)", fontSize: "var(--font-body-md)", color: "rgba(25,28,30,0.65)" }}>
+        {data.workoutsCompleted} / {data.weeklyGoal} workouts this week
       </p>
 
-      <div
-        style={{
-          background: "#e5e7eb",
-          height: "12px",
-          borderRadius: "999px",
-          overflow: "hidden",
-          marginBottom: "0.75rem",
-        }}
-      >
-        <div
-          style={{
-            width: `${percentage}%`,
-            background: "#3b82f6",
-            height: "100%",
-            borderRadius: "999px",
-            transition: "width 0.3s ease",
-          }}
-        />
+      <div style={{
+        background: "var(--surface-container-high)",
+        height: "10px",
+        borderRadius: "var(--radius-full)",
+        overflow: "hidden",
+        marginBottom: "var(--space-1)",
+      }}>
+        <div style={{
+          width: `${percentage}%`,
+          background: "var(--primary)",
+          height: "100%",
+          borderRadius: "var(--radius-full)",
+          transition: "width 0.3s ease",
+        }} />
       </div>
 
-      <p style={{ marginBottom: "0.4rem" }}>
-        Weekly goal progress: {percentage.toFixed(0)}%
-      </p>
-      <p style={{ marginBottom: "0.4rem" }}>
-        Streak continuation: {data.streak} day(s)
-      </p>
-      <p>Basic performance metric: {data.performanceMetric}</p>
+      <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
+        <p style={{ margin: 0, fontSize: "var(--font-body-md)", color: "rgba(25,28,30,0.55)" }}>
+          {percentage.toFixed(0)}% of goal
+        </p>
+        <p style={{ margin: 0, fontSize: "var(--font-body-md)", color: "rgba(25,28,30,0.55)" }}>
+          {data.streak} day streak
+        </p>
+      </div>
     </div>
   );
 }
