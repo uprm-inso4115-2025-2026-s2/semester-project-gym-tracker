@@ -10,26 +10,53 @@ These requirements are still under development. Some thresholds will be refined 
 
 ====== Interactive Response Time (Performance)
 
-For authenticated Users, the system shall complete the following interactive actions with a server-acknowledged result within *2.0 seconds* for at least *95%* of requests under normal load:
+#For authenticated Users, the system shall meet the following response-time targets under normal load:#
 
-* viewing the dashboard/progress summary,
-* creating a Workout Session,
-* editing a Workout Session,
-* creating or updating a Goal.
+* #In-application interactions (navigating dashboard views, updating UI state after data fetch) shall be complete within ≤ 500 ms for at least 95% of requests.#
 
-“Server-acknowledged result” means the data is successfully written/read from persistent storage and the client receives confirmation.
+* #Server-backed operations (e.g., creating/editing Workout Sessions, updating Goals) shall complete with a server-acknowledged result within ≤ 1.0 second for at least 95% of requests.#
+
+* #Initial page load or heavy operations (first dashboard load after login) shall be complete within ≤ 2.0 seconds for at least 95% of requests.#
+
+“Server-acknowledged result” means the data is successfully written #to or# read from persistent storage and #confirmation is returned to# the client.
 
 ====== Concurrent Usage Target (Scalability)
 
-The system shall support at least *100 simultaneous active Users* performing typical actions (viewing dashboard, logging workouts, editing workouts, updating goals) without violating Initial Page Load Time response-time targets.
+#The system shall support at least 100 concurrent active sessions performing typical actions (viewing dashboard, logging workouts, editing workouts, updating goals) without violating Initial Page Load Time response-time targets.#
 
-If concurrency exceeds *100 simultaneous active Users*, the system shall continue operating and may degrade gracefully, but shall not lose persisted data or become unavailable.
+* #“Concurrent” refers to overlapping user activity within a time window.#
+
+#Under load exceeding 100 concurrent active sessions:#
+
+* #The system shall continue operating without data loss or service unavailability.#
+
+* #The system may degrade gracefully as follows:#
+
+** #Response times may increase but shall remain ≤ 2.5 seconds for at least 90% of requests.# 
+
+** #The system shall not allow indefinite delays or request starvation for any active user.# 
+
+** #The system shall provide user-facing feedback (“High system load—responses may be slower than usual”) when performance degradation is detected.#
 
 ====== Availability (Reliability/Availability)
 
-The system shall achieve at least *99.0%* monthly availability for core features (authentication, viewing dashboard, creating/editing workouts, creating/updating goals), excluding scheduled maintenance windows announced at least 24 hours in advance.
+#The system shall achieve at least 99.9% monthly availability for core features:#
 
-Criteria for acceptable maintenance frequency and duration remain to be determined and will be defined based on course timelines and hosting constraints.
+* #authentication#
+
+* #viewing dashboard#
+
+* #creating/editing workouts#
+
+* #creating/updating goals#.
+
+#The system shall be designed to minimize or eliminate downtime during updates through techniques such as:# 
+
+* #Rolling deployments#
+
+* #Hot standby#
+
+#If schedule maintenance is unavoidable, it shall be rare, justified and communicated to users at least 24 hours in advance.#
 
 ====== Data Durability on Failure (Reliability)
 
