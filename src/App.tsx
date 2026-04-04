@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
+import MainMenu from "./features/auth/mainmenu/MainMenu";
+import GymWorkoutPage from "./features/auth/mainmenu/GymWorkoutPage";
 import WorkoutHistoryPage from "./features/workouts/WorkoutHistoryPage";
 import WeeklyProgress from "./features/streaks/WeeklyProgress";
 import { StreakDisplay, StreakMilestoneBadge } from "./features/streaks";
@@ -163,14 +165,11 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <HomePage />
-              </ProtectedRoute>
-            }
-          />
+          {/* ✅ Main Menu — no auth required */}
+          <Route path="/" element={<MainMenu />} />
+          <Route path="/menu" element={<MainMenu />} />
+          <Route path="/workout/gym" element={<GymWorkoutPage />} />
+
           <Route
             path="/history"
             element={

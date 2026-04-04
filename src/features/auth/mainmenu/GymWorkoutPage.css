@@ -1,0 +1,421 @@
+/* =============================================
+   GymWorkoutPage.css
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap');
+
+:root {
+  --bg:         #1e1e1e;
+  --surface:    #2a2a2a;
+  --border:     #383838;
+  --text:       #f2f2f2;
+  --muted:      #888;
+  --orange:     #f5a623;
+  --orange-dim: rgba(245,166,35,0.15);
+  --green:      #43a047;
+  --max-w:      680px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+button { background: none; border: none; cursor: pointer; font: inherit; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.gw-page {
+  min-height: 100vh;
+  width: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Navbar ──────────────────────────────────── */
+.gw-navbar {
+  background: #111;
+  border-bottom: 1px solid var(--border);
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.gw-navbar__inner {
+  width: 100%;
+  padding: 0 40px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.gw-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.gw-back-btn:hover { background: var(--surface); }
+.gw-back-btn__arrow { font-size: 11px; }
+
+.gw-navbar__title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  color: var(--orange);
+  white-space: nowrap;
+}
+
+.gw-navbar__links {
+  display: flex;
+  gap: 18px;
+  margin-left: auto;
+}
+
+.gw-navbar__links span {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.gw-navbar__links span:hover { color: var(--text); }
+
+/* ── Content ─────────────────────────────────── */
+.gw-content {
+  flex: 1;
+  width: 100%;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── List ────────────────────────────────────── */
+.gw-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.gw-list > * {
+  flex: 1;
+}
+
+/* ── Plan Cards (Screen 1) ───────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.gw-plan-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--orange);
+  color: #111;
+  border-radius: 50px;
+  padding: 20px 28px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.04em;
+  transition: transform 0.15s, filter 0.15s, box-shadow 0.15s;
+  animation: fadeUp 0.35s ease both;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+}
+
+.gw-plan-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245,166,35,0.3);
+}
+
+.gw-plan-card:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.3);
+  filter: brightness(0.92);
+}
+
+.gw-plan-card__name { flex: 1; }
+
+.gw-plan-card__icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Exercise Cards (Screen 2) ───────────────── */
+.gw-ex-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--orange);
+  color: #111;
+  border-radius: 50px;
+  padding: 18px 28px;
+  font-family: 'Barlow', sans-serif;
+  transition: transform 0.15s, filter 0.15s, box-shadow 0.15s;
+  animation: fadeUp 0.35s ease both;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+}
+
+.gw-ex-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(245,166,35,0.3);
+}
+
+.gw-ex-card:active {
+  transform: translateY(2px);
+  filter: brightness(0.92);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.3);
+}
+
+.gw-ex-card__icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ex-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.gw-ex-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gw-ex-card__name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.03em;
+}
+
+.gw-ex-card__duration {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+/* ── Active Exercise (Screen 3) ──────────────── */
+.gw-active {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 20px 40px;
+}
+
+.gw-timer-wrap {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin-bottom: 8px;
+}
+
+.gw-ring {
+  width: 100%;
+  height: 100%;
+}
+
+.gw-ring__track {
+  fill: none;
+  stroke: var(--surface);
+  stroke-width: 14;
+}
+
+.gw-ring__fill {
+  fill: none;
+  stroke: var(--orange);
+  stroke-width: 14;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.9s linear;
+}
+
+.gw-ring__fill--rest {
+  stroke: var(--green);
+}
+
+.gw-timer__icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--orange);
+  border-radius: 50%;
+  margin: 28px;
+  color: #111;
+}
+
+.gw-timer__icon .ex-icon {
+  width: 80px;
+  height: 80px;
+}
+
+.gw-phase-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+
+.gw-active__name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.gw-countdown {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 64px;
+  color: var(--orange);
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.gw-next-btn {
+  background: var(--orange);
+  color: #111;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  padding: 12px 30px;
+  border-radius: 50px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.25);
+}
+
+.gw-next-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(245,166,35,0.35);
+}
+
+.gw-next-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.25);
+}
+
+.gw-pause-btn {
+  color: var(--muted);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  padding: 8px 20px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  transition: background 0.15s, color 0.15s;
+}
+
+.gw-pause-btn:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* ── Finished Screen ─────────────────────────── */
+.gw-finished {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.gw-finished__trophy { font-size: 72px; }
+
+.gw-finished__title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 40px;
+  letter-spacing: 0.03em;
+}
+
+.gw-finished__sub {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.gw-finished__sub strong { color: var(--text); }
+
+.gw-finished__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ── Footer ──────────────────────────────────── */
+.gw-footer {
+  border-top: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.gw-footer__links { display: flex; gap: 18px; }
+.gw-footer__links span { cursor: pointer; transition: color 0.2s; }
+.gw-footer__links span:hover { color: var(--text); }
+
+.gw-footer__logo {
+  background: var(--text);
+  color: #111;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.3;
+}
+
+.gw-footer__year { font-size: 10px; opacity: 0.6; }
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 500px) {
+  .gw-navbar__links { display: none; }
+  .gw-timer-wrap { width: 220px; height: 220px; }
+  .gw-countdown { font-size: 52px; }
+}
