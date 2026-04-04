@@ -1,0 +1,54 @@
+=== Analyze Notification System as a Hybrid Domain (Discrete + Continuous)
+
+Luis Sorrentini
+
+The Domain Attributes lecture establishes that domain phenomena may be classified as continuous, discrete, or hybrid depending on how they evolve over time. A continuous phenomenon is modeled as a function over a dense time domain, while a discrete phenomenon is modeled as a mapping that changes only at specific points or events. A system is considered hybrid when both types of behavior coexist and interact in a meaningful way.
+
+The notification and feedback system in the Gym Tracker app exhibits this hybrid nature. Its behavior cannot be fully described as purely event-driven or purely time-driven, as it depends on both temporal progression and event-based evaluation.
+
+==== Discrete Phenomena
+
+Several discrete phenomena can be identified within the system. Notifications such as workout completion messages and reminder alerts are generated only when specific conditions are satisfied. These notifications are instantaneous outputs and therefore represent discrete events in the domain.
+
+Similarly, the system evaluates user progress and assigns a status from a finite set of values: not started, in progress, or completed. This classification is discrete because it represents a selection from an enumerable set rather than a continuously varying value.
+
+Additionally, the system generates feedback summaries, such as daily or weekly results, which are produced at specific evaluation points. These summaries represent discrete outputs derived from previously accumulated data.
+
+==== Continuous Phenomena
+
+In contrast, the system also contains phenomena that evolve continuously over time. The passage of time since the last workout is inherently continuous, increasing independently of user interaction. This temporal progression is a key factor in determining when notifications should be triggered.
+
+Weekly progress is another continuous phenomenon. Although it is ultimately represented as a discrete status, it is derived from the accumulation of workouts over a time interval. This accumulation reflects an ongoing process rather than a single event.
+
+Similarly, the evaluation of reminder schedules depends on continuous time progression. The system must continuously interpret the current time in relation to user-defined preferences in order to determine when a notification condition is satisfied.
+
+==== Hybrid Interaction
+
+The system’s behavior emerges from the interaction between continuous and discrete components. Continuous phenomena are periodically evaluated, and the results of this evaluation produce discrete outputs.
+
+For example, weekly progress evolves continuously as workouts are completed over time, but the system evaluates this progression and maps it to a discrete state such as completed or in progress. Likewise, reminder functionality depends on continuous time progression, but results in a discrete notification when the configured condition is satisfied.
+
+This interaction aligns with the concept of hybridicity, where continuous processes serve as inputs to discrete decision mechanisms. The system therefore relies on both types of phenomena and cannot be accurately modeled without considering their interaction.
+
+==== Potential Issues
+
+The interaction between continuous and discrete elements introduces potential sources of inconsistency if not modeled carefully.
+
+One notable issue is the reliance on exact time matching for reminder notifications. If the system evaluates a reminder condition at a specific time value, such as 6:00 AM, but the evaluation occurs slightly before or after that value, the notification may not be triggered. Conversely, repeated evaluations at the same time value may result in duplicate notifications. This behavior reflects an improper mapping between a continuous time domain and a discrete event condition.
+
+Another issue arises from the handling of temporal boundaries, such as daily resets or weekly summaries. If these boundaries are not consistently defined, the system may incorrectly evaluate progress or generate feedback at unintended times.
+
+==== Modeling Implications
+
+To correctly model this system, it is necessary to distinguish clearly between continuous and discrete components. Continuous aspects such as time progression and progress accumulation should be represented using timestamp-based or interval-based models. Discrete aspects such as notifications and feedback states should be derived from these continuous values through well-defined evaluation rules.
+
+Additionally, the mapping between continuous and discrete phenomena should avoid strict equality conditions. Instead, conditions should be defined using intervals or state tracking mechanisms to ensure consistent behavior across evaluations.
+
+==== Summary
+
+- Notification generation and feedback summaries are discrete phenomena, as they produce instantaneous outputs
+- Goal progress classification is discrete, since it maps to a finite set of states
+- Time progression and progress accumulation are continuous phenomena that evolve independently of events
+- The system operates as a hybrid model where continuous conditions are evaluated to produce discrete outputs
+- Incorrect handling of time-based conditions can lead to missed or duplicated notifications
+- Proper modeling requires a clear separation between continuous temporal data and discrete event-based logic
