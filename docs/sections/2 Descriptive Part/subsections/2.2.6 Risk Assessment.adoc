@@ -14,12 +14,13 @@
 [width="100%", cols="2*", options="header", frame=all, grid=all, halign=center]
 
 |===
-| Severity Value | Description |
+| Severity Value | Description 
 | 1-3 | Minor inconvenience with little impact on functionality
 | 4-6 | Moderate impact that affects usability or user experience 
 | 7-8 | Major impact that disrupts key system features 
 | 9-10 | Critical failure that causes loss of important data or functionality 
 |===
+
 
 ===== Occurrence
 
@@ -30,7 +31,7 @@
 [width="100%", cols="2*", options="header", frame=all, grid=all, halign=center]
 
 |===
-| #Occurrence Value# | #Description# |
+| #Occurrence Value# | #Description# 
 | #1-3# | #Very unlikely to occur#
 | #4-6# | #Somewhat likely to occur#
 | #7-8# | #Likely to occur#
@@ -47,12 +48,13 @@
 [width="100%", cols="2*", options="header", frame=all, grid=all, halign=center]
 
 |===
-| #Detection Value# | #Description# |
-| #1-3# | #Very likely to be detected# |
-| #4-6# | #Detection possible but not guaranteed# |
-| #7-8# | #Difficult to detect without specific monitoring or testing# |
-| #9-10# | #Very unlikely to be detected before causing impact# |
+| #Detection Value# | #Description# 
+| #1-3# | #Very likely to be detected# 
+| #4-6# | #Detection possible but not guaranteed# 
+| #7-8# | #Difficult to detect without specific monitoring or testing# 
+| #9-10# | #Very unlikely to be detected before causing impact# 
 |===
+
 
 ===== FMEA Case 1 - Workout Data Not Saved
 
@@ -64,6 +66,7 @@
 
 | #Persistent Storage and Retrieval# | #Workout data is not saved to the database due to a network failure during the logging process.# | #Network interruption, server downtime, or client-side error during data submission.# | #User loses workout data, leading to frustration and loss of trust in the system.# | #9# | #4# | #6# 
 |===
+
 
 *#Candidate Countermeasures#*
 
@@ -98,6 +101,7 @@
 | Streak Calculation | Streak is incorrectly calculated due to inconsistent handling of workout timestamps across time zones. | Time zone differences, lack of standardized timestamp format, or incorrect date parsing logic. | User sees an unexpected break in their streak, leading to confusion and dissatisfaction with the system. | 7 | 5 | 5
 |===
 
+
 *#Candidate Countermeasures#*
 
 #Mitigation:#
@@ -129,6 +133,7 @@
 | #Related Requirement# | #Failure Mode# | #Causes# | #Effects# | #Severity# | #Occurrence# | #Detection# |
 | #Goal Evaluation# | #Weekly goal is incorrectly marked as completed due to multiple workouts on the same day being counted as separate active days.# | #Lack of logic to aggregate workouts by date, incorrect date handling, or failure to consider multiple sessions in goal evaluation.# | #User sees their weekly goal as completed prematurely, leading to confusion about their actual progress and can result in potential loss of motivation.# | #7# | #5# | #4#
 |===
+
 
 *#Candidate Countermeasures#*
 
