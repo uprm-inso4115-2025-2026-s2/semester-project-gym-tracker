@@ -96,9 +96,9 @@
 
 [width="100%", cols="7*", options="header", frame=all, grid=all, halign=center]
 |===
-| Related Requirement | Failure Mode | Causes | Effects | Severity | Occurrence | Detection
+| #Related Requirement# | #Failure Mode# | #Causes# | #Effects# | #Severity# | #Occurrence# | #Detection#
 
-| Streak Calculation | Streak is incorrectly calculated due to inconsistent handling of workout timestamps across time zones. | Time zone differences, lack of standardized timestamp format, or incorrect date parsing logic. | User sees an unexpected break in their streak, leading to confusion and dissatisfaction with the system. | 7 | 5 | 5
+| #Streak Calculation# | #Streak is incorrectly calculated due to inconsistent handling of workout timestamps across time zones.# | #Time zone differences, lack of standardized timestamp format, or incorrect date parsing logic.# | #User sees an unexpected break in their streak, leading to confusion and dissatisfaction with the system.# | #7# | #5# | #5#
 |===
 
 
