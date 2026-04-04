@@ -13,7 +13,8 @@ interface WorkoutProgress {
 }
 
 interface WorkoutSession {
-  session_date: string;
+  workout_id: string;
+  created_at: string;
 }
 
 interface ProgressData {
@@ -162,35 +163,63 @@ export default function ProgressVisual({ userId }: ProgressVisualProps) {
       setError(null);
 
       try {
-        const { data: progress, error: progressErr } = await supabase
-          .from("workout_progress")
-          .select("*")
-          .eq("user_id", userId)
-          .order("recorded_at", { ascending: false })
-          .limit(1)
-          .single();
-
-        if (progressErr && progressErr.code !== "PGRST116") throw progressErr;
-
         const monday = new Date();
         monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
         monday.setHours(0, 0, 0, 0);
 
+        // Fetch this week's sessions to build the active-days bar
         const { data: sessions, error: sessionsErr } = await supabase
           .from("workout_sessions")
-          .select("session_date")
+          .select("workout_id, created_at")
           .eq("user_id", userId)
-          .gte("session_date", monday.toISOString());
+          .gte("created_at", monday.toISOString());
 
         if (sessionsErr) throw sessionsErr;
 
         const activeDays: boolean[] = Array(7).fill(false);
-        (sessions as WorkoutSession[] | null)?.forEach(({ session_date }) => {
-          const d = new Date(session_date);
+        (sessions as WorkoutSession[] | null)?.forEach(({ created_at }) => {
+          const d = new Date(created_at);
           activeDays[(d.getDay() + 6) % 7] = true;
         });
 
-        setData({ progress: (progress as WorkoutProgress) ?? null, activeDays });
+        // Compute progress rings from workout_exercises logged this week
+        let progress: WorkoutProgress | null = null;
+        const workoutIds = (sessions as WorkoutSession[] | null)?.map((s) => s.workout_id) ?? [];
+
+        if (workoutIds.length > 0) {
+          const { data: exerciseRows, error: exercisesErr } = await supabase
+            .from("workout_exercises")
+            .select("sets, reps, weight")
+            .in("workout_id", workoutIds);
+
+          if (exercisesErr) throw exercisesErr;
+
+          if (exerciseRows && exerciseRows.length > 0) {
+            const sets_completed = exerciseRows.reduce((sum, e) => sum + (e.sets ?? 0), 0);
+            const reps_completed = exerciseRows.reduce(
+              (sum, e) => sum + (e.sets ?? 0) * (e.reps ?? 0),
+              0
+            );
+            const volume_kg = Math.round(
+              exerciseRows.reduce(
+                (sum, e) => sum + (e.sets ?? 0) * (e.reps ?? 0) * (e.weight ?? 0),
+                0
+              )
+            );
+
+            progress = {
+              sets_completed,
+              sets_target: 50,
+              reps_completed,
+              reps_target: 500,
+              volume_kg,
+              volume_target_kg: 10000,
+              recorded_at: new Date().toISOString(),
+            };
+          }
+        }
+
+        setData({ progress, activeDays });
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : "An unknown error occurred";
         console.error("ProgressVisual fetch error:", message);

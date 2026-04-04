@@ -45,10 +45,22 @@ export default function StreakDisplay({
   emptyStateProps,
 }: StreakDisplayProps) {
   const currentStreak = sessions.length > 0 ? computeStreakFromSessions(sessions) : 0;
-  const isStreakBroken = isBroken || currentStreak === 0;
+  const hadStreak = (longestStreak ?? 0) > 0;
+  const isStreakBroken = isBroken || (currentStreak === 0 && hadStreak);
 
-  if (sessions.length === 0 && !isBroken) {
-    return <StreakEmptyState {...emptyStateProps} />;
+  if (currentStreak === 0 && !hadStreak && !isBroken) {
+    const hasWorkouts = sessions.length > 0;
+    return (
+      <StreakEmptyState
+        {...emptyStateProps}
+        title={hasWorkouts ? "🔥 No streak yet" : (emptyStateProps?.title ?? "🔥 No streak yet")}
+        message={
+          hasWorkouts
+            ? "Come back tomorrow to start your streak!"
+            : (emptyStateProps?.message ?? "Log your first workout to start building consistency!")
+        }
+      />
+    );
   }
 
   return (

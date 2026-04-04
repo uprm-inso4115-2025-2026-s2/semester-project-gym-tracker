@@ -374,7 +374,7 @@ export async function invokeCheckGracePeriod(userId: string, currentDate: Date =
   return (data as UserStreak) ?? null;
 }
 
-export function computeStreakFromSessions(sessions: WorkoutSession[]): number {
+export function computeStreakFromSessions(sessions: WorkoutSession[], today = new Date()): number {
   const qualifyingSessions = sessions
     .filter((session) => (session.completed ?? true) && isValidWorkoutDay(session.exercises?.length ?? 0, session.durationMinutes));
 
@@ -382,19 +382,31 @@ export function computeStreakFromSessions(sessions: WorkoutSession[]): number {
 
   const uniqueDates = Array.from(new Set(qualifyingSessions.map((s) => s.date))).sort();
 
+  // The streak is only active if the most recent workout was today or yesterday.
+  // If more time has passed the streak is broken, even if the history shows consecutive days.
+  const todayDate = localDateForTimezone(today, "UTC");
+  const mostRecentDate = new Date(`${uniqueDates[uniqueDates.length - 1]}T00:00:00Z`);
+  const daysSinceLast = daysBetweenUtcDates(mostRecentDate, todayDate);
+  if (daysSinceLast > 1) return 0;
+
+  // A streak requires at least 2 consecutive days — a single attendance day
+  // is not a streak per the domain definition ("consecutive" implies ≥2).
+  if (uniqueDates.length < 2) return 0;
+
   let streak = 1;
   for (let i = uniqueDates.length - 1; i > 0; i--) {
-    const today = new Date(uniqueDates[i]);
-    const yesterday = new Date(uniqueDates[i - 1]);
+    const curr = new Date(`${uniqueDates[i]}T00:00:00Z`);
+    const prev = new Date(`${uniqueDates[i - 1]}T00:00:00Z`);
 
-    if (isConsecutiveDay(yesterday, today)) {
+    if (isConsecutiveDay(prev, curr)) {
       streak++;
     } else {
       break;
     }
   }
 
-  return streak;
+  // Only a streak if we found consecutive days (streak > 1 means at least 2 were consecutive).
+  return streak > 1 ? streak : 0;
 }
 
 export function updateStreakWithWorkout(

@@ -112,15 +112,19 @@ function AppLayout({ children }: { children: React.ReactNode }) {
 }
 
 function computeLongestStreak(dates: string[]): number {
-  if (dates.length === 0) return 0;
   const sorted = [...new Set(dates)].sort();
-  let longest = 1, current = 1;
+  if (sorted.length < 2) return 0;
+  let longest = 0, current = 1;
   for (let i = 1; i < sorted.length; i++) {
     const prev = new Date(`${sorted[i - 1]}T00:00:00`);
     const curr = new Date(`${sorted[i]}T00:00:00`);
     const diff = (curr.getTime() - prev.getTime()) / 86400000;
-    current = diff === 1 ? current + 1 : 1;
-    if (current > longest) longest = current;
+    if (diff === 1) {
+      current += 1;
+      if (current > longest) longest = current;
+    } else {
+      current = 1;
+    }
   }
   return longest;
 }

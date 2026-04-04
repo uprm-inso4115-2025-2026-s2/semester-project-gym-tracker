@@ -1,11 +1,22 @@
-import { useState } from "react";
-import { createWorkoutSession } from "./workoutSessionsApi";
+import { useEffect, useRef, useState } from "react";
+import { createWorkoutSession, saveExercisesForSession } from "./workoutSessionsApi";
 import { useAuth } from "../auth";
+import { supabase } from "../../lib/supabaseClient";
+
+type ExerciseSuggestion = { exercise_id: string; name: string; category: string | null };
 
 type Props = {
   onClose: () => void;
   /** Called after the workout_sessions record is inserted successfully. */
   onWorkoutLogged: () => Promise<void>;
+};
+
+type ExerciseRow = {
+  id: number;
+  name: string;
+  sets: string;
+  reps: string;
+  weight: string;
 };
 
 const WORKOUT_TYPES = ["Gym", "Run", "Cardio", "Other"] as const;
@@ -17,8 +28,35 @@ export default function LogWorkoutModal({ onClose, onWorkoutLogged }: Props) {
   const [duration, setDuration] = useState<string>("");
   const [calories, setCalories] = useState<string>("");
   const [notes, setNotes] = useState<string>("");
+  const [exercises, setExercises] = useState<ExerciseRow[]>([]);
+  const [nextId, setNextId] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [allExercises, setAllExercises] = useState<ExerciseSuggestion[]>([]);
+  const [activeSuggestionId, setActiveSuggestionId] = useState<number | null>(null);
+  const inputRefs = useRef<Record<number, HTMLInputElement | null>>({});
+  const [dropdownRect, setDropdownRect] = useState<DOMRect | null>(null);
+
+  useEffect(() => {
+    supabase
+      .from("exercises")
+      .select("exercise_id, name, category")
+      .order("name")
+      .then(({ data }) => setAllExercises((data as ExerciseSuggestion[]) ?? []));
+  }, []);
+
+  function addExercise() {
+    setExercises((prev) => [...prev, { id: nextId, name: "", sets: "", reps: "", weight: "" }]);
+    setNextId((n) => n + 1);
+  }
+
+  function removeExercise(id: number) {
+    setExercises((prev) => prev.filter((e) => e.id !== id));
+  }
+
+  function updateExercise(id: number, field: keyof Omit<ExerciseRow, "id">, value: string) {
+    setExercises((prev) => prev.map((e) => (e.id === id ? { ...e, [field]: value } : e)));
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -34,14 +72,28 @@ export default function LogWorkoutModal({ onClose, onWorkoutLogged }: Props) {
     setError("");
 
     try {
-      await createWorkoutSession({
+      const sessionData = await createWorkoutSession({
         workout_type: workoutType,
         duration_minutes: durationNum,
         calories_burned: calories ? parseInt(calories, 10) : undefined,
         notes: notes.trim() || undefined,
       });
 
-      // Update goals tracking in the parent component
+      const workoutId = sessionData?.[0]?.workout_id;
+      const validExercises = exercises.filter((e) => e.name.trim());
+
+      if (workoutId && validExercises.length > 0) {
+        await saveExercisesForSession(
+          workoutId,
+          validExercises.map((e) => ({
+            name: e.name.trim(),
+            sets: e.sets ? parseInt(e.sets, 10) : undefined,
+            reps: e.reps ? parseInt(e.reps, 10) : undefined,
+            weight: e.weight ? parseFloat(e.weight) : undefined,
+          }))
+        );
+      }
+
       await onWorkoutLogged();
       onClose();
     } catch (err: unknown) {
@@ -79,6 +131,8 @@ export default function LogWorkoutModal({ onClose, onWorkoutLogged }: Props) {
           borderRadius: "var(--radius-xl, 1.5rem)",
           padding: "2rem 1.75rem",
           boxShadow: "0 8px 40px rgba(25,28,30,0.18)",
+          maxHeight: "90vh",
+          overflowY: "auto",
         }}
       >
         <h2 style={{
@@ -145,6 +199,170 @@ export default function LogWorkoutModal({ onClose, onWorkoutLogged }: Props) {
               rows={3}
               style={{ ...inputStyle, resize: "vertical", minHeight: "5rem" }}
             />
+          </div>
+
+          {/* Exercises — optional */}
+          <div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+              <label style={{ ...labelStyle, marginBottom: 0 }}>
+                Exercises <span style={{ color: "var(--outline-variant, #c2c6d9)", fontSize: "0.75rem" }}>(optional)</span>
+              </label>
+              <button
+                type="button"
+                onClick={addExercise}
+                style={{
+                  padding: "0.25rem 0.75rem",
+                  background: "var(--primary, #004bca)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "var(--radius-md, 0.5rem)",
+                  fontSize: "0.78rem",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                + Add
+              </button>
+            </div>
+
+            {exercises.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                {exercises.map((ex) => {
+                  const query = ex.name.trim().toLowerCase();
+                  const suggestions = query.length > 0
+                    ? allExercises.filter((s) => s.name.toLowerCase().includes(query)).slice(0, 6)
+                    : allExercises.slice(0, 6);
+                  const showSuggestions = activeSuggestionId === ex.id && suggestions.length > 0;
+
+                  return (
+                  <div key={ex.id} style={{ background: "var(--surface-container, #f2f4f6)", borderRadius: "var(--radius-md, 0.5rem)", padding: "0.6rem 0.75rem" }}>
+                    <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginBottom: "0.4rem" }}>
+                      <div style={{ flex: 1 }}>
+                        <input
+                          ref={(el) => { inputRefs.current[ex.id] = el; }}
+                          type="text"
+                          value={ex.name}
+                          onChange={(e) => {
+                            updateExercise(ex.id, "name", e.target.value);
+                            const rect = inputRefs.current[ex.id]?.getBoundingClientRect() ?? null;
+                            setDropdownRect(rect);
+                            setActiveSuggestionId(ex.id);
+                          }}
+                          onFocus={() => {
+                            const rect = inputRefs.current[ex.id]?.getBoundingClientRect() ?? null;
+                            setDropdownRect(rect);
+                            setActiveSuggestionId(ex.id);
+                          }}
+                          onBlur={() => setTimeout(() => setActiveSuggestionId(null), 150)}
+                          placeholder="Exercise name"
+                          style={{ ...inputStyle, width: "100%", boxSizing: "border-box" }}
+                        />
+                        {showSuggestions && dropdownRect && (
+                          <div
+                            style={{
+                              position: "fixed",
+                              top: dropdownRect.bottom + 4,
+                              left: dropdownRect.left,
+                              width: dropdownRect.width,
+                              background: "#ffffff",
+                              border: "1.5px solid var(--outline-variant, #c2c6d9)",
+                              borderRadius: "var(--radius-md, 0.5rem)",
+                              zIndex: 9999,
+                              overflow: "hidden",
+                              boxShadow: "0 4px 16px rgba(25,28,30,0.18)",
+                            }}
+                          >
+                            {suggestions.map((s) => (
+                              <div
+                                key={s.exercise_id}
+                                onMouseDown={() => {
+                                  updateExercise(ex.id, "name", s.name);
+                                  setActiveSuggestionId(null);
+                                }}
+                                style={{
+                                  padding: "0.5rem 0.85rem",
+                                  cursor: "pointer",
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  fontSize: "0.875rem",
+                                  color: "#191c1e",
+                                  borderBottom: "1px solid #f2f4f6",
+                                }}
+                                onMouseEnter={(e) => (e.currentTarget.style.background = "#f2f4f6")}
+                                onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                              >
+                                <span>{s.name}</span>
+                                {s.category && (
+                                  <span style={{ fontSize: "0.72rem", color: "#74777f", marginLeft: "0.5rem" }}>
+                                    {s.category}
+                                  </span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeExercise(ex.id)}
+                        aria-label="Remove exercise"
+                        style={{
+                          padding: "0.4rem 0.6rem",
+                          background: "transparent",
+                          border: "1px solid var(--outline-variant, #c2c6d9)",
+                          borderRadius: "var(--radius-md, 0.5rem)",
+                          cursor: "pointer",
+                          color: "var(--error, #ba1a1a)",
+                          fontWeight: 700,
+                          fontSize: "0.85rem",
+                          flexShrink: 0,
+                        }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.4rem" }}>
+                      <div>
+                        <label style={{ ...labelStyle, fontSize: "0.72rem" }}>Sets</label>
+                        <input
+                          type="number"
+                          min={1}
+                          value={ex.sets}
+                          onChange={(e) => updateExercise(ex.id, "sets", e.target.value)}
+                          placeholder="—"
+                          style={{ ...inputStyle, textAlign: "center" }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ ...labelStyle, fontSize: "0.72rem" }}>Reps</label>
+                        <input
+                          type="number"
+                          min={1}
+                          value={ex.reps}
+                          onChange={(e) => updateExercise(ex.id, "reps", e.target.value)}
+                          placeholder="—"
+                          style={{ ...inputStyle, textAlign: "center" }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ ...labelStyle, fontSize: "0.72rem" }}>Weight (kg)</label>
+                        <input
+                          type="number"
+                          min={0}
+                          step={0.5}
+                          value={ex.weight}
+                          onChange={(e) => updateExercise(ex.id, "weight", e.target.value)}
+                          placeholder="—"
+                          style={{ ...inputStyle, textAlign: "center" }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {error && (

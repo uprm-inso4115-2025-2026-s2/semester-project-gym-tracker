@@ -81,13 +81,18 @@ export default function WeeklyProgressSummary() {
           .map((goal) => goal.period_date)
       );
 
+      // A streak requires at least 2 consecutive days.
+      // Count back from today; only register a streak once we have 2+ consecutive days.
       let streak = 0;
       let cursor = formatDate(new Date());
+      let consecutive = 0;
 
       while (completedDates.has(cursor)) {
-        streak += 1;
+        consecutive += 1;
         cursor = addDays(cursor, -1);
       }
+
+      streak = consecutive >= 2 ? consecutive : 0;
 
       setData({
         workoutsCompleted,
