@@ -38,12 +38,13 @@ export default function LogWorkoutModal({ onClose, onWorkoutLogged }: Props) {
   const [dropdownRect, setDropdownRect] = useState<DOMRect | null>(null);
 
   useEffect(() => {
+    if (!user) return;
     supabase
       .from("exercises")
       .select("exercise_id, name, category")
       .order("name")
       .then(({ data }) => setAllExercises((data as ExerciseSuggestion[]) ?? []));
-  }, []);
+  }, [user]);
 
   function addExercise() {
     setExercises((prev) => [...prev, { id: nextId, name: "", sets: "", reps: "", weight: "" }]);
@@ -116,10 +117,12 @@ export default function LogWorkoutModal({ onClose, onWorkoutLogged }: Props) {
         inset: 0,
         background: "rgba(25, 28, 30, 0.45)",
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
         zIndex: 100,
         padding: "1rem",
+        paddingBottom: "5rem",
+        overflowY: "auto",
       }}
     >
       {/* Card */}
@@ -131,8 +134,6 @@ export default function LogWorkoutModal({ onClose, onWorkoutLogged }: Props) {
           borderRadius: "var(--radius-xl, 1.5rem)",
           padding: "2rem 1.75rem",
           boxShadow: "0 8px 40px rgba(25,28,30,0.18)",
-          maxHeight: "90vh",
-          overflowY: "auto",
         }}
       >
         <h2 style={{
@@ -230,8 +231,8 @@ export default function LogWorkoutModal({ onClose, onWorkoutLogged }: Props) {
                 {exercises.map((ex) => {
                   const query = ex.name.trim().toLowerCase();
                   const suggestions = query.length > 0
-                    ? allExercises.filter((s) => s.name.toLowerCase().includes(query)).slice(0, 6)
-                    : allExercises.slice(0, 6);
+                    ? allExercises.filter((s) => s.name.toLowerCase().includes(query)).slice(0, 20)
+                    : allExercises.slice(0, 20);
                   const showSuggestions = activeSuggestionId === ex.id && suggestions.length > 0;
 
                   return (
@@ -268,7 +269,8 @@ export default function LogWorkoutModal({ onClose, onWorkoutLogged }: Props) {
                               border: "1.5px solid var(--outline-variant, #c2c6d9)",
                               borderRadius: "var(--radius-md, 0.5rem)",
                               zIndex: 9999,
-                              overflow: "hidden",
+                              maxHeight: `${Math.min(220, window.innerHeight - dropdownRect.bottom - 72)}px`,
+                              overflowY: "auto",
                               boxShadow: "0 4px 16px rgba(25,28,30,0.18)",
                             }}
                           >
