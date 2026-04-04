@@ -1,22 +1,23 @@
 import { supabase } from "../../lib/supabaseClient";
 
 export type WorkoutSessionRecord = {
-  id: string;
+  workout_id: string;
   user_id: string;
   workout_type: string;
   duration_minutes: number | null;
   calories_burned: number | null;
   notes: string | null;
-  created_at: string;
+  created_at: string | null;
 };
 
 export type WorkoutExerciseRecord = {
-  id: string;
+  record_id: string;
   workout_id: string;
   exercise_id: string;
   sets: number | null;
   reps: number | null;
   weight: number | null;
+  exercises: { name: string } | null;
 };
 
 /**
@@ -30,7 +31,7 @@ export async function getUserWorkoutSessions(
   const { data, error } = await supabase
     .from("workout_sessions")
     .select(
-      "id, user_id, workout_type, duration_minutes, calories_burned, notes, created_at"
+      "workout_id, user_id, workout_type, duration_minutes, calories_burned, notes, created_at"
     )
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
@@ -53,7 +54,7 @@ export async function getWorkoutExercisesBySessionId(
 ): Promise<WorkoutExerciseRecord[]> {
   const { data, error } = await supabase
     .from("workout_exercises")
-    .select("id, workout_id, exercise_id, sets, reps, weight")
+    .select("record_id, workout_id, exercise_id, sets, reps, weight, exercises(name)")
     .eq("workout_id", workoutId);
 
   if (error) {
@@ -62,4 +63,31 @@ export async function getWorkoutExercisesBySessionId(
   }
 
   return data ?? [];
+}
+
+export async function deleteWorkoutSession(workoutId: string): Promise<void> {
+  const { error } = await supabase
+    .from("workout_sessions")
+    .delete()
+    .eq("workout_id", workoutId);
+
+  if (error) {
+    console.error("Error deleting workout session:", error.message);
+    throw error;
+  }
+}
+
+export async function updateWorkoutSession(
+  workoutId: string,
+  updates: Partial<Pick<WorkoutSessionRecord, "workout_type" | "duration_minutes" | "calories_burned" | "notes">>
+): Promise<void> {
+  const { error } = await supabase
+    .from("workout_sessions")
+    .update(updates)
+    .eq("workout_id", workoutId);
+
+  if (error) {
+    console.error("Error updating workout session:", error.message);
+    throw error;
+  }
 }

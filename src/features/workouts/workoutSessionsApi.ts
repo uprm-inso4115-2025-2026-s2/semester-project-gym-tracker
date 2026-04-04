@@ -16,7 +16,7 @@ export async function getWorkoutSessions() {
 
   const { data, error } = await supabase
     .from("workout_sessions")
-    .select("id, user_id, workout_type, duration_minutes, calories_burned, notes, created_at")
+    .select("workout_id, user_id, workout_type, duration_minutes, calories_burned, notes, created_at")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 
@@ -64,4 +64,32 @@ export async function createWorkoutSession(session: {
   }
 
   return data;
+}
+
+export async function saveExercisesForSession(
+  workoutId: string,
+  exercises: Array<{ name: string; sets?: number; reps?: number; weight?: number }>
+): Promise<void> {
+  for (const ex of exercises) {
+    // Upsert by name — creates the exercise if it doesn't exist yet
+    const { data: exerciseData, error: exError } = await supabase
+      .from("exercises")
+      .upsert({ name: ex.name }, { onConflict: "name" })
+      .select("exercise_id")
+      .single();
+
+    if (exError) throw new Error(exError.message);
+
+    const { error: weError } = await supabase
+      .from("workout_exercises")
+      .insert({
+        workout_id: workoutId,
+        exercise_id: exerciseData.exercise_id,
+        sets: ex.sets ?? null,
+        reps: ex.reps ?? null,
+        weight: ex.weight ?? null,
+      });
+
+    if (weError) throw new Error(weError.message);
+  }
 }

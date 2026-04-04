@@ -17,82 +17,67 @@ export default function NotificationPreferencesPanel({
   }, [value]);
 
   function handleToggle() {
-    const updated = {
-      ...preferences,
-      enabled: !preferences.enabled,
-    };
+    const updated = { ...preferences, enabled: !preferences.enabled };
     setPreferences(updated);
     onChange(updated);
   }
 
   function handleTimeChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const updated = {
-      ...preferences,
-      reminderTime: event.target.value,
-    };
+    const updated = { ...preferences, reminderTime: event.target.value };
     setPreferences(updated);
     onChange(updated);
   }
 
   return (
     <>
-      <h2
-        style={{
-          marginTop: 0,
-          marginBottom: "1rem",
-          color: "#17325c",
-        }}
-      >
-        Notification Preferences
+      <h2 className="settings-section-title" style={{ marginTop: 0 }}>
+        Notifications
       </h2>
 
-      <div style={{ marginBottom: "1rem" }}>
-        <label
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.75rem",
-            fontWeight: 600,
-            color: "#17325c",
-          }}
-        >
-          <input
-            type="checkbox"
-            checked={preferences.enabled}
-            onChange={handleToggle}
-          />
-          Enable notifications
-        </label>
-      </div>
-
-      <div>
-        <label
-          htmlFor="reminderTime"
-          style={{
-            display: "block",
-            marginBottom: "0.5rem",
-            fontWeight: 600,
-            color: "#17325c",
-          }}
-        >
-          Preferred reminder time
-        </label>
-
+      <label className="settings-radio-label" style={{ marginBottom: "var(--space-2)", display: "flex", gap: "0.6rem" }}>
         <input
-          id="reminderTime"
-          type="time"
-          value={preferences.reminderTime}
-          onChange={handleTimeChange}
-          disabled={!preferences.enabled}
-          style={{
-            padding: "0.5rem",
-            borderRadius: "8px",
-            border: "1px solid #cbd5e1",
-            width: "100%",
-            maxWidth: "220px",
-          }}
+          type="checkbox"
+          checked={preferences.enabled}
+          onChange={handleToggle}
+          style={{ accentColor: "var(--primary)", width: 16, height: 16, cursor: "pointer" }}
         />
-      </div>
+        Enable reminders
+      </label>
+
+      <label
+        htmlFor="reminderTime"
+        style={{
+          display: "block",
+          marginBottom: "0.4rem",
+          fontSize: "var(--font-label-sm)",
+          fontWeight: 600,
+          color: "rgba(25,28,30,0.55)",
+          textTransform: "uppercase",
+          letterSpacing: "0.04em",
+        }}
+      >
+        Reminder time
+      </label>
+      <input
+        id="reminderTime"
+        type="time"
+        value={preferences.reminderTime}
+        onChange={handleTimeChange}
+        disabled={!preferences.enabled}
+        style={{
+          padding: "0.5rem 0.75rem",
+          borderRadius: "var(--radius-md)",
+          border: "none",
+          background: "var(--surface-container-low)",
+          color: "var(--on-surface)",
+          fontFamily: "var(--font-family-body)",
+          fontSize: "var(--font-body-md)",
+          width: "100%",
+          maxWidth: "200px",
+          opacity: preferences.enabled ? 1 : 0.45,
+          outline: "none",
+        }}
+      />
     </>
   );
 }

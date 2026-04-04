@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+const logo = "/Colored-Logo.svg";
 import {
   LoginPage,
   SignupPage,
@@ -9,7 +10,6 @@ import {
   AuthProvider,
   ProtectedRoute,
   useAuth,
-  signOut,
 } from "./features/auth";
 import WorkoutHistoryPage from "./features/workouts/WorkoutHistoryPage";
 import DailyGoalProgress from "./features/feedback/DailyGoalProgress";
@@ -18,6 +18,7 @@ import WeeklyProgress from "./features/streaks/WeeklyProgress";
 import { StreakDisplay, StreakMilestoneBadge } from "./features/streaks";
 import SettingsPage from "./features/streaks/SettingsPage";
 import NotFoundPage from "./features/ui/NotFoundPage";
+import BottomNav from "./features/ui/BottomNav";
 import { supabase } from "./lib/supabaseClient";
 import type { WorkoutSession } from "./types";
 import "./App.css";
@@ -101,10 +102,37 @@ function getStartOfWeek(date = new Date()) {
   return d;
 }
 
+function AppLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      {children}
+      <BottomNav />
+    </>
+  );
+}
+
+function computeLongestStreak(dates: string[]): number {
+  const sorted = [...new Set(dates)].sort();
+  if (sorted.length < 2) return 0;
+  let longest = 0, current = 1;
+  for (let i = 1; i < sorted.length; i++) {
+    const prev = new Date(`${sorted[i - 1]}T00:00:00`);
+    const curr = new Date(`${sorted[i]}T00:00:00`);
+    const diff = (curr.getTime() - prev.getTime()) / 86400000;
+    if (diff === 1) {
+      current += 1;
+      if (current > longest) longest = current;
+    } else {
+      current = 1;
+    }
+  }
+  return longest;
+}
+
 function HomePage() {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [sessions, setSessions] = useState<WorkoutSession[]>([]);
+  const [longestStreak, setLongestStreak] = useState(0);
   const [loadingStreaks, setLoadingStreaks] = useState(true);
 
   useEffect(() => {
@@ -128,7 +156,8 @@ function HomePage() {
         return;
       }
 
-      const mappedSessions: WorkoutSession[] = ((data as GoalFeedbackRow[]) ?? []).map((row) => ({
+      const rows = (data as GoalFeedbackRow[]) ?? [];
+      const mappedSessions: WorkoutSession[] = rows.map((row) => ({
         id: row.id,
         userId: row.user_id,
         date: row.period_date,
@@ -137,17 +166,13 @@ function HomePage() {
       }));
 
       setSessions(mappedSessions);
+      setLongestStreak(computeLongestStreak(rows.map((r) => r.period_date)));
       setLoadingStreaks(false);
     }
 
     fetchStreakSessions();
-
-    const handleRefresh = () => {
-      fetchStreakSessions();
-    };
-
-    window.addEventListener("progress-updated", handleRefresh);
-    return () => window.removeEventListener("progress-updated", handleRefresh);
+    window.addEventListener("progress-updated", fetchStreakSessions);
+    return () => window.removeEventListener("progress-updated", fetchStreakSessions);
   }, [user]);
 
   const weeklyCompletedDays = useMemo(() => {
@@ -165,103 +190,35 @@ function HomePage() {
   }, [sessions]);
 
   return (
-    <main className="home-main" style={{ position: "relative" }}>
-      <button
-        onClick={() => navigate("/settings")}
-        aria-label="Settings"
-        style={{
-          position: "absolute",
-          top: "1.5rem",
-          right: "1.5rem",
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: "0.25rem",
-          borderRadius: "50%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="26"
-          height="26"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#374151"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <circle cx="12" cy="12" r="3" />
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-        </svg>
-      </button>
+    <main className="home-main">
+      {/* Compact header */}
+      <header className="home-header">
+        <img src={logo} alt="Gym Tracker" className="home-logo" />
+        <div className="home-greeting">
+          <h1 className="home-title">Gym Tracker</h1>
+          <p className="home-subtitle">{user?.email}</p>
+        </div>
+      </header>
 
-      <h1 className="home-title">Gym Tracker</h1>
-      <p className="home-subtitle">Logged in as: {user?.email}</p>
+      {/* Dashboard grid */}
+      <div className="home-dashboard">
+        <div className="dash-card dash-streaks">
+          {loadingStreaks
+            ? <p style={{ margin: 0, textAlign: "center", color: "var(--outline-variant)", padding: "var(--space-2)" }}>Loading streaks…</p>
+            : <StreakDisplay sessions={sessions} longestStreak={longestStreak} />}
+        </div>
 
-      <div className="home-weekly">
-        {loadingStreaks ? <p>Loading streaks...</p> : <StreakDisplay sessions={sessions} />}
-      </div>
+        <div className="dash-card dash-weekly">
+          <WeeklyProgress completedDays={weeklyCompletedDays} />
+        </div>
 
-      <div
-        style={{
-          display: "flex",
-          gap: "1rem",
-          justifyContent: "center",
-          marginBottom: "2rem",
-          flexWrap: "wrap",
-        }}
-      >
-        <button
-          onClick={() => navigate("/profile")}
-          style={{
-            padding: "0.5rem 1rem",
-            cursor: "pointer",
-            background: "#ffffff",
-            color: "#111827",
-            border: "1px solid #d1d5db",
-            borderRadius: "4px",
-          }}
-        >
-          Profile
-        </button>
-        <button
-          onClick={() => navigate("/history")}
-          style={{
-            padding: "0.5rem 1rem",
-            cursor: "pointer",
-            background: "#ffffff",
-            color: "#111827",
-            border: "1px solid #d1d5db",
-            borderRadius: "4px",
-          }}
-        >
-          Workout History
-        </button>
+        <div className="dash-card dash-daily">
+          <DailyGoalProgress />
+        </div>
 
-        <button className="btn-logout" onClick={() => signOut()}>
-          Logout
-        </button>
-      </div>
-
-      <div style={{ display: "flex", justifyContent: "center", marginBottom: "2rem" }}>
-        <WeeklyProgress completedDays={weeklyCompletedDays} />
-      </div>
-
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "760px",
-          margin: "0 auto",
-          display: "grid",
-          gap: "1.5rem",
-        }}
-      >
-        <DailyGoalProgress />
-        <WeeklyProgressSummary />
+        <div className="dash-card dash-summary">
+          <WeeklyProgressSummary />
+        </div>
       </div>
     </main>
   );
@@ -276,7 +233,7 @@ function App() {
             path="/"
             element={
               <ProtectedRoute>
-                <HomePage />
+                <AppLayout><HomePage /></AppLayout>
               </ProtectedRoute>
             }
           />
@@ -284,7 +241,7 @@ function App() {
             path="/history"
             element={
               <ProtectedRoute>
-                <WorkoutHistoryPage />
+                <AppLayout><WorkoutHistoryPage /></AppLayout>
               </ProtectedRoute>
             }
           />
@@ -292,7 +249,7 @@ function App() {
             path="/profile"
             element={
               <ProtectedRoute>
-                <ProfilePage />
+                <AppLayout><ProfilePage /></AppLayout>
               </ProtectedRoute>
             }
           />
@@ -305,7 +262,7 @@ function App() {
             path="/settings"
             element={
               <ProtectedRoute>
-                <SettingsPage />
+                <AppLayout><SettingsPage /></AppLayout>
               </ProtectedRoute>
             }
           />
