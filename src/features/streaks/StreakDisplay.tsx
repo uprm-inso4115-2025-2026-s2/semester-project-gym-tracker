@@ -78,8 +78,8 @@ export default function StreakDisplay({
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <h2 className="streak-display__title">Your Streaks 🔥</h2>
-        <p className="streak-display__subtitle">Keep the momentum going!</p>
+        <h2 style={{ color: "#111827" }}>Your Streaks 🔥</h2>
+        <p style={{ color: "#6b7280" }}>Keep the momentum going!</p>
       </motion.div>
 
       <div className="streak-display__grid">

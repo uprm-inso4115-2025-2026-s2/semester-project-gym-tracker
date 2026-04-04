@@ -1,14 +1,26 @@
+import { useEffect, useMemo, useState } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { LoginPage, SignupPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, AuthProvider, ProtectedRoute, useAuth, signOut } from "./features/auth";
 import MainMenu from "./features/auth/mainmenu/MainMenu";
 import GymWorkoutPage from "./features/auth/mainmenu/GymWorkoutPage";
 import WorkoutHistoryPage from "./features/workouts/WorkoutHistoryPage";
+import DailyGoalProgress from "./features/feedback/DailyGoalProgress";
+import WeeklyProgressSummary from "./features/feedback/WeeklyProgressSummary";
 import WeeklyProgress from "./features/streaks/WeeklyProgress";
 import { StreakDisplay, StreakMilestoneBadge } from "./features/streaks";
 import SettingsPage from "./features/streaks/SettingsPage";
 import NotFoundPage from "./features/ui/NotFoundPage";
+import { supabase } from "./lib/supabaseClient";
 import type { WorkoutSession } from "./types";
 import "./App.css";
+
+type GoalFeedbackRow = {
+  id: string;
+  user_id: string;
+  type: string;
+  period_date: string;
+  recorded_value: number;
+};
 
 function StreakPreviewPage() {
   const previewSessions: WorkoutSession[] = [];
@@ -72,14 +84,80 @@ function StreakPreviewPage() {
   );
 }
 
+function getStartOfWeek(date = new Date()) {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  d.setDate(d.getDate() + diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
 function HomePage() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const sessions: WorkoutSession[] = [];
+  const [sessions, setSessions] = useState<WorkoutSession[]>([]);
+  const [loadingStreaks, setLoadingStreaks] = useState(true);
+
+  useEffect(() => {
+    async function fetchStreakSessions() {
+      if (!user) return;
+
+      setLoadingStreaks(true);
+
+      const { data, error } = await supabase
+        .from("goals_feedback")
+        .select("id, user_id, type, period_date, recorded_value")
+        .eq("user_id", user.id)
+        .eq("type", "daily")
+        .gt("recorded_value", 0)
+        .order("period_date", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching streak sessions:", error);
+        setSessions([]);
+        setLoadingStreaks(false);
+        return;
+      }
+
+      const mappedSessions: WorkoutSession[] = ((data as GoalFeedbackRow[]) ?? []).map((row) => ({
+        id: row.id,
+        userId: row.user_id,
+        date: row.period_date,
+        activityType: "gym",
+        durationMinutes: 60,
+      }));
+
+      setSessions(mappedSessions);
+      setLoadingStreaks(false);
+    }
+
+    fetchStreakSessions();
+
+    const handleRefresh = () => {
+      fetchStreakSessions();
+    };
+
+    window.addEventListener("progress-updated", handleRefresh);
+    return () => window.removeEventListener("progress-updated", handleRefresh);
+  }, [user]);
+
+  const weeklyCompletedDays = useMemo(() => {
+    const startOfWeek = getStartOfWeek();
+    const uniqueDays = new Set(
+      sessions
+        .filter((session) => {
+          const sessionDate = new Date(`${session.date}T00:00:00`);
+          return sessionDate >= startOfWeek;
+        })
+        .map((session) => session.date)
+    );
+
+    return uniqueDays.size;
+  }, [sessions]);
 
   return (
     <main className="home-main" style={{ position: "relative" }}>
-      {/* Settings icon - top right */}
       <button
         onClick={() => navigate("/settings")}
         aria-label="Settings"
@@ -117,10 +195,18 @@ function HomePage() {
       <p className="home-subtitle">Logged in as: {user?.email}</p>
 
       <div className="home-weekly">
-        <StreakDisplay sessions={sessions} />
+        {loadingStreaks ? <p>Loading streaks...</p> : <StreakDisplay sessions={sessions} />}
       </div>
-      
-      <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginBottom: "2rem" }}>
+
+      <div
+        style={{
+          display: "flex",
+          gap: "1rem",
+          justifyContent: "center",
+          marginBottom: "2rem",
+          flexWrap: "wrap",
+        }}
+      >
         <button
           onClick={() => navigate("/profile")}
           style={{
@@ -153,8 +239,21 @@ function HomePage() {
         </button>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <WeeklyProgress completedDays={5} />
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: "2rem" }}>
+        <WeeklyProgress completedDays={weeklyCompletedDays} />
+      </div>
+
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "760px",
+          margin: "0 auto",
+          display: "grid",
+          gap: "1.5rem",
+        }}
+      >
+        <DailyGoalProgress />
+        <WeeklyProgressSummary />
       </div>
     </main>
   );
@@ -186,7 +285,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
