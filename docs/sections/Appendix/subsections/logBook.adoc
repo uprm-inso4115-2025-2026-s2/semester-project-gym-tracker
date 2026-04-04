@@ -16,4 +16,9 @@
 
 | 4.1 Stakeholder Identification | Ivan Morales | Added | Integrated stakeholder perspective analysis (Issue #98) into Section 4.1; added per-group perspective descriptions, comparative summary table, and perspective alignment notes; marked with NOTE admonition change bar for M2 visibility.
 
+| 2.2.4 Interface Requirements | Derek Velez | Modified | Modified the interface requirements to contain only presentation,layout, control requirements. Moved some of the requirements to the domain requirements section. 
+
+| 2.2.3 Domain Requirements | Derek Velez | Added | Added two new domain requirements related to ownership and data validation of workout sessions.
+
+
 |===
