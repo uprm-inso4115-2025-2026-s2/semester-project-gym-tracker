@@ -16,4 +16,8 @@
 
 | 4.1 Stakeholder Identification | Ivan Morales | Added | Integrated stakeholder perspective analysis (Issue #98) into Section 4.1; added per-group perspective descriptions, comparative summary table, and perspective alignment notes; marked with NOTE admonition change bar for M2 visibility.
 
+| 2.2.6 Risk Assessment | Derek Velez | Added | Added a new section on Failure Mode and Effects Analysis (FMEA) to systematically identify and prioritize potential failures in core system functionality; defined severity, occurrence, and detection metrics.
+
+| 2.2.6 Risk Assessment | Derek Velez | Added | Added to the FMEA cases candidate countermeasures.
+
 |===
