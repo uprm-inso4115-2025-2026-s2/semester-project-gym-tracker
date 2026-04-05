@@ -21,5 +21,6 @@
 
 | 2.2.3 Domain Requirements | Derek Velez | Added | Added two new domain requirements related to ownership and data validation of workout sessions.
 
+| 2.2.1 User Stories, Epics, Features | Alejandro Lopez | Modified | Rewrote user stories to use roles as the primaryc actor of the stories with the names referenced parenthetically.
 
 |===
