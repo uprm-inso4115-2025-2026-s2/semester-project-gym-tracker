@@ -3,6 +3,6 @@
 
 === 2.1 Domain Description
 
-The Gym Tracker application's domain is centered around motivating #people# to maintain a consistent workout routine and healthy lifestyle. Many individuals often begin their fitness journey with a motivated mindset, but because of outside responsibilities, lack of visible progress or even difficulty tracking activity. Because of this, Gym tracker aims to support important fitness habits with core domain elements such as simple workout tracking, weekly feedback, fitness streaks and more. 
+#The Gym Tracker application's domain is centered around motivating people to maintain a consistent workout routine and healthy lifestyle. Many individuals often begin their fitness journey with a motivated mindset, but because of outside responsibilities, lack of visible progress or even difficulty tracking activity. Because of this, Gym tracker aims to support important fitness habits with core domain elements such as simple workout tracking, weekly feedback, fitness streaks and more.#
 
-The application's domain also revolves around promoting positive behavior using #customizable# goals and feedback. This important balance between the usefulness of tracking fitness activity to observe progress concretely, while also making it feel less like work, helps #gym goers# stay more motivated to continue logging their progress.
+#The application's domain also revolves around promoting positive behavior using customizable goals and feedback. This important balance between the usefulness of tracking fitness activity to observe progress concretely, while also making it feel less like work, helps gym goers stay more motivated to continue logging their progress.#
