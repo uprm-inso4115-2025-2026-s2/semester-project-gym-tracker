@@ -24,5 +24,8 @@
 
 | 2.2.3 Domain Requirements | Derek Velez | Added | Added two new domain requirements related to ownership and data validation of workout sessions.
 
+| 2.1 Domain Description | Alejandro Lopez | Modified | Replaced 3 instances of 'user' with domain specific language.
+| 2.1.1 Domain Rough Skecth | Alejandro Lopez | Modified | Replaced 'user' with domain specific language.
+| 2.2.1 User Stories, Epics, Features | Alejandro Lopez | Modified | Replaced 4 instances of 'user' with domain specific language.
 
 |===

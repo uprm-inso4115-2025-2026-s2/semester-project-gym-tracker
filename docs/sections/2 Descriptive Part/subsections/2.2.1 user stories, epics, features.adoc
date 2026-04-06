@@ -3,7 +3,7 @@
 ==== *2.2.1 User Stories, Epics, Features*
 
 ===== *Epic 1: Workout and Run Logging with Session Details*
-As a busy fitness user, I want to log gym sessions and runs with essential details so that I can remember what I did and build a consistent routine over time.
+As a busy #gym goer#, I want to log gym sessions and runs with essential details so that I can remember what I did and build a consistent routine over time.
 
 Features::
 * Log gym sessions, runs, and basic cardio
@@ -39,7 +39,7 @@ User stories::
 * As Ana, I want the app to show a “comeback” indicator after I miss a day so that restarting feels like progress, not punishment.
 
 ===== *Epic 3: Goals and End-of-Week Feedback*
-As a user who needs accountability, I want daily and weekly goals with an end-of-week summary so that I can see whether I met my targets and adjust realistically.
+As a #gym goer# who needs accountability, I want daily and weekly goals with an end-of-week summary so that I can see whether I met my targets and adjust realistically.
 
 Features::
 * Daily and weekly goal setting
@@ -57,7 +57,7 @@ User stories::
 * As Ana, I want to optionally add a quick weekly note about what worked or what got in the way so that I can improve my habits over time.
 
 ===== *Epic 4: Reminders and Supportive Encouragement*
-As a habit-building user, I want reminders and motivational feedback so that I remember to log and stay consistent without feeling pressured.
+As a habit-building #gym goer#, I want reminders and motivational feedback so that I remember to log and stay consistent without feeling pressured.
 
 Features::
 * Reminder notifications to encourage consistency
@@ -74,7 +74,7 @@ User stories::
 * As Alejandro, I want reminders to focus on restarting after missed days so that a busy week does not make me give up.
 
 ===== *Epic 5: User Accounts and Personal History*
-As a regular user, I want my activity history stored in an account so that I can review my progress over time and get consistent summaries.
+As a regular #gym goer#, I want my activity history stored in an account so that I can review my progress over time and get consistent summaries.
 
 Features::
 * User account management
