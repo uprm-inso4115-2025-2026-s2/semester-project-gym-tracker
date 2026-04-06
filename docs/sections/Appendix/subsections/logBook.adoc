@@ -5,6 +5,8 @@
 |===
 | Section Name | Member | Added or Modified | Description
 
+| 2.1.1 Domain Rough Sketch | Julian Vivas | Modified | Restored elicitation transparency by adding raw stakeholder statements inline in the rough sketch and explicitly labeling which text is raw stakeholder input versus team interpretation.
+
 | 2.2.3 Domain Requirements | Alex Vazquez | Modified | Added six candidate-resolution cases inside Domain Requirements: three from further elicitation and three from resolution tactics. Each case states the inconsistency, the method used, and the candidate resolution. Linked to issue #[342].
 
 | 3.1 Concept Analysis | AlejandroMB05 | Added | Added domain analysis for the notification system, including identification of core concepts such as Notification, User, Notification Trigger, Workout Event, and User Preferences.
