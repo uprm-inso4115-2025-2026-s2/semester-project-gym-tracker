@@ -38,6 +38,8 @@
 
 | 2.2.1 User Stories, Epics, Features | Alejandro Lopez | Modified | Replaced 4 instances of 'user' with domain specific language.
 
+| 1.2.2 Need | Julian Vivas | Modified | Consolidated overlapping friction and habit-formation needs into a single behavioral sustainability need to address professor feedback on conceptual redundancy.
+
 | 1.2.3 Ideas | Julian Vivas | Modified | Stated platform direction (web application) with brief justification.
 
 | 1.4 Other Activities than just Developing Source Code | Julian Vivas | Modified | Rewrote waterfall-implying sentence to reflect iterative, hand-in-hand workflow. 
