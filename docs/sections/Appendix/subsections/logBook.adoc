@@ -46,4 +46,6 @@
 
 | 1.2.1 Current Situation| Julian Vivas | Modified | Added named app examples (MyFitnessPal, Strava) to support the claim about tool complexity and narrow focus.
 
+| 1.5 Derived Goals | Julian Vivas | Modified | Refined the secondary goals to better distinguish them from the primary goal; added concrete examples of complex and single-dimension fitness tools; clarified the difference between friction reduction, consistency, and growth-oriented mindset.
+
 |===
