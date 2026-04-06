@@ -1,9 +1,8 @@
 === *1.4 Other Activities than just Developing Source Code*
 
-The project does not only consist of implementing a mobile application or web app. 
-Before any reliable system can be developed, several foundational 
-engineering activities must take place. These activities are necessary 
-to reduce ambiguity, align the team, and ensure that the resulting system 
+#The project does not only consist of implementing the web application.
+Engineering activities such as domain research, stakeholder interaction, and concept analysis are conducted iteratively alongside development, each informing and refining the other rather than preceding it as a prerequisite.#
+These activities are necessary to reduce ambiguity, align the team, and ensure that the resulting system 
 addresses real domain needs rather than assumptions.
 
 ==== *Domain Research*
@@ -96,11 +95,12 @@ All activities described above directly address previously identified needs:
 * The need to reinforce consistency through clear feedback.
 * The need to design for habit formation rather than feature overload.
 
-By conducting domain research, stakeholder interaction, concept analysis, 
-and validation planning before implementation, the project reduces the 
+#By conducting domain research, stakeholder interaction, concept analysis, 
+and validation planning alongside implementation, the project reduces the 
 risk of building a technically functional system that fails to support 
-long-term consistency.
+long-term consistency.#
 
-No technical implementation decisions are included in this section, 
-as its purpose is to document reasoning activities that precede 
-development.
+
+#No technical implementation decisions are emphasized in this section, 
+as its purpose is to document reasoning activities that inform and 
+refine development throughout the project.#
