@@ -31,6 +31,7 @@
 
 | 2.2.3 Domain Requirements | Derek Velez | Added | Added two new domain requirements related to ownership and data validation of workout sessions.
 
+| 2.2.1 User Stories, Epics, Features | Alejandro Lopez | Modified | Rewrote user stories to use roles as the primaryc actor of the stories with the names referenced parenthetically.
 | 2.1 Domain Description | Alejandro Lopez | Modified | Replaced 3 instances of 'user' with domain specific language.
 
 | 2.1.1 Domain Rough Skecth | Alejandro Lopez | Modified | Replaced 'user' with domain specific language.
@@ -40,5 +41,7 @@
 | 1.2.3 Ideas | Julian Vivas | Modified | Stated platform direction (web application) with brief justification.
 
 | 1.4 Other Activities than just Developing Source Code | Julian Vivas | Modified | Rewrote waterfall-implying sentence to reflect iterative, hand-in-hand workflow. 
+
+| 1.2.1 Current Situation| Julian Vivas | Modified | Added named app examples (MyFitnessPal, Strava) to support the claim about tool complexity and narrow focus.
 
 |===
