@@ -57,4 +57,7 @@
 | 2.2.6 Risk Assessment | Carlos Ferrer | Modified | Extended the existing FMEA cases with integrated risk assessment and justification, including explicit likelihood, impact, and discussion for each identified risk.
 
 | 2.2.6 Risk Assessment | Carlos Ferrer | Added | Added guideword-based risk identification with scenarios and integrated assessment (likelihood, impact, justification) into the existing risk analysis section.
+
+| 2.1.4 Narrative | Ariana Rodriguez | Modified | Rewrote the domain narrative so it narrates domain concepts and their relationships.
+
 |===
