@@ -82,6 +82,28 @@ function sessionToEditDraft(session: WorkoutSessionRecord): EditDraft {
   };
 }
 
+function validateEditDraft(draft: EditDraft): string | null {
+  if (!draft.workout_type.trim()) {
+    return "Workout type is required.";
+  }
+
+  if (draft.duration_minutes !== "") {
+    const duration = Number(draft.duration_minutes);
+    if (!Number.isInteger(duration) || duration <= 0) {
+      return "Duration must be a positive whole number.";
+    }
+  }
+
+  if (draft.calories_burned !== "") {
+    const calories = Number(draft.calories_burned);
+    if (!Number.isInteger(calories) || calories < 0) {
+      return "Calories burned must be 0 or greater.";
+    }
+  }
+
+  return null;
+}
+
 export default function WorkoutHistoryPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -89,6 +111,8 @@ export default function WorkoutHistoryPage() {
   const [sessions, setSessions] = useState<WorkoutSessionRecord[]>([]);
   const [loadingSessions, setLoadingSessions] = useState(true);
   const [sessionsError, setSessionsError] = useState<string | null>(null);
+  const [actionMessage, setActionMessage] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   const [expandedWorkoutId, setExpandedWorkoutId] = useState<string | null>(null);
   const [exerciseMap, setExerciseMap] = useState<Record<string, WorkoutExerciseRecord[]>>({});
@@ -106,7 +130,10 @@ export default function WorkoutHistoryPage() {
 
   useEffect(() => {
     async function loadWorkoutSessions() {
-      if (!user?.id) return;
+      if (!user?.id) {
+        setLoadingSessions(false);
+        return;
+      }
       setLoadingSessions(true);
       setSessionsError(null);
       try {
@@ -127,10 +154,16 @@ export default function WorkoutHistoryPage() {
     setSelectedIds(new Set());
   }
 
+  function clearActionFeedback() {
+    setActionMessage(null);
+    setActionError(null);
+  }
+
   function toggleSelectMode() {
     if (selectMode) {
       exitSelectMode();
     } else {
+      clearActionFeedback();
       setSelectMode(true);
       setExpandedWorkoutId(null);
       setEditingId(null);
@@ -149,13 +182,17 @@ export default function WorkoutHistoryPage() {
 
   async function handleDeleteSelected() {
     if (selectedIds.size === 0) return;
+    clearActionFeedback();
     setDeletingSelected(true);
+    const deletedCount = selectedIds.size;
     try {
       await Promise.all(Array.from(selectedIds).map((id) => deleteWorkoutSession(id)));
       setSessions((prev) => prev.filter((s) => !selectedIds.has(s.workout_id)));
       exitSelectMode();
+      setActionMessage(`Deleted ${deletedCount} workout${deletedCount === 1 ? "" : "s"}.`);
+      window.dispatchEvent(new Event("progress-updated"));
     } catch {
-      alert("Some deletions failed. Please try again.");
+      setActionError("Some deletions failed. Please try again.");
     } finally {
       setDeletingSelected(false);
     }
@@ -186,6 +223,7 @@ export default function WorkoutHistoryPage() {
   }
 
   function handleEditStart(session: WorkoutSessionRecord) {
+    clearActionFeedback();
     setExpandedWorkoutId(session.workout_id);
     setEditingId(session.workout_id);
     setEditDraft(sessionToEditDraft(session));
@@ -198,6 +236,14 @@ export default function WorkoutHistoryPage() {
 
   async function handleEditSave(workoutId: string) {
     if (!editDraft) return;
+    const validationError = validateEditDraft(editDraft);
+    if (validationError) {
+      setActionMessage(null);
+      setActionError(validationError);
+      return;
+    }
+
+    clearActionFeedback();
     setSavingId(workoutId);
     try {
       const updates = {
@@ -212,8 +258,10 @@ export default function WorkoutHistoryPage() {
       );
       setEditingId(null);
       setEditDraft(null);
+      setActionMessage("Workout updated.");
+      window.dispatchEvent(new Event("progress-updated"));
     } catch {
-      alert("Failed to save changes. Please try again.");
+      setActionError("Failed to save changes. Please try again.");
     } finally {
       setSavingId(null);
     }
@@ -256,6 +304,14 @@ export default function WorkoutHistoryPage() {
 
         {sessionsError && (
           <div className="history-status-error">{sessionsError}</div>
+        )}
+
+        {actionMessage && (
+          <div className="history-status">{actionMessage}</div>
+        )}
+
+        {actionError && (
+          <div className="history-status-error">{actionError}</div>
         )}
 
         {!loadingSessions && !sessionsError && sessions.length === 0 && (

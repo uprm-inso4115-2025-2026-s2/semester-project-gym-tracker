@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
+import {
+  DEFAULT_DAILY_WORKOUT_GOAL,
+  formatDateKey,
+  getTimestampDateKey,
+} from "../../lib/workouts";
 import { useAuth } from "../auth";
+import { getUserWorkoutSessions } from "../workouts/api";
 import LogWorkoutModal from "../workouts/LogWorkoutModal";
 
 type ProgressData = {
@@ -8,13 +14,12 @@ type ProgressData = {
   goal: number;
 };
 
-function formatDate(date: Date) {
-  return date.toISOString().split("T")[0];
-}
-
 export default function DailyGoalProgress() {
   const { user } = useAuth();
-  const [data, setData] = useState<ProgressData>({ current: 0, goal: 1 });
+  const [data, setData] = useState<ProgressData>({
+    current: 0,
+    goal: DEFAULT_DAILY_WORKOUT_GOAL,
+  });
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,38 +29,50 @@ export default function DailyGoalProgress() {
     if (!user) return;
 
     try {
-      const today = formatDate(new Date());
+      const today = formatDateKey(new Date());
+      const [sessions, goalResult] = await Promise.all([
+        getUserWorkoutSessions(user.id),
+        supabase
+          .from("goals_feedback")
+          .select("target_value")
+          .eq("type", "daily")
+          .eq("user_id", user.id)
+          .eq("period_date", today)
+          .maybeSingle(),
+      ]);
 
-      const { data: goal, error } = await supabase
-        .from("goals_feedback")
-        .select("id, recorded_value, target_value, status, period_date")
-        .eq("type", "daily")
-        .eq("user_id", user.id)
-        .eq("period_date", today)
-        .maybeSingle();
+      const workoutsToday = sessions.filter(
+        (session) => getTimestampDateKey(session.created_at) === today
+      ).length;
 
-      if (error) {
-        setErrorMessage(error.message ?? "Failed to load daily goal.");
-        return;
+      if (goalResult.error) {
+        console.warn("Failed to load saved daily goal target:", goalResult.error.message);
       }
 
-      setData(goal
-        ? { current: goal.recorded_value ?? 0, goal: goal.target_value ?? 1 }
-        : { current: 0, goal: 1 }
-      );
+      setData({
+        current: workoutsToday,
+        goal: goalResult.data?.target_value ?? DEFAULT_DAILY_WORKOUT_GOAL,
+      });
       setErrorMessage("");
-    } catch {
-      setErrorMessage("Unexpected error while loading daily goal.");
+    } catch (error) {
+      console.error("Unexpected error while loading daily progress:", error);
+      setErrorMessage("Failed to load daily progress.");
+      throw error;
     }
   }, [user]);
 
   useEffect(() => {
-    fetchDailyGoal();
-    window.addEventListener("progress-updated", fetchDailyGoal);
-    return () => window.removeEventListener("progress-updated", fetchDailyGoal);
+    fetchDailyGoal().catch(() => undefined);
+
+    const handleRefresh = () => {
+      fetchDailyGoal().catch(() => undefined);
+    };
+
+    window.addEventListener("progress-updated", handleRefresh);
+    return () => window.removeEventListener("progress-updated", handleRefresh);
   }, [fetchDailyGoal]);
 
-  async function handleAddWorkout() {
+  async function handleWorkoutLogged() {
     if (!user) {
       setErrorMessage("You must be logged in to record workouts.");
       return;
@@ -65,104 +82,24 @@ export default function DailyGoalProgress() {
     setMessage("");
     setErrorMessage("");
 
+    let refreshFailed = false;
+
     try {
-      const today = formatDate(new Date());
-
-      const { data: existingDaily, error: dailyFetchError } = await supabase
-        .from("goals_feedback")
-        .select("id, recorded_value, target_value")
-        .eq("type", "daily")
-        .eq("user_id", user.id)
-        .eq("period_date", today)
-        .maybeSingle();
-
-      if (dailyFetchError) {
-        setErrorMessage(dailyFetchError.message ?? "Failed to fetch daily goal.");
-        return;
-      }
-
-      const dailyTarget = existingDaily?.target_value ?? 1;
-      const newDailyValue = (existingDaily?.recorded_value ?? 0) + 1;
-      const dailyStatus = newDailyValue >= dailyTarget ? "completed" : "pending";
-
-      if (existingDaily) {
-        const { error } = await supabase
-          .from("goals_feedback")
-          .update({ recorded_value: newDailyValue, status: dailyStatus })
-          .eq("id", existingDaily.id);
-        if (error) { setErrorMessage(error.message ?? "Failed to update daily goal."); return; }
-      } else {
-        const { error } = await supabase
-          .from("goals_feedback")
-          .insert({
-            user_id: user.id,
-            type: "daily",
-            title: "Daily Workout Goal",
-            description: "Track daily workout completions",
-            target_value: 1,
-            recorded_value: 1,
-            status: "completed",
-            period_date: today,
-          });
-        if (error) { setErrorMessage(error.message ?? "Failed to insert daily goal."); return; }
-      }
-
-      const weekDate = new Date();
-      const day = weekDate.getDay();
-      const diff = day === 0 ? -6 : 1 - day;
-      weekDate.setDate(weekDate.getDate() + diff);
-      weekDate.setHours(0, 0, 0, 0);
-      const weekStart = formatDate(weekDate);
-
-      const { data: existingWeekly, error: weeklyFetchError } = await supabase
-        .from("goals_feedback")
-        .select("id, recorded_value, target_value")
-        .eq("type", "weekly")
-        .eq("user_id", user.id)
-        .eq("period_date", weekStart)
-        .maybeSingle();
-
-      if (weeklyFetchError) {
-        setErrorMessage(weeklyFetchError.message ?? "Failed to fetch weekly goal.");
-        return;
-      }
-
-      const weeklyTarget = existingWeekly?.target_value ?? 5;
-      const newWeeklyValue = (existingWeekly?.recorded_value ?? 0) + 1;
-      const weeklyStatus = newWeeklyValue >= weeklyTarget ? "completed" : "pending";
-
-      if (existingWeekly) {
-        const { error } = await supabase
-          .from("goals_feedback")
-          .update({ recorded_value: newWeeklyValue, status: weeklyStatus })
-          .eq("id", existingWeekly.id);
-        if (error) { setErrorMessage(error.message ?? "Failed to update weekly goal."); return; }
-      } else {
-        const { error } = await supabase
-          .from("goals_feedback")
-          .insert({
-            user_id: user.id,
-            type: "weekly",
-            title: "Weekly Workout Goal",
-            description: "Track weekly workout completions",
-            target_value: 5,
-            recorded_value: 1,
-            status: "pending",
-            period_date: weekStart,
-          });
-        if (error) { setErrorMessage(error.message ?? "Failed to insert weekly goal."); return; }
-      }
-
-      setData({ current: newDailyValue, goal: dailyTarget });
-      setMessage("Workout logged!");
-      setErrorMessage("");
-      window.dispatchEvent(new Event("progress-updated"));
-      setTimeout(() => setMessage(""), 2500);
+      await fetchDailyGoal();
     } catch {
-      setErrorMessage("Unexpected error while logging workout.");
+      refreshFailed = true;
     } finally {
+      window.dispatchEvent(new Event("progress-updated"));
       setLoading(false);
     }
+
+    if (refreshFailed) {
+      setErrorMessage("Workout was saved, but refreshing daily progress failed.");
+      return;
+    }
+
+    setMessage("Workout logged and progress updated.");
+    setTimeout(() => setMessage(""), 2500);
   }
 
   const percentage = data.goal > 0 ? Math.min((data.current / data.goal) * 100, 100) : 0;
@@ -219,7 +156,7 @@ export default function DailyGoalProgress() {
           transition: "opacity 0.2s",
         }}
       >
-        {loading ? "Logging…" : "+ Log Workout"}
+        {loading ? "Updating…" : "+ Log Workout"}
       </button>
 
       {message && (
@@ -237,7 +174,7 @@ export default function DailyGoalProgress() {
       {showLogModal && (
         <LogWorkoutModal
           onClose={() => setShowLogModal(false)}
-          onWorkoutLogged={handleAddWorkout}
+          onWorkoutLogged={handleWorkoutLogged}
         />
       )}
     </div>

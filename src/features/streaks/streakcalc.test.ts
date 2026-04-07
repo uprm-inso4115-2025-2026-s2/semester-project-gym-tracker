@@ -61,6 +61,45 @@ describe('streakcalc', () => {
       { id: 'w1', userId: 'u1', activityType: 'run' as ActivityType, date: '2026-03-20', durationMinutes: 10 },
     ];
 
-    expect(computeStreakFromSessions(sessions)).toBe(3);
+    expect(computeStreakFromSessions(sessions, new Date('2026-03-24T12:00:00Z'))).toBe(3);
+  });
+
+  it('ignores duplicate sessions on the same day when computing a streak', () => {
+    const sessions = [
+      { id: 'w5', userId: 'u1', activityType: 'run' as ActivityType, date: '2026-03-24', durationMinutes: 10 },
+      { id: 'w4', userId: 'u1', activityType: 'gym' as ActivityType, date: '2026-03-24', durationMinutes: 20 },
+      { id: 'w3', userId: 'u1', activityType: 'gym' as ActivityType, date: '2026-03-23', durationMinutes: 10 },
+      { id: 'w2', userId: 'u1', activityType: 'run' as ActivityType, date: '2026-03-22', durationMinutes: 10 },
+    ];
+
+    expect(computeStreakFromSessions(sessions, new Date('2026-03-24T12:00:00Z'))).toBe(3);
+  });
+
+  it('returns 0 for a single qualifying day because a streak requires consecutive days', () => {
+    const sessions = [
+      { id: 'w1', userId: 'u1', activityType: 'gym' as ActivityType, date: '2026-03-24', durationMinutes: 10 },
+    ];
+
+    expect(computeStreakFromSessions(sessions, new Date('2026-03-24T12:00:00Z'))).toBe(0);
+  });
+
+  it('returns 0 when the latest workout day is separated by a gap', () => {
+    const sessions = [
+      { id: 'w3', userId: 'u1', activityType: 'run' as ActivityType, date: '2026-03-24', durationMinutes: 10 },
+      { id: 'w2', userId: 'u1', activityType: 'gym' as ActivityType, date: '2026-03-22', durationMinutes: 10 },
+      { id: 'w1', userId: 'u1', activityType: 'run' as ActivityType, date: '2026-03-21', durationMinutes: 10 },
+    ];
+
+    expect(computeStreakFromSessions(sessions, new Date('2026-03-24T12:00:00Z'))).toBe(0);
+  });
+
+  it('returns 0 when the latest qualifying workout is older than yesterday', () => {
+    const sessions = [
+      { id: 'w3', userId: 'u1', activityType: 'run' as ActivityType, date: '2026-03-24', durationMinutes: 10 },
+      { id: 'w2', userId: 'u1', activityType: 'gym' as ActivityType, date: '2026-03-23', durationMinutes: 10 },
+      { id: 'w1', userId: 'u1', activityType: 'run' as ActivityType, date: '2026-03-22', durationMinutes: 10 },
+    ];
+
+    expect(computeStreakFromSessions(sessions, new Date('2026-03-27T12:00:00Z'))).toBe(0);
   });
 });

@@ -1,3 +1,4 @@
+import type { QueryData } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabaseClient";
 
 export type WorkoutSessionRecord = {
@@ -19,6 +20,39 @@ export type WorkoutExerciseRecord = {
   weight: number | null;
   exercises: { name: string } | null;
 };
+
+function buildWorkoutExercisesQuery(workoutId: string) {
+  return supabase
+    .from("workout_exercises")
+    .select("record_id, workout_id, exercise_id, sets, reps, weight, exercises(name)")
+    .eq("workout_id", workoutId);
+}
+
+type WorkoutExercisesQueryResult = NonNullable<QueryData<ReturnType<typeof buildWorkoutExercisesQuery>>>;
+type WorkoutExerciseQueryRow = WorkoutExercisesQueryResult[number];
+
+function normalizeExerciseRelation(
+  exercises: WorkoutExerciseQueryRow["exercises"] | WorkoutExerciseRecord["exercises"]
+): WorkoutExerciseRecord["exercises"] {
+  const embeddedExercise = Array.isArray(exercises) ? exercises[0] ?? null : exercises;
+  if (!embeddedExercise || typeof embeddedExercise.name !== "string") {
+    return null;
+  }
+
+  return { name: embeddedExercise.name };
+}
+
+function toWorkoutExerciseRecord(row: WorkoutExerciseQueryRow): WorkoutExerciseRecord {
+  return {
+    record_id: row.record_id,
+    workout_id: row.workout_id,
+    exercise_id: row.exercise_id,
+    sets: row.sets,
+    reps: row.reps,
+    weight: row.weight,
+    exercises: normalizeExerciseRelation(row.exercises),
+  };
+}
 
 /**
  * Fetches the basic workout history for a user.
@@ -52,17 +86,14 @@ export async function getUserWorkoutSessions(
 export async function getWorkoutExercisesBySessionId(
   workoutId: string
 ): Promise<WorkoutExerciseRecord[]> {
-  const { data, error } = await supabase
-    .from("workout_exercises")
-    .select("record_id, workout_id, exercise_id, sets, reps, weight, exercises(name)")
-    .eq("workout_id", workoutId);
+  const { data, error } = await buildWorkoutExercisesQuery(workoutId);
 
   if (error) {
     console.error("Error fetching workout exercises:", error.message);
     throw error;
   }
 
-  return data ?? [];
+  return (data ?? []).map(toWorkoutExerciseRecord);
 }
 
 export async function deleteWorkoutSession(workoutId: string): Promise<void> {
