@@ -13,6 +13,25 @@ export interface WorkoutSession {
   completed?: boolean;
 }
 
+// ─── Exercise ──────────────────────────────────────────────────────────────────
+
+export interface Exercise {
+  sessionId: string;
+  id: string;
+  name: string;
+  weight: number[];
+  reps: number;
+  sets: number;
+}
+
+// ─── Session Comparison ──────────────────────────────────────────────────────────────────
+
+export interface SessionComparison {
+  id: string;
+  workoutAId: string; 
+  workoutBId: string; 
+}
+
 // ─── Goal ─────────────────────────────────────────────────────────────────────
 
 export interface Goal {
