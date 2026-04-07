@@ -58,4 +58,6 @@
 
 | 2.2.8 Weak Inconsistencies | Diego Perez | Added | Added five weak inconsistencies identified in the project requirements, each with the boundary condition that triggers the conflict. GH-340.
 
+| 2.2.7 Requirements Clash Analysis | Diego Perez | Added | Added clash type analysis applying four clash types (uniqueness, intersection, barrier, reversion) to project requirements. GH-339.
+
 |===
