@@ -70,4 +70,8 @@
 
 | 2.2.7 Requirements Clash Analysis | Diego Perez | Added | Added clash type analysis applying four clash types (uniqueness, intersection, barrier, reversion) to project requirements. GH-339.
 
+| 2.2.1 User Stories, Epics, Features | Wilson A. Morales | Modified | Differentiated overlapping streak-related user stories by separating general progress visibility after a streak break from recovery-progress tracking after restart.
+
+| 2.1.1, 3.1, 2.1.2, 2.1.3 | Wilson A. Morales | Modified | Strengthened raw elicitation statements, redid concept derivation for Workout Session, Exercise, and Consistency, removed generic justification language, and clarified Consistency as regularity over a Time Frame rather than as a streak synonym.
+
 |===

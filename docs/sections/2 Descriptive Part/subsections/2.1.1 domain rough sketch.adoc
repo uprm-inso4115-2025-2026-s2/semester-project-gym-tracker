@@ -3,20 +3,22 @@
 #This subsection now shows both the raw elicitation input and the team's processed interpretation so the reader can see what participants actually said versus how the team abstracted it. Raw statements are labeled explicitly, and the interpretation that follows each group is also labeled explicitly.#
 
 *#Raw stakeholder statements about tracking and friction#*
-* #"I forget what I did last week."#
-* #"I stop tracking because it takes too long."#
-* #"Logging total workout time."#
-* #"What was done during a session."#
-* #"Exercises performed."#
-* #"Tracking the days a person attends the gym."#
-* #"Tracking should not become burdensome."#
-* #"Complexity discourages regular use."#
+* #""When I look back at last week, I remember that I worked out, but I do not remember which exercises I did on each day or how long the session lasted.""#
+* #""If logging makes me enter too many details, I stop doing it after a few days even if I am still going to the gym.""#
+* #""For me, the minimum useful record is the day, the total duration, and what kind of workout I did.""#
+* #""Sometimes a session is mostly lifting, sometimes it is cardio, and sometimes it is a mix, so I want to remember what made that session different.""#
+* #""I do not always repeat the exact same exercises, but I usually want to note the main ones I did so I can compare sessions later.""#
+* #""There is a difference between knowing I went to the gym that day and knowing what I actually did during that workout.""#
+* #""Tracking should be quick enough that it does not feel like another workout by itself.""#
+* #""If the app feels complicated, I stop logging even when I am still trying to stay consistent.""#
 
 *#Team interpretation of tracking and friction#*: #In our brainstorming sessions, we explored the broader issue of maintaining consistency in gym routines and how people experience motivation over time. A recurring pattern was the challenge of remembering and tracking what was done during a workout. Participants described not recalling how many times they went to the gym each week or what exercises they performed during their last session. This led to a discussion about how people currently track their workouts: some use note-taking apps, some rely on memory, and others do not track at all. The group also emphasized that tracking should remain lightweight, since excessive effort or complexity could discourage regular use.#
 
 *#Raw stakeholder statements about consistency and streaks#*
-* #"Maintaining a streak."#
-* #"Consecutive days of activity motivate discipline."#
+* #""Seeing several active days in the same week makes me feel like I am staying on track, even if they are not consecutive.""#
+* #""A streak is motivating because consecutive days make me feel disciplined, but missing one day should not make the rest of the week feel worthless.""#
+* #""For me, consistency is about whether I keep showing up regularly over time, not only whether I never miss a day.""#
+* #""Someone can be consistent without having a perfect streak, because they may still work out regularly across the week.""#
 
 *#Team interpretation of consistency and streaks#*: #A significant portion of the conversation focused on consistency. The idea of maintaining a "streak" was repeatedly brought up as something that psychologically motivates people. The term "Duolingo-like" was used to describe how maintaining consecutive days of activity can encourage discipline. At the same time, concerns were raised about how reminders or notifications should be framed, since overly aggressive or judgmental messages might discourage rather than motivate.#
 
