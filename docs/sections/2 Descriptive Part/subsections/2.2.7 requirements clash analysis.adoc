@@ -4,6 +4,34 @@
 
 #This section applies that principle to the project's requirements. Four clash types are used to classify how contradictions arise, following Nuseibeh, Kramer, and Finkelstein (1994).# footnote:[Nuseibeh, B., Kramer, J., and Finkelstein, A. (1994). A framework for expressing the relationships between multiple views in requirements specification. _IEEE Transactions on Software Engineering_, 20(10), 760-773.]
 
+===== #Competing Goals and Derived Requirements#
+
+#The milestone guidelines also require identifying competing goals together with examples of the derived requirements that emerge from resolving them. In this project, those tensions connect the broader goals from Section 1.5 with the more concrete prescriptions in Section 2.2.3. The point is not that one goal wins completely, but that the resulting requirements narrow how both goals can be pursued at the same time.#
+
+#*Pair 1: Low-Friction Logging vs. Richer Self-Reflection*#
+
+#The primary goal of reducing friction pulls toward very little required input, while the secondary goals of encouraging self-reflection and supporting personal accountability pull toward richer workout records that remain meaningful later.#
+
+* #Derived requirement: "Low-Effort Logging" requires a Quick Entry Workflow with minimal required input steps so that recording a Workout Session does not itself become a barrier to consistency.#
+* #Derived requirement: "Essential Information Recording" restricts the minimum record to session type, duration, and optional short notes. This resolves the tension by defining a lightweight minimum instead of requiring full detail in every case.#
+* #Derived requirement: the RT-3 candidate resolution keeps exercises and notes as optional extensions. This preserves the possibility of richer reflection without turning detailed tracking into a precondition for basic logging.#
+
+#*Pair 2: Reinforcing Consistency vs. Avoiding a Punitive Experience*#
+
+#The project aims to strengthen habit formation and accountability, but Section 1.5 also states that tracking should feel sustainable rather than punitive. If a late entry or corrected date permanently breaks progress, the system would reinforce guilt rather than support continuation.#
+
+* #Derived requirement: the FE-1 candidate resolution under "Streak Calculation" requires the streak to be based on the Calendar Day performed rather than the time of data entry. This lets the system reflect real attendance behavior instead of punishing delayed logging.#
+* #Derived requirement: the FE-3 candidate resolution under "Persistent Storage and Retrieval" requires Weekly Summaries and Streak-related values to be recalculated when past Workout Sessions are added or corrected. This keeps correction and recovery meaningful.#
+* #Derived requirement: the FE-2 candidate resolution under "Goal Evaluation" counts active days within a Week rather than raw session count, preventing multiple same-day sessions from overstating progress and producing unfair motivational feedback.#
+
+#*Pair 3: Objective Measurement vs. Growth-Oriented Interpretation*#
+
+#The project wants objective records that make workout behavior visible, but it also wants progress to be interpreted in a growth-oriented way rather than judged from isolated sessions alone. The requirements therefore need to preserve measurable facts while framing them over broader time windows.#
+
+* #Derived requirement: "Weekly Aggregation" and "Weekly Summary Representation" require Workout Sessions, Attendance Days, Missed Days, and Goal evaluation to be interpreted over a Week instead of only as isolated entries.#
+* #Derived requirement: "Weekly Comparison" requires comparison with previous Weeks so that progress is interpreted as a pattern over time rather than as success or failure on a single day.#
+* #Derived requirement: "Consistency Representation" remains distinct from "Streak Representation" so that broader regularity can be represented without reducing all progress to an unbroken streak alone.#
+
 ===== #Uniqueness Clash#
 
 #A uniqueness clash occurs when two requirements assign different values to the same attribute of the same phenomenon.#
