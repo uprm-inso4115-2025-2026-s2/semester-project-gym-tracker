@@ -374,20 +374,13 @@ export async function invokeCheckGracePeriod(userId: string, currentDate: Date =
   return (data as UserStreak) ?? null;
 }
 
-export function computeStreakFromSessions(sessions: WorkoutSession[], today = new Date()): number {
+export function computeStreakFromSessions(sessions: WorkoutSession[]): number {
   const qualifyingSessions = sessions
     .filter((session) => (session.completed ?? true) && isValidWorkoutDay(session.exercises?.length ?? 0, session.durationMinutes));
 
   if (!qualifyingSessions.length) return 0;
 
   const uniqueDates = Array.from(new Set(qualifyingSessions.map((s) => s.date))).sort();
-
-  // The streak is only active if the most recent workout was today or yesterday.
-  // If more time has passed the streak is broken, even if the history shows consecutive days.
-  const todayDate = localDateForTimezone(today, "UTC");
-  const mostRecentDate = new Date(`${uniqueDates[uniqueDates.length - 1]}T00:00:00Z`);
-  const daysSinceLast = daysBetweenUtcDates(mostRecentDate, todayDate);
-  if (daysSinceLast > 1) return 0;
 
   // A streak requires at least 2 consecutive days — a single attendance day
   // is not a streak per the domain definition ("consecutive" implies ≥2).
