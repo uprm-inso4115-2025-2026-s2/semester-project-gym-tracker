@@ -56,6 +56,10 @@
 
 | 1.5 Derived Goals | Julian Vivas | Modified | Refined the secondary goals to better distinguish them from the primary goal; added concrete examples of complex and single-dimension fitness tools; clarified the difference between friction reduction, consistency, and growth-oriented mindset.
 
+| 2.2.6 Risk Assessment | Carlos Ferrer | Modified | Extended the existing FMEA cases with integrated risk assessment and justification, including explicit likelihood, impact, and discussion for each identified risk.
+
+| 2.2.6 Risk Assessment | Carlos Ferrer | Added | Added guideword-based risk identification with scenarios and integrated assessment (likelihood, impact, justification) into the existing risk analysis section.
+
 | 2.1.4 Narrative | Ariana Rodriguez | Modified | Rewrote the domain narrative so it narrates domain concepts and their relationships.
 
 | 2.1.2 Terminology | Wilson A. Morales | Modified | Unified concepts; added signatures; removed duplicates; redefined behaviors.
