@@ -28,15 +28,15 @@ Features::
 * Track days attended versus missed
 * Maintain activity streaks based on regular logging
 * Visualize consistency patterns over time
-* Treat streak breaks in a way that does not discourage continued use
-* Track “comeback” progress after a missed day
+* #Preserve visible progress even after a streak break#
+* #Track recovery progress after a streak break#
 
 User stories::
 * As #a gym goer who is easily discouraged (e.g. Alejandro)#, I want to see my current streak of active days so that I feel motivated to keep the routine going.
 * As #a gym goer looking to build long-term habits (e.g. Ana)#, I want to see how many days I was active versus missed in the current week so that I can notice gaps early and adjust.
 * As #a gym goer and a runner (e.g. Derek)#, I want my streak to count both runs and gym sessions so that the tracking matches my real routine.
-* As #a gym goer who struggles with consistency (e.g. Alejandro)#, I want weekly progress to remain visible even if my streak breaks so that one missed day does not make me stop tracking.
-* As #a gym goer who struggles with motivation (e.g. Ana)#, I want the app to show a “comeback” indicator after I miss a day so that restarting feels like progress, not punishment.
+* #As a gym goer who struggles with consistency (e.g. Alejandro), I want weekly progress to remain visible even if my streak breaks so that one missed day does not erase my sense of progress or make me stop tracking.#
+* #As a gym goer who is restarting after a missed day (e.g. Ana), I want the app to show recovery progress after a streak break so that returning to my routine feels measurable and encouraging instead of starting from zero.#
 
 ===== *Epic 3: Goals and End-of-Week Feedback*
 As a #gym goer# who needs accountability, I want daily and weekly goals with an end-of-week summary so that I can see whether I met my targets and adjust realistically.
