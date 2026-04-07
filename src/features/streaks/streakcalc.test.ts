@@ -61,6 +61,6 @@ describe('streakcalc', () => {
       { id: 'w1', userId: 'u1', activityType: 'run' as ActivityType, date: '2026-03-20', durationMinutes: 10 },
     ];
 
-    expect(computeStreakFromSessions(sessions)).toBe(3);
+    expect(computeStreakFromSessions(sessions, new Date('2026-03-24T12:00:00Z'))).toBe(3);
   });
 });

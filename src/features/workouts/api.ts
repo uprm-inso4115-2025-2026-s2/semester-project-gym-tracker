@@ -62,7 +62,12 @@ export async function getWorkoutExercisesBySessionId(
     throw error;
   }
 
-  return data ?? [];
+  return (data ?? []).map((exercise) => ({
+    ...exercise,
+    exercises: Array.isArray(exercise.exercises)
+      ? exercise.exercises[0] ?? null
+      : exercise.exercises ?? null,
+  }));
 }
 
 export async function deleteWorkoutSession(workoutId: string): Promise<void> {

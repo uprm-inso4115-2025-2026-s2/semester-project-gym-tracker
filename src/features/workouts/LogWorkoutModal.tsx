@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createWorkoutSession, saveExercisesForSession } from "./workoutSessionsApi";
+import { deleteWorkoutSession } from "./api";
 import { useAuth } from "../auth";
 import { supabase } from "../../lib/supabaseClient";
 
@@ -69,30 +70,56 @@ export default function LogWorkoutModal({ onClose, onWorkoutLogged }: Props) {
       return;
     }
 
+    const caloriesNum = calories ? parseInt(calories, 10) : undefined;
+    if (calories && (isNaN(caloriesNum ?? Number.NaN) || (caloriesNum ?? 0) < 0)) {
+      setError("Calories burned must be 0 or greater.");
+      return;
+    }
+
     setLoading(true);
     setError("");
+
+    let workoutId: string | null = null;
 
     try {
       const sessionData = await createWorkoutSession({
         workout_type: workoutType,
         duration_minutes: durationNum,
-        calories_burned: calories ? parseInt(calories, 10) : undefined,
+        calories_burned: caloriesNum,
         notes: notes.trim() || undefined,
       });
 
-      const workoutId = sessionData?.[0]?.workout_id;
+      workoutId = sessionData?.[0]?.workout_id ?? null;
       const validExercises = exercises.filter((e) => e.name.trim());
 
-      if (workoutId && validExercises.length > 0) {
-        await saveExercisesForSession(
-          workoutId,
-          validExercises.map((e) => ({
-            name: e.name.trim(),
-            sets: e.sets ? parseInt(e.sets, 10) : undefined,
-            reps: e.reps ? parseInt(e.reps, 10) : undefined,
-            weight: e.weight ? parseFloat(e.weight) : undefined,
-          }))
-        );
+      if (!workoutId) {
+        throw new Error("Workout was created without a session ID. Please try again.");
+      }
+
+      if (validExercises.length > 0) {
+        try {
+          await saveExercisesForSession(
+            workoutId,
+            validExercises.map((e) => ({
+              name: e.name.trim(),
+              sets: e.sets ? parseInt(e.sets, 10) : undefined,
+              reps: e.reps ? parseInt(e.reps, 10) : undefined,
+              weight: e.weight ? parseFloat(e.weight) : undefined,
+            }))
+          );
+        } catch (exerciseError) {
+          try {
+            await deleteWorkoutSession(workoutId);
+          } catch (rollbackError) {
+            console.error("Failed to roll back workout after exercise save failure:", rollbackError);
+            throw new Error(
+              "The workout session may have been saved without its exercises. Check Workout History before retrying."
+            );
+          }
+
+          console.error("Failed to save exercises for workout:", exerciseError);
+          throw new Error("Exercise details could not be saved, so the workout was not logged.");
+        }
       }
 
       await onWorkoutLogged();

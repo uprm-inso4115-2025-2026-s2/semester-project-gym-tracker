@@ -1,13 +1,16 @@
 import { getUserWorkoutSessions, type WorkoutSessionRecord } from "../workouts";
 import { getAttendanceMap } from "./attendance";
 import type { WorkoutSession } from "../../types";
+import { getTimestampDateKey } from "../../lib/workouts";
 
 // Convert WorkoutSessionRecord (Supabase) -> WorkoutSession (internal domain)
 function toWorkoutSession(record: WorkoutSessionRecord): WorkoutSession {
+    const sessionDate = getTimestampDateKey(record.created_at) ?? new Date().toISOString().split("T")[0];
+
     return{
         id: record.workout_id,
         userId: record.user_id,
-        date: record.created_at.split("T")[0],
+        date: sessionDate,
         activityType: "gym",
         durationMinutes: record.duration_minutes ?? 0,
     };
