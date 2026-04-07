@@ -10,23 +10,24 @@ The goal of this section is to justify how raw discussion statements were transf
 
 ====== (1) “Difficulty remembering what was done during a workout”
 
-In the rough sketch, participants repeatedly mentioned forgetting what exercises they performed or how often they attended the gym. This observation led to the abstraction of:
+#In the rough sketch, participants did not merely say that they forgot workouts in general; they described forgetting which exercises they did on particular days, how long a session lasted, and what kind of workout it was. They also distinguished between knowing that they went to the gym and knowing what actually happened during the workout. This led to the abstraction of:#
 
 * *Workout Session* - a specific occurrence of a workout at a particular time.
+* #*Exercise* - a structured unit of activity performed within a workout.#
 * *Workout Notes* - short annotations describing what occurred.
 * *Attendance Day* - a calendar day on which a workout session occurred.
 
-The rough sketch described concrete experiences (“I can’t remember what I did last week”). The terminology abstracts these into structured, repeatable domain concepts, ensuring that informal observations are consistently represented at the domain level.
+#The terminology therefore reflects more than generic memory difficulty. It captures a bounded workout occurrence, its internal components, and the distinction between day-level attendance and session-level content.#
 
-====== (2) “Duolingo-like streak” and motivation through consecutive days
+====== (2) “Consistency and streaks as different ideas”
 
-The sketch frequently referenced maintaining a “streak” and the psychological effect of consecutive activity. From this, we formalized:
+#The strengthened elicitation statements distinguished between regular activity over time and uninterrupted consecutive activity. Participants described feeling “on track” when they had several active days in a week even if those days were not consecutive, while also describing streaks as a more specific motivational pattern. From this, we formalized:#
 
 * *Streak* - a sequence of consecutive attendance days.
 * *Missed Day* - a calendar day without a workout despite expectation.
-* *Consistency* - the degree of regular activity over time.
+* #*Consistency* - regularity of workout activity across a Time Frame, not necessarily consecutive.#
 
-The raw metaphor (“Duolingo-like”) was replaced with precise definitions that remove application-specific language and resolve ambiguity, focusing instead on observable domain phenomena such as consecutive attendance and behavioral patterns.
+#This distinction is important because it prevents the terminology from treating consistency and streak as interchangeable. A streak is one specific pattern of regularity, while consistency is the broader behavioral idea.#
 
 ====== (3) “Weekly overview compared to goals”
 

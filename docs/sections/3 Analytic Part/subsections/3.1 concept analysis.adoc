@@ -10,66 +10,68 @@ This concept analysis transforms the rough sketch statements from the descriptiv
 
 .Rough sketch statements (side-by-side)
 [literal]
-A: "Logging total workout time."
-B: "What was done during a session."
-C: "Exercises performed."
+#A: "When I look back at last week, I remember that I worked out, but I do not remember which exercises I did on each day or how long the session lasted."#
+#B: "For me, the minimum useful record is the day, the total duration, and what kind of workout I did."#
+#C: "Sometimes a session is mostly lifting, sometimes it is cardio, and sometimes it is a mix, so I want to remember what made that session different."#
 
 .Semantic analysis
-* All three statements refer to a bounded instance of physical activity.
-* Statement A suggests measurable duration.
-* Statement B implies structured content within that period.
-* Statement C suggests internal components of that instance.
+* #Statement A refers to a specific past occurrence of workout activity tied to a day and describable by internal content.#
+* #Statement B identifies a minimal unit of recording that includes when the activity happened, how long it lasted, and what kind of workout it was.#
+* #Statement C shows that one recorded occurrence can differ from another by composition or training type.#
 
 .Common structure
-* A time-bounded activity composed of smaller activity units.
+* #A bounded occurrence of workout activity that happens at a particular time and can be described by duration and internal content.#
 
 .Abstraction
 *WORKOUT SESSION*
 
 .Definition
-A set period of structured physical activity performed by an individual.
+#A specific occurrence of a Workout performed by a GymGoer at a particular time and on a particular Calendar Day.#
 
 .Attributes
+* #Calendar Day#
 * Duration
-* Set of Exercises
+* #Training type#
+* #Exercises performed#
 
 .Rationale
-This abstraction generalizes multiple descriptions into a single domain concept.
+#The statements do not merely mention activity in general; they refer to a recordable occurrence that has temporal identity, bounded duration, and describable internal structure. That supports the concept of a Workout Session rather than only a generic workout.#
 
 ===== From Components to Exercise
 
 .Rough sketch statements (side-by-side)
 [literal]
-A: "Exercises performed."
-B: "List of exercise types."
-C: "What was done during a session."
+#A: "I do not always repeat the exact same exercises, but I usually want to note the main ones I did so I can compare sessions later."#
+#B: "Sometimes a session is mostly lifting, sometimes it is cardio, and sometimes it is a mix."#
+#C: "There is a difference between knowing I went to the gym that day and knowing what I actually did during that workout."#
 
 .Semantic analysis
-* Exercises are described as elements within a session.
-* Exercise type differentiates physical activity forms.
+* #Statement A refers to identifiable parts of a workout that can vary from one session to another.#
+* #Statement B shows that session content is composed of different kinds of physical activity.#
+* #Statement C distinguishes attendance from the internal content of the session itself.#
 
 .Common structure
-* A unit of physical activity that is part of a larger session.
+* #A workout session contains distinguishable activity components that help describe what happened during that session.#
 
 .Abstraction
 *EXERCISE*
 
 .Definition
-A specific physical movement performed within a workout session.
+#A structured unit of activity performed within a Workout.#
 
 .Relationships
-* A Workout Session consists of one or more Exercises.
-* An Exercise may have Duration.
+* #A Workout Session may include one or more Exercises.#
+* #Exercises help distinguish one Workout Session from another.#
 
 .Justification
-Exercise is modeled as a part-of relationship within a Workout Session.
+#These statements support Exercise as a component-level concept because stakeholders refer to the main things they actually did within a session, not merely to workout activity at the whole-session level.#
 
 ===== Distinguishing Attendance Day from Workout Session
 
 .Rough sketch statements (side-by-side)
 [literal]
 #A: "Tracking the days a person worked out."#
-B: "Tracking what was done during a workout."
+#B: "Tracking what was done during a workout."#
 
 .Semantic analysis
 * #Statement A refers to whether workout activity occurred on a given Calendar Day.#
@@ -81,7 +83,7 @@ B: "Tracking what was done during a workout."
 
 .Resolution: introduce distinct concepts
 * #*ATTENDANCE DAY*#
-* *WORKOUT SESSION*
+* #*WORKOUT SESSION*#
 
 .Definitions
 * #*Attendance Day:* A Calendar Day on which at least one Workout Session has occurred.#
@@ -99,22 +101,31 @@ B: "Tracking what was done during a workout."
 
 .Rough sketch statements (side-by-side)
 [literal]
-A: "Consistency over time."
-B: "Maintaining discipline."
-C: "People gradually stop going."
+#A: "Seeing several active days in the same week makes me feel like I am staying on track, even if they are not consecutive."#
+#B: "For me, consistency is about whether I keep showing up regularly over time, not only whether I never miss a day."#
+#C: "Someone can be consistent without having a perfect streak, because they may still work out regularly across the week."#
 
 .Semantic analysis
-* Statements refer to repeated behavior across time.
-* Focus is not on a single session but on pattern repetition.
+* #The statements refer to regularity of workout activity across a time span rather than to a single event.#
+* #They explicitly separate consistency from perfect consecutiveness.#
+* #The relevant pattern is frequency and distribution across time, not only whether each active day immediately follows the previous one.#
 
 .Common structure
-* Recurring activity distributed across multiple days.
+* #Regular workout participation distributed across a Time Frame.#
 
 .Abstraction
-*CONSISTENCY*
+#*CONSISTENCY*#
 
 .Definition
-The repeated occurrence of Workout Sessions across time.
+#A behavior describing how regularly Workout Sessions occur across a Time Frame, based on the distribution of Attendance Days and Missed Days in the relevant Workout History.#
+
+.Relationships
+* #Consistency may remain high even when a Streak is broken.#
+* #Consistency is broader than Streak because it concerns regularity over a Time Frame rather than uninterrupted consecutiveness only.#
+* #Consistency can be interpreted through evaluateConsistency(...), which produces a Consistency Measure.#
+
+.Justification
+#The statements support Consistency as a broader temporal pattern of regular participation, not merely as another name for a Streak.#
 
 ===== From Consecutive Days to Streak
 
@@ -179,12 +190,14 @@ By abstracting upward, both daily and weekly goals become valid instances of the
 
 .#Rough sketch statements (side-by-side)#
 [literal]
-#A: "Weekly overview of activity."#
+#A: "Weekly overview compared to goals."#
 #B: "Seeing progress motivates people."#
+#C: "No agreement on which works best."#
 
 .Semantic analysis
-* #Overview implies aggregation within a bounded Time Frame.#
-* #Motivation is influenced by interpreted results, not only raw logs.#
+* #The statements refer to feedback aggregated over a bounded Time Frame rather than isolated session records.#
+* #The overview is meaningful because it relates recorded activity to a Goal.#
+* #The motivational value comes from interpreting accumulated results, not from viewing raw logs alone.#
 
 .Abstraction
 *WEEKLY SUMMARY*
@@ -195,13 +208,6 @@ By abstracting upward, both daily and weekly goals become valid instances of the
 .Relationships
 * #Produced through summarizeWeek(...).#
 * #Supports interpretation of Progress and Goal achievement.#
-
-.Definition
-An aggregated representation of workout activity within a specified Time Frame.
-
-.Relationships
-* Compares actual activity to Goal.
-* Influences Motivation.
 
 ==== 3.1.4 Influencing Domain Factors
 
@@ -225,7 +231,7 @@ A psychological state influencing sustained participation in workout activity.
 .Relationships
 * Influenced by Streak
 * Influenced by Goal Achievement
-* Influenced by Performance Summary
+* #Influenced by Weekly Summary#
 
 ===== Cognitive Effort
 

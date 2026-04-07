@@ -128,11 +128,7 @@ Workout Session has just been skipped events across the Calendar Days of
 a Week, together with the resulting distribution of Attendance Days and
 Missed Days.
 
-#*Consistency* (Domain Concept, Category: Behavior)#
-A behavior composed of repeated Workout Session has just been performed
-and Workout Session has just been skipped events across a Time Frame, as
-captured in Workout History and interpreted through
-evaluateConsistency(...).
+#*Consistency* (Domain Concept, Category: Behavior) A behavior describing how regularly Workout Sessions occur across a Time Frame, based on the distribution of Attendance Days and Missed Days in the relevant Workout History and interpreted through evaluateConsistency(…).#
 
 #*Streak* (Domain Concept, Category: Behavior)#
 A behavior composed of consecutive Attendance Days produced by repeated
