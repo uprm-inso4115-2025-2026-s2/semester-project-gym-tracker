@@ -1,0 +1,68 @@
+==== #*2.2.8 Weak Inconsistencies*#
+
+#Per the Domain Analysis and Concept Formation lecture (Schütz-Schmuck, 2024), an inconsistency arises when two descriptions assert P and not-P for the same subject. A weak inconsistency is one where the contradiction only manifests under a specific boundary condition rather than universally. Outside that condition, the requirements do not conflict. The five weak inconsistencies below are drawn from the project's domain and interface requirements.#
+
+===== #WI-1: Multiple Sessions on the Same Calendar Day#
+
+#*Requirements involved:* Streak Representation, Streak Calculation#
+
+#"Streak Representation" defines a streak as a sequence of consecutive days. "Streak Calculation" states that the system computes whether a session "continues or breaks an existing Streak." If two sessions are logged on the same calendar day, one reading of Streak Calculation treats each session as a separate continuation event, suggesting the streak grew by two. Streak Representation counts calendar days, so the streak should grow by one.#
+
+* #P: Each session event individually advances the streak count.#
+* #not-P: A calendar day is the atomic unit; multiple sessions on the same day count as one.#
+
+#*Boundary condition:* More than one Workout Session is logged on the same calendar day.#
+
+#Outside this condition, every day contains at most one session and both requirements agree.#
+
+===== #WI-2: Zero Sessions in a Goal's Time Frame#
+
+#*Requirements involved:* Goal Evaluation, Performance Summary Representation#
+
+#"Goal Evaluation" evaluates whether recorded sessions satisfy a defined goal within its time frame. "Performance Summary Representation" generates a summary comparing sessions to goals. When zero sessions are logged within a time frame, Goal Evaluation has nothing to evaluate and Performance Summary has nothing to compare. Neither requirement specifies the system output for an empty session set within the time frame.#
+
+* #P: Goal Evaluation produces a "not satisfied" result.#
+* #not-P: Performance Summary generates a comparison of zero sessions to the goal target, producing an undefined or empty comparison state.#
+
+#*Boundary condition:* The session count within a goal's time frame is exactly zero.#
+
+#Outside this condition, at least one session exists and both requirements operate on a non-empty set.#
+
+===== #WI-3: Retroactive Session Edit Crosses Goal Completion Boundary#
+
+#*Requirements involved:* Goal Initialization and Update (Interface), Editing and Correction of Workout Data (Interface)#
+
+#"Goal Initialization and Update" prevents modification of completed historical goal records. "Editing and Correction of Workout Data" permits editing previously recorded sessions. If a user edits a past session and moves its date outside a goal's time frame, the session count drops. A goal that was previously marked complete may now be unsatisfied. Since the goal record is immutable, the system cannot update its completion status to reflect the corrected data.#
+
+* #P: A completed goal record cannot be changed.#
+* #not-P: Editing a session should cause re-evaluation of all affected goal records.#
+
+#*Boundary condition:* A session edit moves the session's date such that the session count within a completed goal's time frame drops below the goal's target.#
+
+#Outside this condition, session edits do not affect the session count within any completed goal's time frame.#
+
+===== #WI-4: First Session Logged with No Prior Streak#
+
+#*Requirements involved:* Streak Calculation, Streak Representation#
+
+#"Streak Calculation" determines whether a session "continues or breaks an existing Streak." "Streak Representation" represents sequences of consecutive sessions. When a user logs their very first session, there is no existing streak to continue or break and no prior sequence to extend. Neither requirement specifies the output for this initial case.#
+
+* #P: A session either continues or breaks an existing streak.#
+* #not-P: No streak exists yet; the session initializes rather than continues or breaks.#
+
+#*Boundary condition:* The user's session history is empty when the first session is logged.#
+
+#Outside this condition, a streak value already exists and Streak Calculation operates as described.#
+
+===== #WI-5: Session Timestamp at a Calendar Week Boundary#
+
+#*Requirements involved:* Weekly Aggregation, Weekly Comparison#
+
+#"Weekly Aggregation" aggregates sessions within calendar weeks. "Weekly Comparison" compares the session count of the current week to previous weeks. If a session is recorded at the exact boundary between two calendar weeks, the system's definition of which week the session belongs to determines both the aggregation and the comparison result. The requirements do not specify a rule for resolving this assignment.#
+
+* #P: A session at the boundary belongs to the ending week, affecting the prior week's count.#
+* #not-P: A session at the boundary belongs to the starting week, affecting the current week's count.#
+
+#*Boundary condition:* A session's recorded timestamp falls on the exact transition point between two calendar weeks.#
+
+#Outside this condition, session timestamps fall within a week's interior and both requirements assign them unambiguously.#
