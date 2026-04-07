@@ -3,7 +3,9 @@ import { getAttendanceMap } from "./attendance";
 import type { WorkoutSession } from "../../types";
 
 // Convert WorkoutSessionRecord (Supabase) -> WorkoutSession (internal domain)
-function toWorkoutSession(record: WorkoutSessionRecord): WorkoutSession {
+function toWorkoutSession(record: WorkoutSessionRecord): WorkoutSession | null {
+    if (!record.created_at) return null;
+
     return{
         id: record.workout_id,
         userId: record.user_id,
@@ -50,7 +52,10 @@ export async function getWeeklySummaries(
     const records = await getUserWorkoutSessions(userId);
 
     // Addapt to domain type
-    const sessions: WorkoutSession[] = records.map(toWorkoutSession);
+    const sessions: WorkoutSession[] = records.flatMap((record) => {
+        const session = toWorkoutSession(record);
+        return session ? [session] : [];
+    });
 
     // Build summaries
     return Array.from({ length: weeksBack }, (_, i) => {
