@@ -70,4 +70,6 @@
 
 | 2.2.7 Requirements Clash Analysis | Diego Perez | Added | Added clash type analysis applying four clash types (uniqueness, intersection, barrier, reversion) to project requirements. GH-339.
 
+| 1.1 Team | Julian Vivas | Modified | Standardized all team tables to use only the Student and GitHub username columns; removed the obsolete Tasks column from each team table; and deleted the explanatory sentence that referenced task tracking in that section.
+
 |===
