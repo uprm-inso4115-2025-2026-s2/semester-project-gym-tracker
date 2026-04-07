@@ -4,6 +4,83 @@ import type { WorkoutSession, ValidationResult, GoalResult, WeekBounds, GoalProg
 function isCompletedWorkout(session: WorkoutSession): boolean {   
   return session.completed !== false;
 }
+
+export const DEFAULT_DAILY_WORKOUT_GOAL = 1;
+export const DEFAULT_WEEKLY_WORKOUT_GOAL = 5;
+
+export function formatDateKey(date: Date): string {
+  return date.toISOString().split("T")[0];
+}
+
+export function getStartOfWeekDateKey(date = new Date()): string {
+  const start = new Date(date);
+  const day = start.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  start.setDate(start.getDate() + diff);
+  start.setHours(0, 0, 0, 0);
+  return formatDateKey(start);
+}
+
+export function getEndOfWeekDateKey(date = new Date()): string {
+  const end = new Date(date);
+  const day = end.getDay();
+  const diff = day === 0 ? 0 : 7 - day;
+  end.setDate(end.getDate() + diff);
+  end.setHours(0, 0, 0, 0);
+  return formatDateKey(end);
+}
+
+export function getTimestampDateKey(timestamp: string | null | undefined): string | null {
+  if (!timestamp) return null;
+  const [dateKey] = timestamp.split("T");
+  return dateKey || null;
+}
+
+export function countWorkoutsOnDate(
+  sessions: WorkoutSession[],
+  date: string
+): number {
+  return sessions.filter(isCompletedWorkout).filter((session) => session.date === date).length;
+}
+
+export function countWorkoutDaysInRange(
+  sessions: WorkoutSession[],
+  start: string,
+  end: string
+): number {
+  return new Set(
+    sessions
+      .filter(isCompletedWorkout)
+      .filter((session) => session.date >= start && session.date <= end)
+      .map((session) => session.date)
+  ).size;
+}
+
+export function computeLongestStreakFromWorkoutSessions(sessions: WorkoutSession[]): number {
+  const uniqueDays = [
+    ...new Set(sessions.filter(isCompletedWorkout).map((session) => session.date)),
+  ].sort();
+
+  if (uniqueDays.length < 2) return 0;
+
+  let longest = 1;
+  let current = 1;
+
+  for (let i = 1; i < uniqueDays.length; i++) {
+    const previous = new Date(`${uniqueDays[i - 1]}T00:00:00Z`);
+    const currentDate = new Date(`${uniqueDays[i]}T00:00:00Z`);
+    const diffDays = (currentDate.getTime() - previous.getTime()) / 86400000;
+
+    if (diffDays === 1) {
+      current += 1;
+      longest = Math.max(longest, current);
+    } else {
+      current = 1;
+    }
+  }
+
+  return longest > 1 ? longest : 0;
+}
 // ─── Streak Computation ───────────────────────────────────────────────────────
 export function computeStreak(sessions: WorkoutSession[]): number {
 

@@ -1,104 +1,79 @@
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
+import {
+  DEFAULT_WEEKLY_WORKOUT_GOAL,
+  countWorkoutDaysInRange,
+  getEndOfWeekDateKey,
+  getStartOfWeekDateKey,
+  getTimestampDateKey,
+} from "../../lib/workouts";
+import type { WorkoutSession } from "../../types";
 import { useAuth } from "../auth";
+import { getUserWorkoutSessions } from "../workouts/api";
+import { computeStreakFromSessions } from "../streaks/streakcalc";
 
 type WeeklySummaryData = {
-  workoutsCompleted: number;
+  workoutDaysCompleted: number;
   weeklyGoal: number;
   streak: number;
-  performanceMetric: string;
 };
-
-function formatDate(date: Date) {
-  return date.toISOString().split("T")[0];
-}
-
-function getWeekStart(date = new Date()) {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = day === 0 ? -6 : 1 - day;
-  d.setDate(d.getDate() + diff);
-  d.setHours(0, 0, 0, 0);
-  return formatDate(d);
-}
-
-function addDays(dateString: string, days: number) {
-  const d = new Date(`${dateString}T00:00:00`);
-  d.setDate(d.getDate() + days);
-  return formatDate(d);
-}
 
 export default function WeeklyProgressSummary() {
   const { user } = useAuth();
   const [data, setData] = useState<WeeklySummaryData>({
-    workoutsCompleted: 0,
-    weeklyGoal: 5,
+    workoutDaysCompleted: 0,
+    weeklyGoal: DEFAULT_WEEKLY_WORKOUT_GOAL,
     streak: 0,
-    performanceMetric: "0% goal completion",
   });
 
   const fetchWeeklySummary = useCallback(async () => {
     if (!user) return;
 
     try {
-      const weekStart = getWeekStart(new Date());
+      const weekStart = getStartOfWeekDateKey(new Date());
+      const weekEnd = getEndOfWeekDateKey(new Date());
+      const [sessions, weeklyGoalResult] = await Promise.all([
+        getUserWorkoutSessions(user.id),
+        supabase
+          .from("goals_feedback")
+          .select("target_value")
+          .eq("type", "weekly")
+          .eq("user_id", user.id)
+          .eq("period_date", weekStart)
+          .maybeSingle(),
+      ]);
 
-      const { data: weeklyGoal, error: weeklyError } = await supabase
-        .from("goals_feedback")
-        .select("recorded_value, target_value")
-        .eq("type", "weekly")
-        .eq("user_id", user.id)
-        .eq("period_date", weekStart)
-        .maybeSingle();
-
-      if (weeklyError) {
-        console.error(weeklyError);
-        return;
+      if (weeklyGoalResult.error) {
+        console.warn("Failed to load saved weekly goal target:", weeklyGoalResult.error.message);
       }
 
-      const workoutsCompleted = weeklyGoal?.recorded_value ?? 0;
-      const weeklyGoalTarget = weeklyGoal?.target_value ?? 5;
-      const percentage =
-        weeklyGoalTarget > 0
-          ? Math.min((workoutsCompleted / weeklyGoalTarget) * 100, 100)
-          : 0;
+      const workoutSessions = sessions.flatMap((session): WorkoutSession[] => {
+          const sessionDate = getTimestampDateKey(session.created_at);
+          if (!sessionDate) return [];
 
-      const { data: dailyGoals, error: streakError } = await supabase
-        .from("goals_feedback")
-        .select("period_date, recorded_value, status")
-        .eq("type", "daily")
-        .eq("user_id", user.id)
-        .order("period_date", { ascending: false });
+          return [{
+            id: session.workout_id,
+            userId: session.user_id,
+            date: sessionDate,
+            activityType: "gym",
+            durationMinutes: session.duration_minutes ?? 0,
+            ...(session.notes ? { notes: session.notes } : {}),
+          }];
+        });
 
-      if (streakError) {
-        console.error(streakError);
-        return;
-      }
-
-      const completedDates = new Set(
-        (dailyGoals ?? [])
-          .filter((goal) => (goal.recorded_value ?? 0) > 0 || goal.status === "completed")
-          .map((goal) => goal.period_date)
+      const workoutDaysCompleted = countWorkoutDaysInRange(
+        workoutSessions,
+        weekStart,
+        weekEnd
       );
-
-      // A streak requires at least 2 consecutive days.
-      // Count back from today; only register a streak once we have 2+ consecutive days.
-      let streak = 0;
-      let cursor = formatDate(new Date());
-      let consecutive = 0;
-
-      while (completedDates.has(cursor)) {
-        consecutive += 1;
-        cursor = addDays(cursor, -1);
-      }
-
-      streak = consecutive >= 2 ? consecutive : 0;
+      const weeklyGoalTarget =
+        weeklyGoalResult.data?.target_value ?? DEFAULT_WEEKLY_WORKOUT_GOAL;
+      const streak = computeStreakFromSessions(workoutSessions);
 
       setData({
-        workoutsCompleted,
+        workoutDaysCompleted,
         weeklyGoal: weeklyGoalTarget,
         streak,
-        performanceMetric: `${percentage.toFixed(0)}% goal completion`,
       });
     } catch (err) {
       console.error(err);
@@ -121,7 +96,7 @@ export default function WeeklyProgressSummary() {
 
   const percentage =
     data.weeklyGoal > 0
-      ? Math.min((data.workoutsCompleted / data.weeklyGoal) * 100, 100)
+      ? Math.min((data.workoutDaysCompleted / data.weeklyGoal) * 100, 100)
       : 0;
 
   return (
@@ -137,7 +112,7 @@ export default function WeeklyProgressSummary() {
       </h2>
 
       <p style={{ margin: "0 0 var(--space-1)", fontSize: "var(--font-body-md)", color: "rgba(25,28,30,0.65)" }}>
-        {data.workoutsCompleted} / {data.weeklyGoal} workouts this week
+        {data.workoutDaysCompleted} / {data.weeklyGoal} workout days this week
       </p>
 
       <div style={{
