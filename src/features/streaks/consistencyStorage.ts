@@ -3,9 +3,17 @@ import { getAttendanceMap } from "./attendance";
 import type { WorkoutSession } from "../../types";
 import { getTimestampDateKey } from "../../lib/workouts";
 
+type WorkoutSessionRecordWithCreatedAt = WorkoutSessionRecord & { created_at: string };
+
+function hasCreatedAt(
+    record: WorkoutSessionRecord
+): record is WorkoutSessionRecordWithCreatedAt {
+    return typeof record.created_at === "string" && record.created_at.length > 0;
+}
+
 // Convert WorkoutSessionRecord (Supabase) -> WorkoutSession (internal domain)
-function toWorkoutSession(record: WorkoutSessionRecord): WorkoutSession {
-    const sessionDate = getTimestampDateKey(record.created_at) ?? new Date().toISOString().split("T")[0];
+function toWorkoutSession(record: WorkoutSessionRecordWithCreatedAt): WorkoutSession {
+    const sessionDate = getTimestampDateKey(record.created_at) ?? record.created_at.split("T")[0];
 
     return{
         id: record.workout_id,
@@ -52,8 +60,13 @@ export async function getWeeklySummaries(
     // Fetch real data from Supabase
     const records = await getUserWorkoutSessions(userId);
 
+    const recordsWithCreatedAt = records.filter(hasCreatedAt);
+    if (recordsWithCreatedAt.length !== records.length) {
+        console.warn("Skipped workout sessions missing created_at while building weekly summaries.");
+    }
+
     // Addapt to domain type
-    const sessions: WorkoutSession[] = records.map(toWorkoutSession);
+    const sessions: WorkoutSession[] = recordsWithCreatedAt.map(toWorkoutSession);
 
     // Build summaries
     return Array.from({ length: weeksBack }, (_, i) => {
