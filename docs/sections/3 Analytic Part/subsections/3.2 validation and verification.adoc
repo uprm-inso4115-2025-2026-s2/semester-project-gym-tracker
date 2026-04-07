@@ -16,6 +16,8 @@
 
 #The `Development` branch contains explicit local commands for unit tests, acceptance-style tests, and production builds. In `package.json`, `npm test` runs Vitest, `npm run test:acceptance` runs a separate acceptance suite, and `npm run build` runs `tsc -b` followed by `vite build`. `vitest.config.ts` excludes `tests/acceptance/**/*.test.{ts,tsx}` from the default suite, while `vitest.acceptance.config.ts` runs that directory separately in `jsdom` with a dedicated setup file.#
 
+#`src/data/featurePersonaMap.test.js` provides direct verification of the feature-to-persona mapping data and lookup helpers. The file tests feature lookup by identifier, persona-to-feature mapping, feature-to-persona mapping, relevance checks, expectation-alignment checks, summary generation, and detection of unmapped persona expectations.#
+
 #`src/lib/workouts.test.ts` provides direct verification of workout helper logic. The file tests UTC date-key extraction, counting workouts on a specific day, counting unique workout days in a date range, computing the longest streak from unique completed days, and computing Monday-Sunday week boundaries.#
 
 #`src/features/streaks/streakcalc.test.ts` provides direct verification of streak logic. The file tests qualifying-workout rules, consecutive-day streak growth, grace-period activation after a missed day, reset after grace expiration, streak computation from out-of-order sessions, duplicate sessions on the same day, and zero-streak outcomes when workouts are isolated or separated by a gap.#
@@ -30,7 +32,7 @@
 |#Observed result#
 
 |#`npm test -- --run`#
-|#Passed. Vitest reported 24 passing tests in 3 files. This run included `src/lib/workouts.test.ts` and `src/features/streaks/streakcalc.test.ts`. The output also emitted a warning that Supabase environment variables were missing, but the test run did not fail.#
+|#Passed. Vitest reported 24 passing tests in 3 files: `src/data/featurePersonaMap.test.js`, `src/lib/workouts.test.ts`, and `src/features/streaks/streakcalc.test.ts`. The output also emitted a warning that Supabase environment variables were missing, but the test run did not fail.#
 
 |#`npm run test:acceptance`#
 |#Passed. Vitest reported 2 passing tests in 1 file, `tests/acceptance/app.acceptance.test.tsx`.#
