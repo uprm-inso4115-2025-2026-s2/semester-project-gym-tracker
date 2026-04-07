@@ -90,6 +90,26 @@
 
 * #Accept minimal risk of short-lived inconsistency in UI display (e.g., delayed update), provided data is eventually stored correctly.#
 
+
+*#Risk Assessment and Justification#*
+
+#Likelihood: *Medium*#  
+
+#Justification:# 
+
+* #Workout logging depends on reliable communication between the client and backend. Network interruptions, temporary server downtime, or client-side submission errors can occur during normal usage, but not consistently.#
+
+#Impact: *High*#  
+
+#Justification:# 
+
+* #This failure results in loss of workout data, which directly affects progress tracking, streak calculations, and user trust in the system.#
+
+#Discussion:# 
+
+* #This is a high-priority risk because it impacts both data integrity and user confidence. Even with moderate likelihood, the consequences justify mitigation strategies such as retry mechanisms and local caching.#
+
+
 ===== FMEA Case 2 - Incorrect Streak Calculation
 
 *#Scenario*:# #A user completes workouts on consecutive days. One session is logged late at night and another early the next day. Due to inconsistent time zone handling, the system interprets both sessions as occurring on the same day, breaking the streak unexpectedly.#
@@ -124,6 +144,26 @@
 
 * #Accept rare edge cases where streak recalculation may momentarily display inconsistent values before correction.#
 
+
+*#Risk Assessment and Justification#*
+
+#Likelihood: *Medium*#  
+
+#Justification:# 
+
+* #Time and date handling is a common source of defects especially in systems that rely on user-generated timestamps. Edge cases such as late-night workouts and timezone differences increase the probability of incorrect calculations.#  
+
+#Impact: *Medium*#  
+
+#Justification:# 
+
+* #While the system continues to function, incorrect streak calculations affect a key motivational feature potentially reducing user engagement and satisfaction.#  
+
+#Discussion:#
+
+* #This risk primarily affects user perception rather than system correctness. It is important for user experience but less critical than risks involving data loss.#
+
+
 ===== FMEA Case 3 - Incorrect Goal Evaluation
 
 *#Scenario*:# #A user completes multiple workouts on the same day. The system incorrectly counts them as multiple active days instead of one, causing the weekly goal to appear completed earlier than it actually is.#
@@ -156,3 +196,22 @@
 #Acceptance:#
 
 * #Accept that temporary inconsistencies may happen during recalculation, provided final computed results remain correct and consistent with stored data.#
+
+
+*#Risk Assessment and Justification#*
+
+#Likelihood: *Medium*#
+
+#Justification:#
+
+* #The risk arises from aggregation logic errors. Since users may perform multiple workouts per day, incorrect handling is plausible if requirements or implementation logic are not clearly defined.#
+
+#Impact: *High*#
+
+#Justification:#
+
+* #Incorrect goal evaluation misrepresents user progress which undermines the reliability of the system and can mislead users about their achievements.#
+
+#Discussion:#
+
+* #This risk is significant because it affects the correctness of system outputs rather than just presentation. Accurate progress tracking is central to the system’s purpose making this a high-priority issue.#

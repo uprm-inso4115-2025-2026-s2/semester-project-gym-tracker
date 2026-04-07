@@ -54,4 +54,5 @@
 
 | 1.5 Derived Goals | Julian Vivas | Modified | Refined the secondary goals to better distinguish them from the primary goal; added concrete examples of complex and single-dimension fitness tools; clarified the difference between friction reduction, consistency, and growth-oriented mindset.
 
+| 2.2.6 Risk Assessment | Carlos Ferrer | Modified | Extended the existing FMEA cases with integrated risk assessment and justification, including explicit likelihood, impact, and discussion for each identified risk.
 |===
