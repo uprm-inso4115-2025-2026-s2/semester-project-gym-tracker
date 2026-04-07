@@ -1,7 +1,8 @@
 == Legend
 
-Milestone 2 additions and revisions are shown as highlighted text. In the AsciiDoc source, those passages are wrapped in `#...#`.
+#Milestone 2 additions or modifications must be recorded in the LogBook and shown as highlighted text. In the AsciiDoc source, highlighted passages are wrapped in `#...#`.#
 
-* A highlighted word, phrase, or clause means only that fragment changed.
-* A fully highlighted paragraph, heading, list item, or table cell means the whole visible unit changed.
-* Unhighlighted text is unchanged carryover text or supporting context.
+* #A highlighted word, phrase, or clause means only that fragment changed.#
+* #A fully highlighted paragraph, heading, list item, or table cell means the whole visible unit changed.#
+* #Each addition or modification should have a corresponding LogBook entry that identifies the affected section and the change made.#
+* #Unhighlighted text is unchanged carryover text or supporting context.#

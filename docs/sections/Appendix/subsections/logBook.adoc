@@ -1,6 +1,6 @@
 === ii. LogBook
 
-This table is a section-level overview. Detailed Milestone 2 change visibility in the main document is shown through highlighted text.
+#This table records Milestone 2 additions and modifications at section level. Each listed change must also be highlighted in the corresponding document content.#
 
 [width="100%", cols="4*", options="header", frame=all, grid=all, halign=center]
 
