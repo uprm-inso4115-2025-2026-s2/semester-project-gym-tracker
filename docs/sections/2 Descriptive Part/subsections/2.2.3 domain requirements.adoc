@@ -14,78 +14,56 @@
 #The system must provide means to define a Goal associated with a specific Time Frame.#
 
 #Inconsistency case RT-2#
-#Inconsistency: Earlier discussion referred to both daily goals and weekly
-goals, but the requirements in this section were being written around weekly
-evaluation. That left the scope of Goal unclear.#
+#Inconsistency: Earlier discussion referred to both daily goals and weekly goals, but the requirements in this section were being written around weekly evaluation. That left the scope of Goal unclear.#
 
 #Method used: Resolution tactic - scope narrowing.#
 
-#Candidate resolution: In the current milestone, Goal is treated in the core
-domain as a weekly goal tied to a Time Frame. Daily goals may be added later,
-but they are not part of the core requirement set now.#
+#Candidate resolution: In the current milestone, Goal is treated in the core domain as a weekly goal tied to a Time Frame. Daily goals may be added later, but they are not part of the core requirement set now.#
 
 *Goal Evaluation*
 The system must provide means to evaluate whether recorded Workout Sessions satisfy a defined Goal within its Time Frame.
 
 #Inconsistency case FE-2#
-#Inconsistency: It was unclear whether weekly goal evaluation should count
-Workout Sessions or active days, since more than one session can happen on the
-same day.#
+#Inconsistency: It was unclear whether weekly goal evaluation should count Workout Sessions or active days, since more than one session can happen on the same day.#
 
-#Method used: Further elicitation through a stakeholder walkthrough based on
-the question: if someone works out twice on Tuesday, does that count as one day
-toward the weekly goal or as two completed workouts?#
+#Method used: Further elicitation through a stakeholder walkthrough based on the question: if someone works out twice on Tuesday, does that count as one day toward the weekly goal or as two completed workouts?#
 
-#Candidate resolution: In the core domain, weekly goals are evaluated by active
-days within the Time Frame. Multiple Workout Sessions on the same day remain in
-the history, but they count as one Attendance Day for weekly goal evaluation.#
+#Candidate resolution: In the core domain, weekly goals are evaluated by active days within the Time Frame. Multiple Workout Sessions on the same day remain in the history, but they count as one Attendance Day for weekly goal evaluation.#
 
 *Low-Effort Logging*
 The system must provide means to record a Workout Session through a Quick Entry Workflow that minimizes required input steps.
 
 #Inconsistency case RT-3#
-#Inconsistency: The documentation asks for quick logging with little effort,
-but it also expects enough detail for later comparison and reflection. Those
-two aims pull in different directions.#
+#Inconsistency: The documentation asks for quick logging with little effort, but it also expects enough detail for later comparison and reflection. Those two aims pull in different directions.#
 
 #Method used: Resolution tactic - default plus optional extension.#
 
-#Candidate resolution: The base logging flow requires only the information
-needed to register a Workout Session. Exercises and notes remain optional.
-This keeps logging light while still allowing more detail when a person wants
-to add it.#
+#Candidate resolution: The base logging flow requires only the information needed to register a Workout Session. Exercises and notes remain optional.This keeps logging light while still allowing more detail when a person wants to add it.#
 
 *Persistent Storage and Retrieval*
 #The system must provide means to store Workout Sessions persistently and retrieve them in chronological order as Workout History.#
 
+#Satisfiability and Feasibility Discussion#
+#Satisfiability:# This requirement is satisfiable within the current system design because the document already defines Workout History as the persistent ordered collection of Workout Sessions and states that corrected or newly added past sessions become the source of truth for recalculating derived results such as Weekly Summaries and Streak-related values. The implementation overview also identifies persistent storage through Supabase and describes application logic that retrieves and updates domain data in response to user actions.#
+
+#Feasibility:# This requirement is feasible within project constraints because storing user-specific workout records and retrieving them in chronological order is a standard capability of a web application backed by a managed database service. The chosen stack already includes Supabase for persistent storage and React for the client interface, so the requirement does not depend on unusual infrastructure or research-only technology. The main engineering effort lies in keeping recalculated derived values consistent after edits, but that effort remains realistic for the current project scope.#
+
 #Inconsistency case FE-3#
-#Inconsistency: The documentation allowed old Workout Sessions to be edited,
-but it did not make clear whether a correction to past data should change
-derived results such as summaries and streak-related values.#
+#Inconsistency: The documentation allowed old Workout Sessions to be edited, but it did not make clear whether a correction to past data should change derived results such as summaries and streak-related values.#
 
-#Method used: Further elicitation through a correction scenario walkthrough:
-a person forgets to log Friday's workout and adds it later, or fixes the date
-of an older session. Should the summary and streak remain as they were, or
-change?#
+#Method used: Further elicitation through a correction scenario walkthrough:a person forgets to log Friday's workout and adds it later, or fixes the date of an older session. Should the summary and streak remain as they were, or change?#
 
-#Candidate resolution: Stored Workout Sessions remain the source of truth. When
-a past Workout Session is added or corrected, derived results such as Weekly
-Summaries and Streak-related values are recalculated from the updated Workout
-History.#
+#Candidate resolution: Stored Workout Sessions remain the source of truth. When a past Workout Session is added or corrected, derived results such as Weekly Summaries and Streak-related values are recalculated from the updated Workout History.#
 
 *Consistency Representation*
 #The system must provide means to compute and represent a Consistency Measure based on the distribution of Workout Sessions across a Time Frame.#
 
 #Inconsistency case RT-1#
-#Inconsistency: Consistency and Streak were being used too closely in earlier
-discussion, even though they do not mean the same thing.#
+#Inconsistency: Consistency and Streak were being used too closely in earlier discussion, even though they do not mean the same thing.#
 
 #Method used: Resolution tactic - term separation.#
 
-#Candidate resolution: Consistency refers to regular workout behavior across
-time more broadly. Streak refers only to consecutive Attendance Days. The two
-ideas are related, but they should not be used as substitutes in the
-requirements.#
+#Candidate resolution: Consistency refers to regular workout behavior across time more broadly. Streak refers only to consecutive Attendance Days. The two ideas are related, but they should not be used as substitutes in the requirements.#
 
 *Streak Representation*
 #The system must provide means to determine and represent a Streak as a sequence of consecutive Attendance Days derived from the Workout History.#
@@ -94,16 +72,11 @@ requirements.#
 #The system must provide means to compute whether the distribution of Workout Sessions across Calendar Days extends or breaks an existing Streak based on consecutive Attendance Days and intervening Missed Days.#
 
 #Inconsistency case FE-1#
-#Inconsistency: It was unclear whether a Streak should depend on the day a
-Workout Session was performed or the day it was logged into the system.#
+#Inconsistency: It was unclear whether a Streak should depend on the day a Workout Session was performed or the day it was logged into the system.#
 
-#Method used: Further elicitation through stakeholder questioning based on the
-scenario: a person works out on Monday night but records it on Tuesday morning.
-Which day should count toward the streak?#
+#Method used: Further elicitation through stakeholder questioning based on the scenario: a person works out on Monday night but records it on Tuesday morning.Which day should count toward the streak?#
 
-#Candidate resolution: Streak calculation is based on the Calendar Day on which
-the Workout Session was performed, not the time of data entry. Logging records
-the session, but the Streak reflects the real attendance pattern.#
+#Candidate resolution: Streak calculation is based on the Calendar Day on which the Workout Session was performed, not the time of data entry. Logging records the session, but the Streak reflects the real attendance pattern.#
 
 *Weekly Aggregation*
 #The system must provide means to aggregate Workout Sessions within a Week as a Time Frame.#
