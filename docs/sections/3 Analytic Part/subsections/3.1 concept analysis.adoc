@@ -64,34 +64,34 @@ A specific physical movement performed within a workout session.
 .Justification
 Exercise is modeled as a part-of relationship within a Workout Session.
 
-===== Distinguishing Attendance from Activity
+===== Distinguishing Attendance Day from Workout Session
 
 .Rough sketch statements (side-by-side)
 [literal]
-A: "Tracking the days a person attends the gym."
+#A: "Tracking the days a person worked out."#
 B: "Tracking what was done during a workout."
 
 .Semantic analysis
-* Statement A refers to presence at a location.
-* Statement B refers to tracking the structured physical activity performed during a workout session.
-* Presence does not logically imply structured activity.
+* #Statement A refers to whether workout activity occurred on a given Calendar Day.#
+* #Statement B refers to the specific structured activity that occurred.#
+* #A day with activity is not the same concept as the activity occurrence itself.#
 
 .Terminology clash
-Attendance and Workout Activity were implicitly treated as interchangeable.
+#Attendance and Workout Session were implicitly treated as interchangeable.#
 
 .Resolution: introduce distinct concepts
-* *GYM ATTENDANCE*
+* #*ATTENDANCE DAY*#
 * *WORKOUT SESSION*
 
 .Definitions
-* *GYM ATTENDANCE:* A calendar day on which an individual visits a training location.
-* *WORKOUT SESSION:* A structured period of physical activity.
+* #*Attendance Day:* A Calendar Day on which at least one Workout Session has occurred.#
+* #*Workout Session:* A specific occurrence of a Workout performed by a GymGoer at a particular time on a particular Calendar Day.#
 
 .Relationship
-* A Gym Attendance may contain zero or more Workout Sessions.
+* #One Attendance Day may correspond to one or more Workout Sessions.#
 
 .Justification
-This separation preserves semantic clarity in the domain.
+#This separation preserves semantic clarity by distinguishing temporal occurrence at the day level from the specific activity occurrence.#
 
 ==== 3.1.2 Concept Derivation: Temporal Patterns
 
@@ -175,19 +175,26 @@ C: "No agreement on which works best."
 .Resolution of clash
 By abstracting upward, both daily and weekly goals become valid instances of the same structural concept.
 
-===== From Overviews to Performance Summary
+===== #From Overviews to Weekly Summary#
 
-.Rough sketch statements (side-by-side)
+.#Rough sketch statements (side-by-side)#
 [literal]
-A: "Weekly overview of activity."
-B: "Seeing progress motivates people."
+#A: "Weekly overview of activity."#
+#B: "Seeing progress motivates people."#
 
 .Semantic analysis
-* Overview implies grouping.
-* Motivation is influenced by comparative results.
+* #Overview implies aggregation within a bounded Time Frame.#
+* #Motivation is influenced by interpreted results, not only raw logs.#
 
 .Abstraction
-*PERFORMANCE SUMMARY*
+*WEEKLY SUMMARY*
+
+.Definition
+#An overview of Workout Sessions, Attendance Days, Missed Days, and Goal evaluation within a Week.#
+
+.Relationships
+* #Produced through summarizeWeek(...).#
+* #Supports interpretation of Progress and Goal achievement.#
 
 .Definition
 An aggregated representation of workout activity within a specified Time Frame.
@@ -259,20 +266,30 @@ Nutrition Management is excluded from the core domain model to preserve conceptu
 
 ==== 3.1.6 Consolidated Domain Vocabulary
 
-The stabilized domain vocabulary consists of:
+#The stabilized core domain vocabulary consists of:#
 
+* #Activity#
+* #Exercise#
+* #Workout#
 * Workout Session
-* Exercise
-* Duration
-* Note
-* Gym Attendance
+* #Workout History#
+* #GymGoer#
+* #Calendar Day#
+* #Attendance Day#
+* #Missed Day#
+* #Time Frame#
+* #Week#
+* #Goal#
+* #Workout Notes#
+* #Reminder#
+* #Weekly Summary#
+* #Session Comparison#
+* #Consistency Measure#
+* #Goal Evaluation#
+* #Weekly Activity Pattern#
 * Consistency
 * Streak
-* Goal
-* Time Frame
-* Performance Summary
-* Motivation
-* Cognitive Effort
+* #Progress#
 
 ==== 3.1.7 Summary
 

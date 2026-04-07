@@ -1,17 +1,17 @@
 ==== 2.2.3 Domain Requirements
 
 *Session Representation*
-    The system must provide means to represent each Workout Session as a distinct entity associated with:
-        •	Specific calendar date
-        •	Session type
-        •	Duration
-        •	Exercises Performed
+#The system must provide means to represent each Workout Session as a distinct entity associated with:#
+#• Specific Calendar Day#
+#• Session type#
+#• Duration#
+#• Exercises performed#
 
 *Scheduling*
-    The system must provide means to associate each workout session with a specific calendar date to represent the distribution of sessions across time.
+#The system must provide means to associate each Workout Session with a specific Calendar Day to represent the distribution of Workout Sessions across time.#
 
 *Goal Representation*
-    The system must provide means to define a Goal associated with a specific Time Frame.
+#The system must provide means to define a Goal associated with a specific Time Frame.#
 
 #Inconsistency case RT-2#
 #Inconsistency: Earlier discussion referred to both daily goals and weekly
@@ -38,7 +38,7 @@ toward the weekly goal or as two completed workouts?#
 
 #Candidate resolution: In the core domain, weekly goals are evaluated by active
 days within the Time Frame. Multiple Workout Sessions on the same day remain in
-the history, but they count as one attendance day for weekly goal evaluation.#
+the history, but they count as one Attendance Day for weekly goal evaluation.#
 
 *Low-Effort Logging*
 The system must provide means to record a Workout Session through a Quick Entry Workflow that minimizes required input steps.
@@ -56,7 +56,7 @@ This keeps logging light while still allowing more detail when a person wants
 to add it.#
 
 *Persistent Storage and Retrieval*
-The system must provide means to store Workout Sessions persistently and retrieve them in chronological order.
+#The system must provide means to store Workout Sessions persistently and retrieve them in chronological order as Workout History.#
 
 #Inconsistency case FE-3#
 #Inconsistency: The documentation allowed old Workout Sessions to be edited,
@@ -69,11 +69,12 @@ of an older session. Should the summary and streak remain as they were, or
 change?#
 
 #Candidate resolution: Stored Workout Sessions remain the source of truth. When
-a past Workout Session is added or corrected, derived results such as weekly
-summaries and streak-related values are recalculated from the updated history.#
+a past Workout Session is added or corrected, derived results such as Weekly
+Summaries and Streak-related values are recalculated from the updated Workout
+History.#
 
 *Consistency Representation*
-The system must provide means to compute and represent a measure of Consistency based on the distribution of Workout Sessions across time.
+#The system must provide means to compute and represent a Consistency Measure based on the distribution of Workout Sessions across a Time Frame.#
 
 #Inconsistency case RT-1#
 #Inconsistency: Consistency and Streak were being used too closely in earlier
@@ -82,16 +83,16 @@ discussion, even though they do not mean the same thing.#
 #Method used: Resolution tactic - term separation.#
 
 #Candidate resolution: Consistency refers to regular workout behavior across
-time more broadly. Streak refers only to consecutive attendance days. The two
+time more broadly. Streak refers only to consecutive Attendance Days. The two
 ideas are related, but they should not be used as substitutes in the
 requirements.#
 
 *Streak Representation*
-The system must provide means to determine and represent sequences of consecutive Workout sessions across days or weeks as a Streak.
+#The system must provide means to determine and represent a Streak as a sequence of consecutive Attendance Days derived from the Workout History.#
 
 *Streak Calculation*
-The system must provide means to compute whether a Workout session continues or breaks an existing Streak based on consecutive calendar units.
-    
+#The system must provide means to compute whether the distribution of Workout Sessions across Calendar Days extends or breaks an existing Streak based on consecutive Attendance Days and intervening Missed Days.#
+
 #Inconsistency case FE-1#
 #Inconsistency: It was unclear whether a Streak should depend on the day a
 Workout Session was performed or the day it was logged into the system.#
@@ -100,27 +101,27 @@ Workout Session was performed or the day it was logged into the system.#
 scenario: a person works out on Monday night but records it on Tuesday morning.
 Which day should count toward the streak?#
 
-#Candidate resolution: Streak calculation is based on the date the Workout
-Session was performed, not the time of data entry. Logging records the session,
-but the Streak reflects the real attendance pattern.#
+#Candidate resolution: Streak calculation is based on the Calendar Day on which
+the Workout Session was performed, not the time of data entry. Logging records
+the session, but the Streak reflects the real attendance pattern.#
 
 *Weekly Aggregation*
-    The system must provide means to aggregate workout sessions within calendar weeks
+#The system must provide means to aggregate Workout Sessions within a Week as a Time Frame.#
 
 *Weekly Comparison*
-    The system must provide means to compare the number of sessions performed in the current week with previous weeks
+#The system must provide means to compare Workout Sessions, Attendance Days, or related summary results in the current Week with those of previous Weeks.#
 
-*Performance Summary Representation*
-    The system must provide means to generate a Performance Summary that aggregates Workout Sessions within a specified Time Frame and compares them to associated Goals.
-    
+*Weekly Summary Representation*
+#The system must provide means to generate a Weekly Summary that aggregates Workout Sessions, Attendance Days, Missed Days, and Goal evaluation within a Week.#
+
 *Essential Information Recording*
-    The system must provide means to record a Workout Session using only essential information: session type, duration, and optional short notes.
+#The system must provide means to record a Workout Session using only essential information: session type, duration, and optional short notes.#
 
 *Separation of Nutrition Tracking*
-    The system must provide means to record a Workout Session without requiring Nutrition information as a precondition.
+#The system must provide means to record a Workout Session without requiring Nutrition information as a precondition.#
 
 #*Workout Ownership*#
-    #The system must provide means to associate Workout Sessions with a specific Gym goer, ensuring that each Gym goer's workout history is distinct and private.#
+#The system must provide means to associate Workout Sessions with a specific GymGoer, ensuring that each GymGoer's Workout History is distinct and private.#
 
 #*Data Validation Rules*#
-    #The system must provide means to enforce data validation rules for Workout Session entries, such as preventing future dates and ensuring required attributes are provided.#
+#The system must provide means to enforce data validation rules for Workout Session entries, such as preventing future Calendar Days and ensuring required attributes are provided.#

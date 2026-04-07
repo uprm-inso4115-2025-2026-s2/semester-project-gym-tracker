@@ -32,10 +32,10 @@ The raw metaphor (“Duolingo-like”) was replaced with precise definitions tha
 
 Participants proposed end-of-week feedback and accountability. This led to the formalization of:
 
-* *Goal* - a desired level of activity over a defined period.
-* *Weekly Activity Pattern* - distribution of sessions across a week.
-* *Goal period has just ended* (Domain Event).
-* *evaluateGoal(...) and summarizeWeek(...)* (Domain Functions).
+* *Goal* - #a desired level of activity within a defined Time Frame.#
+* *Weekly Activity Pattern* - #distribution of workout-related events across the Calendar Days of a Week.#
+* *Goal period has just ended* #(Domain Concept, Category: Event).#
+* *evaluateGoal(...) and summarizeWeek(...)* #(Domain Concepts, Category: Action).#
 
 The sketch described an idea (“show if weekly goals were achieved”). The terminology converts that idea into explicit domain concepts, events, and evaluative functions.
 
