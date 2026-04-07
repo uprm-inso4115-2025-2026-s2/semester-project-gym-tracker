@@ -3,7 +3,7 @@
 
 This section defines the data model for the Notifications module in the Gym Tracker system. Its purpose is to establish the entities, fields, relationships, and notification categories needed to support user notifications in a Supabase-compatible database structure.
 
-The model extends the previously identified domain attributes (Section 4.3.4) by formalizing how notifications are stored, categorized, and tracked throughout their lifecycle.
+The model extends the previously identified notification domain attributes documented in LTT158 by formalizing how notifications are stored, categorized, and tracked throughout their lifecycle.
 
 It supports key notification categories relevant to the project scope, including workout reminders, motivational messages, and weekly progress summaries. Additionally, it incorporates delivery state tracking, user association, trigger timing, and message content.
 

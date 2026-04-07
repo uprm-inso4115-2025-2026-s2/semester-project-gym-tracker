@@ -1,0 +1,55 @@
+=== Identify Domain Attributes for the Notification System
+:author: AlejandroMB05
+
+===== Identified Attributes
+
+*1. notificationID* +
+*Purpose:* Uniquely identifies each notification in the system. +
+*Reasoning:* Needed to track, update, or delete specific notifications.
+
+*2. userID* +
+*Purpose:* Specifies which user receives the notification. +
+*Reasoning:* Notifications must be tied to a specific user.
+
+*3. type* +
+*Purpose:* Categorizes the notification (e.g., reminder, inactivity alert, workout completion). +
+*Reasoning:* Helps differentiate the behavior and purpose of notifications.
+
+*4. message* +
+*Purpose:* The content displayed to the user. +
+*Reasoning:* Communicates the purpose of the notification clearly.
+
+*5. timestamp* +
+*Purpose:* Indicates when the notification was created or triggered. +
+*Reasoning:* Important for time-based logic such as reminders or inactivity tracking.
+
+*6. status* +
+*Purpose:* Indicates whether the notification is unread, read, or dismissed. +
+*Reasoning:* Tracks user interaction with notifications.
+
+*7. triggerType* +
+*Purpose:* Describes what caused the notification. +
+*Examples:* scheduled reminder, inactivity, workout completed. +
+*Reasoning:* Helps trace why a notification exists.
+
+===== Domain Relationships
+
+The attributes connect to other parts of the system as follows:
+
+* *userID -> User domain* +
+  Defines who receives the notification.
+
+* *relatedWorkoutID -> Workout domain* +
+  Links notifications to specific workouts or sessions.
+
+* *triggerType -> Activity / Event domain* +
+  Represents what caused the notification (e.g., inactivity, completion).
+
+* *timestamp & scheduledTime -> Time-based logic* +
+  Supports reminders, scheduling, and inactivity detection.
+
+===== Summary
+
+The notification domain includes a set of attributes that define how notifications are represented in the system. These attributes allow notifications to be uniquely identified, categorized, timed, and associated with user actions or system events.
+
+Together, they provide a flexible structure that can support future features such as reminders, inactivity alerts, and progress updates while remaining independent of implementation details.

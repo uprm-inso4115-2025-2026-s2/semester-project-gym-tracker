@@ -1,199 +1,132 @@
 === 4.3 Domain and Requirements Acquisition
 
-This section documents a concrete plan for how we will continue acquiring domain knowledge and requirements beyond the initial brainstorming and informal stakeholder discussions already described in Section 1.4. The guideline explicitly asks for specificity and named resources, not generic statements. 
+#This section now separates *requirements acquisition* from *requirements elicitation* because they are related but not identical activities. Acquisition is the collection of raw information from stakeholders, existing systems, and other sources. Elicitation is the follow-up work of clarifying, comparing, resolving, and translating that raw information into domain concepts, requirements, and acceptance-relevant decisions.#
 
-==== 4.3.1 Acquisition Plan
+==== 4.3.1 Acquisition vs. Elicitation
 
-We will acquire additional domain and requirement information using four complementary streams:
+#For this project, *acquisition* means gathering requirement-relevant material before interpreting it. Examples include questionnaires, interviews, review of existing fitness applications, and collection of stakeholder statements. The output of acquisition is evidence: answers, observations, examples, and domain terminology used by real stakeholders.#
 
-1. *Targeted stakeholder micro-interviews (15–20 minutes each)*  
-   We will interview at least:
-   - 5 beginner gym-goers (aligning with Alejandro-type constraints),
-   - 3 mixed routine users (run + gym, Derek-type),
-   - 3 habit-focused users (Ana-type, sensitive to tone/reminders).
-   Each interview will be scenario-based (e.g., “log a workout in under 30 seconds”, “weekly goal summary interpretation”) to validate and refine requirements.
+#For this project, *elicitation* means taking that acquired material and asking the next engineering questions: what does the stakeholder actually need, where do answers conflict, which concepts belong in the core domain, and how should ambiguous behavior be resolved? The output of elicitation is not raw data; it is clarified requirements, scope decisions, candidate resolutions, and scenarios such as the FE-* and RT-* cases already documented in Section 2.2.3.#
 
-2. *Structured survey (quantitative check)*  
-   A short survey distributed to UPRM peers to measure:
-   - common tracking fragmentation patterns,
-   - biggest friction sources (time, complexity, forgetting),
-   - desired summary frequency (daily vs weekly),
-   - reminder preferences (frequency/tone).
-
-3. *Competitive feature review (existing apps)*  
-   We will analyze 3–5 popular tracking apps to extract:
-   - minimum viable logging fields,
-   - streak/consistency presentation patterns,
-   - weekly summary formats,
-   - where feature overload increases friction.
-
-4. *Low-fidelity prototype walkthroughs*  
-   Once basic screens exist, we will run short “think-aloud” sessions to discover missing requirements at the interface boundary (what users expect to edit, undo, confirm, or see immediately).
-
-==== 4.3.2 Resources and Why We Use Them
-
-We will use diverse resources, as recommended by the guideline: stakeholders + “literature-like” sources + artifact review. 
-
-Primary resources:
-- Direct stakeholders: UPRM students, beginner/intermediate gym users, casual runners.
-- Existing tools: fitness tracking apps (to identify friction patterns and common mental models).
-- Internal artifacts already produced: A3 problem background and countermeasures (to keep alignment with the project’s original problem framing).
-
-==== 4.3.3 Incorporating New Findings
-
-When new findings affect the domain model or requirements:
-- We update terminology and domain narrative if a new concept becomes central.
-- We revise epics/user stories if stakeholder goals shift.
-- We update domain/interface/machine requirements, and record the reason for change in the logbook and linked GitHub issues.
-- We update traceability links (Section 4.4) so changes can be followed from new evidence → updated requirements → updated tests/tasks.
-
-==== 4.3.4 Notification System – Domain Attributes Analysis
-:author: AlejandroMB05
-===== Identified Attributes
-
-*1. notificationID* +
-*Purpose:* Uniquely identifies each notification in the system. +
-*Reasoning:* Needed to track, update, or delete specific notifications.
-
-*2. userID* +
-*Purpose:* Specifies which user receives the notification. +
-*Reasoning:* Notifications must be tied to a specific user.
-
-*3. type* +
-*Purpose:* Categorizes the notification (e.g., reminder, inactivity alert, workout completion). +
-*Reasoning:* Helps differentiate the behavior and purpose of notifications.
-
-*4. message* +
-*Purpose:* The content displayed to the user. +
-*Reasoning:* Communicates the purpose of the notification clearly.
-
-*5. timestamp* +
-*Purpose:* Indicates when the notification was created or triggered. +
-*Reasoning:* Important for time-based logic such as reminders or inactivity tracking.
-
-*6. status* +
-*Purpose:* Indicates whether the notification is unread, read, or dismissed. +
-*Reasoning:* Tracks user interaction with notifications.
-
-*7. triggerType* +
-*Purpose:* Describes what caused the notification. +
-*Examples:* scheduled reminder, inactivity, workout completed. +
-*Reasoning:* Helps trace why a notification exists.
-
-===== Domain Relationships
-
-The attributes connect to other parts of the system as follows:
-
-* *userID → User domain* +
-  Defines who receives the notification.
-
-* *relatedWorkoutID → Workout domain* +
-  Links notifications to specific workouts or sessions.
-
-* *triggerType → Activity / Event domain* +
-  Represents what caused the notification (e.g., inactivity, completion).
-
-* *timestamp & scheduledTime → Time-based logic* +
-  Supports reminders, scheduling, and inactivity detection.
-
-===== Summary
-
-The notification domain includes a set of attributes that define how notifications are represented in the system. These attributes allow notifications to be uniquely identified, categorized, timed, and associated with user actions or system events.
-
-Together, they provide a flexible structure that can support future features such as reminders, inactivity alerts, and progress updates while remaining independent of implementation details.
-
-==== 4.3.5 User Account Management - Domain Acquisition
-:author: Ingrid1089
-===== Purpose and Relevance
-Gathering, analyzing, and structuring knowledge about a specific problem domain from various sources helps define requirements for the project. This process can be applied in the context of account management and authentication behavior to understand how users interact with account systems, profile usage, personalization preferences, and the information users expect. The data gathered will help design and implement an engaging, secure, and usable account system.
-
-Instead of designing features based on assumptions, domain acquisition allows the team to better understand, and design based on existing applications and the behaviors that govern them. These behaviors can be in the form of user identity management, personal preferences, and unique features the application grants the user (e.g. streak system, personal history). Examining these behaviors and patterns, the project can have a foundation that understands what users expect from account management systems.
-
-This task focuses on acquiring domain knowledge related to user accounts, login processes, and profile management in fitness tracking applications.
-
-===== Domain knowledge sources
-To effectively acquire knowledge about account management behavior in fitness tracking systems, several applications and technological patterns were examined.
-
-*MyFitnessPal – Fitness Tracking Platform*
-
-MyFitnessPal is a popular platform that allows users to track calories, macros, food and workouts. By design, it relies heavily on a structured user account management system that stores personal information and enables multiple features that complement the management system. The account system stores user attributes such as age, weight, height, dietary goals, and activity preferences. With this information, the platform can calculate daily calorie targets and track user progress.Additionally, the account management system allows users to maintain a history of meals and workouts, allowing the user to visualize long-term progress and trends. This illustrates how user accounts function as the central entity that connects user identity with activity tracking behavior.
-
-In terms of the project, the insight acquired highlights the importance of user accounts in connecting the physical activity data with individual users. By associating workouts, sessions, and activity history, the system can track and centralize the progress of the user over time. The key feature is to give the user a visualization of their progress to support consistency and long-term habit formation.
- 
-*Strava – Activity Tracking Platform*
-
-Strava is a fitness tracking platform that is designed for recording and analyzing activities. It is particularly popular among cyclists and runners for its many tracking and routing features. Another reason for its popularity is the social media aspect of it that allows users to compete and have leaderboards. Similarly to other applications, Strava also relies on a structured user account system. Through this system, users can log activities and maintain a record of their sessions over time. Strava can generate a summary of activity data that allows users to view several statistics such as distance, duration, and frequency of workouts. A popular feature that is based on this information is the fitness score Strava has.
-
-A key feature examined in this research was Strava’s profile page and its features. It includes several elements that enable better representation of the user in the system. Some key elements include profile information such as name, profile picture, biography, and connection with other users through followers and following lists. The profile also contains an activity feed that displays recently recorded activities and performance summaries. Additionally, Strava provides user accounts with options to adjust privacy settings to determine whether the information is visible to everyone, only followers, or themselves. This illustrates how user profiles act as a representation of user identity within activity tracking systems.
-
-In terms of the Gym Tracker project, this platform provides a good example of structured profiles that manage both identity information and activity records. Implementing profile features such as identity information, activity history, and privacy settings allows the platform to better represent personalized information to each user.
- 
-*Authentication Systems in User Account Management*
-Authentication systems have become an essential component of virtually all applications that require any personal information from the user. These systems have been designed and implemented with protection in mind by verifying the identity of users before they are granted access to any personal data stored within an account. The most basic form we see is with email and passwords, although systems have been developed to support third-party authentication through Google or Apple.
-
-These mechanisms ensure that any sensitive information associated with users remains protected from any unauthorized access. In fitness tracking systems, this is important since all information stored, analyzed, and shown is completely personal to a user account. Additionally, authentication processes support session management, which in turn allows users to remain logged in while interacting with the platform.
- 
-For the project, authentication is a top priority to implement and a critical feature to ensure that all records, history, and personal profile information remain securely associated with the correct user account. By implementing this feature, the platform can protect user data while allowing them to access and manage their records through personal accounts.
- 
-*Community Discussion and Feedback*
-Information coming from the users that interact with the platform provides excellent insight on features and system design. A community discussion around the topic of Strava was reviewed for this section. In one discussion users talked about potential improvements to the platform in the form of being able to customize activity logs in their accounts, adding additional categories, and allowing the display of both metric and imperial units for performance statistics. Another user suggested that in the profile page the activities section should feature better filtering to see their logs in the account. User suggestions indicate that users value account systems that allow them to customize how their activity data is presented and organized.
-
-Information like this highlights the importance of flexible profile dashboards and customizable activity display options in fitness tracking platforms. For this project these insights suggest that the system should support configurable activity information and allow users to organize workout data that matches their account preferences.
-
-===== Domain Insights for Gym Tracker
-The analysis of multiple fitness platforms has revealed several important patterns in terms of user account management systems and how these are designed in these applications.
-
-1. User accounts function as a central entity that connects personal identity with activity data, Platforms such as MyFitnessPal and Strava are examples of how accounts store personal attributed and associate recorded activities with individual users. This design allows systems to maintain long-term records of workouts and generate summaries of user activity.
-
-2. Accounts are commonly represented through structured profiles that manage organization of identity information and activity records. Successful profile pages include personal information such as name, profile images, and biographies and integrate them along with activity feeds, performance summaries, and interaction features. This design structure allows users to easily access their personal activity history and understand their fitness behavior over time.
-
-3. Authentication mechanisms are a vital part of protecting user information. Login systems verify user identity and ensure activity records and personal data remain accessible only to the authorized user. This feature becomes a fundamental requirement for any application that utilizes personal data.
-
-4. Community feedback is an important source of information because it's directly from the user. From the sources studied, users expect flexibility in how their information is displayed and organized in their accounts. Users request features that enable them to customize their profiles, dashboards, categorize activities, and filter logs. These expectations highlight the importance of designing account systems that provide both a structured and a customizable presentation of information.
-
-===== Conclusions
-The domain acquisition process provided substantial information and valuable insights into how user accounts should function to be effective, engaging, and secure. By examining applications such as MyFitnessPal and Strava, which provided concrete examples of important design choices. Studying information on authentication mechanisms through various sources, the team could identify key features that must be implemented to design a user account system that is secure. Community posts and discussions also proved to be a good source of information due to the direct feedback from the users that interact with the platform. Their feedback helps developers implement features that were often overlooked during the software development cycle. These insights help inform the design of the Gym Tracker application and ensure that its account management system aligns with common practices in modern fitness tracking platforms.
-
-==== 4.3.6 Workout Data Validation and Integrity - Domain Attributes
-:author: Héctor L. Rivera Betances
-===== 1. Introduction
-
-#Workout tracking apps depend a lot on the data users enter, such as weight, reps, sets, and exercise type. If this data isn’t properly validated, it can become inconsistent or incorrect, which affects features like progress tracking and performance analysis. That’s why data validation is important—it helps keep the information logical and reliable.#
-
-===== 2. Importance of Data Integrity
-
-#Data integrity is essential in fitness apps because training decisions are often based on this information. If users enter incorrect values, like negative weights or zero reps, the system can produce misleading results. Keeping data accurate builds user trust, improves analysis, and helps prevent system errors.#
-
-===== 3. Common Data Validation Issues
-
-#Some common problems include negative or zero values, missing fields, wrong data types, or unrealistic numbers. For example, entering an extremely high weight or using an invalid format can break calculations like training volume or progress tracking.#
-
-===== 4. Validation Strategies
-
-#Validation can happen at different levels. Frontend validation gives users immediate feedback, while backend validation ensures the data is correct no matter how it’s submitted. Using both together makes the system more reliable.#
-
-===== 5. Technical Considerations
-
-#From a technical perspective, it’s important to define clear and reusable validation rules. For example, functions can check that weight, reps, and sets are greater than zero. Database constraints and proper data types also help maintain data integrity.#
-
-===== 6. Example Validation Logic
-
-#A good validation system checks that each workout entry meets basic requirements before being stored. This includes making sure numeric values are positive and that all required fields are filled.#
-
-===== 7. Benefits and Limitations
-
-#The main benefit is more accurate and reliable data. However, if validation rules are too strict, they might limit flexibility for advanced users. It’s important to find a balance between control and usability.#
-
-===== 8. Conclusion
-
-#Validating workout data is essential for building a reliable and scalable fitness app. By ensuring consistency and accuracy, the system can provide meaningful insights and support long-term progress.#
-
-===== 9. Validation Rules Table
-
-[cols="1,1,1", options="header"]
+[cols="1,2,2", options="header"]
 |===
-| Field | Validation Rule | Example
-| Weight | >= 0 | 135 lbs
-| Reps | > 1 | 8
-| Sets | > 1 | 3
+|#Phase# |#Main purpose# |#Typical output in this document#
+
+|#Requirements acquisition#
+|#Collect raw domain and stakeholder information from named sources.#
+|#Questionnaires, interview notes, app-review observations, and source-backed findings.#
+
+|#Requirements elicitation#
+|#Interpret and refine acquired information into explicit system decisions.#
+|#Clarified requirements, inconsistency cases, candidate resolutions, and usage scenarios.#
 |===
+
+==== 4.3.2 Requirements Acquisition Activities
+
+#The team uses the following acquisition activities to gather domain and requirement information from real sources instead of relying only on internal brainstorming:#
+
+* #AQ1 - Structured questionnaire for gym-goers and other fitness-oriented UPRM students. This is the primary acquisition instrument in this section because it captures repeatable, comparable answers from real stakeholders.#
+* #AQ2 - Targeted stakeholder micro-interviews (15-20 minutes each) with beginner gym-goers, mixed routine users, and habit-focused users to collect examples that need follow-up elicitation.#
+* #AQ3 - Competitive review of existing fitness tracking tools to identify common logging fields, progress summaries, and friction patterns that stakeholders already recognize.#
+* #AQ4 - Internal artifact review of the A3 problem framing, current personas, and earlier stakeholder notes so later acquisition remains aligned with the problem already documented in Sections 1 and 4.#
+
+#Primary acquisition resources are therefore: direct stakeholders (UPRM gym-goers, beginner and intermediate users, casual runners), existing applications such as MyFitnessPal and Strava, and internal project artifacts already produced by the team.#
+
+==== 4.3.3 Questionnaire AQ1: Gym-User Requirements Acquisition
+
+#AQ1 is a structured questionnaire aimed at the stakeholder groups identified in Section 4.1, especially primary users, beginners, and goal-oriented users. It is designed for acquisition, not elicitation: its purpose is to collect stakeholder language, frustrations, priorities, and expectations before the team resolves them into requirement statements.#
+
+#Target respondents:# #UPRM students and peers who currently attend a gym, run regularly, or are trying to build a workout habit.#
+
+#Questionnaire AQ1 used for acquisition:#
+
+[cols="1,5,3", options="header"]
+|===
+|#ID# |#Question# |#Requirement areas this question helps surface#
+
+|#AQ1-Q1#
+|#When you record a workout, which pieces of information do you always want to save, and which details feel optional or too time-consuming when you are in a hurry?# 
+|#Low-Effort Logging, Essential Information Recording, Recording Real-World Workouts#
+
+|#AQ1-Q2#
+|#Think about the last time you forgot to log a workout immediately. What happened, how much later did you log it, and what should the system preserve or recalculate when you correct a past entry?# 
+|#Persistent Storage and Retrieval, Editing and Correction of Workout Data, Automatic Streak Synchronization#
+
+|#AQ1-Q3#
+|#If your weekly goal is "work out 4 times this week", should two sessions on the same day count as one successful day or as two completed workouts? Explain what feels more natural to you and why.# 
+|#Goal Evaluation, Weekly Aggregation, Performance Summary Representation#
+
+|#AQ1-Q4#
+|#What kind of weekly or monthly summary actually helps you decide whether you are making progress: attendance days, duration, exercise details, streaks, comparisons to past weeks, or something else?# 
+|#Performance Summary Representation, Weekly Comparison, Viewing Progress and History#
+
+|#AQ1-Q5#
+|#What makes workout logging feel frustrating enough that you might skip it entirely: too many required fields, confusing terminology, slow input, needing nutrition data, or another reason? Please describe specific friction points.# 
+|#Low-Effort Logging, Separation of Nutrition Tracking, Recording Real-World Workouts#
+
+|#AQ1-Q6#
+|#If you miss several planned workouts, what kind of feedback from the app would help you restart without feeling punished or discouraged?# 
+|#Consistency Representation, Streak Representation, notification and reminder behavior#
+
+|#AQ1-Q7#
+|#Which input mistakes should the system block immediately when saving a workout entry? Describe the kinds of dates, values, or missing information you would consider invalid or misleading.# 
+|#Data Validation Rules, Editing and Correction of Workout Data#
+
+|#AQ1-Q8#
+|#What personal account or profile information do you expect to manage in a fitness tracker so that your history, goals, and summaries still feel personal and useful over time?# 
+|#User account management, Goal Initialization and Update, Viewing Progress and History#
+|===
+
+==== 4.3.4 Elicitation Activities That Follow Acquisition
+
+#After acquisition collects evidence, elicitation turns that evidence into precise engineering decisions. In this project, elicitation includes scenario walkthroughs, clarification questions, inconsistency analysis, scope narrowing, and candidate resolutions such as the FE-1 to FE-3 and RT-1 to RT-3 cases already documented in Section 2.2.3.#
+
+#This separation matters because the questionnaire answers themselves are not yet requirements. For example, a participant saying "I often log my workout the next morning" is acquisition evidence. The elicitation step is the follow-up decision: should the streak depend on the workout date or the entry timestamp? That engineering resolution appears later as FE-1.#
+
+#Similarly, a participant saying "I only want the basics when I am rushing" is acquisition evidence. The elicitation step is translating that into explicit requirements such as Low-Effort Logging and Essential Information Recording, while keeping optional detail fields available for users who want them.#
+
+==== 4.3.5 Requirement Signals Surfaced by Questionnaire AQ1
+
+#The questionnaire is tied to concrete requirements because it is designed to surface the exact uncertainties that affect the current requirement set. The initial acquisition focus of AQ1 supports the following requirement-level decisions and refinements:#
+
+[cols="2,4,4", options="header"]
+|===
+|#Question(s)# |#Acquisition signal surfaced# |#Requirements refined or supported#
+
+|#AQ1-Q1, AQ1-Q5#
+|#Stakeholders need a quick-entry flow with only the minimum mandatory fields, and they explicitly treat extra detail as optional when speed matters.#
+|#Domain Requirements: Low-Effort Logging; Essential Information Recording; Separation of Nutrition Tracking. Interface Requirement: Recording Real-World Workouts.#
+
+|#AQ1-Q2#
+|#Stakeholders expect to correct late or inaccurate entries without losing historical accuracy; derived indicators should follow the corrected workout history.#
+|#Domain Requirement: Persistent Storage and Retrieval. Interface Requirements: Editing and Correction of Workout Data; Automatic Streak Synchronization. Elicitation cases: FE-1 and FE-3.#
+
+|#AQ1-Q3#
+|#Stakeholder answers are used to clarify whether weekly success is understood as active days or raw session count.#
+|#Domain Requirements: Goal Evaluation; Weekly Aggregation; Weekly Comparison. Elicitation case: FE-2.#
+
+|#AQ1-Q4#
+|#Stakeholders care about summaries that help interpretation, not just raw logs; history, comparisons, and progress visibility therefore need explicit requirement coverage.#
+|#Domain Requirement: Performance Summary Representation. Interface Requirement: Viewing Progress and History.#
+
+|#AQ1-Q6#
+|#Stakeholders need supportive recovery-oriented feedback after missed workouts rather than only break/fail signals.#
+|#Domain Requirements: Consistency Representation; Streak Representation; related notification-domain attributes documented in LTT158.#
+
+|#AQ1-Q7#
+|#Stakeholders expect obviously wrong data such as future dates or incomplete required input to be rejected before it distorts their history.#
+|#Domain Requirement: Data Validation Rules. Interface Requirement: Editing and Correction of Workout Data.#
+
+|#AQ1-Q8#
+|#Stakeholders expect personal accounts to preserve identity, goals, and history context over time, which supports account-centered data ownership and personalization.#
+|#User account management domain acquisition documented in LTT266; Goal Initialization and Update; Viewing Progress and History; Workout Ownership.#
+|===
+
+==== 4.3.6 Incorporating New Findings
+
+#When new acquisition findings affect the domain model or requirements, the team updates the document in the following order so acquisition and elicitation remain distinct:#
+
+* #First, the new source is recorded as acquisition evidence (for example AQ1 questionnaire answers, interview notes, or app-review observations).#
+* #Second, elicitation is performed on that evidence to clarify terminology, expose conflicts, and decide whether the finding changes the requirement set.#
+* #Third, the affected domain, interface, or machine requirements are updated and the rationale is captured in the logbook and linked GitHub issue.#
+* #Fourth, Section 4.4 traceability links are updated so the path from acquisition evidence to elicited requirement decisions remains visible.#
