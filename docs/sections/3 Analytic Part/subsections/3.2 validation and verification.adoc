@@ -1,16 +1,34 @@
 === 3.2 Validation and Verification
 
-#This section separates validation of the domain description from verification of the current implementation. Using the course workflow, raw stakeholder facts are acquired first and later analyzed into concepts, scenarios, and inconsistency resolutions (Domain Acquisition lecture, Schütz-Schmuck, 2021; Domain Analysis and Concept Formation lecture, Schütz-Schmuck, 2024). In this report, validation refers to the stakeholder-facing walkthroughs and acquisition artifacts already documented in the book. Verification refers to executable checks observed on the `Development` branch snapshot reviewed on 2026-04-07.#
+#This section retains the earlier Milestone 1 validation material and combines it with the current implementation evidence. The two kinds of material are not the same. Validation records how the team checked whether domain concepts and scenarios matched stakeholder understanding during design. Verification records what the current implementation demonstrably does. Using the course workflow, raw stakeholder facts are acquired first and later analyzed into concepts, scenarios, and inconsistency resolutions (Domain Acquisition lecture, Schütz-Schmuck, 2021; Domain Analysis and Concept Formation lecture, Schütz-Schmuck, 2024).#
 
-==== Validation Activities Already Documented in the Book
+==== Validation Carried from Milestone 1 Design Work
 
-#Section 2.1.2 already documents a terminology walkthrough used to test whether a domain story could be expressed using the defined terms only. That walkthrough exposed missing concepts such as Workout History, Calendar Day, Time Frame, Week, Goal Evaluation, and Weekly Summary, and the terminology section records the resulting restructuring.#
+===== Terminology and Concept Validation
 
-#Section 2.2.3 already documents stakeholder-oriented elicitation walkthroughs for specific ambiguity cases. FE-1 resolves whether streaks depend on workout date or logging date. FE-2 resolves whether weekly goals count active days or raw sessions. FE-3 states that corrections to past workout data should recalculate derived results from the updated workout history.#
+#The earlier milestone work validated core domain concepts such as Workout Session, Run, Streak, Goal, Consistency, and Progress Feedback by embedding them in concrete scenarios and checking whether those scenarios matched stakeholder understanding. One documented design-time scenario considered a user who completed a 30-minute run in the morning and a 45-minute strength workout in the evening on the same calendar date. The intended interpretation was that the system records two distinct Workout Sessions on the same date and that both contribute to broader weekly tracking.#
 
-#Section 4.3 already documents the acquisition structure used to obtain validation input. The book includes AQ1 as a concrete questionnaire instrument and identifies AQ2 micro-interviews, AQ3 competitive review, and AQ4 artifact review as acquisition activities. The questionnaire and its mapping to requirement areas are documented. However, this branch does not include completed questionnaire responses, interview notes, or a consolidated analysis of answers. Those items should therefore be treated as planned or only partially documented validation evidence.#
+#The gap identified in that earlier validation was that some users initially assumed that only one Workout Session per day was allowed. The resulting remedy was to clarify the Session Representation requirement so multiple Workout Sessions may exist on the same calendar date while remaining distinct records. This material should be retained because it explains why the domain model allows same-day multiplicity.#
 
-#Section 2.2.4 also contains scenario narratives for broken-streak recovery and invalid-input rejection. These scenarios document intended behavior and help validate the requirement set. They are not, by themselves, evidence that the implementation currently performs that behavior.#
+===== Scenario Testing with Stakeholders
+
+#The earlier section also documented stakeholder walkthroughs around Streak Representation, Streak Calculation, Goal Evaluation, Weekly Aggregation, Weekly Comparison, and Low-Effort Logging. One design-time scenario considered a user who logged workouts on Monday, Tuesday, and Wednesday, skipped Thursday, and logged another workout on Friday. The stakeholder question was whether the streak should continue, reset immediately, or allow a grace period.#
+
+#The gap identified in that design discussion was that several participants expected some flexibility if a workout was forgotten but performed. The documented remedy was to refine the Streak Calculation requirement so streaks are defined as sequences of consecutive calendar units and to note a configurable grace-period feature as a possible future extension. This should remain in the section as design-time validation and requirement rationale, not as evidence that current implementation behavior was tested with users.#
+
+===== Surveys and Feedback Mechanisms
+
+#The Milestone 1 section also proposed targeted user experience surveys and an in-system feedback tool as validation mechanisms for prototype iterations. Those activities remain relevant validation approaches. However, the current repository does not contain completed survey results, analyzed responses, or observed evidence of an in-system feedback feature being used for validation. They should therefore be retained as planned or partially evidenced validation activities rather than current completed results.#
+
+==== Validation Already Documented Elsewhere in the Book
+
+#Section 2.1.2 documents a terminology walkthrough used to test whether a domain story could be expressed using the defined terms only. That walkthrough exposed missing concepts such as Workout History, Calendar Day, Time Frame, Week, Goal Evaluation, and Weekly Summary, and the terminology section records the resulting restructuring.#
+
+#Section 2.2.3 documents stakeholder-oriented elicitation walkthroughs for specific ambiguity cases. FE-1 resolves whether streaks depend on workout date or logging date. FE-2 resolves whether weekly goals count active days or raw sessions. FE-3 states that corrections to past workout data should recalculate derived results from the updated workout history.#
+
+#Section 4.3 documents the acquisition structure used to obtain validation input. The book includes AQ1 as a concrete questionnaire instrument and identifies AQ2 micro-interviews, AQ3 competitive review, and AQ4 artifact review as acquisition activities. The questionnaire and its mapping to requirement areas are documented. However, this branch does not include completed questionnaire responses, interview notes, or a consolidated analysis of answers. Those items should therefore be treated as planned or only partially documented validation evidence.#
+
+#Section 2.2.4 contains scenario narratives for broken-streak recovery and invalid-input rejection. These scenarios document intended behavior and help validate the requirement set. They are not, by themselves, evidence that the implementation currently performs that behavior.#
 
 ==== Verification Evidence Observed on `Development`
 
