@@ -1,86 +1,102 @@
 === 2.3 Implementation
 ==== 2.3 Implementation Overview
 
-===== Purpose
+===== Scope
 
-This section provides a high-level overview of how the fitness tracking system is realized. It describes the main architectural components, their responsibilities, and how they interact. The focus is on the “big picture” structure of the system rather than low-level implementation details.
+This section describes the implementation that is present in the `Development`
+branch at the time of inspection. The evidence comes from the current React
+and Supabase codebase. The implemented work centers on authenticated
+navigation, workout recording, workout history, feedback for daily and weekly
+progress, and streak-related behavior.
 
-The system is implemented as a web application using React on the client side and Supabase as the backend platform for authentication and persistent storage.
+===== Application Structure
 
-===== Architectural Overview
+The main composition is defined in `src/App.tsx`. The application is wrapped in
+`AuthProvider`, then in `BrowserRouter`, and the protected routes are defined
+there. The routes for `/`, `/history`, `/profile`, and `/settings` are wrapped
+in `ProtectedRoute`. The routes for `/login`, `/signup`, `/forgot-password`,
+and `/reset-password` remain public.
 
-At a high level, the system consists of four major components:
+Session state is managed in `src/features/auth/AuthContext.tsx`. That file
+loads the initial Supabase session with `supabase.auth.getSession()` and keeps
+the current `user`, `session`, and `loading` values in context. Route
+protection is enforced in `src/features/auth/ProtectedRoute.tsx`, which keeps
+the page in a loading state until session lookup finishes and redirects
+unauthenticated users to `/login`.
 
-====== 1. Client Application (React Web App)
+The home screen in `src/App.tsx` assembles the current dashboard. It renders
+cards for streak display, weekly progress, daily goal progress, and weekly
+summary feedback. This page is the integration point where the authentication,
+workout, feedback, and streak features are presented together.
 
-The client application runs in the user’s browser and is responsible for:
+===== Workout Recording and Persistence
 
-* Rendering screens (dashboard, workout logging, goal management).
-* Collecting user input (e.g., workout details, goal definitions).
-* Triggering requests to backend services.
-* Displaying feedback such as streak updates and weekly summaries.
+Workout recording begins in `src/features/feedback/DailyGoalProgress.tsx`,
+which opens `src/features/workouts/LogWorkoutModal.tsx`. The modal collects the
+workout type, duration, calories burned, notes, and an optional list of
+exercise rows. The submit handler rejects invalid or non-positive duration
+values before any database write occurs.
 
-It implements the interaction logic that connects user actions to backend operations.
+The actual write operations are implemented in
+`src/features/workouts/workoutSessionsApi.ts`. `createWorkoutSession(...)`
+retrieves the authenticated user through `supabase.auth.getUser()` and inserts
+the main record into the `workout_sessions` table. If the user entered
+exercise details, `saveExercisesForSession(...)` first upserts exercise names
+into `exercises` and then inserts the corresponding rows into
+`workout_exercises`.
 
-====== 2. Authentication Service (Supabase Auth)
+After a successful workout log, `DailyGoalProgress.tsx` updates the
+`goals_feedback` table for both the current day and the current week. The same
+component then dispatches the browser event `progress-updated`, which triggers
+refreshes in the other dashboard components. In the inspected implementation,
+the workout logging modal does not expose a manual session-date field. The
+stored workout history is therefore tied to the persisted timestamp used later
+by the history screen.
 
-The authentication component is responsible for:
+===== Workout History and Progress Feedback
 
-* User registration and login.
-* Session management.
-* Enforcing access control to user-specific data.
+The workout history screen is implemented in
+`src/features/workouts/WorkoutHistoryPage.tsx`. It loads the signed-in user's
+records from `workout_sessions`, groups them by the date portion of
+`created_at`, and labels recent groups as "Today" or "Yesterday" when
+applicable. When a user expands a session, the page fetches the associated
+exercise rows from `workout_exercises` through `src/features/workouts/api.ts`.
 
-All requests involving user data require valid authentication tokens.
+The same page provides correction and cleanup actions. The edit flow updates
+the stored workout type, duration, calories burned, and notes. The selection
+mode allows bulk deletion of existing sessions. This is implemented behavior,
+not planned behavior, and it provides direct support for viewing previously
+recorded workouts and correcting stored data.
 
-====== 3. Persistent Storage (Supabase Database)
+Feedback features are implemented in `src/features/feedback/DailyGoalProgress.tsx`
+and `src/features/feedback/WeeklyProgressSummary.tsx`. The daily component
+reads a `goals_feedback` row for the current calendar day and displays the
+current value, target value, and completion percentage. The weekly summary
+reads the weekly `goals_feedback` row for the current week and displays the
+number of workouts completed, the target, and a percentage of completion.
 
-The database component stores domain-related data, including:
+===== Streak Handling
 
-* Users and account information.
-* Workout Sessions and related attributes.
-* Goals and goal evaluation results.
-* Attendance history used for streak and consistency evaluation.
+Two kinds of streak handling appear in the inspected branch. The first is the
+dashboard display logic in `src/App.tsx` and
+`src/features/feedback/WeeklyProgressSummary.tsx`, both of which derive streak
+values from `goals_feedback` rows that represent completed daily activity. The
+second is the reusable streak module in `src/features/streaks/streakcalc.ts`.
 
-It ensures durability and retrieval of user-specific data.
+`streakcalc.ts` contains explicit logic for qualifying workouts, consecutive
+day checks, grace period handling, streak resets, and updates to the
+`user_streaks` table. The file shows that the project already contains a more
+formal streak engine than the one used directly by the dashboard. The current
+milestone therefore includes implemented streak behavior, but not all screens
+are yet driven by the same streak computation path.
 
-====== 4. Domain Logic (Application Layer)
+===== Current Boundaries of the Implementation
 
-The application layer coordinates domain-related operations such as:
-
-* Recording a Workout Session.
-* Evaluating weekly goals.
-* Computing streak length.
-* Producing weekly summaries.
-
-This logic is executed in response to user actions and interacts with persistent storage to retrieve and update domain data.
-
-===== Key Interaction Flow (End-to-End Example)
-
-Example: Logging a Workout Session
-
-1. The User enters workout details in the client interface.
-2. The client validates required fields and sends a request to the backend.
-3. The backend verifies authentication.
-4. The Workout Session is persisted in the database.
-5. The application logic recomputes streak and goal evaluation.
-6. Updated results are returned to the client and displayed on the dashboard.
-
-This flow demonstrates how user interaction propagates across components, from UI to storage and back.
-
-===== Deployment View
-
-The system follows a client–server deployment model:
-
-* The React application is delivered to users via a web browser.
-* Backend services (authentication and database) are hosted on Supabase infrastructure.
-* Communication between client and backend occurs over HTTPS.
-
-===== Relation to Requirements
-
-The architecture supports:
-
-* Interface requirements (Section 2.2.4) by providing explicit mechanisms for recording, editing, and validating workout data.
-* Machine requirements (Section 2.2.5) through controlled authentication, secure communication, and measurable response behavior.
-* Domain concepts (Section 2.1.2) by mapping them to persistent representations and domain-level operations.
-
-This implementation overview captures the structural realization of the system without introducing low-level implementation details.
+The inspected codebase supports the core Milestone 2 flows, but it does not
+yet realize every requirement in full detail. In the current branch, workout
+history depends on `created_at`, the history editor does not modify session
+dates or exercise rows, and the dashboard uses a simpler streak derivation than
+the dedicated streak module. No acceptance test file named
+`tests/acceptance/app.acceptance.test.tsx` is present in the `Development`
+branch that was inspected. The only test file found during inspection is
+`src/features/streaks/streakcalc.test.ts`, which exercises the streak logic.

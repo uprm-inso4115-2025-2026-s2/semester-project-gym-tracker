@@ -1,187 +1,111 @@
 ==== 2.3.1 Selected Fragments of the Implementation
 
-NOTE: This milestone covers design, organization, and research. The fragments below are illustrative design-phase representations. They are expressed as TypeScript to match the chosen stack (React + Supabase) and are included only where a purely natural-language explanation becomes imprecise or ambiguous. They complement — and do not repeat — descriptions already present in sections 2.1.2, 2.1.6, 2.2.3, and 2.2.4.
+This section documents concrete implementation evidence taken from the
+`Development` branch. Each fragment refers to the current source files that
+implement the behavior.
 
----
+===== Fragment 1: Protected routing and authentication flow
 
-===== Fragment 1 — WorkoutSession Data Shape
+`src/App.tsx` places the main dashboard, workout history page, profile page,
+and settings page behind `ProtectedRoute`. `src/features/auth/AuthContext.tsx`
+loads the initial session from Supabase and subscribes to later auth state
+changes. `src/features/auth/ProtectedRoute.tsx` then checks that shared state.
+When no session exists, it redirects with `<Navigate to="/login" replace />`.
 
-Section 2.1.2 defines a _Workout Session_ as "a specific occurrence of a workout that has just taken place at a particular time and duration," and the _Session Representation_ requirement (2.2.3) specifies that each session must be associated with a calendar date, session type, duration, and exercises performed. Prose describes the concept; a type definition makes the exact shape of that record unambiguous — particularly which fields are required versus optional, and how the association with a User is expressed.
+The public account flow is implemented in
+`src/features/auth/LoginPage.tsx`,
+`src/features/auth/SignupPage.tsx`,
+`src/features/auth/ForgotPasswordPage.tsx`, and
+`src/features/auth/ResetPasswordPage.tsx`. Those screens call the Supabase
+wrappers in `src/features/auth/api.ts`, namely `signInWithPassword`,
+`signUp`, `resetPasswordForEmail`, and `updateUser`. The branch therefore
+contains an implemented login, signup, password reset request, password
+update flow, and route protection for authenticated pages.
 
-[source,typescript]
-----
-type ActivityType = "gym" | "run" | "cardio" | "other";
+===== Fragment 2: Workout logging
 
-interface WorkoutSession {
-  id: string;                    // unique identifier
-  userId: string;                // association to exactly one User (see 2.2.4)
-  date: string;                  // ISO 8601 calendar date, e.g. "2026-02-24"
-  activityType: ActivityType;    // session type — required field
-  durationMinutes: number;       // duration in minutes — required field
-  exercises?: string[];          // exercise types performed — optional list
-  notes?: string;                // short annotation, optional (see Epic 1)
-}
-----
+Workout logging starts in `src/features/feedback/DailyGoalProgress.tsx`, where
+the `+ Log Workout` button opens `src/features/workouts/LogWorkoutModal.tsx`.
+The modal stores workout type, duration, calories burned, notes, and optional
+exercise rows in component state. On submit, it parses the duration as an
+integer and stops with the message `Please enter a valid duration in minutes.`
+when the value is missing, non-numeric, or non-positive.
 
-This fragment clarifies that `exercises` and `notes` are deliberately optional, which directly supports the _Essential Information Recording_ requirement (2.2.3) — "record a Workout Session using only essential information: session type, duration, and optional short notes" — and Epic 1's feature "optional notes per session."
+Persistence is handled in `src/features/workouts/workoutSessionsApi.ts`.
+`createWorkoutSession(...)` first retrieves the authenticated user through
+`supabase.auth.getUser()`. It then inserts `user_id`, `workout_type`,
+`duration_minutes`, `calories_burned`, and `notes` into `workout_sessions`.
+When exercise rows are present, `saveExercisesForSession(...)` upserts the
+exercise names into `exercises` and inserts the session links into
+`workout_exercises`.
 
-The `userId` field gives concrete form to the interface requirement (2.2.4) that "the system shall associate each recorded Workout Session with exactly one User before persisting it."
+`DailyGoalProgress.tsx` continues the flow after the modal succeeds. It
+creates or updates one `goals_feedback` row for the current day and one for
+the current week, then dispatches `progress-updated` so the rest of the
+dashboard refreshes. The current implementation does not expose a manual
+workout date in the logging modal. That limit is visible in the code because
+the inserted session record does not include a user-entered date field.
 
----
+===== Fragment 3: Workout history and correction
 
-===== Fragment 2 — Streak Computation
+`src/features/workouts/WorkoutHistoryPage.tsx` loads the signed-in user's
+sessions through `getUserWorkoutSessions(user.id)` from
+`src/features/workouts/api.ts`. The page groups sessions by the date portion of
+`created_at` and renders labels such as "Today" and "Yesterday" when
+applicable. When a session is expanded, the page fetches exercise rows with
+`getWorkoutExercisesBySessionId(workoutId)` and shows their sets, reps, and
+weight.
 
-The `computeStreak` function signature (2.1.6) states:
+The same page implements correction and removal. `handleEditSave(...)` sends
+the updated `workout_type`, `duration_minutes`, `calories_burned`, and `notes`
+to `updateWorkoutSession(...)`. `handleDeleteSelected(...)` removes the chosen
+rows through `deleteWorkoutSession(...)`. The current branch therefore supports
+viewing, editing, and deleting stored workout records. It does not yet edit
+the session date or the exercise list from the history page.
 
-----
-computeStreak : WorkoutHistory -> StreakLength
-----
+===== Fragment 4: Daily goal and weekly summary feedback
 
-Section 2.1.2 defines a _Streak_ as "a sequence of consecutive attendance days with no intervening missed day," and the _Streak Calculation_ requirement (2.2.3) specifies that "the system must provide means to compute whether a workout session continues or breaks an existing streak based on consecutive calendar units."
+`src/features/feedback/DailyGoalProgress.tsx` reads the current day's
+`goals_feedback` row with `type = "daily"` and `period_date = today`. It then
+shows the current count, target count, a percentage, and a progress bar. When
+no row exists, the component falls back to `0 / 1 workouts today`.
 
-Natural language can state the rule, but the meaning of _consecutive_ hinges on a precise boundary condition: does a one-day gap break the streak or does a two-day gap? Without a code fragment this remains open to interpretation.
+`src/features/feedback/WeeklyProgressSummary.tsx` performs a similar read for
+the weekly row, using the Monday of the current week as `period_date`. It
+shows the completed workout count, the weekly target, the percentage of
+completion, and a streak summary. Both feedback components listen for the
+`progress-updated` event, so a successful workout log refreshes the visible
+feedback without requiring a full page reload.
 
-[source,typescript]
-----
-function computeStreak(sessions: WorkoutSession[]): number {
-  if (sessions.length === 0) return 0;
+===== Fragment 5: Streak behavior
 
-  // Deduplicate to one entry per calendar day, then sort descending
-  const uniqueDays = [
-    ...new Set(sessions.map((s) => s.date)),
-  ].sort((a, b) => (a < b ? 1 : -1));
+The most explicit streak logic appears in `src/features/streaks/streakcalc.ts`.
+That file defines the workout qualification rule in `isValidWorkoutDay(...)`.
+A workout counts when it has at least one recorded exercise or at least five
+minutes of duration. `isConsecutiveDay(...)` compares local calendar dates in
+the user's time zone. `applyMissedDayProgress(...)` activates a grace period
+after a gap and resets the streak once that grace period expires.
 
-  let streak = 1;
-  for (let i = 0; i < uniqueDays.length - 1; i++) {
-    const current = new Date(uniqueDays[i]);
-    const previous = new Date(uniqueDays[i + 1]);
-    const diffDays =
-      (current.getTime() - previous.getTime()) / (1000 * 60 * 60 * 24);
+`computeStreakFromSessions(...)` adds a stricter rule for an active streak. It
+returns zero unless the most recent qualifying workout occurred today or
+yesterday, and it only returns a positive streak when at least two consecutive
+attendance days exist. This matches the intended distinction between a single
+workout day and a multi-day streak.
 
-    if (diffDays === 1) {
-      streak++;          // consecutive day — streak continues
-    } else {
-      break;             // gap detected — streak ends
-    }
-  }
+The dashboard does not yet rely on only this module. `src/App.tsx` computes a
+longest streak from daily `goals_feedback` dates through a local
+`computeLongestStreak(...)` helper. `src/features/feedback/WeeklyProgressSummary.tsx`
+also computes a simpler current streak directly from completed daily goal rows.
+The branch therefore contains both a reusable streak engine and a separate
+dashboard-level streak representation.
 
-  return streak;
-}
-----
+===== Fragment 6: Automated evidence present in the branch
 
-This fragment makes two design decisions explicit that prose cannot state without becoming unwieldy:
-
-1. Multiple sessions on the same day count as a single attendance day (deduplication step), consistent with the _Attendance Day_ domain concept (2.1.2).
-2. A gap of exactly one day is consecutive; any larger gap breaks the streak — directly implementing the _Streak has just been broken_ event (2.1.2, 2.1.5).
-
-It also supports the _Automatic Streak Synchronization_ interface requirement (2.2.4): because `computeStreak` is a pure function over stored session data, it can be re-evaluated every time a session is added, edited, or removed without additional state management.
-
----
-
-===== Fragment 3 — Interface-Level Validation
-
-Section 2.2.4 states three validation constraints using natural language:
-
-* "Workout dates shall not be in the future."
-* "Required fields shall not be empty."
-* "Goal values shall be positive integers."
-
-These rules read clearly in isolation, but when considered together as a validation boundary they benefit from a concrete representation — especially the "not in the future" rule, which depends on the current date at the time of submission rather than a fixed value.
-
-[source,typescript]
-----
-interface ValidationResult {
-  valid: boolean;
-  errors: string[];
-}
-
-function validateWorkoutEntry(
-  date: string,
-  activityType: string | undefined,
-  durationMinutes: number | undefined
-): ValidationResult {
-  const errors: string[] = [];
-  const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
-
-  if (!date || date > today) {
-    errors.push("Workout date must not be in the future.");
-  }
-
-  if (!activityType) {
-    errors.push("Activity type is required.");
-  }
-
-  if (!durationMinutes || durationMinutes <= 0) {
-    errors.push("Duration must be a positive number.");
-  }
-
-  return { valid: errors.length === 0, errors };
-}
-
-function validateGoalEntry(targetDays: number | undefined): ValidationResult {
-  const errors: string[] = [];
-
-  if (!targetDays || !Number.isInteger(targetDays) || targetDays <= 0) {
-    errors.push("Goal must be a positive integer.");
-  }
-
-  return { valid: errors.length === 0, errors };
-}
-----
-
-These two validation functions correspond directly to the two domain concepts being entered at the interface boundary: _WorkoutSession_ and _Goal_ (2.1.2). The fragment shows that the system rejects invalid input before persistence (as required in 2.2.4) and returns structured errors rather than silently discarding bad data, which supports the _Editing and Correction of Workout Data_ interface requirement — a user must be told what is wrong in order to correct it.
-
----
-
-===== Fragment 4 — Weekly Goal Evaluation
-
-The `evaluateWeeklyGoal` function signature (2.1.6) states:
-
-----
-evaluateWeeklyGoal : WorkoutHistory >< Goal >< Week -> GoalResult
-----
-
-The _Goal Evaluation_ requirement (2.2.3) says the system must "evaluate whether recorded Workout Sessions satisfy a defined Goal within its Time Frame." Epic 3 adds that users want a clear "goal met / not met" result and the ability to see how many active days remain.
-
-These two outcomes — a boolean result and a progress delta — are straightforward to name in prose but the relationship between them (counting distinct days in the week and comparing to a target) is cleaner with a short fragment, particularly because the _WeeklySummary_ domain concept (2.1.2) depends on the same computation.
-
-[source,typescript]
-----
-interface WeekBounds {
-  start: string; // ISO 8601, Monday of the week
-  end: string;   // ISO 8601, Sunday of the week
-}
-
-interface GoalResult {
-  achieved: boolean;
-  activeDays: number;
-  targetDays: number;
-  remaining: number; // sessions still needed to meet the goal
-}
-
-function evaluateWeeklyGoal(
-  sessions: WorkoutSession[],
-  targetDays: number,
-  week: WeekBounds
-): GoalResult {
-  const activeDays = new Set(
-    sessions
-      .filter((s) => s.date >= week.start && s.date <= week.end)
-      .map((s) => s.date)
-  ).size;
-
-  return {
-    achieved: activeDays >= targetDays,
-    activeDays,
-    targetDays,
-    remaining: Math.max(0, targetDays - activeDays),
-  };
-}
-----
-
-The `Set` over dates again applies the _Attendance Day_ concept — multiple sessions on the same day do not inflate the count. The `remaining` field directly supports the Epic 3 user story "As Derek, I want to see how far I am from my weekly goal during the week so that I can decide when to fit in a session," and the `achieved` boolean supports the "goal met / not met" result requested by Alejandro's user story in the same epic.
-
----
-
-NOTE: This section will be updated in the upcoming milestone once the actual implementation is underway. At that point, the illustrative fragments above will be replaced or supplemented with excerpts drawn directly from the working codebase, reflecting the final structure, logic, and architectural decisions of the system as built.
-
+The inspected `Development` branch does not contain a file named
+`tests/acceptance/app.acceptance.test.tsx`. The only test file found during
+inspection is `src/features/streaks/streakcalc.test.ts`. That test covers
+valid workout qualification, streak growth across consecutive days, grace
+period activation, reset after grace expiration, and recomputation from an
+unordered session list. The available automated evidence therefore supports the
+streak rules, while the rest of this section is backed directly by the current
+implementation files.
