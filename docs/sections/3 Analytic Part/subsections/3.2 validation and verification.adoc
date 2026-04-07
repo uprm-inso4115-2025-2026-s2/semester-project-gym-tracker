@@ -8,17 +8,17 @@
 
 #The earlier milestone work validated core domain concepts such as Workout Session, Run, Streak, Goal, Consistency, and Progress Feedback by embedding them in concrete scenarios and checking whether those scenarios matched stakeholder understanding. One documented design-time scenario considered a user who completed a 30-minute run in the morning and a 45-minute strength workout in the evening on the same calendar date. The intended interpretation was that the system records two distinct Workout Sessions on the same date and that both contribute to broader weekly tracking.#
 
-#The gap identified in that earlier validation was that some users initially assumed that only one Workout Session per day was allowed. The resulting remedy was to clarify the Session Representation requirement so multiple Workout Sessions may exist on the same calendar date while remaining distinct records. This material should be retained because it explains why the domain model allows same-day multiplicity.#
+#The gap identified in that earlier validation was that some users initially assumed that only one Workout Session per day was allowed. The resulting remedy was to clarify the Session Representation requirement so multiple Workout Sessions may exist on the same calendar date while remaining distinct records. We keep this material because it explains why the domain model allows same-day multiplicity.#
 
 ===== Scenario Testing with Stakeholders
 
 #The earlier section also documented stakeholder walkthroughs around Streak Representation, Streak Calculation, Goal Evaluation, Weekly Aggregation, Weekly Comparison, and Low-Effort Logging. One design-time scenario considered a user who logged workouts on Monday, Tuesday, and Wednesday, skipped Thursday, and logged another workout on Friday. The stakeholder question was whether the streak should continue, reset immediately, or allow a grace period.#
 
-#The gap identified in that design discussion was that several participants expected some flexibility if a workout was forgotten but performed. The documented remedy was to refine the Streak Calculation requirement so streaks are defined as sequences of consecutive calendar units and to note a configurable grace-period feature as a possible future extension. This should remain in the section as design-time validation and requirement rationale, not as evidence that current implementation behavior was tested with users.#
+#The gap identified in that design discussion was that several participants expected some flexibility if a workout was forgotten but performed. The documented remedy was to refine the Streak Calculation requirement so streaks are defined as sequences of consecutive calendar units and to note a configurable grace-period feature as a possible future extension. We keep this material in the section as design-time validation and requirement rationale, not as evidence that the current implementation was tested with users.#
 
 ===== Surveys and Feedback Mechanisms
 
-#The Milestone 1 section also proposed targeted user experience surveys and an in-system feedback tool as validation mechanisms for prototype iterations. Those activities remain relevant validation approaches. However, the current repository does not contain completed survey results, analyzed responses, or observed evidence of an in-system feedback feature being used for validation. They should therefore be retained as planned or partially evidenced validation activities rather than current completed results.#
+#The Milestone 1 section also proposed targeted user experience surveys and an in-system feedback tool as validation mechanisms for prototype iterations. Those activities remain relevant validation approaches. However, the current repository does not contain completed survey results, analyzed responses, or observed evidence of an in-system feedback feature being used for validation. In this section, we keep them as planned or partially evidenced validation activities, not as completed validation results.#
 
 ==== Validation Already Documented Elsewhere in the Book
 
@@ -26,9 +26,9 @@
 
 #Section 2.2.3 documents stakeholder-oriented elicitation walkthroughs for specific ambiguity cases. FE-1 resolves whether streaks depend on workout date or logging date. FE-2 resolves whether weekly goals count active days or raw sessions. FE-3 states that corrections to past workout data should recalculate derived results from the updated workout history.#
 
-#Section 4.3 documents the acquisition structure used to obtain validation input. The book includes AQ1 as a concrete questionnaire instrument and identifies AQ2 micro-interviews, AQ3 competitive review, and AQ4 artifact review as acquisition activities. The questionnaire and its mapping to requirement areas are documented. However, this branch does not include completed questionnaire responses, interview notes, or a consolidated analysis of answers. Those items should therefore be treated as planned or only partially documented validation evidence.#
+#Section 4.3 documents the acquisition structure used to obtain validation input. The book includes AQ1 as a concrete questionnaire instrument and identifies AQ2 micro-interviews, AQ3 competitive review, and AQ4 artifact review as acquisition activities. The questionnaire and its mapping to requirement areas are documented. However, this branch does not include completed questionnaire responses, interview notes, or a consolidated analysis of answers. In this report, we treat those items as planned or only partially documented validation evidence.#
 
-#Section 2.2.4 contains scenario narratives for broken-streak recovery and invalid-input rejection. These scenarios document intended behavior and help validate the requirement set. They are not, by themselves, evidence that the implementation currently performs that behavior.#
+#Section 2.2.4 contains scenario narratives for broken-streak recovery and invalid-input rejection. These scenarios document intended behavior and help validate the requirement set. We use them as requirement rationale, not as direct evidence that the current implementation performs that behavior.#
 
 ==== Verification Evidence Observed on `Development`
 
@@ -61,10 +61,10 @@
 
 ==== Verification Still Planned or Incomplete
 
-#The current repository does not contain evidence of representative-user acceptance testing sessions. The acceptance-labeled test file is a developer-run UI test with a mocked backend. It is useful implementation verification, but it is not the same as observed user acceptance testing.#
+#At this stage, the repository does not contain evidence of representative-user acceptance testing sessions. The acceptance-labeled test file is a developer-run UI test with a mocked backend. It is useful implementation verification, but it is not the same as observed user acceptance testing.#
 
-#The current repository does not contain performance benchmark scripts, response-time thresholds, load tests, or measured runtime baselines. A successful `npm run build` result shows that the code compiles and bundles. It does not demonstrate runtime performance or benchmark compliance.#
+#At this stage, the repository does not contain performance benchmark scripts, response-time thresholds, load tests, or measured runtime baselines. A successful `npm run build` result shows that the code compiles and bundles. It does not demonstrate runtime performance or benchmark compliance.#
 
-#The current repository does not contain an automated workflow that runs `npm test`, `npm run test:acceptance`, or `npm run build` for application changes. The observed GitHub Actions workflows generate documentation PDFs and weekly project reports. They do not provide evidence of automated application verification on each update.#
+#At this stage, the repository does not contain an automated workflow that runs `npm test`, `npm run test:acceptance`, or `npm run build` for application changes. The observed GitHub Actions workflows generate documentation PDFs and weekly project reports. They do not provide evidence of automated application verification on each update.#
 
-#Several verification claims from the previous version of this section are not fully supported by the current tests. No observed test directly verifies persistence against a real database, weekly goal evaluation by active days, weekly comparison across multiple weeks, invalid-input rejection before persistence, or recalculation after editing past workout data. Those checks remain planned or incomplete from a verification perspective.#
+#Several verification claims from the previous version of this section are not fully supported by the current tests. No observed test directly verifies persistence against a real database, weekly goal evaluation by active days, weekly comparison across multiple weeks, invalid-input rejection before persistence, or recalculation after editing past workout data. We therefore leave those checks in the planned or incomplete category for now.#
