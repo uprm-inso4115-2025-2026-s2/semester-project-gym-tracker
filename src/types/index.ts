@@ -8,6 +8,7 @@ export interface WorkoutSession {
   date: string; // ISO 8601, e.g. "2026-02-24"
   activityType: ActivityType;
   durationMinutes: number;
+  exercises?: string[];
   notes?: string;
   completed?: boolean;
 }
