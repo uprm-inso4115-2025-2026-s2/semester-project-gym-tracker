@@ -3,100 +3,38 @@
 
 ===== Scope
 
-This section describes the implementation that is present in the `Development`
-branch at the time of inspection. The evidence comes from the current React
-and Supabase codebase. The implemented work centers on authenticated
-navigation, workout recording, workout history, feedback for daily and weekly
-progress, and streak-related behavior.
+#This section describes the implementation that is present in the `Development` branch at the time of inspection. The evidence comes from the current React and Supabase codebase. The implemented work centers on authenticated navigation, workout recording, workout history, feedback for daily and weekly progress, and streak-related behavior.#
 
 ===== Application Structure
 
-The main composition is defined in `src/App.tsx`. The application is wrapped in
-`AuthProvider`, then in `BrowserRouter`, and the protected routes are defined
-there. The routes for `/`, `/history`, `/profile`, and `/settings` are wrapped
-in `ProtectedRoute`. The routes for `/login`, `/signup`, `/forgot-password`,
-and `/reset-password` remain public.
+#The main composition is defined in `src/App.tsx`. The application is wrapped in `AuthProvider`, then in `BrowserRouter`, and the protected routes are defined there. The routes for `/`, `/history`, `/profile`, and `/settings` are wrapped in `ProtectedRoute`. The routes for `/login`, `/signup`, `/forgot-password`, and `/reset-password` remain public.#
 
-Session state is managed in `src/features/auth/AuthContext.tsx`. That file
-loads the initial Supabase session with `supabase.auth.getSession()` and keeps
-the current `user`, `session`, and `loading` values in context. Route
-protection is enforced in `src/features/auth/ProtectedRoute.tsx`, which keeps
-the page in a loading state until session lookup finishes and redirects
-unauthenticated users to `/login`.
+#Session state is managed in `src/features/auth/AuthContext.tsx`. That file loads the initial Supabase session with `supabase.auth.getSession()` and keeps the current `user`, `session`, and `loading` values in context. Route protection is enforced in `src/features/auth/ProtectedRoute.tsx`, which keeps the page in a loading state until session lookup finishes and redirects unauthenticated users to `/login`.#
 
-The home screen in `src/App.tsx` assembles the current dashboard. It renders
-cards for streak display, weekly progress, daily goal progress, and weekly
-summary feedback. This page is the integration point where the authentication,
-workout, feedback, and streak features are presented together.
+#The home screen in `src/App.tsx` assembles the current dashboard. It renders cards for streak display, weekly progress, daily goal progress, and weekly summary feedback. This page is the integration point where the authentication, workout, feedback, and streak features are presented together.#
 
 ===== Workout Recording and Persistence
 
-Workout recording begins in `src/features/feedback/DailyGoalProgress.tsx`,
-which opens `src/features/workouts/LogWorkoutModal.tsx`. The modal collects the
-workout type, duration, calories burned, notes, and an optional list of
-exercise rows. The submit handler rejects invalid or non-positive duration
-values before any database write occurs.
+#Workout recording begins in `src/features/feedback/DailyGoalProgress.tsx`, which opens `src/features/workouts/LogWorkoutModal.tsx`. The modal collects the workout type, duration, calories burned, notes, and an optional list of exercise rows. The submit handler rejects invalid or non-positive duration values before any database write occurs.#
 
-The actual write operations are implemented in
-`src/features/workouts/workoutSessionsApi.ts`. `createWorkoutSession(...)`
-retrieves the authenticated user through `supabase.auth.getUser()` and inserts
-the main record into the `workout_sessions` table. If the user entered
-exercise details, `saveExercisesForSession(...)` first upserts exercise names
-into `exercises` and then inserts the corresponding rows into
-`workout_exercises`.
+#The actual write operations are implemented in `src/features/workouts/workoutSessionsApi.ts`. `createWorkoutSession(...)` retrieves the authenticated user through `supabase.auth.getUser()` and inserts the main record into the `workout_sessions` table. If the user entered exercise details, `saveExercisesForSession(...)` first upserts exercise names into `exercises` and then inserts the corresponding rows into `workout_exercises`.#
 
-After a successful workout log, `DailyGoalProgress.tsx` updates the
-`goals_feedback` table for both the current day and the current week. The same
-component then dispatches the browser event `progress-updated`, which triggers
-refreshes in the other dashboard components. In the inspected implementation,
-the workout logging modal does not expose a manual session-date field. The
-stored workout history is therefore tied to the persisted timestamp used later
-by the history screen.
+#After a successful workout log, `DailyGoalProgress.tsx` updates the `goals_feedback` table for both the current day and the current week. The same component then dispatches the browser event `progress-updated`, which triggers refreshes in the other dashboard components. In the inspected implementation, the workout logging modal does not expose a manual session-date field. The stored workout history is therefore tied to the persisted timestamp used later by the history screen.#
 
 ===== Workout History and Progress Feedback
 
-The workout history screen is implemented in
-`src/features/workouts/WorkoutHistoryPage.tsx`. It loads the signed-in user's
-records from `workout_sessions`, groups them by the date portion of
-`created_at`, and labels recent groups as "Today" or "Yesterday" when
-applicable. When a user expands a session, the page fetches the associated
-exercise rows from `workout_exercises` through `src/features/workouts/api.ts`.
+#The workout history screen is implemented in `src/features/workouts/WorkoutHistoryPage.tsx`. It loads the signed-in user's records from `workout_sessions`, groups them by the date portion of `created_at`, and labels recent groups as "Today" or "Yesterday" when applicable. When a user expands a session, the page fetches the associated exercise rows from `workout_exercises` through `src/features/workouts/api.ts`.#
 
-The same page provides correction and cleanup actions. The edit flow updates
-the stored workout type, duration, calories burned, and notes. The selection
-mode allows bulk deletion of existing sessions. This is implemented behavior,
-not planned behavior, and it provides direct support for viewing previously
-recorded workouts and correcting stored data.
+#The same page provides correction and cleanup actions. The edit flow updates the stored workout type, duration, calories burned, and notes. The selection mode allows bulk deletion of existing sessions. This is implemented behavior, not planned behavior, and it provides direct support for viewing previously recorded workouts and correcting stored data.#
 
-Feedback features are implemented in `src/features/feedback/DailyGoalProgress.tsx`
-and `src/features/feedback/WeeklyProgressSummary.tsx`. The daily component
-reads a `goals_feedback` row for the current calendar day and displays the
-current value, target value, and completion percentage. The weekly summary
-reads the weekly `goals_feedback` row for the current week and displays the
-number of workouts completed, the target, and a percentage of completion.
+#Feedback features are implemented in `src/features/feedback/DailyGoalProgress.tsx` and `src/features/feedback/WeeklyProgressSummary.tsx`. The daily component reads a `goals_feedback` row for the current calendar day and displays the current value, target value, and completion percentage. The weekly summary reads the weekly `goals_feedback` row for the current week and displays the number of workouts completed, the target, and a percentage of completion.#
 
 ===== Streak Handling
 
-Two kinds of streak handling appear in the inspected branch. The first is the
-dashboard display logic in `src/App.tsx` and
-`src/features/feedback/WeeklyProgressSummary.tsx`, both of which derive streak
-values from `goals_feedback` rows that represent completed daily activity. The
-second is the reusable streak module in `src/features/streaks/streakcalc.ts`.
+#Two kinds of streak handling appear in the inspected branch. The first is the dashboard display logic in `src/App.tsx` and `src/features/feedback/WeeklyProgressSummary.tsx`, both of which derive streak values from `goals_feedback` rows that represent completed daily activity. The second is the reusable streak module in `src/features/streaks/streakcalc.ts`.#
 
-`streakcalc.ts` contains explicit logic for qualifying workouts, consecutive
-day checks, grace period handling, streak resets, and updates to the
-`user_streaks` table. The file shows that the project already contains a more
-formal streak engine than the one used directly by the dashboard. The current
-milestone therefore includes implemented streak behavior, but not all screens
-are yet driven by the same streak computation path.
+#`streakcalc.ts` contains explicit logic for qualifying workouts, consecutive day checks, grace period handling, streak resets, and updates to the `user_streaks` table. The file shows that the project already contains a more formal streak engine than the one used directly by the dashboard. The current milestone therefore includes implemented streak behavior, but not all screens are yet driven by the same streak computation path.#
 
 ===== Current Boundaries of the Implementation
 
-The inspected codebase supports the core Milestone 2 flows, but it does not
-yet realize every requirement in full detail. In the current branch, workout
-history depends on `created_at`, the history editor does not modify session
-dates or exercise rows, and the dashboard uses a simpler streak derivation than
-the dedicated streak module. No acceptance test file named
-`tests/acceptance/app.acceptance.test.tsx` is present in the `Development`
-branch that was inspected. The only test file found during inspection is
-`src/features/streaks/streakcalc.test.ts`, which exercises the streak logic.
+#The inspected codebase supports the core Milestone 2 flows, but it does not yet realize every requirement in full detail. In the current branch, workout history depends on `created_at`, the history editor does not modify session dates or exercise rows, and the dashboard uses a simpler streak derivation than the dedicated streak module. No acceptance test file named `tests/acceptance/app.acceptance.test.tsx` is present in the `Development` branch that was inspected. The only test file found during inspection is `src/features/streaks/streakcalc.test.ts`, which exercises the streak logic.#

@@ -23,7 +23,7 @@
 
 [.text-center]
 [.lead]*GYM Tracker* +
-*Second Milestone* +
+#*Second Milestone*# +
 
 [.spacer%hardbreaks]
 {nbsp}
