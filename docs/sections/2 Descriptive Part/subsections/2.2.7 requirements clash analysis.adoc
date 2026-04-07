@@ -1,0 +1,57 @@
+==== #*2.2.7 Requirements Clash Analysis*#
+
+#According to the Domain Analysis and Concept Formation lecture (Schütz-Schmuck, 2024), an inconsistency arises when two domain description units assert P and not-P for the same subject. The train interval example from lecture illustrates this: one rule assigns 12-minute intervals from 5 am to 2 pm, and another assigns 15-minute intervals from 11 am to 7 pm. Between 11 am and 2 pm, both rules apply and assign different values to the same phenomenon.#
+
+#This section applies that principle to the project's requirements. Four clash types are used to classify how contradictions arise, following Nuseibeh, Kramer, and Finkelstein (1994).# footnote:[Nuseibeh, B., Kramer, J., and Finkelstein, A. (1994). A framework for expressing the relationships between multiple views in requirements specification. _IEEE Transactions on Software Engineering_, 20(10), 760-773.]
+
+===== #Uniqueness Clash#
+
+#A uniqueness clash occurs when two requirements assign different values to the same attribute of the same phenomenon.#
+
+#*Example: Streak Granularity*#
+
+#"Streak Representation" states that the system must represent consecutive Workout Sessions "across days or weeks." "Streak Calculation" states that the system computes whether a session continues or breaks "an existing Streak based on consecutive calendar units."#
+
+* #P: The streak unit is specifically a calendar day.#
+* #not-P: The streak unit can be a day or a week.#
+
+#Both requirements describe the same attribute of the same phenomenon: the unit of consecutive measurement for a Streak. They disagree on its value. "Calendar unit" in Streak Calculation is left undefined, while Streak Representation allows two distinct values (day or week). The same session could either extend or break a streak depending on which interpretation is applied.#
+
+===== #Intersection Clash#
+
+#An intersection clash occurs when two requirements overlap in scope and assign different properties to the shared area. This is the same structure as the train interval example: two rules that cover overlapping subjects but prescribe different values in the overlapping region.#
+
+#*Example: Minimum Session Record*#
+
+#"Session Representation" lists exercises performed as a required attribute of a Workout Session. "Essential Information Recording" states that a Workout Session requires only session type, duration, and optional short notes, with no exercises listed.#
+
+* #P (within the scope of a session record): exercise data is required.#
+* #not-P (within the same scope): exercise data is not required.#
+
+#Both requirements address what a Workout Session record must contain. They agree on session type and duration but assign opposite values to the exercise attribute in the shared scope.#
+
+===== #Barrier Clash#
+
+#A barrier clash occurs when one requirement creates a precondition that another requirement cannot satisfy.#
+
+#*Example: Completed Goal Immutability vs. Retroactive Session Editing*#
+
+#"Goal Initialization and Update" (Interface) states that the system shall prevent modification of completed historical goal records once they are marked complete. "Editing and Correction of Workout Data" (Interface) allows users to modify past sessions. "Automatic Streak Synchronization" (Interface) states that all derived values are updated whenever a session is modified.#
+
+* #P: A completed goal record cannot be changed.#
+* #not-P: Editing a past session that contributed to a completed goal should update derived goal state.#
+
+#The barrier is that goal immutability prevents the system from reflecting the updated session state in a completed goal, even though session editing is explicitly permitted.#
+
+===== #Reversion Clash#
+
+#A reversion clash occurs when two requirements prescribe incompatible orderings for computing or updating the same state.#
+
+#*Example: Streak Computation Model*#
+
+#"Automatic Streak Synchronization" (Interface) states the streak is updated whenever a session is added, modified, or removed, implying an event-driven incremental computation. "Streak Calculation" states that the streak is computed by determining whether a session "continues or breaks an existing Streak," implying the result depends on the session relative to the prior streak value.#
+
+* #P: The streak is always recomputed from scratch from stored sessions (stateless).#
+* #not-P: The streak is computed incrementally per session event (stateful).#
+
+#If sessions are added in non-chronological order, such as when a user backdates a missed session, the two models produce different streak values depending on the order in which events are processed.#
