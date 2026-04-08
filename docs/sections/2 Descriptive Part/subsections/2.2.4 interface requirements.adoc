@@ -33,7 +33,7 @@ The system shall provide means for a user to #create, view# and update fitness G
 
 ====== Automatic Streak Synchronization
 
-#The system shall display the user’s current streak or consistency indicator. The system shall update the displayed streak or consistency indicator in response to changes in workout data.#
+#The system shall display the user’s current streak or consistency indicator.The system shall update the displayed streak or consistency indicator in response to changes in workout data.#
 
 #Validation Strategy#
 #For key interaction flows involving workout entry or editing, the interface shall apply batch validation on submit before persistence. Required fields shall be checked when the user attempts to save, and the system shall reject the submission if required information is missing or invalid. Validation feedback shall identify the affected fields clearly enough that the user can correct the entry immediately.#
@@ -55,12 +55,31 @@ The system shall provide means for a user to #create, view# and update fitness G
 
 #Scenario 1: Late Logging and Editing a Past Entry#
 
+#Alejandro finished a gym workout on Monday evening after classes. He got home tired, ate dinner, and forgot to record the session immediately.Later that night, he remembered that he wanted to keep his weekly history accurate, so he opened the web application, logged into his account, and navigated to the workout recording page. He selected Monday as the workout date, chose "gym" as the workout type, entered the session duration, and saved the entry. Upon submission, the system created a persistent internal representation of that Workout Session under Alejandro's account and recalculated progress and streak values derived from the updated workout history.#
+
+#The next morning, Alejandro realized that he had entered the wrong
+duration because he forgot to include his cooldown. He reopened the application, navigated to his most recent recorded session, selected the edit option, corrected the duration, and saved the change. The system updated the stored Workout Session, preserved its association with the same user, and recalculated the dependent indicators so that the internal representation remained consistent with Alejandro's real-world activity.#
+
+#Scenario 2: Missed Day and Recovery After a Broken Streak#
+
+#Ana had recorded workouts on Monday, Tuesday, and Wednesday and had been paying close attention to her weekly consistency. On Thursday, she stayed late finishing coursework and did not work out. When she opened the
+application on Friday afternoon to review her progress, she saw that her previous streak had ended because a full expected day had passed without a recorded workout. However, the rest of her weekly activity history was still visible, so the missed day did not erase the effort she had already made earlier in the week.#
+
+#That evening, Ana decided to restart instead of giving up on the week. She went to the gym, returned home, opened the application, and recorded a new Workout Session with the correct date and workout type. The system stored the entry, updated her weekly progress indicators, and reflected that even though the old streak had been broken, the week still contained meaningful activity. This scenario validates recovery after a non-happy-path event rather than only ideal uninterrupted use.#
+
+#Scenario 3: Invalid Input Rejected Before Persistence#
+
+#Derek went for a run on Sunday morning and wanted to log it quickly before starting the rest of his day. While filling out the form, he accidentally selected a workout date in the future and left one of the required fields empty. He submitted the entry anyway. The system rejected the submission before persistence and displayed validation feedback indicating that workout dates cannot be in the future and required fields cannot be empty.No Workout Session was stored.#
+
+#Derek corrected the date, completed the required information, and
+submitted the form again. This time, the system accepted the data,
+persisted the Workout Session under Derek's account, and updated his history accordingly. This scenario validates that invalid interface input is blocked before storage and that the user can recover immediately by correcting the entry.#
 #Preconditions / Assumptions#
 #* Alejandro is authenticated and has an active session.#
 #* Alejandro is using his own account and can access the workout recording interface.#
 #* The system can attempt to contact backend persistence services.#
 
-#Alejandro finished a gym workout on Monday evening after classes. He got home tired, ate dinner, and forgot to record the session immediately. Later that night, he remembered that he wanted to keep his weekly history accurate, so he opened the web application, logged into his account, and navigated to the workout recording page. He selected Monday as the workout date, chose "gym" as the workout type, entered the session duration, and saved the entry.#
+#Alejandro finished a gym workout on Monday evening after classes. He got home tired, ate dinner, and forgot to record the session immediately.Later that night, he remembered that he wanted to keep his weekly history accurate, so he opened the web application, logged into his account, and navigated to the workout recording page. He selected Monday as the workout date, chose "gym" as the workout type, entered the session duration, and saved the entry.#
 
 #Validation behavior:#
 #When Alejandro selects Save, the system performs batch validation on submit before persistence. Required fields must be present, the workout date must not be in the future, and the entry must satisfy the applicable data validation rules. If validation fails, the system rejects the submission and shows correction-oriented feedback without persisting the Workout Session.#
@@ -104,7 +123,7 @@ The system shall provide means for a user to #create, view# and update fitness G
 #* Derek is authenticated and has an active session.#
 #* Derek can access the workout entry form for his own account.#
 
-#Derek went for a run on Sunday morning and wanted to log it quickly before starting the rest of his day. While filling out the form, he accidentally selected a workout date in the future and left one of the required fields empty. He submitted the entry anyway. The system rejected the submission before persistence and displayed validation feedback indicating that workout dates cannot be in the future and required fields cannot be empty. No Workout Session was stored.#
+#Derek went for a run on Sunday morning and wanted to log it quickly before starting the rest of his day. While filling out the form, he accidentally selected a workout date in the future and left one of the required fields empty. He submitted the entry anyway. The system rejected the submission before persistence and displayed validation feedback indicating that workout dates cannot be in the future and required fields cannot be empty.No Workout Session was stored.#
 
 #Validation behavior:#
 #The system performs batch validation on submit before persistence and rejects the submission because the workout date is in the future and a required field is missing. The system displays clear validation feedback indicating which inputs must be corrected. No Workout Session is stored, and no derived indicators are recalculated from invalid data.#

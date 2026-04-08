@@ -83,6 +83,5 @@
 
 | 2.2.3, 2.2.4, 2.2.5 | Wilson A. Morales | Modified | Added satisfiability and feasibility discussions for Persistent Storage and Retrieval, Editing and Correction of Workout Data, and Data Durability on Failure, with separate justification for each.
 | 2.2.4 Interface Requirements | Wilson A. Morales | Modified | Added explicit preconditions, documented on-submit validation strategy, and defined resilience behavior for backend persistence failures across the key interaction flows.
-| 2.2.3, 2.2.4 | Diego Perez | Modified | Reconciled the merged satisfiability and interaction-flow edits so the section keeps the earlier scenario narrative, removes duplicated blocks, and restores readable wording.
 
 |===

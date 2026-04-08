@@ -38,7 +38,7 @@ The system must provide means to record a Workout Session through a Quick Entry 
 
 #Method used: Resolution tactic - default plus optional extension.#
 
-#Candidate resolution: The base logging flow requires only the information needed to register a Workout Session. Exercises and notes remain optional. This keeps logging light while still allowing more detail when a person wants to add it.#
+#Candidate resolution: The base logging flow requires only the information needed to register a Workout Session. Exercises and notes remain optional.This keeps logging light while still allowing more detail when a person wants to add it.#
 
 *Persistent Storage and Retrieval*
 #The system must provide means to store Workout Sessions persistently and retrieve them in chronological order as Workout History.#
@@ -51,7 +51,7 @@ The system must provide means to record a Workout Session through a Quick Entry 
 #Inconsistency case FE-3#
 #Inconsistency: The documentation allowed old Workout Sessions to be edited, but it did not make clear whether a correction to past data should change derived results such as summaries and streak-related values.#
 
-#Method used: Further elicitation through a correction scenario walkthrough: a person forgets to log Friday's workout and adds it later, or fixes the date of an older session. Should the summary and streak remain as they were, or change?#
+#Method used: Further elicitation through a correction scenario walkthrough:a person forgets to log Friday's workout and adds it later, or fixes the date of an older session. Should the summary and streak remain as they were, or change?#
 
 #Candidate resolution: Stored Workout Sessions remain the source of truth. When a past Workout Session is added or corrected, derived results such as Weekly Summaries and Streak-related values are recalculated from the updated Workout History.#
 
@@ -74,7 +74,7 @@ The system must provide means to record a Workout Session through a Quick Entry 
 #Inconsistency case FE-1#
 #Inconsistency: It was unclear whether a Streak should depend on the day a Workout Session was performed or the day it was logged into the system.#
 
-#Method used: Further elicitation through stakeholder questioning based on the scenario: a person works out on Monday night but records it on Tuesday morning. Which day should count toward the streak?#
+#Method used: Further elicitation through stakeholder questioning based on the scenario: a person works out on Monday night but records it on Tuesday morning.Which day should count toward the streak?#
 
 #Candidate resolution: Streak calculation is based on the Calendar Day on which the Workout Session was performed, not the time of data entry. Logging records the session, but the Streak reflects the real attendance pattern.#
 
