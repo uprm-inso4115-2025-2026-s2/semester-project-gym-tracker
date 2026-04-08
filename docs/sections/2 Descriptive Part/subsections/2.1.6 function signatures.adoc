@@ -9,14 +9,14 @@ Where multiple outputs indicate updated state and produced results.
 ===== Core Recording Functions
 
 recordWorkout :
-    WorkoutHistory >< Activity >< Duration >< Day >< Notes
+    WorkoutHistory >< Activity >< Minutes >< CalendarDay >< Notes
     -> WorkoutHistory >< WorkoutSession
 
 Adds a completed workout session to the history and returns the updated
 history together with the created session.
 
 updateWorkoutSession :
-    WorkoutHistory >< WorkoutSession >< Activity >< Duration >< Notes
+    WorkoutHistory >< WorkoutSession >< Activity >< Minutes >< CalendarDay >< Notes
     -> WorkoutHistory >< WorkoutSession
 
 Modifies an existing recorded workout session.
@@ -36,13 +36,13 @@ Removes a recorded workout session from the history.
 ===== Goal Management Functions
 
 setWeeklyGoal :
-    WorkoutHistory >< GoalDefinition
+    WorkoutHistory >< GoalTargetCount
     -> WorkoutHistory >< Goal
 
 Creates a new weekly goal and stores it in the history.
 
 updateGoal :
-    WorkoutHistory >< Goal >< GoalDefinition
+    WorkoutHistory >< Goal >< GoalTargetCount
     -> WorkoutHistory >< Goal
 
 Modifies an existing goal.
@@ -93,3 +93,7 @@ are derived from the WorkoutSessions contained in that WorkoutHistory,
 rather than being supplied as a separate primary collection. The
 retrieveWorkoutHistory function makes explicit how the relevant
 WorkoutSessions are obtained for a given GymGoer.#
+
+#GoalTargetCount is the positive integer count carried by Goal
+management functions, while GoalResult is the value returned by goal
+evaluation functions.#
