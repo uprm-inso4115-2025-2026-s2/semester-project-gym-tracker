@@ -1,0 +1,104 @@
+/* ── Page shell ── */
+.settings-page {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #dce6f8 0%, var(--surface) 60%);
+  font-family: var(--font-family-body);
+  display: flex;
+  justify-content: center;
+  padding: var(--space-4) var(--space-3) calc(var(--space-8) + 60px + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+}
+
+.settings-inner {
+  width: 100%;
+  max-width: 450px;
+}
+
+/* ── Back link ── */
+.settings-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-md);
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  padding: 0;
+  margin-bottom: var(--space-2);
+}
+
+.settings-back-btn:hover {
+  opacity: 0.75;
+}
+
+/* ── Page title card ── */
+.settings-title-card {
+  background: var(--power-gradient);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2) var(--space-3);
+  text-align: center;
+  margin-bottom: var(--space-3);
+}
+
+.settings-title {
+  margin: 0;
+  font-family: var(--font-family-display);
+  font-size: var(--font-headline-md);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+/* ── Section card ── */
+.settings-card {
+  background: var(--surface-container-lowest);
+  border-radius: var(--radius-xl);
+  box-shadow:
+    0 2px 8px rgba(25, 28, 30, 0.08),
+    0 8px 28px rgba(25, 28, 30, 0.06);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.settings-section-title {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-family-display);
+  font-size: var(--font-title-md);
+  font-weight: 700;
+  color: var(--on-surface);
+}
+
+.settings-value {
+  margin: 0;
+  font-size: var(--font-body-md);
+  color: rgba(25, 28, 30, 0.65);
+}
+
+/* ── Radio group ── */
+.settings-radio-group {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+}
+
+.settings-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--font-body-md);
+  color: var(--on-surface);
+  cursor: pointer;
+}
+
+.settings-radio-label input[type="radio"] {
+  accent-color: var(--primary);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}

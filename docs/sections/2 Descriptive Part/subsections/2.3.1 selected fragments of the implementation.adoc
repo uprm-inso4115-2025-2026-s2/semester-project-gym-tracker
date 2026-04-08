@@ -1,187 +1,312 @@
 ==== 2.3.1 Selected Fragments of the Implementation
 
-NOTE: This milestone covers design, organization, and research. The fragments below are illustrative design-phase representations. They are expressed as TypeScript to match the chosen stack (React + Supabase) and are included only where a purely natural-language explanation becomes imprecise or ambiguous. They complement — and do not repeat — descriptions already present in sections 2.1.2, 2.1.6, 2.2.3, and 2.2.4.
+#This section documents concrete implementation evidence taken from the `Development` branch. Every shown code block below is pulled from committed files through `include::` directives rather than rewritten inline.#
 
----
+===== #Fragment 1: Protected routing and authentication flow#
 
-===== Fragment 1 — WorkoutSession Data Shape
+#`src/App.tsx` places the main dashboard, workout history page, profile page, and settings page behind `ProtectedRoute`, while keeping the login, signup, forgot-password, and reset-password pages public:#
 
-Section 2.1.2 defines a _Workout Session_ as "a specific occurrence of a workout that has just taken place at a particular time and duration," and the _Session Representation_ requirement (2.2.3) specifies that each session must be associated with a calendar date, session type, duration, and exercises performed. Prose describes the concept; a type definition makes the exact shape of that record unambiguous — particularly which fields are required versus optional, and how the association with a User is expressed.
+[source,tsx]
+----
+include::../../../../src/App.tsx[lines=195..240]
+----
+
+#`src/features/auth/AuthContext.tsx` loads the initial Supabase session and subscribes to later authentication changes:#
+
+[source,tsx]
+----
+include::../../../../src/features/auth/AuthContext.tsx[lines=22..52]
+----
+
+#`src/features/auth/ProtectedRoute.tsx` consumes that shared state and redirects unauthenticated users to `/login`:#
+
+[source,tsx]
+----
+include::../../../../src/features/auth/ProtectedRoute.tsx[lines=5..16]
+----
+
+#The wrapper functions actually exported on this branch are `signInWithEmail`, `signUpWithEmail`, `requestPasswordReset`, and `updatePassword`:#
 
 [source,typescript]
 ----
-type ActivityType = "gym" | "run" | "cardio" | "other";
-
-interface WorkoutSession {
-  id: string;                    // unique identifier
-  userId: string;                // association to exactly one User (see 2.2.4)
-  date: string;                  // ISO 8601 calendar date, e.g. "2026-02-24"
-  activityType: ActivityType;    // session type — required field
-  durationMinutes: number;       // duration in minutes — required field
-  exercises?: string[];          // exercise types performed — optional list
-  notes?: string;                // short annotation, optional (see Epic 1)
-}
+include::../../../../src/features/auth/api.ts[lines=3..49]
 ----
 
-This fragment clarifies that `exercises` and `notes` are deliberately optional, which directly supports the _Essential Information Recording_ requirement (2.2.3) — "record a Workout Session using only essential information: session type, duration, and optional short notes" — and Epic 1's feature "optional notes per session."
+#The page-level submit handlers in the public account flow call those wrappers directly:#
 
-The `userId` field gives concrete form to the interface requirement (2.2.4) that "the system shall associate each recorded Workout Session with exactly one User before persisting it."
-
----
-
-===== Fragment 2 — Streak Computation
-
-The `computeStreak` function signature (2.1.6) states:
-
+[source,tsx]
 ----
-computeStreak : WorkoutHistory -> StreakLength
+include::../../../../src/features/auth/LoginPage.tsx[lines=27..41]
 ----
 
-Section 2.1.2 defines a _Streak_ as "a sequence of consecutive attendance days with no intervening missed day," and the _Streak Calculation_ requirement (2.2.3) specifies that "the system must provide means to compute whether a workout session continues or breaks an existing streak based on consecutive calendar units."
+[source,tsx]
+----
+include::../../../../src/features/auth/SignupPage.tsx[lines=30..53]
+----
 
-Natural language can state the rule, but the meaning of _consecutive_ hinges on a precise boundary condition: does a one-day gap break the streak or does a two-day gap? Without a code fragment this remains open to interpretation.
+[source,tsx]
+----
+include::../../../../src/features/auth/ForgotPasswordPage.tsx[lines=13..27]
+----
+
+[source,tsx]
+----
+include::../../../../src/features/auth/ResetPasswordPage.tsx[lines=19..40]
+----
+
+#This branch also includes focused auth acceptance checks for the guarded route and the four account-flow submit paths shown above:#
+
+[source,tsx]
+----
+include::../../../../tests/acceptance/auth-flow.acceptance.test.tsx[lines=44..175]
+----
+
+===== #Fragment 2: Workout History retrieval and source data#
+
+#`src/features/workouts/api.ts` provides `getUserWorkoutSessions(userId)` and returns the signed-in GymGoer's stored Workout Sessions in reverse chronological order:#
 
 [source,typescript]
 ----
-function computeStreak(sessions: WorkoutSession[]): number {
-  if (sessions.length === 0) return 0;
-
-  // Deduplicate to one entry per calendar day, then sort descending
-  const uniqueDays = [
-    ...new Set(sessions.map((s) => s.date)),
-  ].sort((a, b) => (a < b ? 1 : -1));
-
-  let streak = 1;
-  for (let i = 0; i < uniqueDays.length - 1; i++) {
-    const current = new Date(uniqueDays[i]);
-    const previous = new Date(uniqueDays[i + 1]);
-    const diffDays =
-      (current.getTime() - previous.getTime()) / (1000 * 60 * 60 * 24);
-
-    if (diffDays === 1) {
-      streak++;          // consecutive day — streak continues
-    } else {
-      break;             // gap detected — streak ends
-    }
-  }
-
-  return streak;
-}
+include::../../../../src/features/workouts/api.ts[lines=62..79]
 ----
 
-This fragment makes two design decisions explicit that prose cannot state without becoming unwieldy:
+#`src/App.tsx` uses that retrieval path as the source for the home-page streak and weekly-progress derivations:#
 
-1. Multiple sessions on the same day count as a single attendance day (deduplication step), consistent with the _Attendance Day_ domain concept (2.1.2).
-2. A gap of exactly one day is consecutive; any larger gap breaks the streak — directly implementing the _Streak has just been broken_ event (2.1.2, 2.1.5).
+[source,tsx]
+----
+include::../../../../src/App.tsx[lines=110..158]
+----
 
-It also supports the _Automatic Streak Synchronization_ interface requirement (2.2.4): because `computeStreak` is a pure function over stored session data, it can be re-evaluated every time a session is added, edited, or removed without additional state management.
+#`src/features/feedback/DailyGoalProgress.tsx` consumes the same history for the daily view:#
 
----
+[source,tsx]
+----
+include::../../../../src/features/feedback/DailyGoalProgress.tsx[lines=28..56]
+----
 
-===== Fragment 3 — Interface-Level Validation
+#`src/features/feedback/WeeklyProgressSummary.tsx` consumes the same history for the weekly summary and active streak:#
 
-Section 2.2.4 states three validation constraints using natural language:
+[source,tsx]
+----
+include::../../../../src/features/feedback/WeeklyProgressSummary.tsx[lines=29..77]
+----
 
-* "Workout dates shall not be in the future."
-* "Required fields shall not be empty."
-* "Goal values shall be positive integers."
+#`src/features/workouts/WorkoutHistoryPage.tsx` loads the same retrieval result for the routed history page:#
 
-These rules read clearly in isolation, but when considered together as a validation boundary they benefit from a concrete representation — especially the "not in the future" rule, which depends on the current date at the time of submission rather than a fixed value.
+[source,tsx]
+----
+include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=131..150]
+----
+
+#This retrieval path is the implemented counterpart to `retrieveWorkoutHistory : GymGoer -> WorkoutHistory` in Section 2.1.6. It also explains why the current dashboard and history views derive Attendance Days, Goal Evaluation, and Streak from stored sessions instead of from a separate derived-history table.#
+
+===== #Fragment 3: Workout logging and rollback behavior#
+
+#Workout logging starts in `src/features/feedback/DailyGoalProgress.tsx`, where the `+ Log Workout` button opens `src/features/workouts/LogWorkoutModal.tsx`:#
+
+[source,tsx]
+----
+include::../../../../src/features/feedback/DailyGoalProgress.tsx[lines=143..179]
+----
+
+#The callback that runs after the modal reports a logged workout refreshes the daily evidence and dispatches `progress-updated`:#
+
+[source,tsx]
+----
+include::../../../../src/features/feedback/DailyGoalProgress.tsx[lines=75..103]
+----
+
+#`src/features/workouts/LogWorkoutModal.tsx` owns the draft state, validates duration and calories, writes the workout session, and attempts rollback if exercise persistence fails:#
+
+[source,tsx]
+----
+include::../../../../src/features/workouts/LogWorkoutModal.tsx[lines=25..133]
+----
+
+#`src/features/workouts/workoutSessionsApi.ts` performs the actual session insert and the exercise upsert and insert operations:#
 
 [source,typescript]
 ----
-interface ValidationResult {
-  valid: boolean;
-  errors: string[];
-}
-
-function validateWorkoutEntry(
-  date: string,
-  activityType: string | undefined,
-  durationMinutes: number | undefined
-): ValidationResult {
-  const errors: string[] = [];
-  const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
-
-  if (!date || date > today) {
-    errors.push("Workout date must not be in the future.");
-  }
-
-  if (!activityType) {
-    errors.push("Activity type is required.");
-  }
-
-  if (!durationMinutes || durationMinutes <= 0) {
-    errors.push("Duration must be a positive number.");
-  }
-
-  return { valid: errors.length === 0, errors };
-}
-
-function validateGoalEntry(targetDays: number | undefined): ValidationResult {
-  const errors: string[] = [];
-
-  if (!targetDays || !Number.isInteger(targetDays) || targetDays <= 0) {
-    errors.push("Goal must be a positive integer.");
-  }
-
-  return { valid: errors.length === 0, errors };
-}
+include::../../../../src/features/workouts/workoutSessionsApi.ts[lines=30..95]
 ----
 
-These two validation functions correspond directly to the two domain concepts being entered at the interface boundary: _WorkoutSession_ and _Goal_ (2.1.2). The fragment shows that the system rejects invalid input before persistence (as required in 2.2.4) and returns structured errors rather than silently discarding bad data, which supports the _Editing and Correction of Workout Data_ interface requirement — a user must be told what is wrong in order to correct it.
-
----
-
-===== Fragment 4 — Weekly Goal Evaluation
-
-The `evaluateWeeklyGoal` function signature (2.1.6) states:
-
-----
-evaluateWeeklyGoal : WorkoutHistory >< Goal >< Week -> GoalResult
-----
-
-The _Goal Evaluation_ requirement (2.2.3) says the system must "evaluate whether recorded Workout Sessions satisfy a defined Goal within its Time Frame." Epic 3 adds that users want a clear "goal met / not met" result and the ability to see how many active days remain.
-
-These two outcomes — a boolean result and a progress delta — are straightforward to name in prose but the relationship between them (counting distinct days in the week and comparing to a target) is cleaner with a short fragment, particularly because the _WeeklySummary_ domain concept (2.1.2) depends on the same computation.
+#The rollback operation itself is the real `deleteWorkoutSession(...)` implementation in `src/features/workouts/api.ts`:#
 
 [source,typescript]
 ----
-interface WeekBounds {
-  start: string; // ISO 8601, Monday of the week
-  end: string;   // ISO 8601, Sunday of the week
-}
-
-interface GoalResult {
-  achieved: boolean;
-  activeDays: number;
-  targetDays: number;
-  remaining: number; // sessions still needed to meet the goal
-}
-
-function evaluateWeeklyGoal(
-  sessions: WorkoutSession[],
-  targetDays: number,
-  week: WeekBounds
-): GoalResult {
-  const activeDays = new Set(
-    sessions
-      .filter((s) => s.date >= week.start && s.date <= week.end)
-      .map((s) => s.date)
-  ).size;
-
-  return {
-    achieved: activeDays >= targetDays,
-    activeDays,
-    targetDays,
-    remaining: Math.max(0, targetDays - activeDays),
-  };
-}
+include::../../../../src/features/workouts/api.ts[lines=99..109]
 ----
 
-The `Set` over dates again applies the _Attendance Day_ concept — multiple sessions on the same day do not inflate the count. The `remaining` field directly supports the Epic 3 user story "As Derek, I want to see how far I am from my weekly goal during the week so that I can decide when to fit in a session," and the `achieved` boolean supports the "goal met / not met" result requested by Alejandro's user story in the same epic.
+#The current code attempts rollback, but it does not guarantee it. If deleting the session also fails, the modal tells the user that the workout session may still have been saved without its exercises.#
 
----
+===== #Fragment 4: Workout history correction and refresh#
 
-NOTE: This section will be updated in the upcoming milestone once the actual implementation is underway. At that point, the illustrative fragments above will be replaced or supplemented with excerpts drawn directly from the working codebase, reflecting the final structure, logic, and architectural decisions of the system as built.
+#`src/features/workouts/WorkoutHistoryPage.tsx` groups retrieved sessions by date label before rendering them:#
 
+[source,tsx]
+----
+include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=41..67]
+----
+
+#The same file validates edit drafts before allowing an update:#
+
+[source,tsx]
+----
+include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=85..105]
+----
+
+#The initial history load uses the same `getUserWorkoutSessions(...)` retrieval path discussed above:#
+
+[source,tsx]
+----
+include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=131..150]
+----
+
+#Expanding a session fetches exercise details on demand, and bulk deletion dispatches `progress-updated`:#
+
+[source,tsx]
+----
+include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=183..223]
+----
+
+#Saving an edit updates the stored record, patches local state, and dispatches the same refresh event:#
+
+[source,tsx]
+----
+include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=237..267]
+----
+
+#The real data operations for exercise-detail lookup, delete, and update are implemented in `src/features/workouts/api.ts`:#
+
+[source,typescript]
+----
+include::../../../../src/features/workouts/api.ts[lines=86..124]
+----
+
+#The dashboard-side listeners that react to `progress-updated` are implemented in `src/App.tsx`, `src/features/feedback/DailyGoalProgress.tsx`, and `src/features/feedback/WeeklyProgressSummary.tsx`:#
+
+[source,tsx]
+----
+include::../../../../src/App.tsx[lines=110..150]
+----
+
+[source,tsx]
+----
+include::../../../../src/features/feedback/DailyGoalProgress.tsx[lines=64..73]
+----
+
+[source,tsx]
+----
+include::../../../../src/features/feedback/WeeklyProgressSummary.tsx[lines=83..95]
+----
+
+===== #Fragment 5: Goal evaluation, weekly summary, and streak computation#
+
+#`src/features/feedback/DailyGoalProgress.tsx` derives the visible daily count from retrieved Workout History plus the saved daily target:#
+
+[source,tsx]
+----
+include::../../../../src/features/feedback/DailyGoalProgress.tsx[lines=28..56]
+----
+
+#`src/features/feedback/WeeklyProgressSummary.tsx` derives weekly completed days and the active streak from that same session history plus the saved weekly target:#
+
+[source,tsx]
+----
+include::../../../../src/features/feedback/WeeklyProgressSummary.tsx[lines=29..77]
+----
+
+#`src/App.tsx` computes the longest streak from retrieved sessions and renders the streak, daily, weekly, and summary cards on the home dashboard:#
+
+[source,tsx]
+----
+include::../../../../src/App.tsx[lines=121..137;173..188]
+----
+
+#The helper functions in `src/lib/workouts.ts` normalize timestamps, count workouts by day and week, and compute the longest streak from unique completed days:#
+
+[source,typescript]
+----
+include::../../../../src/lib/workouts.ts[lines=39..83]
+----
+
+#The stricter active-streak rules are implemented in `src/features/streaks/streakcalc.ts`:#
+
+[source,typescript]
+----
+include::../../../../src/features/streaks/streakcalc.ts[lines=49..57;377..410]
+----
+
+#This implementation is consistent with the distinction made in Section 2.1.2 between Attendance Day, Goal Evaluation, Weekly Summary, and Streak as derived concepts over Workout History rather than as independent primary records.#
+
+===== #Fragment 6: Automated evidence present in the branch#
+
+#`package.json` now provides branch-local `test` and `test:acceptance` entry points for the imported verification files:#
+
+[source,json]
+----
+include::../../../../package.json[lines=6..12]
+----
+
+#The branch also includes the Vitest configuration that separates the default test run from the acceptance run:#
+
+[source,typescript]
+----
+include::../../../../vitest.config.ts[lines=1..6]
+----
+
+[source,typescript]
+----
+include::../../../../vitest.acceptance.config.ts[lines=1..12]
+----
+
+#The acceptance harness also includes the setup file and mocked Supabase layer used by the routed interface tests:#
+
+[source,typescript]
+----
+include::../../../../tests/acceptance/setup.ts[lines=1..65]
+----
+
+#`tests/acceptance/app.acceptance.test.tsx` verifies that logging a workout updates the daily goal display and that the logged session appears in the routed history view:#
+
+[source,tsx]
+----
+include::../../../../tests/acceptance/app.acceptance.test.tsx[lines=20..97]
+----
+
+#`tests/acceptance/auth-flow.acceptance.test.tsx` verifies the protected-route redirect and the login, signup, password-reset request, and password-update submit paths:#
+
+[source,tsx]
+----
+include::../../../../tests/acceptance/auth-flow.acceptance.test.tsx[lines=44..175]
+----
+
+#`src/lib/workouts.test.ts` covers timestamp normalization, day counting, week bounds, and longest-streak calculation:#
+
+[source,typescript]
+----
+include::../../../../src/lib/workouts.test.ts[lines=21..45]
+----
+
+#`src/features/streaks/streakcalc.test.ts` covers streak growth, duplicate-day handling, grace-period transitions, and stale-streak reset behavior. The imported `src/lib/supabaseClient.ts` file also resolves the shared Supabase import used by the current source tree, including `src/features/streaks/streakcalc.ts`:#
+
+[source,typescript]
+----
+include::../../../../src/features/streaks/streakcalc.test.ts[lines=13..105]
+----
+
+===== #Fragment 7: Interface evidence from the running implementation#
+
+#This fragment remains figure-based evidence rather than a code include. The screenshots below are still the clearest direct evidence for the current dashboard, workout logging modal, and workout history interface without forcing oversized JSX excerpts that would not prove the screenshots themselves.#
+
+#Figure 2.3.1.a shows the home dashboard assembled in `src/App.tsx`. The screen contains the streak display, weekly progress card, daily goal card, and weekly summary card that were identified in Section 2.3 as the main integrated view of derived Workout History behavior.#
+
+image::../images/implementation-dashboard.png[Implementation dashboard screenshot, align="center", width=85%]
+
+#Figure 2.3.1.b shows the `LogWorkoutModal.tsx` interface opened from the daily goal card. The screenshot confirms that the implemented logging flow collects workout type, duration, calories burned, notes, and optional exercise rows before persistence.#
+
+image::../images/implementation-log-modal.png[Workout logging modal screenshot, align="center", width=85%]
+
+#Figure 2.3.1.c shows the workout history interface in `src/features/workouts/WorkoutHistoryPage.tsx` with a session expanded. The visible notes and exercise details match the implemented behavior in which stored Workout Sessions can be retrieved, grouped by date, and inspected in detail after logging.#
+
+image::../images/implementation-history.png[Workout history screenshot, align="center", width=85%]

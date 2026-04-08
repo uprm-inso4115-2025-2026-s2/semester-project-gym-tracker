@@ -1,1 +1,3 @@
 == Legend
+
+#Highlighted text marks additions or modifications recorded in the LogBook for the current milestone.#

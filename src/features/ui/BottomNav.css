@@ -1,0 +1,64 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+
+  background: var(--surface-container-lowest);
+  border-top: 1px solid var(--surface-container-high);
+  box-shadow: 0 -4px 16px rgba(25, 28, 30, 0.08);
+
+  /* iPhone safe area */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  height: calc(60px + env(safe-area-inset-bottom, 0px));
+}
+
+.bottom-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: rgba(25, 28, 30, 0.45);
+  font-family: var(--font-family-body);
+  font-size: var(--font-label-sm);
+  font-weight: 600;
+  padding: 8px 4px;
+  /* Minimum 44px tap target */
+  min-height: 44px;
+  transition: color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-nav-item:hover {
+  color: var(--primary);
+}
+
+.bottom-nav-item--active {
+  color: var(--primary);
+}
+
+.bottom-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  transition: background 0.15s ease;
+}
+
+.bottom-nav-item--active .bottom-nav-icon {
+  background: var(--primary-fixed);
+}
+
+.bottom-nav-label {
+  line-height: 1;
+}
