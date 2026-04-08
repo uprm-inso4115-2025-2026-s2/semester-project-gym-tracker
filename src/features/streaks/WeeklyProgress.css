@@ -1,0 +1,38 @@
+.weekly-progress {
+  text-align: center;
+  margin-top: 0;
+}
+
+.weekly-progress-title {
+  font-family: var(--font-family-display);
+  font-size: var(--font-title-md);
+  font-weight: 700;
+  color: var(--on-surface);
+  margin-bottom: var(--space-2);
+}
+
+.weekly-progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-1);
+}
+
+.weekly-progress-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  background-color: var(--surface-container-high);
+  transition: background-color 0.3s ease;
+}
+
+.weekly-progress-dot.completed {
+  background-color: var(--secondary);
+}
+
+.weekly-progress-summary {
+  margin-top: var(--space-2);
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-md);
+  font-weight: 600;
+  color: var(--on-surface);
+}

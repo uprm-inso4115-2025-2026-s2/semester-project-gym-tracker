@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { createWorkoutSession, saveExercisesForSession } from "./workoutSessionsApi";
 import { deleteWorkoutSession } from "./api";

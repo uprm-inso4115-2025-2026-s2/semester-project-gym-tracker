@@ -1,0 +1,116 @@
+/* ── Root container ── */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+/* ══════════════════════════════════════════
+   HOME PAGE — dashboard layout
+   ══════════════════════════════════════════ */
+
+.home-main {
+  /* Same pattern as all other pages — escapes #root cleanly */
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #dce6f8 0%, var(--surface) 60%);
+  font-family: var(--font-family-body);
+  padding: var(--space-3) var(--space-2) calc(60px + env(safe-area-inset-bottom, 0px) + var(--space-3));
+  box-sizing: border-box;
+}
+
+/* ── Header row: logo left, greeting right ── */
+.home-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: 720px;
+  margin: 0 auto var(--space-3);
+}
+
+.home-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.home-greeting {
+  flex: 1;
+  min-width: 0;
+}
+
+.home-title {
+  font-family: var(--font-family-display);
+  font-size: var(--font-title-md);
+  font-weight: 800;
+  color: var(--on-surface);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.home-subtitle {
+  font-family: var(--font-family-body);
+  font-size: var(--font-body-md);
+  color: rgba(25, 28, 30, 0.5);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Dashboard grid ── */
+.home-dashboard {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 720px;
+  margin: 0 auto;
+
+  /* Mobile default: single column */
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "streaks"
+    "weekly"
+    "daily"
+    "summary";
+}
+
+/* Tablet and up: 2 columns */
+@media (min-width: 540px) {
+  .home-dashboard {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "streaks  streaks"
+      "weekly   daily"
+      "summary  summary";
+  }
+}
+
+/* Wide: streaks left, right col stacked */
+@media (min-width: 720px) {
+  .home-dashboard {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "streaks  weekly"
+      "streaks  daily"
+      "summary  summary";
+  }
+}
+
+.dash-streaks  { grid-area: streaks;  }
+.dash-weekly   { grid-area: weekly;   }
+.dash-daily    { grid-area: daily;    }
+.dash-summary  { grid-area: summary;  }
+
+/* ── Dashboard card ── */
+.dash-card {
+  background: var(--surface-container-lowest);
+  border-radius: var(--radius-xl);
+  box-shadow:
+    0 2px 8px rgba(25, 28, 30, 0.07),
+    0 6px 20px rgba(25, 28, 30, 0.05);
+  padding: var(--space-2);
+  box-sizing: border-box;
+  overflow: hidden;
+}

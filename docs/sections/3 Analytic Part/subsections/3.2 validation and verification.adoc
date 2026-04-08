@@ -57,72 +57,21 @@ This provides continuous validation, enabling the team to quickly identify usabi
 ==== Verification Activities
 Verification ensures that the implemented system behaves correctly and satisfies functional and non-functional requirements.
 
-===== Unit Testing for Core Functionalities
-Unit tests are written and maintained by the development team and executed automatically upon code updates.
+===== Current Executable Verification Evidence
+The current `Development` branch contains executable unit and acceptance tests that verify the implemented behavior described in Section 2.3 and demonstrated in Section 2.3.1.
 
-The following properties are verified:
+The unit tests in `src/lib/workouts.test.ts` cover timestamp normalization, workout counting, week boundaries, longest-streak computation, weekly goal evaluation, and goal validation. The new cases added for this issue verify that `evaluateWeeklyGoal(...)` counts completed workout days within the requested week and that `validateGoalEntry(...)` accepts only positive integer targets.
 
-*Session Representation Property*
+The unit tests in `src/features/streaks/streakcalc.test.ts` cover streak growth, duplicate-day handling, grace-period transitions, and stale-streak reset behavior. Together with `src/lib/workouts.test.ts`, they provide the current automated evidence for the core derived behavior built from Workout History.
 
-When a Workout Session is created with:
+Section 2.3.1 already points to the exact committed test files and configuration files through `include::` directives, so the document does not need to repeat their contents here. Those fragments show the concrete verification source instead of claiming tests abstractly.
 
-- A specific calendar date
-- Session type
-- Duration
-- Exercises performed
+===== Acceptance-Level Evidence
+The branch also contains acceptance-level evidence in `tests/acceptance/app.acceptance.test.tsx`, executed with the separate acceptance Vitest configuration. This test checks that logging a workout updates the daily goal display and that the logged session appears in the routed history view.
 
-All attributes are stored and retrieved without modification.
+This is the strongest current end-to-end evidence in the repository. It demonstrates the connection between the logging flow, the derived progress display, and the stored history view.
 
-*Persistent Storage Property*
+===== Verification Gaps
+The repository still does not provide full coverage for every requirement discussed in the design sections. In particular, the verification section does not yet include dedicated checks for `evaluateConsistency(...)`, broader goal-creation and goal-update flows, or browser-level acceptance coverage beyond the current Vitest acceptance test.
 
-Workout Sessions are retrievable in chronological order after storage.
-
-*Goal Evaluation Property*
-
-If the number of Workout Sessions recorded within a Goal’s Time Frame meets or exceeds the defined target, the system marks the Goal as satisfied.
-
-*Streak Calculation Property*
-
-If a Workout Session is logged on n consecutive calendar days, the system computes a streak value of n.
-
-If one full calendar unit is skipped, the streak resets according to the defined rule.
-
-*Weekly Aggregation Property*
-
-The system correctly aggregates Workout Sessions within calendar week boundaries.
-
-*Weekly Comparison Property*
-
-The system correctly compares the number of sessions in the current week with previous weeks.
-
-These unit tests verify correctness of individual components implementing the domain requirements.
-
-===== Issue Tracking and Resolution
-All defects discovered during testing or validation are recorded in a structured issue-tracking system. Each issue is categorized, prioritized, assigned for resolution, and retested.
-
-This ensures systematic verification and controlled system evolution.
-
-===== User Acceptance Testing
-Before deployment, representative users execute realistic end-to-end scenarios, such as:
-
-- Maintaining a streak for seven consecutive days
-- Logging sessions using only essential information
-- Completing a goal within its Time Frame
-- Reviewing weekly comparisons
-
-User Acceptance Testing validates that the implemented system reflects the validated domain understanding and satisfies user expectations in realistic conditions.
-        
-These sessions are observed and documented by the development team.
-
-===== Performance Benchmarking
-The system is evaluated against predefined performance criteria.
-
-Properties verified include:
-
-- Workout logging operations complete within acceptable response time under normal usage.
-
-- Weekly aggregation and goal evaluation calculations execute without noticeable delay.
-
-- Retrieval of stored sessions remains efficient for typical user data volumes.
-
-Performance verification ensures that non-functional requirements related to responsiveness and reliability are satisfied.
+Performance benchmarking is also still described as a goal rather than as measured evidence in the repository. The document should therefore treat it as planned verification work, not as a completed result.
