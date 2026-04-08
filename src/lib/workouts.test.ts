@@ -4,9 +4,11 @@ import {
   computeLongestStreakFromWorkoutSessions,
   countWorkoutDaysInRange,
   countWorkoutsOnDate,
+  evaluateWeeklyGoal,
   getEndOfWeekDateKey,
   getStartOfWeekDateKey,
   getTimestampDateKey,
+  validateGoalEntry,
 } from "./workouts";
 
 const sessions: WorkoutSession[] = [
@@ -36,6 +38,33 @@ describe("workout helpers", () => {
 
   it("computes the longest streak from unique completed days", () => {
     expect(computeLongestStreakFromWorkoutSessions(sessions)).toBe(3);
+  });
+
+  it("evaluates weekly goals from completed workout days in the requested week", () => {
+    const result = evaluateWeeklyGoal(
+      sessions,
+      4,
+      { start: "2026-04-06", end: "2026-04-12" }
+    );
+
+    expect(result).toEqual({
+      achieved: true,
+      activeDays: 4,
+      targetDays: 4,
+      remaining: 0,
+    });
+  });
+
+  it("validates weekly goal targets as positive integers", () => {
+    expect(validateGoalEntry(5)).toEqual({ valid: true, errors: [] });
+    expect(validateGoalEntry(0)).toEqual({
+      valid: false,
+      errors: ["Goal must be a positive integer."],
+    });
+    expect(validateGoalEntry(2.5)).toEqual({
+      valid: false,
+      errors: ["Goal must be a positive integer."],
+    });
   });
 
   it("returns monday-sunday week bounds", () => {
