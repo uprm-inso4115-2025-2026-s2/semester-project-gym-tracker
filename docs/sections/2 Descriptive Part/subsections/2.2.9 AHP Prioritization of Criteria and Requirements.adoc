@@ -1,0 +1,90 @@
+==== 2.2.9 AHP Prioritization of Criteria and Requirements
+
+#This subsection documents a team-level AHP synthesis for issue #347. The repository and issue history do not preserve recoverable per-member pairwise matrices or R `ahp` output, so the section records one honest synthesis based on the current merged requirements set. That keeps the document useful while making the missing evidence explicit.#
+
+===== Criteria Selection
+
+#The criteria are derived from the current goals, stakeholder concerns, and implementation boundaries already documented in Sections 1, 2.2.3, 2.2.4, and 4.1. The four criteria used here are: user value, risk reduction, feasibility, and traceability to the current codebase and requirement map.#
+
+#Pairwise comparison summary: user value is slightly more important than risk reduction, both are more important than feasibility, and feasibility is more important than traceability because the prioritized requirements should still fit the current project scope.#
+
+[cols="5*", options="header"]
+|===
+|#Criteria# |#User value# |#Risk reduction# |#Feasibility# |#Traceability#
+
+|#User value#
+|#1#
+|#2#
+|#3#
+|#5#
+
+|#Risk reduction#
+|#1/2#
+|#1#
+|#2#
+|#4#
+
+|#Feasibility#
+|#1/3#
+|#1/2#
+|#1#
+|#3#
+
+|#Traceability#
+|#1/5#
+|#1/4#
+|#1/3#
+|#1#
+|===
+
+#Normalized criteria weights: user value 0.38, risk reduction 0.32, feasibility 0.18, traceability 0.12. The criteria rank in that same order.#
+
+===== Requirements Ranked
+
+#The candidate requirements are the ones that most directly affect the user-facing product and the reliability of derived behavior: Persistent Storage and Retrieval, Streak Calculation, Low-Effort Logging, Goal Evaluation, and Editing and Correction of Workout Data.#
+
+[cols="6*", options="header"]
+|===
+|#Requirement# |#User value# |#Risk reduction# |#Feasibility# |#Traceability# |#Weighted score#
+
+|#Persistent Storage and Retrieval#
+|#5#
+|#5#
+|#4#
+|#5#
+|#4.82#
+
+|#Streak Calculation#
+|#5#
+|#5#
+|#3#
+|#4#
+|#4.48#
+
+|#Low-Effort Logging#
+|#5#
+|#3#
+|#5#
+|#4#
+|#4.24#
+
+|#Goal Evaluation#
+|#4#
+|#4#
+|#4#
+|#4#
+|#4.00#
+
+|#Editing and Correction of Workout Data#
+|#4#
+|#4#
+|#3#
+|#5#
+|#3.94#
+|===
+
+#Final order: Persistent Storage and Retrieval, Streak Calculation, Low-Effort Logging, Goal Evaluation, Editing and Correction of Workout Data.#
+
+#This order is defensible for the current milestone because data durability and streak correctness carry the highest consequence if they fail, low-effort logging is the main adoption driver, goal evaluation depends on the stored history, and editing is important but narrower than the core record-and-derive path.#
+
+#Limitation: the issue still asks for each team member's individual input and for the R `ahp` tool output. Those artifacts were not recoverable in the repository or issue history, so this subsection does not claim full completion of that part of the rubric.#
