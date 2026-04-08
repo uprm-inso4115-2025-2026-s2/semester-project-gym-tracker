@@ -42,12 +42,24 @@ A bounded temporal interval within which activity or a Goal is
 evaluated, such as a day or a week.
 
 #*Week* (Domain Concept, Category: Entity)#
-A seven-day Time Frame used for weekly aggregation, Goal evaluation,
-and summary generation.
+A seven-day Time Frame composed of named Weekday values and used for
+weekly aggregation, Goal evaluation, and summary generation.
 
 #*Goal* (Domain Concept, Category: Entity)#
 A desired level of activity or performance defined within a Time Frame,
-such as completing a certain number of Attendance Days in a Week.
+such as completing a certain Goal Target Count of Attendance Days in a
+Week.
+
+#*Goal Target Count* (Domain Concept, Category: Entity)#
+A positive integer count of Attendance Days required for a Goal within
+its Time Frame.
+
+#*Minutes* (Domain Concept, Category: Entity)#
+A positive integer count of minutes used to express workout duration.
+
+#*Weekday* (Domain Concept, Category: Entity)#
+One of the seven named days of the week used when a requirement needs a
+day-of-week value separate from a full Calendar Day.
 
 #*Workout Notes* (Domain Concept, Category: Entity)#
 Short written annotations describing what occurred during a Workout
@@ -71,9 +83,13 @@ Sessions, such as duration, activity type, or exercise composition.
 A representation of how regularly Workout Sessions occur across a Time
 Frame.
 
-#*Goal Evaluation* (Domain Concept, Category: Entity)#
-A determination of whether a Goal has been achieved within its Time
+#*Goal Evaluation* (Domain Concept, Category: Action)#
+The act of determining whether a Goal has been achieved within its Time
 Frame.
+
+#*Goal Result* (Domain Concept, Category: Entity)#
+The evaluated outcome of a Goal Evaluation, including whether the Goal
+was achieved and how many target days remain.
 
 #*Workout Session has just been performed* (Domain Concept, Category: Event)#
 An event in which a Workout Session has occurred at a specific time on
@@ -114,7 +130,7 @@ distribution of Attendance Days and Missed Days in a Workout History.
 An action that determines the Workout History associated with a given
 GymGoer.
 
-#*evaluateGoal(goal: Goal, history: WorkoutHistory) : GoalEvaluation* (Domain Concept, Category: Action)#
+#*evaluateGoal(goal: Goal, history: WorkoutHistory) : GoalResult* (Domain Concept, Category: Action)#
 An action that determines whether a Goal has been achieved within its
 Time Frame based on the relevant Workout History.
 
@@ -189,6 +205,15 @@ could instead be modeled as an event.#
 is categorized as an action. This distinguishes the produced artifact
 from the domain action that produces it.#
 
+#*Goal Evaluation* names the action of assessing whether a Goal was
+achieved. *Goal Result* names the evaluated outcome produced by that
+action.#
+
+#*Minutes*, *Weekday*, and *Goal Target Count* are design-side
+constrained values in this notation. They describe the required shape
+of values in the design, not the current TypeScript field names in the
+implementation section.#
+
 #*Streak*, *Consistency*, *Progress*, and *Weekly Activity Pattern* are
 categorized as behaviors because they describe temporal compositions of
 events and actions rather than standalone objects.#
@@ -212,10 +237,10 @@ produce a Weekly Summary.#
 
 #Gap discovered during walkthrough: the scenario required the terms
 Workout History, Calendar Day, Time Frame, Week, Goal Evaluation,
-Weekly Summary, and the distinction between events, actions, and
-behaviors within the same concept space. These concepts were already
-used implicitly by the domain model, but they were not previously
-defined in a unified and consistent way.#
+Goal Result, Weekly Summary, and the distinction between events,
+actions, and behaviors within the same concept space. These concepts
+were already used implicitly by the domain model, but they were not
+previously defined in a unified and consistent way.#
 
 #Resolution: the terminology was restructured so that entities, events,
 actions, and behaviors all appear together under Domain Concepts. In
