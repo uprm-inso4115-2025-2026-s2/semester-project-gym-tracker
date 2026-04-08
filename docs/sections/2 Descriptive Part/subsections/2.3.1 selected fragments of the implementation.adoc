@@ -281,11 +281,11 @@ include::../../../../tests/acceptance/app.acceptance.test.tsx[lines=20..97]
 include::../../../../tests/acceptance/auth-flow.acceptance.test.tsx[lines=44..175]
 ----
 
-#`src/lib/workouts.test.ts` covers timestamp normalization, day counting, week bounds, and longest-streak calculation:#
+#`src/lib/workouts.test.ts` covers timestamp normalization, day counting, week bounds, longest-streak calculation, weekly goal evaluation, and goal-target validation:#
 
 [source,typescript]
 ----
-include::../../../../src/lib/workouts.test.ts[lines=21..45]
+include::../../../../src/lib/workouts.test.ts[lines=23..98]
 ----
 
 #`src/features/streaks/streakcalc.test.ts` covers streak growth, duplicate-day handling, grace-period transitions, and stale-streak reset behavior. The imported `src/lib/supabaseClient.ts` file also resolves the shared Supabase import used by the current source tree, including `src/features/streaks/streakcalc.ts`:#
