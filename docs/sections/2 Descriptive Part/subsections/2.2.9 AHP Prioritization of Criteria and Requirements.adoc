@@ -1,0 +1,119 @@
+==== 2.2.9 AHP Prioritization of Criteria and Requirements
+
+#This subsection records the prioritization analysis requested in issue #347. Because the repository and issue history do not preserve recoverable per-member pairwise ballots, the analysis is documented as one consolidated team synthesis grounded in the current merged goals, stakeholder concerns, risks, and requirements. The calculation artifact committed in `docs/support/ahp_prioritization.py` reproduces the matrices, priority vectors, and consistency ratios summarized below.#
+
+===== AHP Method Used
+
+#The prioritization is carried out at two levels. First, the evaluation criteria are compared pairwise. Second, five candidate requirements are compared pairwise under each criterion. The final requirement priority is computed by combining the local requirement priorities with the criteria weights. This keeps the section aligned with the AHP method instead of reducing it to a direct scoring table.#
+
+#The five candidate requirements were selected because they concentrate the main user-facing and reliability concerns of the current milestone: Persistent Storage and Retrieval, Streak Calculation, Low-Effort Logging, Goal Evaluation, and Editing and Correction of Workout Data.#
+
+===== Criteria Pairwise Comparison
+
+#The criteria are derived from the current goals, stakeholder concerns, implementation boundaries, and risk discussion already documented in Sections 1.5, 2.2.3, 2.2.4, 2.2.6, and 4.1. The criteria used here are user value, risk reduction, feasibility, and traceability to the current requirement and code structure.#
+
+[cols="5*", options="header"]
+|===
+|#Criteria# |#User value# |#Risk reduction# |#Feasibility# |#Traceability#
+
+|#User value#
+|#1#
+|#2#
+|#3#
+|#5#
+
+|#Risk reduction#
+|#1/2#
+|#1#
+|#2#
+|#4#
+
+|#Feasibility#
+|#1/3#
+|#1/2#
+|#1#
+|#3#
+
+|#Traceability#
+|#1/5#
+|#1/4#
+|#1/3#
+|#1#
+|===
+
+#The criteria matrix yields the following priority vector: user value 0.4729, risk reduction 0.2844, feasibility 0.1699, and traceability 0.0729. The calculated consistency ratio is 0.0189, which is comfortably below the usual 0.10 threshold, so the criteria judgments are acceptably consistent.#
+
+===== Requirement-Level Pairwise Priorities
+
+#For space reasons, this subsection summarizes the resulting local priority vectors and the matrix consistency checks. The full reciprocal matrices used to compute these values are recorded in `docs/support/ahp_prioritization.py`, and the generated summary is recorded in `docs/support/ahp_prioritization_results.txt`.#
+
+[cols="3,6,2", options="header"]
+|===
+|#Criterion# |#Local priority order# |#Consistency ratio#
+
+|#User value#
+|#Low-Effort Logging (0.31) > Persistent Storage and Retrieval (0.27) > Streak Calculation (0.21) > Goal Evaluation (0.12) > Editing and Correction of Workout Data (0.09)#
+|#0.00#
+
+|#Risk reduction#
+|#Persistent Storage and Retrieval (0.39) > Streak Calculation (0.28) > Goal Evaluation (0.17) > Editing and Correction of Workout Data (0.11) > Low-Effort Logging (0.05)#
+|#0.00#
+
+|#Feasibility#
+|#Low-Effort Logging (0.34) > Persistent Storage and Retrieval (0.24) > Editing and Correction of Workout Data (0.17) > Goal Evaluation (0.15) > Streak Calculation (0.10)#
+|#0.00#
+
+|#Traceability#
+|#Persistent Storage and Retrieval (0.32) > Streak Calculation (0.25) > Editing and Correction of Workout Data (0.20) > Low-Effort Logging (0.13) > Goal Evaluation (0.10)#
+|#0.00#
+|===
+
+#The zero consistency values for the requirement-level matrices mean that the consolidated reciprocal judgments are internally consistent. That is appropriate here because the subsection records one documented synthesis rather than several conflicting ballots.#
+
+===== Global Requirement Priorities
+
+[cols="6*", options="header"]
+|===
+|#Requirement# |#User value# |#Risk reduction# |#Feasibility# |#Traceability# |#Global priority#
+
+|#Persistent Storage and Retrieval#
+|#0.27#
+|#0.39#
+|#0.24#
+|#0.32#
+|#0.3027#
+
+|#Low-Effort Logging#
+|#0.31#
+|#0.05#
+|#0.34#
+|#0.13#
+|#0.2280#
+
+|#Streak Calculation#
+|#0.21#
+|#0.28#
+|#0.10#
+|#0.25#
+|#0.2141#
+
+|#Goal Evaluation#
+|#0.12#
+|#0.17#
+|#0.15#
+|#0.10#
+|#0.1379#
+
+|#Editing and Correction of Workout Data#
+|#0.09#
+|#0.11#
+|#0.17#
+|#0.20#
+|#0.1173#
+|===
+
+#The resulting priority order is therefore: Persistent Storage and Retrieval, Low-Effort Logging, Streak Calculation, Goal Evaluation, and Editing and Correction of Workout Data. This order is defensible for the current milestone because reliable persistence is the base condition for every derived feature, low-friction logging is the main adoption driver for the primary user groups, and streak correctness remains important but depends on the stored history already being trustworthy.#
+
+===== Limitation of the Current Evidence
+
+#This subsection still does not claim full satisfaction of the original issue wording. The current repository does not preserve each team member's individual pairwise matrices, and it does not preserve prior R `ahp` package output. What is now present is a documented, reproducible, branch-local AHP synthesis with explicit matrices, consistency checks, and final priorities. That is materially stronger than the previous absence of AHP evidence, but it is not a substitute for archived member-by-member input.#
