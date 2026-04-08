@@ -90,6 +90,26 @@
 
 * #Accept minimal risk of short-lived inconsistency in UI display (e.g., delayed update), provided data is eventually stored correctly.#
 
+
+*#Risk Assessment and Justification#*
+
+#Likelihood: *Medium*#  
+
+#Justification:# 
+
+* #Workout logging depends on reliable communication between the client and backend. Network interruptions, temporary server downtime, or client-side submission errors can occur during normal usage, but not consistently.#
+
+#Impact: *High*#  
+
+#Justification:# 
+
+* #This failure results in loss of workout data, which directly affects progress tracking, streak calculations, and user trust in the system.#
+
+#Discussion:# 
+
+* #This is a high-priority risk because it impacts both data integrity and user confidence. Even with moderate likelihood, the consequences justify mitigation strategies such as retry mechanisms and local caching.#
+
+
 ===== FMEA Case 2 - Incorrect Streak Calculation
 
 *#Scenario*:# #A user completes workouts on consecutive days. One session is logged late at night and another early the next day. Due to inconsistent time zone handling, the system interprets both sessions as occurring on the same day, breaking the streak unexpectedly.#
@@ -124,6 +144,26 @@
 
 * #Accept rare edge cases where streak recalculation may momentarily display inconsistent values before correction.#
 
+
+*#Risk Assessment and Justification#*
+
+#Likelihood: *Medium*#  
+
+#Justification:# 
+
+* #Time and date handling is a common source of defects especially in systems that rely on user-generated timestamps. Edge cases such as late-night workouts and timezone differences increase the probability of incorrect calculations.#  
+
+#Impact: *Medium*#  
+
+#Justification:# 
+
+* #While the system continues to function, incorrect streak calculations affect a key motivational feature potentially reducing user engagement and satisfaction.#  
+
+#Discussion:#
+
+* #This risk primarily affects user perception rather than system correctness. It is important for user experience but less critical than risks involving data loss.#
+
+
 ===== FMEA Case 3 - Incorrect Goal Evaluation
 
 *#Scenario*:# #A user completes multiple workouts on the same day. The system incorrectly counts them as multiple active days instead of one, causing the weekly goal to appear completed earlier than it actually is.#
@@ -156,3 +196,108 @@
 #Acceptance:#
 
 * #Accept that temporary inconsistencies may happen during recalculation, provided final computed results remain correct and consistent with stored data.#
+
+
+*#Risk Assessment and Justification#*
+
+#Likelihood: *Medium*#
+
+#Justification:#
+
+* #The risk arises from aggregation logic errors. Since users may perform multiple workouts per day, incorrect handling is plausible if requirements or implementation logic are not clearly defined.#
+
+#Impact: *High*#
+
+#Justification:#
+
+* #Incorrect goal evaluation misrepresents user progress which undermines the reliability of the system and can mislead users about their achievements.#
+
+#Discussion:#
+
+* #This risk is significant because it affects the correctness of system outputs rather than just presentation. Accurate progress tracking is central to the system’s purpose making this a high-priority issue.#
+
+
+===== Guideword-Based Risk Identification
+
+#The project applies the guidewords technique to identify risks by exploring deviations in system behavior and requirements (e.g., NO, MORE, LESS, AS WELL AS, OTHER THAN, INCORRECT). Each risk is described using a scenario and evaluated using likelihood and impact with supporting justification.#
+
+
+===== Guideword Case 1 - No Workout Session Recorded
+
+*#Guideword:#* #No#
+
+*#Scenario:#* #Alejandro finishes a gym workout after class but does not record it that day. Since the system depends on recorded Workout Sessions to compute Attendance Days, the completed session is absent from his Workout History. When he later reviews the week, the system shows less activity than what actually occurred.#
+
+*#Risk:#* #No Workout Session is recorded for an activity that was actually performed.#
+
+*#Risk Assessment and Justification#*
+
+#Likelihood: *High*#
+
+#Justification:#
+
+* #The project explicitly emphasizes low-effort logging because users often abandon tracking when it feels burdensome. Since logging is still a separate action after performing the workout, missed entries are a realistic and common risk during normal use.#
+
+#Impact: *High*#
+
+#Justification:#
+
+* #If a Workout Session is not recorded, the Workout History becomes incomplete, which can affect Attendance Days, Streak calculation, weekly summaries, and goal evaluation.#
+
+#Discussion:#
+
+* #This risk is important because the system depends on recorded history as the source of truth. Even though the workout happened in the real world, the system cannot reflect it unless it is logged.#
+
+
+===== Guideword Case 2 - More Workout Sessions Counted Than Intended
+
+*#Guideword:#* #More#
+
+*#Scenario:#* #Derek records a run in the morning and later mistakenly logs the same run again when reviewing his day. The Workout History now contains two Workout Sessions representing what should have been one activity. When the week is summarized, the extra entry inflates the apparent level of activity.#
+
+*#Risk:#* #More Workout Sessions are counted than intended because duplicate entries are recorded in the Workout History.#
+
+*#Risk Assessment and Justification#*
+
+#Likelihood: *Medium*#
+
+#Justification:#
+
+* #The system supports quick logging and editing, which helps usability but also makes accidental duplicate entries plausible, especially when users log in a hurry or are unsure whether a session was already saved.#
+
+#Impact: *Medium*#
+
+#Justification:#
+
+* #Duplicate Workout Sessions can distort weekly comparisons, summaries, and perceived activity levels, although they do not necessarily prevent the rest of the system from functioning.#
+
+#Discussion:#
+
+* #This risk mainly affects the correctness of progress representation. It is less severe than missing all record of a workout, but it still undermines trust in the accuracy of the history and weekly feedback.#
+
+
+===== Guideword Case 3 - Incorrect Workout Date Used for Streak and Goal Evaluation
+
+*#Guideword:#* #Incorrect#
+
+*#Scenario:#* #Ana performs a workout on Monday night but records it on Tuesday morning and accidentally leaves Tuesday as the session date. The system then treats the Workout Session as having occurred on Tuesday. As a result, Monday appears as a Missed Day and the Streak and weekly goal evaluation no longer reflect Ana’s real attendance pattern.#
+
+*#Risk:#* #An incorrect Workout Session date causes Streak and Goal evaluation to be based on the wrong Attendance Day.#
+
+*#Risk Assessment and Justification#*
+
+#Likelihood: *Medium*#
+
+#Justification:#
+
+* #The requirements explicitly allow late logging and editing of past sessions, which means date-related mistakes are realistic especially when workouts are recorded after they were performed.#
+
+#Impact: *High*#
+
+#Justification:#
+
+* #The project defines Streaks, Attendance Days, and weekly Goal evaluation in terms of when the Workout Session was performed. If that date is incorrect, several derived results can become incorrect at once.#
+
+#Discussion:#
+
+* #This risk is significant because it affects multiple core features simultaneously. A single incorrect date can change streak continuity, weekly summaries, and whether a goal appears met or not met.#
