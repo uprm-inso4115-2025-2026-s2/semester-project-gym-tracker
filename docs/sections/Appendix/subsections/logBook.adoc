@@ -1,5 +1,7 @@
 === ii. LogBook
 
+#This table records Milestone 2 additions and modifications at section level. Each listed change must also be highlighted in the corresponding document content.#
+
 [width="100%", cols="4*", options="header", frame=all, grid=all, halign=center]
 
 |===
@@ -77,7 +79,7 @@
 
 | 2.2.6 Risk Assessment | Derek Velez | Added | Added to the FMEA cases candidate countermeasures.
 
-| 2.2.7 Requirements Clash Analysis | Julian Vivas | Modified |Integrated three competing-goal pairs into the existing requirements clash analysis and showed how concrete domain requirements derive from resolving each tension. 
+| 2.2.7 Requirements Clash Analysis | Julian Vivas | Modified |Integrated three competing-goal pairs into the existing requirements clash analysis and showed how concrete domain requirements derive from resolving each tension.
 
 | 2.2.7 Requirements Clash Analysis | Diego Perez | Added | Added clash type analysis applying four clash types (uniqueness, intersection, barrier, reversion) to project requirements. GH-339.
 
