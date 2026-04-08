@@ -85,7 +85,7 @@
 
 | 2.2.8 Weak Inconsistencies | Diego Perez | Added | Added five weak inconsistencies identified in the project requirements, each with the boundary condition that triggers the conflict. GH-340.
 
-| 2.2.9 AHP Prioritization of Criteria and Requirements | Diego Perez | Added | Added a Section 2.2 AHP synthesis for issue #347 with criteria weights, a prioritized requirement set, and an explicit note that the repository did not preserve recoverable per-member pairwise matrices or R `ahp` output, so the section records a documented team synthesis instead of fabricated individual inputs.
+| 2.2.9 AHP Prioritization of Criteria and Requirements | Diego Perez | Added | Added a Section 2.2 AHP analysis for issue #347 with a criteria pairwise matrix, local requirement priorities under each criterion, consistency ratios, final global priorities, and a reproducible calculation artifact (`docs/support/ahp_prioritization.py` and `docs/support/ahp_prioritization_results.txt`). The section also states explicitly that the repository did not preserve recoverable per-member ballots or prior R `ahp` output.
 
 | 3.1 Concept Analysis | AlejandroMB05 | Added | Added domain analysis for the notification system, including identification of core concepts such as Notification, User, Notification Trigger, Workout Event, and User Preferences.
 

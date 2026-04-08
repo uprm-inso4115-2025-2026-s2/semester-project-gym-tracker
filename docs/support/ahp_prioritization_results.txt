@@ -1,0 +1,45 @@
+Criteria priorities
+  User value: 0.4729
+  Risk reduction: 0.2844
+  Feasibility: 0.1699
+  Traceability: 0.0729
+  Consistency ratio: 0.0189
+
+User value priorities
+  Persistent Storage and Retrieval: 0.2700
+  Streak Calculation: 0.2100
+  Low-Effort Logging: 0.3100
+  Goal Evaluation: 0.1200
+  Editing and Correction of Workout Data: 0.0900
+  Consistency ratio: 0.0000
+
+Risk reduction priorities
+  Persistent Storage and Retrieval: 0.3900
+  Streak Calculation: 0.2800
+  Low-Effort Logging: 0.0500
+  Goal Evaluation: 0.1700
+  Editing and Correction of Workout Data: 0.1100
+  Consistency ratio: 0.0000
+
+Feasibility priorities
+  Persistent Storage and Retrieval: 0.2400
+  Streak Calculation: 0.1000
+  Low-Effort Logging: 0.3400
+  Goal Evaluation: 0.1500
+  Editing and Correction of Workout Data: 0.1700
+  Consistency ratio: 0.0000
+
+Traceability priorities
+  Persistent Storage and Retrieval: 0.3200
+  Streak Calculation: 0.2500
+  Low-Effort Logging: 0.1300
+  Goal Evaluation: 0.1000
+  Editing and Correction of Workout Data: 0.2000
+  Consistency ratio: 0.0000
+
+Global priorities
+  Persistent Storage and Retrieval: 0.3027
+  Streak Calculation: 0.2141
+  Low-Effort Logging: 0.2280
+  Goal Evaluation: 0.1379
+  Editing and Correction of Workout Data: 0.1173
