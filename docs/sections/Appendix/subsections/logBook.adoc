@@ -74,6 +74,8 @@
 
 | Title Pages / 2.3 Implementation / 2.3.1 Selected Fragments of the Implementation | Diego Perez | Modified | Removed stale Milestone 1 wording, rewrote and revalidated the implementation sections against the latest Development branch, linked the overview back to the domain definitions and function signatures, updated the testing evidence, added implementation screenshots captured from the running interface, and highlighted the revised text for milestone change visibility.
 
+| 2.3 Implementation / 2.3.1 Selected Fragments of the Implementation / Appendix LogBook | Diego Perez | Modified | For issue #317, replaced illustrative implementation snippets with `include::` directives that pull committed source, test, and Vitest configuration files imported from `Development`; corrected the auth wrapper names to `signInWithEmail`, `signUpWithEmail`, `requestPasswordReset`, and `updatePassword`; and revised the workout-logging rollback wording to match the current code path.
+
 | 2.2.1 User Stories, Epics, Features | Wilson A. Morales | Modified | Differentiated overlapping streak-related user stories by separating general progress visibility after a streak break from recovery-progress tracking after restart.
 
 | 2.1.1, 3.1, 2.1.2, 2.1.3 | Wilson A. Morales | Modified | Strengthened raw elicitation statements, redid concept derivation for Workout Session, Exercise, and Consistency, removed generic justification language, and clarified Consistency as regularity over a Time Frame rather than as a streak synonym.

@@ -3,7 +3,7 @@
 
 ===== Scope
 
-#This section describes the implementation that is present in the `Development` branch at the time of inspection. The evidence comes from the current React and Supabase codebase. The implemented work centers on authenticated navigation, workout recording, workout history, feedback for daily and weekly progress, and streak-related behavior.#
+#This section describes the implementation that is present in the `Development` branch at the time of inspection. The evidence comes from the current React and Supabase codebase, and Section 2.3.1 now pulls the shown source and test fragments directly from committed files on this branch. The implemented work centers on authenticated navigation, workout recording, workout history, feedback for daily and weekly progress, and streak-related behavior.#
 
 ===== #Relation to the Domain Model#
 
@@ -23,7 +23,7 @@
 
 ===== #Realization of the Core Functions#
 
-#`recordWorkout` is realized across `src/features/workouts/LogWorkoutModal.tsx`, `src/features/workouts/workoutSessionsApi.ts`, and the callback path in `src/features/feedback/DailyGoalProgress.tsx`. The modal collects workout type, duration, calories burned, notes, and optional exercise rows. It validates duration and calories before persistence. It then creates the main Workout Session record and, if exercises were provided, saves the related exercise rows. If exercise persistence fails after the session has been created, the modal rolls the session back by calling `deleteWorkoutSession(workoutId)`. That keeps Workout History from containing a partially saved Workout Session.#
+#`recordWorkout` is realized across `src/features/workouts/LogWorkoutModal.tsx`, `src/features/workouts/workoutSessionsApi.ts`, and the callback path in `src/features/feedback/DailyGoalProgress.tsx`. The modal collects workout type, duration, calories burned, notes, and optional exercise rows. It validates duration and calories before persistence. It then creates the main Workout Session record and, if exercises were provided, saves the related exercise rows. If exercise persistence fails after the session has been created, the modal attempts to roll the session back by calling `deleteWorkoutSession(workoutId)`. When that rollback also fails, the code reports that the Workout Session may have been saved without its exercises.#
 
 #`updateWorkoutSession` and `deleteWorkoutSession` are realized in `src/features/workouts/api.ts` and exposed through `src/features/workouts/WorkoutHistoryPage.tsx`. The history page validates edited values through `validateEditDraft(...)`, updates workout type, duration, calories, and notes, supports bulk deletion, and dispatches `progress-updated` after successful edits or deletions. This is the current implementation mechanism behind the requirement that corrections to stored sessions should update dependent views derived from Workout History.#
 

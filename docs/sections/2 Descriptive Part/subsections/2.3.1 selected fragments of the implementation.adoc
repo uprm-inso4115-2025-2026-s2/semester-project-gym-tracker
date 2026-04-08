@@ -1,48 +1,275 @@
 ==== 2.3.1 Selected Fragments of the Implementation
 
-#This section documents concrete implementation evidence taken from the `Development` branch. Each fragment refers to the current source files that implement the behavior.#
+#This section documents concrete implementation evidence taken from the `Development` branch. Every shown code block below is pulled from committed files through `include::` directives rather than rewritten inline.#
 
 ===== #Fragment 1: Protected routing and authentication flow#
 
-#`src/App.tsx` places the main dashboard, workout history page, profile page, and settings page behind `ProtectedRoute`. `src/features/auth/AuthContext.tsx` loads the initial session from Supabase and subscribes to later auth state changes. `src/features/auth/ProtectedRoute.tsx` then checks that shared state. When no session exists, it redirects with `<Navigate to="/login" replace />`.#
+#`src/App.tsx` places the main dashboard, workout history page, profile page, and settings page behind `ProtectedRoute`, while keeping the login, signup, forgot-password, and reset-password pages public:#
 
-#The public account flow is implemented in `src/features/auth/LoginPage.tsx`, `src/features/auth/SignupPage.tsx`, `src/features/auth/ForgotPasswordPage.tsx`, and `src/features/auth/ResetPasswordPage.tsx`. Those screens call the Supabase wrappers in `src/features/auth/api.ts`, namely `signInWithPassword`, `signUp`, `resetPasswordForEmail`, and `updateUser`. The branch therefore contains an implemented login, signup, password reset request, password update flow, and route protection for authenticated pages.#
+[source,tsx]
+----
+include::../../../../src/App.tsx[lines=195..240]
+----
+
+#`src/features/auth/AuthContext.tsx` loads the initial Supabase session and subscribes to later authentication changes:#
+
+[source,tsx]
+----
+include::../../../../src/features/auth/AuthContext.tsx[lines=22..52]
+----
+
+#`src/features/auth/ProtectedRoute.tsx` consumes that shared state and redirects unauthenticated users to `/login`:#
+
+[source,tsx]
+----
+include::../../../../src/features/auth/ProtectedRoute.tsx[lines=5..16]
+----
+
+#The wrapper functions actually exported on this branch are `signInWithEmail`, `signUpWithEmail`, `requestPasswordReset`, and `updatePassword`:#
+
+[source,typescript]
+----
+include::../../../../src/features/auth/api.ts[lines=3..49]
+----
+
+#The page-level submit handlers in the public account flow call those wrappers directly:#
+
+[source,tsx]
+----
+include::../../../../src/features/auth/LoginPage.tsx[lines=27..41]
+----
+
+[source,tsx]
+----
+include::../../../../src/features/auth/SignupPage.tsx[lines=30..53]
+----
+
+[source,tsx]
+----
+include::../../../../src/features/auth/ForgotPasswordPage.tsx[lines=13..27]
+----
+
+[source,tsx]
+----
+include::../../../../src/features/auth/ResetPasswordPage.tsx[lines=19..40]
+----
 
 ===== #Fragment 2: Workout History retrieval and source data#
 
-#`src/features/workouts/api.ts` provides `getUserWorkoutSessions(userId)` and returns the signed-in GymGoer's stored Workout Sessions in reverse chronological order. `src/App.tsx`, `src/features/feedback/DailyGoalProgress.tsx`, `src/features/feedback/WeeklyProgressSummary.tsx`, and `src/features/workouts/WorkoutHistoryPage.tsx` all consume that result as their source Workout History.#
+#`src/features/workouts/api.ts` provides `getUserWorkoutSessions(userId)` and returns the signed-in GymGoer's stored Workout Sessions in reverse chronological order:#
+
+[source,typescript]
+----
+include::../../../../src/features/workouts/api.ts[lines=62..79]
+----
+
+#`src/App.tsx` uses that retrieval path as the source for the home-page streak and weekly-progress derivations:#
+
+[source,tsx]
+----
+include::../../../../src/App.tsx[lines=110..158]
+----
+
+#`src/features/feedback/DailyGoalProgress.tsx` consumes the same history for the daily view:#
+
+[source,tsx]
+----
+include::../../../../src/features/feedback/DailyGoalProgress.tsx[lines=28..56]
+----
+
+#`src/features/feedback/WeeklyProgressSummary.tsx` consumes the same history for the weekly summary and active streak:#
+
+[source,tsx]
+----
+include::../../../../src/features/feedback/WeeklyProgressSummary.tsx[lines=29..77]
+----
+
+#`src/features/workouts/WorkoutHistoryPage.tsx` loads the same retrieval result for the routed history page:#
+
+[source,tsx]
+----
+include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=131..150]
+----
 
 #This retrieval path is the implemented counterpart to `retrieveWorkoutHistory : GymGoer -> WorkoutHistory` in Section 2.1.6. It also explains why the current dashboard and history views derive Attendance Days, Goal Evaluation, and Streak from stored sessions instead of from a separate derived-history table.#
 
 ===== #Fragment 3: Workout logging and rollback behavior#
 
-#Workout logging starts in `src/features/feedback/DailyGoalProgress.tsx`, where the `+ Log Workout` button opens `src/features/workouts/LogWorkoutModal.tsx`. The modal stores workout type, duration, calories burned, notes, and optional exercise rows in component state. It rejects missing or non-positive duration values and also rejects negative calories before any write occurs.#
+#Workout logging starts in `src/features/feedback/DailyGoalProgress.tsx`, where the `+ Log Workout` button opens `src/features/workouts/LogWorkoutModal.tsx`:#
 
-#Persistence is handled in `src/features/workouts/workoutSessionsApi.ts`. `createWorkoutSession(...)` retrieves the authenticated user through `supabase.auth.getUser()` and inserts `user_id`, `workout_type`, `duration_minutes`, `calories_burned`, and `notes` into `workout_sessions`. If exercise rows are present, `saveExercisesForSession(...)` upserts exercise names into `exercises` and inserts the session links into `workout_exercises`.#
+[source,tsx]
+----
+include::../../../../src/features/feedback/DailyGoalProgress.tsx[lines=143..179]
+----
 
-#`LogWorkoutModal.tsx` also contains explicit rollback logic. If the main workout record is created but saving the linked exercises fails, the modal calls `deleteWorkoutSession(workoutId)` and reports that the workout was not logged. The current implementation therefore protects Workout History from a partial save instead of leaving a session without its intended exercise details.#
+#The callback that runs after the modal reports a logged workout refreshes the daily evidence and dispatches `progress-updated`:#
+
+[source,tsx]
+----
+include::../../../../src/features/feedback/DailyGoalProgress.tsx[lines=75..103]
+----
+
+#`src/features/workouts/LogWorkoutModal.tsx` owns the draft state, validates duration and calories, writes the workout session, and attempts rollback if exercise persistence fails:#
+
+[source,tsx]
+----
+include::../../../../src/features/workouts/LogWorkoutModal.tsx[lines=25..133]
+----
+
+#`src/features/workouts/workoutSessionsApi.ts` performs the actual session insert and the exercise upsert and insert operations:#
+
+[source,typescript]
+----
+include::../../../../src/features/workouts/workoutSessionsApi.ts[lines=30..95]
+----
+
+#The rollback operation itself is the real `deleteWorkoutSession(...)` implementation in `src/features/workouts/api.ts`:#
+
+[source,typescript]
+----
+include::../../../../src/features/workouts/api.ts[lines=99..109]
+----
+
+#The current code attempts rollback, but it does not guarantee it. If deleting the session also fails, the modal tells the user that the workout session may still have been saved without its exercises.#
 
 ===== #Fragment 4: Workout history correction and refresh#
 
-#`src/features/workouts/WorkoutHistoryPage.tsx` loads the signed-in user's sessions, groups them by the date portion of `created_at`, and fetches linked exercise rows when a session is expanded. The same page implements editing and deletion through `updateWorkoutSession(...)` and `deleteWorkoutSession(...)`.#
+#`src/features/workouts/WorkoutHistoryPage.tsx` groups retrieved sessions by date label before rendering them:#
 
-#Before saving, `WorkoutHistoryPage.tsx` validates the edit draft so that empty workout types, non-integer durations, and negative calories are rejected in the interface. After a successful update or delete, the page dispatches `progress-updated`. That event is the implemented mechanism that causes the dashboard cards to refresh after Workout History changes.#
+[source,tsx]
+----
+include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=41..67]
+----
+
+#The same file validates edit drafts before allowing an update:#
+
+[source,tsx]
+----
+include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=85..105]
+----
+
+#The initial history load uses the same `getUserWorkoutSessions(...)` retrieval path discussed above:#
+
+[source,tsx]
+----
+include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=131..150]
+----
+
+#Expanding a session fetches exercise details on demand, and bulk deletion dispatches `progress-updated`:#
+
+[source,tsx]
+----
+include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=183..223]
+----
+
+#Saving an edit updates the stored record, patches local state, and dispatches the same refresh event:#
+
+[source,tsx]
+----
+include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=237..267]
+----
+
+#The real data operations for exercise-detail lookup, delete, and update are implemented in `src/features/workouts/api.ts`:#
+
+[source,typescript]
+----
+include::../../../../src/features/workouts/api.ts[lines=86..124]
+----
+
+#The dashboard-side listeners that react to `progress-updated` are implemented in `src/App.tsx`, `src/features/feedback/DailyGoalProgress.tsx`, and `src/features/feedback/WeeklyProgressSummary.tsx`:#
+
+[source,tsx]
+----
+include::../../../../src/App.tsx[lines=110..150]
+----
+
+[source,tsx]
+----
+include::../../../../src/features/feedback/DailyGoalProgress.tsx[lines=64..73]
+----
+
+[source,tsx]
+----
+include::../../../../src/features/feedback/WeeklyProgressSummary.tsx[lines=83..95]
+----
 
 ===== #Fragment 5: Goal evaluation, weekly summary, and streak computation#
 
-#`src/features/feedback/DailyGoalProgress.tsx` no longer derives the visible daily count from a stored daily total alone. It retrieves Workout History, counts the sessions whose `created_at` date matches today, and combines that result with the saved daily target from `goals_feedback`. `src/features/feedback/WeeklyProgressSummary.tsx` maps sessions to date keys, counts unique workout days in the current Week with `countWorkoutDaysInRange(...)`, and combines that result with the saved weekly target.#
+#`src/features/feedback/DailyGoalProgress.tsx` derives the visible daily count from retrieved Workout History plus the saved daily target:#
 
-#The streak logic is also split. `src/lib/workouts.ts` provides `computeLongestStreakFromWorkoutSessions(...)` for the longest streak shown on the home screen. `src/features/streaks/streakcalc.ts` provides `computeStreakFromSessions(...)` for the current active streak shown in `WeeklyProgressSummary.tsx`. The stricter function counts only qualifying workouts, ignores duplicate sessions on the same day, requires at least two consecutive Attendance Days, and returns zero when the latest qualifying workout is older than yesterday.#
+[source,tsx]
+----
+include::../../../../src/features/feedback/DailyGoalProgress.tsx[lines=28..56]
+----
+
+#`src/features/feedback/WeeklyProgressSummary.tsx` derives weekly completed days and the active streak from that same session history plus the saved weekly target:#
+
+[source,tsx]
+----
+include::../../../../src/features/feedback/WeeklyProgressSummary.tsx[lines=29..77]
+----
+
+#`src/App.tsx` computes the longest streak from retrieved sessions and renders the streak, daily, weekly, and summary cards on the home dashboard:#
+
+[source,tsx]
+----
+include::../../../../src/App.tsx[lines=121..137;173..188]
+----
+
+#The helper functions in `src/lib/workouts.ts` normalize timestamps, count workouts by day and week, and compute the longest streak from unique completed days:#
+
+[source,typescript]
+----
+include::../../../../src/lib/workouts.ts[lines=39..83]
+----
+
+#The stricter active-streak rules are implemented in `src/features/streaks/streakcalc.ts`:#
+
+[source,typescript]
+----
+include::../../../../src/features/streaks/streakcalc.ts[lines=49..57;377..410]
+----
 
 #This implementation is consistent with the distinction made in Section 2.1.2 between Attendance Day, Goal Evaluation, Weekly Summary, and Streak as derived concepts over Workout History rather than as independent primary records.#
 
 ===== #Fragment 6: Automated evidence present in the branch#
 
-#The current `Development` branch contains both acceptance-level and unit-level evidence. `tests/acceptance/app.acceptance.test.tsx` verifies that logging a workout updates the daily goal display and that the newly logged workout appears in the routed history view. `src/lib/workouts.test.ts` verifies timestamp normalization, day counting, week bounds, and longest streak calculation. `src/features/streaks/streakcalc.test.ts` verifies streak growth, duplicate-day handling, grace-period transitions, and reset behavior.#
+#The branch also includes the Vitest configuration that separates the default test run from the acceptance run:#
+
+[source,typescript]
+----
+include::../../../../vitest.config.ts[lines=1..6]
+----
+
+[source,typescript]
+----
+include::../../../../vitest.acceptance.config.ts[lines=1..12]
+----
+
+#`tests/acceptance/app.acceptance.test.tsx` verifies that logging a workout updates the daily goal display and that the logged session appears in the routed history view:#
+
+[source,tsx]
+----
+include::../../../../tests/acceptance/app.acceptance.test.tsx[lines=20..97]
+----
+
+#`src/lib/workouts.test.ts` covers timestamp normalization, day counting, week bounds, and longest-streak calculation:#
+
+[source,typescript]
+----
+include::../../../../src/lib/workouts.test.ts[lines=21..45]
+----
+
+#`src/features/streaks/streakcalc.test.ts` covers streak growth, duplicate-day handling, grace-period transitions, and stale-streak reset behavior:#
+
+[source,typescript]
+----
+include::../../../../src/features/streaks/streakcalc.test.ts[lines=13..105]
+----
 
 ===== #Fragment 7: Interface evidence from the running implementation#
 
-#The following screenshots were captured from the current running implementation represented in the inspected `Development` branch. They provide direct visual evidence for the dashboard, workout logging modal, and workout history view described in the previous fragments.#
+#This fragment remains figure-based evidence rather than a code include. The screenshots below are still the clearest direct evidence for the current dashboard, workout logging modal, and workout history interface without forcing oversized JSX excerpts that would not prove the screenshots themselves.#
 
 #Figure 2.3.1.a shows the home dashboard assembled in `src/App.tsx`. The screen contains the streak display, weekly progress card, daily goal card, and weekly summary card that were identified in Section 2.3 as the main integrated view of derived Workout History behavior.#
 
