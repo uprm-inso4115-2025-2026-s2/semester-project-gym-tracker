@@ -301,12 +301,12 @@ include::../../../../src/features/streaks/streakcalc.test.ts[lines=13..105]
 
 #Figure 2.3.1.a shows the home dashboard assembled in `src/App.tsx`. The screen contains the streak display, weekly progress card, daily goal card, and weekly summary card that were identified in Section 2.3 as the main integrated view of derived Workout History behavior.#
 
-image::../images/implementation-dashboard.png[Implementation dashboard screenshot, align="center", width=85%]
+image::sections/2 Descriptive Part/images/implementation-dashboard.png[Implementation dashboard screenshot, align="center", width=85%]
 
 #Figure 2.3.1.b shows the `LogWorkoutModal.tsx` interface opened from the daily goal card. The screenshot confirms that the implemented logging flow collects workout type, duration, calories burned, notes, and optional exercise rows before persistence.#
 
-image::../images/implementation-log-modal.png[Workout logging modal screenshot, align="center", width=85%]
+image::sections/2 Descriptive Part/images/implementation-log-modal.png[Workout logging modal screenshot, align="center", width=85%]
 
 #Figure 2.3.1.c shows the workout history interface in `src/features/workouts/WorkoutHistoryPage.tsx` with a session expanded. The visible notes and exercise details match the implemented behavior in which stored Workout Sessions can be retrieved, grouped by date, and inspected in detail after logging.#
 
-image::../images/implementation-history.png[Workout history screenshot, align="center", width=85%]
+image::sections/2 Descriptive Part/images/implementation-history.png[Workout history screenshot, align="center", width=85%]
