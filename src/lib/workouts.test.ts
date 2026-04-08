@@ -55,8 +55,33 @@ describe("workout helpers", () => {
     });
   });
 
+  it("ignores incomplete workouts and sessions outside the requested week", () => {
+    const extendedSessions: WorkoutSession[] = [
+      ...sessions,
+      { id: "w7", userId: "u1", date: "2026-04-05", activityType: "run", durationMinutes: 20 },
+      { id: "w8", userId: "u1", date: "2026-04-12", activityType: "gym", durationMinutes: 50, completed: false },
+    ];
+
+    const result = evaluateWeeklyGoal(
+      extendedSessions,
+      5,
+      { start: "2026-04-06", end: "2026-04-12" }
+    );
+
+    expect(result).toEqual({
+      achieved: false,
+      activeDays: 4,
+      targetDays: 5,
+      remaining: 1,
+    });
+  });
+
   it("validates weekly goal targets as positive integers", () => {
     expect(validateGoalEntry(5)).toEqual({ valid: true, errors: [] });
+    expect(validateGoalEntry(undefined)).toEqual({
+      valid: false,
+      errors: ["Goal must be a positive integer."],
+    });
     expect(validateGoalEntry(0)).toEqual({
       valid: false,
       errors: ["Goal must be a positive integer."],

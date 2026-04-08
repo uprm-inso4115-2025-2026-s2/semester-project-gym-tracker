@@ -32,32 +32,44 @@
 
 ==== Verification Evidence Observed on `Development`
 
-#The `Development` branch contains explicit local commands for unit tests, acceptance-style tests, and production builds. In `package.json`, `npm test` runs Vitest, `npm run test:acceptance` runs a separate acceptance suite, and `npm run build` runs `tsc -b` followed by `vite build`. `vitest.config.ts` excludes `tests/acceptance/**/*.test.{ts,tsx}` from the default suite, while `vitest.acceptance.config.ts` runs that directory separately in `jsdom` with a dedicated setup file.#
+#The `Development` branch defines `npm test`, `npm run test:acceptance`, and `npm run build` in `package.json`. Section 2.3.1 now points directly to the committed Vitest configuration and test files imported onto this branch through `include::` directives.#
 
-#`src/data/featurePersonaMap.test.js` provides direct verification of the feature-to-persona mapping data and lookup helpers. The file tests feature lookup by identifier, persona-to-feature mapping, feature-to-persona mapping, relevance checks, expectation-alignment checks, summary generation, and detection of unmapped persona expectations.#
+===== Current Executable Verification Evidence
 
-#`src/lib/workouts.test.ts` provides direct verification of workout helper logic. The file tests UTC date-key extraction, counting workouts on a specific day, counting unique workout days in a date range, computing the longest streak from unique completed days, and computing Monday-Sunday week boundaries.#
+#`src/lib/workouts.test.ts` provides direct verification of workout helper logic. The file now tests UTC date-key extraction, counting workouts on a specific day, counting unique workout days in a date range, computing the longest streak from unique completed days, computing Monday-Sunday week boundaries, evaluating weekly goals, and validating goal targets. The weekly-goal cases confirm that completed workout days are counted inside the requested week and that incomplete or out-of-range sessions do not satisfy the target. The goal-validation cases confirm that only positive integer targets are accepted.#
 
 #`src/features/streaks/streakcalc.test.ts` provides direct verification of streak logic. The file tests qualifying-workout rules, consecutive-day streak growth, grace-period activation after a missed day, reset after grace expiration, streak computation from out-of-order sessions, duplicate sessions on the same day, and zero-streak outcomes when workouts are isolated or separated by a gap.#
 
-#`tests/acceptance/app.acceptance.test.tsx` provides two acceptance-style UI checks using React Testing Library and a mocked Supabase client. The first test verifies that logging a workout updates daily goal feedback from `0 / 1 workouts today` to `1 / 1 workouts today` and stores one workout in the mock state. The second test verifies that a newly logged workout appears in the routed history view with its notes and duration.#
+#On this documentation evidence branch, those imported unit tests remain executable. `npm test -- --run src/lib/workouts.test.ts` passed with 8 tests, and `npm test -- --run` passed with 17 tests across `src/lib/workouts.test.ts` and `src/features/streaks/streakcalc.test.ts`. Both commands emitted the existing Supabase environment warning from `src/lib/supabaseClient.ts`, but neither run failed.#
 
-#The following command results were observed locally on 2026-04-07. The fresh evidence worktree initially lacked installed dependencies, so `npm ci` was run once before executing the required verification commands.#
+===== Acceptance-Level Evidence
+
+#`tests/acceptance/app.acceptance.test.tsx` provides routed UI checks that verify workout logging updates the daily goal display and that the logged workout appears in the history view. `tests/acceptance/auth-flow.acceptance.test.tsx` verifies the protected-route redirect together with the login, signup, password-reset request, and password-update submit paths.#
+
+#`npm run test:acceptance` passed with 7 tests across those two acceptance files. That run also emitted the existing Supabase environment warning and a `--localstorage-file` warning from the acceptance harness, but the suite passed.#
+
+===== Branch-Local Command Results
+
+#The following command results were observed locally on 2026-04-07 after running `npm install` in this evidence worktree.#
 
 [cols="2,5", options="header"]
 |===
 |#Command#
 |#Observed result#
 
+|#`npm test -- --run src/lib/workouts.test.ts`#
+|#Passed. Vitest reported 8 passing tests in `src/lib/workouts.test.ts`.#
+
 |#`npm test -- --run`#
-|#Passed. Vitest reported 24 passing tests in 3 files: `src/data/featurePersonaMap.test.js`, `src/lib/workouts.test.ts`, and `src/features/streaks/streakcalc.test.ts`. The output also emitted a warning that Supabase environment variables were missing, but the test run did not fail.#
+|#Passed. Vitest reported 17 passing tests in 2 files: `src/lib/workouts.test.ts` and `src/features/streaks/streakcalc.test.ts`. The output also emitted the existing warning that Supabase environment variables were missing, but the test run did not fail.#
 
 |#`npm run test:acceptance`#
-|#Passed. Vitest reported 2 passing tests in 1 file, `tests/acceptance/app.acceptance.test.tsx`.#
-
-|#`npm run build`#
-|#Passed. The project compiled and produced a production bundle. The build emitted a Vite warning that the generated JavaScript chunk was larger than 500 kB after minification.#
+|#Passed. Vitest reported 7 passing tests in 2 files: `tests/acceptance/app.acceptance.test.tsx` and `tests/acceptance/auth-flow.acceptance.test.tsx`. The run also emitted the existing Supabase environment warning and a `--localstorage-file` warning from the acceptance harness.#
 |===
+
+===== Verification Boundaries on This Branch
+
+#This documentation branch imports the minimum committed source, test, and Vitest files needed to cite and rerun the referenced tests. It is not a full application checkout. `npm run build` is therefore not executable here because the branch does not include the full build scaffold such as `tsconfig.json`. Full application build evidence remains tied to the `Development` branch and should be cited there rather than claimed as a branch-local result for this issue.#
 
 ==== Verification Still Planned or Incomplete
 
@@ -67,4 +79,4 @@
 
 #At this stage, the repository does not contain an automated workflow that runs `npm test`, `npm run test:acceptance`, or `npm run build` for application changes. The observed GitHub Actions workflows generate documentation PDFs and weekly project reports. They do not provide evidence of automated application verification on each update.#
 
-#Several verification claims from the previous version of this section are not fully supported by the current tests. No observed test directly verifies persistence against a real database, weekly goal evaluation by active days, weekly comparison across multiple weeks, invalid-input rejection before persistence, or recalculation after editing past workout data. We therefore leave those checks in the planned or incomplete category for now.#
+#Several verification claims from the previous version of this section are not fully supported by the current tests. No observed test directly verifies persistence against a real database, `evaluateConsistency(...)`, weekly comparison across multiple weeks, invalid-input rejection before persistence, or recalculation after editing past workout data. Goal-creation and goal-update interface flows also remain only partially evidenced. We therefore leave those checks in the planned or incomplete category for now.#
