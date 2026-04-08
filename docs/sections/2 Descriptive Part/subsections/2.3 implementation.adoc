@@ -33,7 +33,9 @@
 
 ===== #Verification Evidence#
 
-#The current `Development` branch includes automated evidence for the implemented behavior. `tests/acceptance/app.acceptance.test.tsx` verifies that logging a workout updates the daily goal display and that the same logged workout appears in the routed history view. `src/lib/workouts.test.ts` verifies timestamp normalization, workout counting, week bounds, and longest streak calculation. `src/features/streaks/streakcalc.test.ts` verifies streak growth, duplicate-day handling, grace-period transitions, and reset behavior.#
+#The current `Development` branch includes automated evidence for the implemented behavior. `tests/acceptance/app.acceptance.test.tsx` verifies that logging a workout updates the daily goal display and that the same logged workout appears in the routed history view. `src/lib/workouts.test.ts` verifies timestamp normalization, workout counting, week bounds, and longest streak calculation. `src/features/streaks/streakcalc.test.ts` verifies streak growth, duplicate-day handling, grace-period transitions, and reset behavior. This branch also adds `tests/acceptance/auth-flow.acceptance.test.tsx` so the protected-route and account-submit paths documented in Fragment 1 are accompanied by branch-local executable evidence.#
+
+#The imported verification support files needed for those tests are also present on this branch. `package.json` defines the `test` and `test:acceptance` scripts, `src/lib/supabaseClient.ts` resolves the shared Supabase client import used by the current source tree, and `tests/acceptance/mockSupabase.ts` plus `tests/acceptance/setup.ts` provide the mocked acceptance harness used by the routed interface tests.#
 
 #Section 2.3.1 also includes screenshots captured from the running interface implemented by `src/App.tsx`, `src/features/workouts/LogWorkoutModal.tsx`, and `src/features/workouts/WorkoutHistoryPage.tsx`. Those images provide visual evidence for the dashboard composition, workout logging flow, and stored history view documented in this section.#
 

@@ -54,6 +54,13 @@ include::../../../../src/features/auth/ForgotPasswordPage.tsx[lines=13..27]
 include::../../../../src/features/auth/ResetPasswordPage.tsx[lines=19..40]
 ----
 
+#This branch also includes focused auth acceptance checks for the guarded route and the four account-flow submit paths shown above:#
+
+[source,tsx]
+----
+include::../../../../tests/acceptance/auth-flow.acceptance.test.tsx[lines=44..175]
+----
+
 ===== #Fragment 2: Workout History retrieval and source data#
 
 #`src/features/workouts/api.ts` provides `getUserWorkoutSessions(userId)` and returns the signed-in GymGoer's stored Workout Sessions in reverse chronological order:#
@@ -234,6 +241,13 @@ include::../../../../src/features/streaks/streakcalc.ts[lines=49..57;377..410]
 
 ===== #Fragment 6: Automated evidence present in the branch#
 
+#`package.json` now provides branch-local `test` and `test:acceptance` entry points for the imported verification files:#
+
+[source,json]
+----
+include::../../../../package.json[lines=6..12]
+----
+
 #The branch also includes the Vitest configuration that separates the default test run from the acceptance run:#
 
 [source,typescript]
@@ -246,11 +260,25 @@ include::../../../../vitest.config.ts[lines=1..6]
 include::../../../../vitest.acceptance.config.ts[lines=1..12]
 ----
 
+#The acceptance harness also includes the setup file and mocked Supabase layer used by the routed interface tests:#
+
+[source,typescript]
+----
+include::../../../../tests/acceptance/setup.ts[lines=1..65]
+----
+
 #`tests/acceptance/app.acceptance.test.tsx` verifies that logging a workout updates the daily goal display and that the logged session appears in the routed history view:#
 
 [source,tsx]
 ----
 include::../../../../tests/acceptance/app.acceptance.test.tsx[lines=20..97]
+----
+
+#`tests/acceptance/auth-flow.acceptance.test.tsx` verifies the protected-route redirect and the login, signup, password-reset request, and password-update submit paths:#
+
+[source,tsx]
+----
+include::../../../../tests/acceptance/auth-flow.acceptance.test.tsx[lines=44..175]
 ----
 
 #`src/lib/workouts.test.ts` covers timestamp normalization, day counting, week bounds, and longest-streak calculation:#
@@ -260,7 +288,7 @@ include::../../../../tests/acceptance/app.acceptance.test.tsx[lines=20..97]
 include::../../../../src/lib/workouts.test.ts[lines=21..45]
 ----
 
-#`src/features/streaks/streakcalc.test.ts` covers streak growth, duplicate-day handling, grace-period transitions, and stale-streak reset behavior:#
+#`src/features/streaks/streakcalc.test.ts` covers streak growth, duplicate-day handling, grace-period transitions, and stale-streak reset behavior. The imported `src/lib/supabaseClient.ts` file also resolves the shared Supabase import used by the current source tree, including `src/features/streaks/streakcalc.ts`:#
 
 [source,typescript]
 ----
