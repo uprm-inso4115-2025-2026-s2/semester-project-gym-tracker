@@ -27,11 +27,11 @@ deleteWorkoutSession :
 
 Removes a recorded workout session from the history.
 
-#retrieveWorkoutHistory :
+[.added]#retrieveWorkoutHistory :
     GymGoer
     -> WorkoutHistory#
 
-#Determines the WorkoutHistory associated with a GymGoer.#
+[.added]#Determines the WorkoutHistory associated with a GymGoer.#
 
 ===== Goal Management Functions
 
@@ -85,15 +85,15 @@ evaluateConsistency :
 
 Determines the regularity of workouts across a period of time.
 
-===== #Consistency Note#
+===== [.added]#Consistency Note#
 
-#In this section, the history input is intentionally modeled as
+[.added]#In this section, the history input is intentionally modeled as
 WorkoutHistory across the domain functions. Attendance Days and Streak
 are derived from the WorkoutSessions contained in that WorkoutHistory,
 rather than being supplied as a separate primary collection. The
 retrieveWorkoutHistory function makes explicit how the relevant
 WorkoutSessions are obtained for a given GymGoer.#
 
-#GoalTargetCount is the positive integer count carried by Goal
+[.added]#GoalTargetCount is the positive integer count carried by Goal
 management functions, while GoalResult is the value returned by goal
 evaluation functions.#

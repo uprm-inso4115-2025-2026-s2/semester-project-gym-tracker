@@ -13,8 +13,8 @@ This design serves as the foundation for future SQL migrations and notification 
 
 The notification system is modeled using two related entities:
 
-* `notification_types` — defines the available categories of notifications  
-* `notifications` — stores individual notifications created for users  
+* `notification_types` — defines the available categories of notifications
+* `notifications` — stores individual notifications created for users
 
 ===== Entities
 
@@ -24,11 +24,11 @@ The notification system is modeled using two related entities:
 |===
 |Field |Type |Nullable |Default |Description
 
-|id |uuid |NO |gen_random_uuid() |Primary key  
-|code |text |NO |— |Unique internal identifier  
-|name |text |NO |— |Human-readable name  
-|description |text |YES |null |Optional description  
-|created_at |timestamptz |NO |now() |Creation timestamp  
+|id |uuid |NO |gen_random_uuid() |Primary key
+|code |text |NO |— |Unique internal identifier
+|name |text |NO |— |Human-readable name
+|description |text |YES |null |Optional description
+|created_at |timestamptz |NO |now() |Creation timestamp
 |===
 
 ===== `notifications`
@@ -37,39 +37,39 @@ The notification system is modeled using two related entities:
 |===
 |Field |Type |Nullable |Default |Description
 
-|id |uuid |NO |gen_random_uuid() |Primary key  
-|user_id |uuid |NO |— |Foreign key referencing `auth.users.id`  
-|type_id |uuid |NO |— |Foreign key referencing `notification_types.id`  
-|title |text |NO |— |Notification title  
-|message |text |NO |— |Notification body  
-|trigger_at |timestamptz |YES |null |Scheduled delivery time  
-|sent_at |timestamptz |YES |null |Actual delivery timestamp  
-|status |text |NO |'pending' |Delivery state  
-|created_at |timestamptz |NO |now() |Creation timestamp  
+|id |uuid |NO |gen_random_uuid() |Primary key
+|user_id |uuid |NO |— |Foreign key referencing `auth.users.id`
+|type_id |uuid |NO |— |Foreign key referencing `notification_types.id`
+|title |text |NO |— |Notification title
+|message |text |NO |— |Notification body
+|trigger_at |timestamptz |YES |null |Scheduled delivery time
+|sent_at |timestamptz |YES |null |Actual delivery timestamp
+|status |text |NO |'pending' |Delivery state
+|created_at |timestamptz |NO |now() |Creation timestamp
 |===
 
 ===== Notification Categories
 
 The system supports multiple notification categories:
 
-* Workout Reminder  
-* Motivational Message  
-* Weekly Progress Summary  
+* Workout Reminder
+* Motivational Message
+* Weekly Progress Summary
 
 ===== Delivery Status
 
 Notification delivery is modeled using a status field:
 
-* `pending` — notification created but not yet sent  
-* `sent` — successfully delivered  
-* `failed` — delivery attempt failed  
-* `dismissed` — user has acknowledged or ignored the notification  
+* `pending` — notification created but not yet sent
+* `sent` — successfully delivered
+* `failed` — delivery attempt failed
+* `dismissed` — user has acknowledged or ignored the notification
 
 ===== Relationships
 
-* A user can receive many notifications  
-* Each notification belongs to exactly one user  
-* Each notification is associated with one notification type  
+* A user can receive many notifications
+* Each notification belongs to exactly one user
+* Each notification is associated with one notification type
 
 ===== ERD Representation
 

@@ -18,7 +18,7 @@ To effectively acquire knowledge about account management behavior in fitness tr
 MyFitnessPal is a popular platform that allows users to track calories, macros, food and workouts. By design, it relies heavily on a structured user account management system that stores personal information and enables multiple features that complement the management system. The account system stores user attributes such as age, weight, height, dietary goals, and activity preferences. With this information, the platform can calculate daily calorie targets and track user progress.Additionally, the account management system allows users to maintain a history of meals and workouts, allowing the user to visualize long-term progress and trends. This illustrates how user accounts function as the central entity that connects user identity with activity tracking behavior.
 
 In terms of the project, the insight acquired highlights the importance of user accounts in connecting the physical activity data with individual users. By associating workouts, sessions, and activity history, the system can track and centralize the progress of the user over time. The key feature is to give the user a visualization of their progress to support consistency and long-term habit formation.
- 
+
 *Strava – Activity Tracking Platform*
 
 Strava is a fitness tracking platform that is designed for recording and analyzing activities. It is particularly popular among cyclists and runners for its many tracking and routing features. Another reason for its popularity is the social media aspect of it that allows users to compete and have leaderboards. Similarly to other applications, Strava also relies on a structured user account system. Through this system, users can log activities and maintain a record of their sessions over time. Strava can generate a summary of activity data that allows users to view several statistics such as distance, duration, and frequency of workouts. A popular feature that is based on this information is the fitness score Strava has.
@@ -26,14 +26,14 @@ Strava is a fitness tracking platform that is designed for recording and analyzi
 A key feature examined in this research was Strava’s profile page and its features. It includes several elements that enable better representation of the user in the system. Some key elements include profile information such as name, profile picture, biography, and connection with other users through followers and following lists. The profile also contains an activity feed that displays recently recorded activities and performance summaries. Additionally, Strava provides user accounts with options to adjust privacy settings to determine whether the information is visible to everyone, only followers, or themselves. This illustrates how user profiles act as a representation of user identity within activity tracking systems.
 
 In terms of the Gym Tracker project, this platform provides a good example of structured profiles that manage both identity information and activity records. Implementing profile features such as identity information, activity history, and privacy settings allows the platform to better represent personalized information to each user.
- 
+
 *Authentication Systems in User Account Management*
 Authentication systems have become an essential component of virtually all applications that require any personal information from the user. These systems have been designed and implemented with protection in mind by verifying the identity of users before they are granted access to any personal data stored within an account. The most basic form we see is with email and passwords, although systems have been developed to support third-party authentication through Google or Apple.
 
 These mechanisms ensure that any sensitive information associated with users remains protected from any unauthorized access. In fitness tracking systems, this is important since all information stored, analyzed, and shown is completely personal to a user account. Additionally, authentication processes support session management, which in turn allows users to remain logged in while interacting with the platform.
- 
+
 For the project, authentication is a top priority to implement and a critical feature to ensure that all records, history, and personal profile information remain securely associated with the correct user account. By implementing this feature, the platform can protect user data while allowing them to access and manage their records through personal accounts.
- 
+
 *Community Discussion and Feedback*
 Information coming from the users that interact with the platform provides excellent insight on features and system design. A community discussion around the topic of Strava was reviewed for this section. In one discussion users talked about potential improvements to the platform in the form of being able to customize activity logs in their accounts, adding additional categories, and allowing the display of both metric and imperial units for performance statistics. Another user suggested that in the profile page the activities section should feature better filtering to see their logs in the account. User suggestions indicate that users value account systems that allow them to customize how their activity data is presented and organized.
 

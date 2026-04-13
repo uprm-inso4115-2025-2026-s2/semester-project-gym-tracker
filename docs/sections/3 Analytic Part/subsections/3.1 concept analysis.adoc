@@ -10,90 +10,90 @@ This concept analysis transforms the rough sketch statements from the descriptiv
 
 .Rough sketch statements (side-by-side)
 [literal]
-#A: "When I look back at last week, I remember that I worked out, but I do not remember which exercises I did on each day or how long the session lasted."#
-#B: "For me, the minimum useful record is the day, the total duration, and what kind of workout I did."#
-#C: "Sometimes a session is mostly lifting, sometimes it is cardio, and sometimes it is a mix, so I want to remember what made that session different."#
+[.changed]#A: "When I look back at last week, I remember that I worked out, but I do not remember which exercises I did on each day or how long the session lasted."#
+[.changed]#B: "For me, the minimum useful record is the day, the total duration, and what kind of workout I did."#
+[.changed]#C: "Sometimes a session is mostly lifting, sometimes it is cardio, and sometimes it is a mix, so I want to remember what made that session different."#
 
 .Semantic analysis
-* #Statement A refers to a specific past occurrence of workout activity tied to a day and describable by internal content.#
-* #Statement B identifies a minimal unit of recording that includes when the activity happened, how long it lasted, and what kind of workout it was.#
-* #Statement C shows that one recorded occurrence can differ from another by composition or training type.#
+* [.changed]#Statement A refers to a specific past occurrence of workout activity tied to a day and describable by internal content.#
+* [.changed]#Statement B identifies a minimal unit of recording that includes when the activity happened, how long it lasted, and what kind of workout it was.#
+* [.changed]#Statement C shows that one recorded occurrence can differ from another by composition or training type.#
 
 .Common structure
-* #A bounded occurrence of workout activity that happens at a particular time and can be described by duration and internal content.#
+* [.changed]#A bounded occurrence of workout activity that happens at a particular time and can be described by duration and internal content.#
 
 .Abstraction
 *WORKOUT SESSION*
 
 .Definition
-#A specific occurrence of a Workout performed by a GymGoer at a particular time and on a particular Calendar Day.#
+[.changed]#A specific occurrence of a Workout performed by a GymGoer at a particular time and on a particular Calendar Day.#
 
 .Attributes
-* #Calendar Day#
+* [.added]#Calendar Day#
 * Duration
-* #Training type#
-* #Exercises performed#
+* [.changed]#Training type#
+* [.changed]#Exercises performed#
 
 .Rationale
-#The statements do not merely mention activity in general; they refer to a recordable occurrence that has temporal identity, bounded duration, and describable internal structure. That supports the concept of a Workout Session rather than only a generic workout.#
+[.changed]#The statements do not merely mention activity in general; they refer to a recordable occurrence that has temporal identity, bounded duration, and describable internal structure. That supports the concept of a Workout Session rather than only a generic workout.#
 
 ===== From Components to Exercise
 
 .Rough sketch statements (side-by-side)
 [literal]
-#A: "I do not always repeat the exact same exercises, but I usually want to note the main ones I did so I can compare sessions later."#
-#B: "Sometimes a session is mostly lifting, sometimes it is cardio, and sometimes it is a mix."#
-#C: "There is a difference between knowing I went to the gym that day and knowing what I actually did during that workout."#
+[.changed]#A: "I do not always repeat the exact same exercises, but I usually want to note the main ones I did so I can compare sessions later."#
+[.changed]#B: "Sometimes a session is mostly lifting, sometimes it is cardio, and sometimes it is a mix."#
+[.changed]#C: "There is a difference between knowing I went to the gym that day and knowing what I actually did during that workout."#
 
 .Semantic analysis
-* #Statement A refers to identifiable parts of a workout that can vary from one session to another.#
-* #Statement B shows that session content is composed of different kinds of physical activity.#
-* #Statement C distinguishes attendance from the internal content of the session itself.#
+* [.changed]#Statement A refers to identifiable parts of a workout that can vary from one session to another.#
+* [.changed]#Statement B shows that session content is composed of different kinds of physical activity.#
+* [.changed]#Statement C distinguishes attendance from the internal content of the session itself.#
 
 .Common structure
-* #A workout session contains distinguishable activity components that help describe what happened during that session.#
+* [.changed]#A workout session contains distinguishable activity components that help describe what happened during that session.#
 
 .Abstraction
 *EXERCISE*
 
 .Definition
-#A structured unit of activity performed within a Workout.#
+[.changed]#A structured unit of activity performed within a Workout.#
 
 .Relationships
-* #A Workout Session may include one or more Exercises.#
-* #Exercises help distinguish one Workout Session from another.#
+* [.changed]#A Workout Session may include one or more Exercises.#
+* [.changed]#Exercises help distinguish one Workout Session from another.#
 
 .Justification
-#These statements support Exercise as a component-level concept because stakeholders refer to the main things they actually did within a session, not merely to workout activity at the whole-session level.#
+[.changed]#These statements support Exercise as a component-level concept because stakeholders refer to the main things they actually did within a session, not merely to workout activity at the whole-session level.#
 
 ===== Distinguishing Attendance Day from Workout Session
 
 .Rough sketch statements (side-by-side)
 [literal]
-#A: "Tracking the days a person worked out."#
-#B: "Tracking what was done during a workout."#
+[.changed]#A: "Tracking the days a person worked out."#
+[.changed]#B: "Tracking what was done during a workout."#
 
 .Semantic analysis
-* #Statement A refers to whether workout activity occurred on a given Calendar Day.#
-* #Statement B refers to the specific structured activity that occurred.#
-* #A day with activity is not the same concept as the activity occurrence itself.#
+* [.changed]#Statement A refers to whether workout activity occurred on a given Calendar Day.#
+* [.changed]#Statement B refers to the specific structured activity that occurred.#
+* [.changed]#A day with activity is not the same concept as the activity occurrence itself.#
 
 .Terminology clash
-#Attendance and Workout Session were implicitly treated as interchangeable.#
+[.changed]#Attendance and Workout Session were implicitly treated as interchangeable.#
 
 .Resolution: introduce distinct concepts
-* #*ATTENDANCE DAY*#
-* #*WORKOUT SESSION*#
+* [.changed]#*ATTENDANCE DAY*#
+* [.changed]#*WORKOUT SESSION*#
 
 .Definitions
-* #*Attendance Day:* A Calendar Day on which at least one Workout Session has occurred.#
-* #*Workout Session:* A specific occurrence of a Workout performed by a GymGoer at a particular time on a particular Calendar Day.#
+* [.changed]#*Attendance Day:* A Calendar Day on which at least one Workout Session has occurred.#
+* [.changed]#*Workout Session:* A specific occurrence of a Workout performed by a GymGoer at a particular time on a particular Calendar Day.#
 
 .Relationship
-* #One Attendance Day may correspond to one or more Workout Sessions.#
+* [.changed]#One Attendance Day may correspond to one or more Workout Sessions.#
 
 .Justification
-#This separation preserves semantic clarity by distinguishing temporal occurrence at the day level from the specific activity occurrence.#
+[.changed]#This separation preserves semantic clarity by distinguishing temporal occurrence at the day level from the specific activity occurrence.#
 
 ==== 3.1.2 Concept Derivation: Temporal Patterns
 
@@ -101,31 +101,31 @@ This concept analysis transforms the rough sketch statements from the descriptiv
 
 .Rough sketch statements (side-by-side)
 [literal]
-#A: "Seeing several active days in the same week makes me feel like I am staying on track, even if they are not consecutive."#
-#B: "For me, consistency is about whether I keep showing up regularly over time, not only whether I never miss a day."#
-#C: "Someone can be consistent without having a perfect streak, because they may still work out regularly across the week."#
+[.changed]#A: "Seeing several active days in the same week makes me feel like I am staying on track, even if they are not consecutive."#
+[.changed]#B: "For me, consistency is about whether I keep showing up regularly over time, not only whether I never miss a day."#
+[.changed]#C: "Someone can be consistent without having a perfect streak, because they may still work out regularly across the week."#
 
 .Semantic analysis
-* #The statements refer to regularity of workout activity across a time span rather than to a single event.#
-* #They explicitly separate consistency from perfect consecutiveness.#
-* #The relevant pattern is frequency and distribution across time, not only whether each active day immediately follows the previous one.#
+* [.changed]#The statements refer to regularity of workout activity across a time span rather than to a single event.#
+* [.changed]#They explicitly separate consistency from perfect consecutiveness.#
+* [.changed]#The relevant pattern is frequency and distribution across time, not only whether each active day immediately follows the previous one.#
 
 .Common structure
-* #Regular workout participation distributed across a Time Frame.#
+* [.changed]#Regular workout participation distributed across a Time Frame.#
 
 .Abstraction
-#*CONSISTENCY*#
+[.changed]#*CONSISTENCY*#
 
 .Definition
-#A behavior describing how regularly Workout Sessions occur across a Time Frame, based on the distribution of Attendance Days and Missed Days in the relevant Workout History.#
+[.changed]#A behavior describing how regularly Workout Sessions occur across a Time Frame, based on the distribution of Attendance Days and Missed Days in the relevant Workout History.#
 
 .Relationships
-* #Consistency may remain high even when a Streak is broken.#
-* #Consistency is broader than Streak because it concerns regularity over a Time Frame rather than uninterrupted consecutiveness only.#
-* #Consistency can be interpreted through evaluateConsistency(...), which produces a Consistency Measure.#
+* [.changed]#Consistency may remain high even when a Streak is broken.#
+* [.changed]#Consistency is broader than Streak because it concerns regularity over a Time Frame rather than uninterrupted consecutiveness only.#
+* [.changed]#Consistency can be interpreted through evaluateConsistency(...), which produces a Consistency Measure.#
 
 .Justification
-#The statements support Consistency as a broader temporal pattern of regular participation, not merely as another name for a Streak.#
+[.changed]#The statements support Consistency as a broader temporal pattern of regular participation, not merely as another name for a Streak.#
 
 ===== From Consecutive Days to Streak
 
@@ -186,28 +186,28 @@ C: "No agreement on which works best."
 .Resolution of clash
 By abstracting upward, both daily and weekly goals become valid instances of the same structural concept.
 
-===== #From Overviews to Weekly Summary#
+===== [.changed]#From Overviews to Weekly Summary#
 
-.#Rough sketch statements (side-by-side)#
+.[.changed]#Rough sketch statements (side-by-side)#
 [literal]
-#A: "Weekly overview compared to goals."#
-#B: "Seeing progress motivates people."#
-#C: "No agreement on which works best."#
+[.changed]#A: "Weekly overview compared to goals."#
+[.changed]#B: "Seeing progress motivates people."#
+[.added]#C: "No agreement on which works best."#
 
 .Semantic analysis
-* #The statements refer to feedback aggregated over a bounded Time Frame rather than isolated session records.#
-* #The overview is meaningful because it relates recorded activity to a Goal.#
-* #The motivational value comes from interpreting accumulated results, not from viewing raw logs alone.#
+* [.changed]#The statements refer to feedback aggregated over a bounded Time Frame rather than isolated session records.#
+* [.changed]#The overview is meaningful because it relates recorded activity to a Goal.#
+* [.changed]#The motivational value comes from interpreting accumulated results, not from viewing raw logs alone.#
 
 .Abstraction
 *WEEKLY SUMMARY*
 
 .Definition
-#An overview of Workout Sessions, Attendance Days, Missed Days, and Goal evaluation within a Week.#
+[.changed]#An overview of Workout Sessions, Attendance Days, Missed Days, and Goal evaluation within a Week.#
 
 .Relationships
-* #Produced through summarizeWeek(...).#
-* #Supports interpretation of Progress and Goal achievement.#
+* [.changed]#Produced through summarizeWeek(...).#
+* [.changed]#Supports interpretation of Progress and Goal achievement.#
 
 ==== 3.1.4 Influencing Domain Factors
 
@@ -231,7 +231,7 @@ A psychological state influencing sustained participation in workout activity.
 .Relationships
 * Influenced by Streak
 * Influenced by Goal Achievement
-* #Influenced by Weekly Summary#
+* [.changed]#Influenced by Weekly Summary#
 
 ===== Cognitive Effort
 
@@ -272,30 +272,30 @@ Nutrition Management is excluded from the core domain model to preserve conceptu
 
 ==== 3.1.6 Consolidated Domain Vocabulary
 
-#The stabilized core domain vocabulary consists of:#
+[.changed]#The stabilized core domain vocabulary consists of:#
 
-* #Activity#
-* #Exercise#
-* #Workout#
+* [.added]#Activity#
+* [.added]#Exercise#
+* [.added]#Workout#
 * Workout Session
-* #Workout History#
-* #GymGoer#
-* #Calendar Day#
-* #Attendance Day#
-* #Missed Day#
-* #Time Frame#
-* #Week#
-* #Goal#
-* #Workout Notes#
-* #Reminder#
-* #Weekly Summary#
-* #Session Comparison#
-* #Consistency Measure#
-* #Goal Evaluation#
-* #Weekly Activity Pattern#
+* [.changed]#Workout History#
+* [.changed]#GymGoer#
+* [.changed]#Calendar Day#
+* [.changed]#Attendance Day#
+* [.changed]#Missed Day#
+* [.changed]#Time Frame#
+* [.changed]#Week#
+* [.changed]#Goal#
+* [.changed]#Workout Notes#
+* [.changed]#Reminder#
+* [.changed]#Weekly Summary#
+* [.changed]#Session Comparison#
+* [.changed]#Consistency Measure#
+* [.changed]#Goal Evaluation#
+* [.changed]#Weekly Activity Pattern#
 * Consistency
 * Streak
-* #Progress#
+* [.changed]#Progress#
 
 ==== 3.1.7 Summary
 
@@ -313,39 +313,39 @@ All abstractions and concepts were derived from the rough sketch statements, and
 
 ==== 3.1.8 Concept Derivation: Notification System Domain Analysis and Concept Formation
 :author: AlenjadroMB05
-#For the notification system of the Gym Tracker app, we identify and define the core domain concepts involved.#
+[.added]#For the notification system of the Gym Tracker app, we identify and define the core domain concepts involved.#
 
 ===== Core Concepts
 
 ====== Notification
-#A brief message that is sent to the user that reminds them of their workouts.#
+[.added]#A brief message that is sent to the user that reminds them of their workouts.#
 
 ====== User
-#A person who uses the Gym Tracker app and receives notifications.#
+[.added]#A person who uses the Gym Tracker app and receives notifications.#
 
 ====== Notification Trigger
-#An event that triggers a notification to be sent to the user (e.g., missed workout).#
+[.added]#An event that triggers a notification to be sent to the user (e.g., missed workout).#
 
 ====== Workout Event
-#An activity that could be ongoing, completed, or missed that may trigger a notification.#
+[.added]#An activity that could be ongoing, completed, or missed that may trigger a notification.#
 
 ====== User Preferences
-#Settings where a user decides what notifications they want to receive or not.#
+[.added]#Settings where a user decides what notifications they want to receive or not.#
 
 ===== Relationships Between Concepts
 
-* #Users receive notifications about their workout events.#
-* #A notification trigger generates a notification for the user.#
-* #A workout event can cause a notification trigger (e.g., starting a workout in the app).#
-* #Users can adjust their preferences to limit the quantity or type of notifications received.#
+* [.added]#Users receive notifications about their workout events.#
+* [.added]#A notification trigger generates a notification for the user.#
+* [.added]#A workout event can cause a notification trigger (e.g., starting a workout in the app).#
+* [.added]#Users can adjust their preferences to limit the quantity or type of notifications received.#
 
 ===== Example Scenarios
 
-* #A user has a scheduled workout → the system creates a reminder notification.#
-* #A user hasn't logged activity for several days → a notification is triggered due to inactivity.#
-* #A user completes a workout → a notification may appear showing progress or completion.#
+* [.added]#A user has a scheduled workout → the system creates a reminder notification.#
+* [.added]#A user hasn't logged activity for several days → a notification is triggered due to inactivity.#
+* [.added]#A user completes a workout → a notification may appear showing progress or completion.#
 
 ===== Summary
 
-#The notification system domain consists of several key concepts, including notifications, users, notification triggers, workout events, and user preferences.
+[.added]#The notification system domain consists of several key concepts, including notifications, users, notification triggers, workout events, and user preferences.
 Notifications are generated when specific triggers occur, such as workout creation or inactivity. These notifications are delivered to users based on their preferences, helping improve engagement and maintain workout consistency.#

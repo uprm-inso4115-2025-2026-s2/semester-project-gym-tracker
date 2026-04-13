@@ -2,27 +2,27 @@
 
 === 1.1 *Team*
 
-The project for Milestone 1 is organized into 5 functional teams: 
+The project for Milestone 1 is organized into 5 functional teams:
 Accounts and Design, Workout Data and Logging, Streaks,Notifications and Feedback, and Documentation; plus 2 Managers.
 
-Each team is responsible for a specific dimension of the domain problem. 
-The structure reflects the need to address workout data management, habit consistency, motivational feedback, 
+Each team is responsible for a specific dimension of the domain problem.
+The structure reflects the need to address workout data management, habit consistency, motivational feedback,
 user engagement, and interface coherence in a coordinated and well-defined manner.
 
-The teams operate under a shared objective: to reduce friction in fitness habit tracking and to support long-term consistency 
+The teams operate under a shared objective: to reduce friction in fitness habit tracking and to support long-term consistency
 through clarity, structure, and meaningful feedback.
 
-In this context, all team members are considered partners. 
-At this stage of the milestone, no external partners (such as domain experts or external stakeholders) 
-have been formally integrated into the project. If external partners are identified in later phases, 
+In this context, all team members are considered partners.
+At this stage of the milestone, no external partners (such as domain experts or external stakeholders)
+have been formally integrated into the project. If external partners are identified in later phases,
 their roles and responsibilities will be explicitly documented.
 
 The lists below indicate each group’s Team Leader.
 
 ==== *Managers:*
 
-The Managers are responsible for coordination, milestone alignment, task validation, 
-and ensuring coherence across all functional teams. They oversee task readiness, scoring, 
+The Managers are responsible for coordination, milestone alignment, task validation,
+and ensuring coherence across all functional teams. They oversee task readiness, scoring,
 and milestone consistency as defined in the course specification.
 
 [cols="2,1", options="header"]
@@ -49,7 +49,7 @@ Their responsibility includes reasoning about:
 - Data continuity and ownership
 - Structural clarity and usability principles
 
-This team ensures that the project maintains simplicity and coherence in how user-related information is structured 
+This team ensures that the project maintains simplicity and coherence in how user-related information is structured
 within the domain.
 
 [cols="2,1", options="header"]
@@ -83,10 +83,10 @@ within the domain.
 
 The Workout Data and Logging Team is responsible for the domain dimension related to physical activity recording.
 
-Their responsibility is to define how gym sessions, runs, cardio efforts, and workout attributes 
+Their responsibility is to define how gym sessions, runs, cardio efforts, and workout attributes
 (duration, calories, exercise type, notes) are conceptually structured and represented.
 
-This team ensures that workout tracking is treated as a domain concept grounded in observable fitness activity, 
+This team ensures that workout tracking is treated as a domain concept grounded in observable fitness activity,
 not merely as stored data.
 
 [cols="2,1", options="header"]

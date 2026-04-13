@@ -1,70 +1,70 @@
 === 3.2 Validation and Verification
 
-#This section retains the earlier Milestone 1 validation material and combines it with the current implementation evidence. The two kinds of material are not the same. Validation records how the team checked whether domain concepts and scenarios matched stakeholder understanding during design. Verification records what the current implementation demonstrably does. Using the course workflow, raw stakeholder facts are acquired first and later analyzed into concepts, scenarios, and inconsistency resolutions (Domain Acquisition lecture, Schütz-Schmuck, 2021; Domain Analysis and Concept Formation lecture, Schütz-Schmuck, 2024).#
+[.changed]#This section retains the earlier Milestone 1 validation material and combines it with the current implementation evidence. The two kinds of material are not the same. Validation records how the team checked whether domain concepts and scenarios matched stakeholder understanding during design. Verification records what the current implementation demonstrably does. Using the course workflow, raw stakeholder facts are acquired first and later analyzed into concepts, scenarios, and inconsistency resolutions (Domain Acquisition lecture, Schütz-Schmuck, 2021; Domain Analysis and Concept Formation lecture, Schütz-Schmuck, 2024).#
 
 ==== Validation Carried from Milestone 1 Design Work
 
 ===== Terminology and Concept Validation
 
-#The earlier milestone work validated core domain concepts such as Workout Session, Run, Streak, Goal, Consistency, and Progress Feedback by embedding them in concrete scenarios and checking whether those scenarios matched stakeholder understanding. One documented design-time scenario considered a user who completed a 30-minute run in the morning and a 45-minute strength workout in the evening on the same calendar date. The intended interpretation was that the system records two distinct Workout Sessions on the same date and that both contribute to broader weekly tracking.#
+[.changed]#The earlier milestone work validated core domain concepts such as Workout Session, Run, Streak, Goal, Consistency, and Progress Feedback by embedding them in concrete scenarios and checking whether those scenarios matched stakeholder understanding. One documented design-time scenario considered a user who completed a 30-minute run in the morning and a 45-minute strength workout in the evening on the same calendar date. The intended interpretation was that the system records two distinct Workout Sessions on the same date and that both contribute to broader weekly tracking.#
 
-#The gap identified in that earlier validation was that some users initially assumed that only one Workout Session per day was allowed. The resulting remedy was to clarify the Session Representation requirement so multiple Workout Sessions may exist on the same calendar date while remaining distinct records. We keep this material because it explains why the domain model allows same-day multiplicity.#
+[.changed]#The gap identified in that earlier validation was that some users initially assumed that only one Workout Session per day was allowed. The resulting remedy was to clarify the Session Representation requirement so multiple Workout Sessions may exist on the same calendar date while remaining distinct records. We keep this material because it explains why the domain model allows same-day multiplicity.#
 
 ===== Scenario Testing with Stakeholders
 
-#The earlier section also documented stakeholder walkthroughs around Streak Representation, Streak Calculation, Goal Evaluation, Weekly Aggregation, Weekly Comparison, and Low-Effort Logging. One design-time scenario considered a user who logged workouts on Monday, Tuesday, and Wednesday, skipped Thursday, and logged another workout on Friday. The stakeholder question was whether the streak should continue, reset immediately, or allow a grace period.#
+[.changed]#The earlier section also documented stakeholder walkthroughs around Streak Representation, Streak Calculation, Goal Evaluation, Weekly Aggregation, Weekly Comparison, and Low-Effort Logging. One design-time scenario considered a user who logged workouts on Monday, Tuesday, and Wednesday, skipped Thursday, and logged another workout on Friday. The stakeholder question was whether the streak should continue, reset immediately, or allow a grace period.#
 
-#The gap identified in that design discussion was that several participants expected some flexibility if a workout was forgotten but performed. The documented remedy was to refine the Streak Calculation requirement so streaks are defined as sequences of consecutive calendar units and to note a configurable grace-period feature as a possible future extension. We keep this material in the section as design-time validation and requirement rationale, not as evidence that the current implementation was tested with users.#
+[.changed]#The gap identified in that design discussion was that several participants expected some flexibility if a workout was forgotten but performed. The documented remedy was to refine the Streak Calculation requirement so streaks are defined as sequences of consecutive calendar units and to note a configurable grace-period feature as a possible future extension. We keep this material in the section as design-time validation and requirement rationale, not as evidence that the current implementation was tested with users.#
 
 ===== Surveys and Feedback Mechanisms
 
-#The Milestone 1 section also proposed targeted user experience surveys and an in-system feedback tool as validation mechanisms for prototype iterations. Those activities remain relevant validation approaches. However, the current repository does not contain completed survey results, analyzed responses, or observed evidence of an in-system feedback feature being used for validation. In this section, we keep them as planned or partially evidenced validation activities, not as completed validation results.#
+[.changed]#The Milestone 1 section also proposed targeted user experience surveys and an in-system feedback tool as validation mechanisms for prototype iterations. Those activities remain relevant validation approaches. However, the current repository does not contain completed survey results, analyzed responses, or observed evidence of an in-system feedback feature being used for validation. In this section, we keep them as planned or partially evidenced validation activities, not as completed validation results.#
 
 ==== Validation Already Documented Elsewhere in the Book
 
-#Section 2.1.2 documents a terminology walkthrough used to test whether a domain story could be expressed using the defined terms only. That walkthrough exposed missing concepts such as Workout History, Calendar Day, Time Frame, Week, Goal Evaluation, and Weekly Summary, and the terminology section records the resulting restructuring.#
+[.changed]#Section 2.1.2 documents a terminology walkthrough used to test whether a domain story could be expressed using the defined terms only. That walkthrough exposed missing concepts such as Workout History, Calendar Day, Time Frame, Week, Goal Evaluation, and Weekly Summary, and the terminology section records the resulting restructuring.#
 
-#Section 2.2.3 documents stakeholder-oriented elicitation walkthroughs for specific ambiguity cases. FE-1 resolves whether streaks depend on workout date or logging date. FE-2 resolves whether weekly goals count active days or raw sessions. FE-3 states that corrections to past workout data should recalculate derived results from the updated workout history.#
+[.changed]#Section 2.2.3 documents stakeholder-oriented elicitation walkthroughs for specific ambiguity cases. FE-1 resolves whether streaks depend on workout date or logging date. FE-2 resolves whether weekly goals count active days or raw sessions. FE-3 states that corrections to past workout data should recalculate derived results from the updated workout history.#
 
-#Section 4.3 documents the acquisition structure used to obtain validation input. The book includes AQ1 as a concrete questionnaire instrument and identifies AQ2 micro-interviews, AQ3 competitive review, and AQ4 artifact review as acquisition activities. The questionnaire and its mapping to requirement areas are documented. However, this branch does not include completed questionnaire responses, interview notes, or a consolidated analysis of answers. In this report, we treat those items as planned or only partially documented validation evidence.#
+[.changed]#Section 4.3 documents the acquisition structure used to obtain validation input. The book includes AQ1 as a concrete questionnaire instrument and identifies AQ2 micro-interviews, AQ3 competitive review, and AQ4 artifact review as acquisition activities. The questionnaire and its mapping to requirement areas are documented. However, this branch does not include completed questionnaire responses, interview notes, or a consolidated analysis of answers. In this report, we treat those items as planned or only partially documented validation evidence.#
 
-#Section 2.2.4 contains scenario narratives for broken-streak recovery and invalid-input rejection. These scenarios document intended behavior and help validate the requirement set. We use them as requirement rationale, not as direct evidence that the current implementation performs that behavior.#
+[.changed]#Section 2.2.4 contains scenario narratives for broken-streak recovery and invalid-input rejection. These scenarios document intended behavior and help validate the requirement set. We use them as requirement rationale, not as direct evidence that the current implementation performs that behavior.#
 
 ==== Verification Evidence Observed on `Development`
 
-#The `Development` branch contains explicit local commands for unit tests, acceptance-style tests, and production builds. In `package.json`, `npm test` runs Vitest, `npm run test:acceptance` runs a separate acceptance suite, and `npm run build` runs `tsc -b` followed by `vite build`. `vitest.config.ts` excludes `tests/acceptance/**/*.test.{ts,tsx}` from the default suite, while `vitest.acceptance.config.ts` runs that directory separately in `jsdom` with a dedicated setup file.#
+[.changed]#The `Development` branch contains explicit local commands for unit tests, acceptance-style tests, and production builds. In `package.json`, `npm test` runs Vitest, `npm run test:acceptance` runs a separate acceptance suite, and `npm run build` runs `tsc -b` followed by `vite build`. `vitest.config.ts` excludes `tests/acceptance/**/*.test.{ts,tsx}` from the default suite, while `vitest.acceptance.config.ts` runs that directory separately in `jsdom` with a dedicated setup file.#
 
-#`src/data/featurePersonaMap.test.js` provides direct verification of the feature-to-persona mapping data and lookup helpers. The file tests feature lookup by identifier, persona-to-feature mapping, feature-to-persona mapping, relevance checks, expectation-alignment checks, summary generation, and detection of unmapped persona expectations.#
+[.changed]#`src/data/featurePersonaMap.test.js` provides direct verification of the feature-to-persona mapping data and lookup helpers. The file tests feature lookup by identifier, persona-to-feature mapping, feature-to-persona mapping, relevance checks, expectation-alignment checks, summary generation, and detection of unmapped persona expectations.#
 
-#`src/lib/workouts.test.ts` provides direct verification of workout helper logic. The file tests UTC date-key extraction, counting workouts on a specific day, counting unique workout days in a date range, computing the longest streak from unique completed days, and computing Monday-Sunday week boundaries.#
+[.changed]#`src/lib/workouts.test.ts` provides direct verification of workout helper logic. The file tests UTC date-key extraction, counting workouts on a specific day, counting unique workout days in a date range, computing the longest streak from unique completed days, and computing Monday-Sunday week boundaries.#
 
-#`src/features/streaks/streakcalc.test.ts` provides direct verification of streak logic. The file tests qualifying-workout rules, consecutive-day streak growth, grace-period activation after a missed day, reset after grace expiration, streak computation from out-of-order sessions, duplicate sessions on the same day, and zero-streak outcomes when workouts are isolated or separated by a gap.#
+[.changed]#`src/features/streaks/streakcalc.test.ts` provides direct verification of streak logic. The file tests qualifying-workout rules, consecutive-day streak growth, grace-period activation after a missed day, reset after grace expiration, streak computation from out-of-order sessions, duplicate sessions on the same day, and zero-streak outcomes when workouts are isolated or separated by a gap.#
 
-#`tests/acceptance/app.acceptance.test.tsx` provides two acceptance-style UI checks using React Testing Library and a mocked Supabase client. The first test verifies that logging a workout updates daily goal feedback from `0 / 1 workouts today` to `1 / 1 workouts today` and stores one workout in the mock state. The second test verifies that a newly logged workout appears in the routed history view with its notes and duration.#
+[.changed]#`tests/acceptance/app.acceptance.test.tsx` provides two acceptance-style UI checks using React Testing Library and a mocked Supabase client. The first test verifies that logging a workout updates daily goal feedback from `0 / 1 workouts today` to `1 / 1 workouts today` and stores one workout in the mock state. The second test verifies that a newly logged workout appears in the routed history view with its notes and duration.#
 
-#The following command results were observed locally on 2026-04-07. The fresh evidence worktree initially lacked installed dependencies, so `npm ci` was run once before executing the required verification commands.#
+[.changed]#The following command results were observed locally on 2026-04-07. The fresh evidence worktree initially lacked installed dependencies, so `npm ci` was run once before executing the required verification commands.#
 
 [cols="2,5", options="header"]
 |===
-|#Command#
-|#Observed result#
+|[.changed]#Command#
+|[.changed]#Observed result#
 
-|#`npm test -- --run`#
-|#Passed. Vitest reported 24 passing tests in 3 files: `src/data/featurePersonaMap.test.js`, `src/lib/workouts.test.ts`, and `src/features/streaks/streakcalc.test.ts`. The output also emitted a warning that Supabase environment variables were missing, but the test run did not fail.#
+|[.changed]#`npm test -- --run`#
+|[.changed]#Passed. Vitest reported 24 passing tests in 3 files: `src/data/featurePersonaMap.test.js`, `src/lib/workouts.test.ts`, and `src/features/streaks/streakcalc.test.ts`. The output also emitted a warning that Supabase environment variables were missing, but the test run did not fail.#
 
-|#`npm run test:acceptance`#
-|#Passed. Vitest reported 2 passing tests in 1 file, `tests/acceptance/app.acceptance.test.tsx`.#
+|[.changed]#`npm run test:acceptance`#
+|[.changed]#Passed. Vitest reported 2 passing tests in 1 file, `tests/acceptance/app.acceptance.test.tsx`.#
 
-|#`npm run build`#
-|#Passed. The project compiled and produced a production bundle. The build emitted a Vite warning that the generated JavaScript chunk was larger than 500 kB after minification.#
+|[.changed]#`npm run build`#
+|[.changed]#Passed. The project compiled and produced a production bundle. The build emitted a Vite warning that the generated JavaScript chunk was larger than 500 kB after minification.#
 |===
 
 ==== Verification Still Planned or Incomplete
 
-#At this stage, the repository does not contain evidence of representative-user acceptance testing sessions. The acceptance-labeled test file is a developer-run UI test with a mocked backend. It is useful implementation verification, but it is not the same as observed user acceptance testing.#
+[.changed]#At this stage, the repository does not contain evidence of representative-user acceptance testing sessions. The acceptance-labeled test file is a developer-run UI test with a mocked backend. It is useful implementation verification, but it is not the same as observed user acceptance testing.#
 
-#At this stage, the repository does not contain performance benchmark scripts, response-time thresholds, load tests, or measured runtime baselines. A successful `npm run build` result shows that the code compiles and bundles. It does not demonstrate runtime performance or benchmark compliance.#
+[.changed]#At this stage, the repository does not contain performance benchmark scripts, response-time thresholds, load tests, or measured runtime baselines. A successful `npm run build` result shows that the code compiles and bundles. It does not demonstrate runtime performance or benchmark compliance.#
 
-#At this stage, the repository does not contain an automated workflow that runs `npm test`, `npm run test:acceptance`, or `npm run build` for application changes. The observed GitHub Actions workflows generate documentation PDFs and weekly project reports. They do not provide evidence of automated application verification on each update.#
+[.changed]#At this stage, the repository does not contain an automated workflow that runs `npm test`, `npm run test:acceptance`, or `npm run build` for application changes. The observed GitHub Actions workflows generate documentation PDFs and weekly project reports. They do not provide evidence of automated application verification on each update.#
 
-#Several verification claims from the previous version of this section are not fully supported by the current tests. No observed test directly verifies persistence against a real database, weekly goal evaluation by active days, weekly comparison across multiple weeks, invalid-input rejection before persistence, or recalculation after editing past workout data. We therefore leave those checks in the planned or incomplete category for now.#
+[.changed]#Several verification claims from the previous version of this section are not fully supported by the current tests. No observed test directly verifies persistence against a real database, weekly goal evaluation by active days, weekly comparison across multiple weeks, invalid-input rejection before persistence, or recalculation after editing past workout data. We therefore leave those checks in the planned or incomplete category for now.#

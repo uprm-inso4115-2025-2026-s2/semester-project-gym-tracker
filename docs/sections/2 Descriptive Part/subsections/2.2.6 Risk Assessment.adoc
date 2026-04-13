@@ -1,303 +1,303 @@
 ==== 2.2.6 Risk Assessment
 
 
-===== FMEA-Based Risk Identification 
+===== FMEA-Based Risk Identification
 
-#The project applies Failure Mode and Effects Analysis (FMEA) to identify potential failures in core system functionality. Each risk is analyzed in terms of failure mode, cause, effect and a realistic usage scenario. Severity, occurrence, and detection are evaluated to prioritize risks.#
+[.added]#The project applies Failure Mode and Effects Analysis (FMEA) to identify potential failures in core system functionality. Each risk is analyzed in terms of failure mode, cause, effect and a realistic usage scenario. Severity, occurrence, and detection are evaluated to prioritize risks.#
 
 ===== Severity
 
-#Represents how serious the consequences of a failure would be for the user or the system if the failure occurs.#  
+[.added]#Represents how serious the consequences of a failure would be for the user or the system if the failure occurs.#
 
-#A higher severity value indicates a greater negative impact on the user experience or system functionality.#
+[.added]#A higher severity value indicates a greater negative impact on the user experience or system functionality.#
 
 [width="100%", cols="2*", options="header", frame=all, grid=all, halign=center]
 
 |===
-| #Severity Value# | #Description# 
-| #1-3# | #Minor inconvenience with little impact on functionality#
-| #4-6# | #Moderate impact that affects usability or user experience# 
-| #7-8# | #Major impact that disrupts key system features# 
-| #9-10# | #Critical failure that causes loss of important data or functionality# 
+| [.added]#Severity Value# | [.added]#Description#
+| [.added]#1-3# | [.added]#Minor inconvenience with little impact on functionality#
+| [.added]#4-6# | [.added]#Moderate impact that affects usability or user experience#
+| [.added]#7-8# | [.added]#Major impact that disrupts key system features#
+| [.added]#9-10# | [.added]#Critical failure that causes loss of important data or functionality#
 |===
 
 
 ===== Occurrence
 
-#Represents the likelihood that a failure will happen during normal operation of the system.#
+[.added]#Represents the likelihood that a failure will happen during normal operation of the system.#
 
-#A higher value indicates that the failure is more likely to occur.# 
+[.added]#A higher value indicates that the failure is more likely to occur.#
 
 [width="100%", cols="2*", options="header", frame=all, grid=all, halign=center]
 
 |===
-| #Occurrence Value# | #Description# 
-| #1-3# | #Very unlikely to occur#
-| #4-6# | #Somewhat likely to occur#
-| #7-8# | #Likely to occur#
-| #9-10# | #Very likely to occur#
+| [.added]#Occurrence Value# | [.added]#Description#
+| [.added]#1-3# | [.added]#Very unlikely to occur#
+| [.added]#4-6# | [.added]#Somewhat likely to occur#
+| [.added]#7-8# | [.added]#Likely to occur#
+| [.added]#9-10# | [.added]#Very likely to occur#
 |===
 
 
 ===== Detection
 
-#Represents the likelihood that the system will detect the failure before it negatively affects the user or system.# 
+[.added]#Represents the likelihood that the system will detect the failure before it negatively affects the user or system.#
 
-#A lower score means the system can easily detect the problem, while a higher score indicates the failure may go unnoticed.# 
+[.added]#A lower score means the system can easily detect the problem, while a higher score indicates the failure may go unnoticed.#
 
 [width="100%", cols="2*", options="header", frame=all, grid=all, halign=center]
 
 |===
-| #Detection Value# | #Description# 
-| #1-3# | #Very likely to be detected# 
-| #4-6# | #Detection possible but not guaranteed# 
-| #7-8# | #Difficult to detect without specific monitoring or testing# 
-| #9-10# | #Very unlikely to be detected before causing impact# 
+| [.added]#Detection Value# | [.added]#Description#
+| [.added]#1-3# | [.added]#Very likely to be detected#
+| [.added]#4-6# | [.added]#Detection possible but not guaranteed#
+| [.added]#7-8# | [.added]#Difficult to detect without specific monitoring or testing#
+| [.added]#9-10# | [.added]#Very unlikely to be detected before causing impact#
 |===
 
 
 ===== FMEA Case 1 - Workout Data Not Saved
 
-*#Scenario*:# #A user completes a workout and logs it using the Quick Entry Workflow. The system attempts to store the session, but due to a network interruption, the request fails silently. The user assumes the workout was saved and later notices that the session is missing from their history.#
+[.added]#*Scenario:*# [.added]#A user completes a workout and logs it using the Quick Entry Workflow. The system attempts to store the session, but due to a network interruption, the request fails silently. The user assumes the workout was saved and later notices that the session is missing from their history.#
 
 [width="100%", cols="7*", options="header", frame=all, grid=all, halign=center]
 |===
-| #Related Requirement# | #Failure Mode# | #Causes# | #Effects# | #Severity# | #Occurrence# | #Detection#
+| [.added]#Related Requirement# | [.added]#Failure Mode# | [.added]#Causes# | [.added]#Effects# | [.added]#Severity# | [.added]#Occurrence# | [.added]#Detection#
 
-| #Persistent Storage and Retrieval# | #Workout data is not saved to the database due to a network failure during the logging process.# | #Network interruption, server downtime, or client-side error during data submission.# | #User loses workout data, leading to frustration and loss of trust in the system.# | #9# | #4# | #6# 
+| [.added]#Persistent Storage and Retrieval# | [.added]#Workout data is not saved to the database due to a network failure during the logging process.# | [.added]#Network interruption, server downtime, or client-side error during data submission.# | [.added]#User loses workout data, leading to frustration and loss of trust in the system.# | [.added]#9# | [.added]#4# | [.added]#6#
 |===
 
 
-*#Candidate Countermeasures#*
+[.added]#*Candidate Countermeasures*#
 
-#Mitigation:#
+[.added]#Mitigation:#
 
-* #Implement automatic retry logic for failed database writes due to transient network issues.#
+* [.added]#Implement automatic retry logic for failed database writes due to transient network issues.#
 
-* #Temporarily cache workout sessions locally and synchronize once connectivity is restored.#
+* [.added]#Temporarily cache workout sessions locally and synchronize once connectivity is restored.#
 
-* #Provide explicit success/failure feedback to the user after logging a workout session.#
+* [.added]#Provide explicit success/failure feedback to the user after logging a workout session.#
 
-#Avoidance:#
+[.added]#Avoidance:#
 
-* #Do not confirm session creation to the user until the system verifies that the data is successfully persisted.#
+* [.added]#Do not confirm session creation to the user until the system verifies that the data is successfully persisted.#
 
-#Transfer:#
+[.added]#Transfer:#
 
-* #Use Supabase-managed database infrastructure with built-in replication and backup mechanisms to reduce risk of data loss.#
+* [.added]#Use Supabase-managed database infrastructure with built-in replication and backup mechanisms to reduce risk of data loss.#
 
-#Acceptance:#
+[.added]#Acceptance:#
 
-* #Accept minimal risk of short-lived inconsistency in UI display (e.g., delayed update), provided data is eventually stored correctly.#
+* [.added]#Accept minimal risk of short-lived inconsistency in UI display (e.g., delayed update), provided data is eventually stored correctly.#
 
 
-*#Risk Assessment and Justification#*
+[.added]#*Risk Assessment and Justification*#
 
-#Likelihood: *Medium*#  
+[.added]#Likelihood: *Medium*#
 
-#Justification:# 
+[.added]#Justification:#
 
-* #Workout logging depends on reliable communication between the client and backend. Network interruptions, temporary server downtime, or client-side submission errors can occur during normal usage, but not consistently.#
+* [.added]#Workout logging depends on reliable communication between the client and backend. Network interruptions, temporary server downtime, or client-side submission errors can occur during normal usage, but not consistently.#
 
-#Impact: *High*#  
+[.added]#Impact: *High*#
 
-#Justification:# 
+[.added]#Justification:#
 
-* #This failure results in loss of workout data, which directly affects progress tracking, streak calculations, and user trust in the system.#
+* [.added]#This failure results in loss of workout data, which directly affects progress tracking, streak calculations, and user trust in the system.#
 
-#Discussion:# 
+[.added]#Discussion:#
 
-* #This is a high-priority risk because it impacts both data integrity and user confidence. Even with moderate likelihood, the consequences justify mitigation strategies such as retry mechanisms and local caching.#
+* [.added]#This is a high-priority risk because it impacts both data integrity and user confidence. Even with moderate likelihood, the consequences justify mitigation strategies such as retry mechanisms and local caching.#
 
 
 ===== FMEA Case 2 - Incorrect Streak Calculation
 
-*#Scenario*:# #A user completes workouts on consecutive days. One session is logged late at night and another early the next day. Due to inconsistent time zone handling, the system interprets both sessions as occurring on the same day, breaking the streak unexpectedly.#
+[.added]#*Scenario:*# [.added]#A user completes workouts on consecutive days. One session is logged late at night and another early the next day. Due to inconsistent time zone handling, the system interprets both sessions as occurring on the same day, breaking the streak unexpectedly.#
 
 [width="100%", cols="7*", options="header", frame=all, grid=all, halign=center]
 |===
-| #Related Requirement# | #Failure Mode# | #Causes# | #Effects# | #Severity# | #Occurrence# | #Detection#
+| [.added]#Related Requirement# | [.added]#Failure Mode# | [.added]#Causes# | [.added]#Effects# | [.added]#Severity# | [.added]#Occurrence# | [.added]#Detection#
 
-| #Streak Calculation# | #Streak is incorrectly calculated due to inconsistent handling of workout timestamps across time zones.# | #Time zone differences, lack of standardized timestamp format, or incorrect date parsing logic.# | #User sees an unexpected break in their streak, leading to confusion and dissatisfaction with the system.# | #7# | #5# | #5#
+| [.added]#Streak Calculation# | [.added]#Streak is incorrectly calculated due to inconsistent handling of workout timestamps across time zones.# | [.added]#Time zone differences, lack of standardized timestamp format, or incorrect date parsing logic.# | [.added]#User sees an unexpected break in their streak, leading to confusion and dissatisfaction with the system.# | [.added]#7# | [.added]#5# | [.added]#5#
 |===
 
 
-*#Candidate Countermeasures#*
+[.added]#*Candidate Countermeasures*#
 
-#Mitigation:#
+[.added]#Mitigation:#
 
-* #Normalize all timestamps to a single standard (e.g., UTC) before processing streak logic.#
+* [.added]#Normalize all timestamps to a single standard (e.g., UTC) before processing streak logic.#
 
-* #Implement automated unit tests covering edge cases (same-day workouts, late-night sessions, timezone shifts).#
+* [.added]#Implement automated unit tests covering edge cases (same-day workouts, late-night sessions, timezone shifts).#
 
-* #Recalculate streak values dynamically whenever a Workout Session is added or modified.#
+* [.added]#Recalculate streak values dynamically whenever a Workout Session is added or modified.#
 
-#Avoidance:#
+[.added]#Avoidance:#
 
-* #Restrict streak calculations to use only the “date performed” attribute, not system time or logging time.#
+* [.added]#Restrict streak calculations to use only the “date performed” attribute, not system time or logging time.#
 
-#Transfer:#
+[.added]#Transfer:#
 
-* #Use reliable date/time libraries or Supabase time handling to reduce risk of implementation errors.#
+* [.added]#Use reliable date/time libraries or Supabase time handling to reduce risk of implementation errors.#
 
-#Acceptance:#
+[.added]#Acceptance:#
 
-* #Accept rare edge cases where streak recalculation may momentarily display inconsistent values before correction.#
+* [.added]#Accept rare edge cases where streak recalculation may momentarily display inconsistent values before correction.#
 
 
-*#Risk Assessment and Justification#*
+[.added]#*Risk Assessment and Justification*#
 
-#Likelihood: *Medium*#  
+[.added]#Likelihood: *Medium*#
 
-#Justification:# 
+[.added]#Justification:#
 
-* #Time and date handling is a common source of defects especially in systems that rely on user-generated timestamps. Edge cases such as late-night workouts and timezone differences increase the probability of incorrect calculations.#  
+* [.added]#Time and date handling is a common source of defects especially in systems that rely on user-generated timestamps. Edge cases such as late-night workouts and timezone differences increase the probability of incorrect calculations.#
 
-#Impact: *Medium*#  
+[.added]#Impact: *Medium*#
 
-#Justification:# 
+[.added]#Justification:#
 
-* #While the system continues to function, incorrect streak calculations affect a key motivational feature potentially reducing user engagement and satisfaction.#  
+* [.added]#While the system continues to function, incorrect streak calculations affect a key motivational feature potentially reducing user engagement and satisfaction.#
 
-#Discussion:#
+[.added]#Discussion:#
 
-* #This risk primarily affects user perception rather than system correctness. It is important for user experience but less critical than risks involving data loss.#
+* [.added]#This risk primarily affects user perception rather than system correctness. It is important for user experience but less critical than risks involving data loss.#
 
 
 ===== FMEA Case 3 - Incorrect Goal Evaluation
 
-*#Scenario*:# #A user completes multiple workouts on the same day. The system incorrectly counts them as multiple active days instead of one, causing the weekly goal to appear completed earlier than it actually is.#
+[.added]#*Scenario:*# [.added]#A user completes multiple workouts on the same day. The system incorrectly counts them as multiple active days instead of one, causing the weekly goal to appear completed earlier than it actually is.#
 
 [width="100%", cols="7*", options="header", frame=all, grid=all, halign=center]
 |===
-| #Related Requirement# | #Failure Mode# | #Causes# | #Effects# | #Severity# | #Occurrence# | #Detection#
-| #Goal Evaluation# | #Weekly goal is incorrectly marked as completed due to multiple workouts on the same day being counted as separate active days.# | #Lack of logic to aggregate workouts by date, incorrect date handling, or failure to consider multiple sessions in goal evaluation.# | #User sees their weekly goal as completed prematurely, leading to confusion about their actual progress and can result in potential loss of motivation.# | #7# | #5# | #4#
+| [.added]#Related Requirement# | [.added]#Failure Mode# | [.added]#Causes# | [.added]#Effects# | [.added]#Severity# | [.added]#Occurrence# | [.added]#Detection#
+| [.added]#Goal Evaluation# | [.added]#Weekly goal is incorrectly marked as completed due to multiple workouts on the same day being counted as separate active days.# | [.added]#Lack of logic to aggregate workouts by date, incorrect date handling, or failure to consider multiple sessions in goal evaluation.# | [.added]#User sees their weekly goal as completed prematurely, leading to confusion about their actual progress and can result in potential loss of motivation.# | [.added]#7# | [.added]#5# | [.added]#4#
 |===
 
 
-*#Candidate Countermeasures#*
+[.added]#*Candidate Countermeasures*#
 
-#Mitigation:#
+[.added]#Mitigation:#
 
-* #Clearly enforce aggregation rules: one active day per calendar day regardless of number of sessions.#
+* [.added]#Clearly enforce aggregation rules: one active day per calendar day regardless of number of sessions.#
 
-* #Add validation checks to ensure that only one active day is counted per calendar date during goal evaluation.#
+* [.added]#Add validation checks to ensure that only one active day is counted per calendar date during goal evaluation.#
 
-* #Implement automated tests for goal evaluation scenarios (multiple sessions per day, missing days, etc.).#
+* [.added]#Implement automated tests for goal evaluation scenarios (multiple sessions per day, missing days, etc.).#
 
-#Avoidance:#
+[.added]#Avoidance:#
 
-* #Simplify goal evaluation logic by strictly basing it on unique calendar dates rather than session count.#
+* [.added]#Simplify goal evaluation logic by strictly basing it on unique calendar dates rather than session count.#
 
-#Transfer:#
+[.added]#Transfer:#
 
-* #Use database-level aggregation queries (grouping by date) to reduce logic errors in application code.#
+* [.added]#Use database-level aggregation queries (grouping by date) to reduce logic errors in application code.#
 
-#Acceptance:#
+[.added]#Acceptance:#
 
-* #Accept that temporary inconsistencies may happen during recalculation, provided final computed results remain correct and consistent with stored data.#
+* [.added]#Accept that temporary inconsistencies may happen during recalculation, provided final computed results remain correct and consistent with stored data.#
 
 
-*#Risk Assessment and Justification#*
+[.added]#*Risk Assessment and Justification*#
 
-#Likelihood: *Medium*#
+[.added]#Likelihood: *Medium*#
 
-#Justification:#
+[.added]#Justification:#
 
-* #The risk arises from aggregation logic errors. Since users may perform multiple workouts per day, incorrect handling is plausible if requirements or implementation logic are not clearly defined.#
+* [.added]#The risk arises from aggregation logic errors. Since users may perform multiple workouts per day, incorrect handling is plausible if requirements or implementation logic are not clearly defined.#
 
-#Impact: *High*#
+[.added]#Impact: *High*#
 
-#Justification:#
+[.added]#Justification:#
 
-* #Incorrect goal evaluation misrepresents user progress which undermines the reliability of the system and can mislead users about their achievements.#
+* [.added]#Incorrect goal evaluation misrepresents user progress which undermines the reliability of the system and can mislead users about their achievements.#
 
-#Discussion:#
+[.added]#Discussion:#
 
-* #This risk is significant because it affects the correctness of system outputs rather than just presentation. Accurate progress tracking is central to the system’s purpose making this a high-priority issue.#
+* [.added]#This risk is significant because it affects the correctness of system outputs rather than just presentation. Accurate progress tracking is central to the system’s purpose making this a high-priority issue.#
 
 
 ===== Guideword-Based Risk Identification
 
-#The project applies the guidewords technique to identify risks by exploring deviations in system behavior and requirements (e.g., NO, MORE, LESS, AS WELL AS, OTHER THAN, INCORRECT). Each risk is described using a scenario and evaluated using likelihood and impact with supporting justification.#
+[.added]#The project applies the guidewords technique to identify risks by exploring deviations in system behavior and requirements (e.g., NO, MORE, LESS, AS WELL AS, OTHER THAN, INCORRECT). Each risk is described using a scenario and evaluated using likelihood and impact with supporting justification.#
 
 
 ===== Guideword Case 1 - No Workout Session Recorded
 
-*#Guideword:#* #No#
+[.added]#*Guideword:*# [.added]#No#
 
-*#Scenario:#* #Alejandro finishes a gym workout after class but does not record it that day. Since the system depends on recorded Workout Sessions to compute Attendance Days, the completed session is absent from his Workout History. When he later reviews the week, the system shows less activity than what actually occurred.#
+[.added]#*Scenario:*# [.added]#Alejandro finishes a gym workout after class but does not record it that day. Since the system depends on recorded Workout Sessions to compute Attendance Days, the completed session is absent from his Workout History. When he later reviews the week, the system shows less activity than what actually occurred.#
 
-*#Risk:#* #No Workout Session is recorded for an activity that was actually performed.#
+[.added]#*Risk:*# [.added]#No Workout Session is recorded for an activity that was actually performed.#
 
-*#Risk Assessment and Justification#*
+[.added]#*Risk Assessment and Justification*#
 
-#Likelihood: *High*#
+[.added]#Likelihood: *High*#
 
-#Justification:#
+[.added]#Justification:#
 
-* #The project explicitly emphasizes low-effort logging because users often abandon tracking when it feels burdensome. Since logging is still a separate action after performing the workout, missed entries are a realistic and common risk during normal use.#
+* [.added]#The project explicitly emphasizes low-effort logging because users often abandon tracking when it feels burdensome. Since logging is still a separate action after performing the workout, missed entries are a realistic and common risk during normal use.#
 
-#Impact: *High*#
+[.added]#Impact: *High*#
 
-#Justification:#
+[.added]#Justification:#
 
-* #If a Workout Session is not recorded, the Workout History becomes incomplete, which can affect Attendance Days, Streak calculation, weekly summaries, and goal evaluation.#
+* [.added]#If a Workout Session is not recorded, the Workout History becomes incomplete, which can affect Attendance Days, Streak calculation, weekly summaries, and goal evaluation.#
 
-#Discussion:#
+[.added]#Discussion:#
 
-* #This risk is important because the system depends on recorded history as the source of truth. Even though the workout happened in the real world, the system cannot reflect it unless it is logged.#
+* [.added]#This risk is important because the system depends on recorded history as the source of truth. Even though the workout happened in the real world, the system cannot reflect it unless it is logged.#
 
 
 ===== Guideword Case 2 - More Workout Sessions Counted Than Intended
 
-*#Guideword:#* #More#
+[.added]#*Guideword:*# [.added]#More#
 
-*#Scenario:#* #Derek records a run in the morning and later mistakenly logs the same run again when reviewing his day. The Workout History now contains two Workout Sessions representing what should have been one activity. When the week is summarized, the extra entry inflates the apparent level of activity.#
+[.added]#*Scenario:*# [.added]#Derek records a run in the morning and later mistakenly logs the same run again when reviewing his day. The Workout History now contains two Workout Sessions representing what should have been one activity. When the week is summarized, the extra entry inflates the apparent level of activity.#
 
-*#Risk:#* #More Workout Sessions are counted than intended because duplicate entries are recorded in the Workout History.#
+[.added]#*Risk:*# [.added]#More Workout Sessions are counted than intended because duplicate entries are recorded in the Workout History.#
 
-*#Risk Assessment and Justification#*
+[.added]#*Risk Assessment and Justification*#
 
-#Likelihood: *Medium*#
+[.added]#Likelihood: *Medium*#
 
-#Justification:#
+[.added]#Justification:#
 
-* #The system supports quick logging and editing, which helps usability but also makes accidental duplicate entries plausible, especially when users log in a hurry or are unsure whether a session was already saved.#
+* [.added]#The system supports quick logging and editing, which helps usability but also makes accidental duplicate entries plausible, especially when users log in a hurry or are unsure whether a session was already saved.#
 
-#Impact: *Medium*#
+[.added]#Impact: *Medium*#
 
-#Justification:#
+[.added]#Justification:#
 
-* #Duplicate Workout Sessions can distort weekly comparisons, summaries, and perceived activity levels, although they do not necessarily prevent the rest of the system from functioning.#
+* [.added]#Duplicate Workout Sessions can distort weekly comparisons, summaries, and perceived activity levels, although they do not necessarily prevent the rest of the system from functioning.#
 
-#Discussion:#
+[.added]#Discussion:#
 
-* #This risk mainly affects the correctness of progress representation. It is less severe than missing all record of a workout, but it still undermines trust in the accuracy of the history and weekly feedback.#
+* [.added]#This risk mainly affects the correctness of progress representation. It is less severe than missing all record of a workout, but it still undermines trust in the accuracy of the history and weekly feedback.#
 
 
 ===== Guideword Case 3 - Incorrect Workout Date Used for Streak and Goal Evaluation
 
-*#Guideword:#* #Incorrect#
+[.added]#*Guideword:*# [.added]#Incorrect#
 
-*#Scenario:#* #Ana performs a workout on Monday night but records it on Tuesday morning and accidentally leaves Tuesday as the session date. The system then treats the Workout Session as having occurred on Tuesday. As a result, Monday appears as a Missed Day and the Streak and weekly goal evaluation no longer reflect Ana’s real attendance pattern.#
+[.added]#*Scenario:*# [.added]#Ana performs a workout on Monday night but records it on Tuesday morning and accidentally leaves Tuesday as the session date. The system then treats the Workout Session as having occurred on Tuesday. As a result, Monday appears as a Missed Day and the Streak and weekly goal evaluation no longer reflect Ana’s real attendance pattern.#
 
-*#Risk:#* #An incorrect Workout Session date causes Streak and Goal evaluation to be based on the wrong Attendance Day.#
+[.added]#*Risk:*# [.added]#An incorrect Workout Session date causes Streak and Goal evaluation to be based on the wrong Attendance Day.#
 
-*#Risk Assessment and Justification#*
+[.added]#*Risk Assessment and Justification*#
 
-#Likelihood: *Medium*#
+[.added]#Likelihood: *Medium*#
 
-#Justification:#
+[.added]#Justification:#
 
-* #The requirements explicitly allow late logging and editing of past sessions, which means date-related mistakes are realistic especially when workouts are recorded after they were performed.#
+* [.added]#The requirements explicitly allow late logging and editing of past sessions, which means date-related mistakes are realistic especially when workouts are recorded after they were performed.#
 
-#Impact: *High*#
+[.added]#Impact: *High*#
 
-#Justification:#
+[.added]#Justification:#
 
-* #The project defines Streaks, Attendance Days, and weekly Goal evaluation in terms of when the Workout Session was performed. If that date is incorrect, several derived results can become incorrect at once.#
+* [.added]#The project defines Streaks, Attendance Days, and weekly Goal evaluation in terms of when the Workout Session was performed. If that date is incorrect, several derived results can become incorrect at once.#
 
-#Discussion:#
+[.added]#Discussion:#
 
-* #This risk is significant because it affects multiple core features simultaneously. A single incorrect date can change streak continuity, weekly summaries, and whether a goal appears met or not met.#
+* [.added]#This risk is significant because it affects multiple core features simultaneously. A single incorrect date can change streak continuity, weekly summaries, and whether a goal appears met or not met.#

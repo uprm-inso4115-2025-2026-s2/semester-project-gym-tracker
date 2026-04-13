@@ -1,8 +1,10 @@
-== Legend
+== Notation for Changes 
 
-#Milestone 2 additions or modifications must be recorded in the LogBook and shown as highlighted text. In the AsciiDoc source, highlighted passages are wrapped in `#...#`.#
+Milestone 2 change markers compare the current documentation against the attached First Milestone PDF.
 
-* #A highlighted word, phrase, or clause means only that fragment changed.#
-* #A fully highlighted paragraph, heading, list item, or table cell means the whole visible unit changed.#
-* #Each addition or modification should have a corresponding LogBook entry that identifies the affected section and the change made.#
-* #Unhighlighted text is unchanged carryover text or supporting context.#
+* [.added]#This text is new.#
+* [.changed]#This text has been modified.#
+* [.removed]#This text is no longer relevant.#
+
+Each added, changed, or removed item should have a corresponding LogBook entry that identifies the affected section and the change made.
+Unmarked text is unchanged carryover text or supporting context.

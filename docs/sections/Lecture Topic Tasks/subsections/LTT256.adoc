@@ -90,9 +90,9 @@ Immediate Action     Mitigation Plan
 
 === Explanation
 
-- High impact + high likelihood → *Immediate action required*  
-- High impact + low likelihood → *Mitigation planning*  
-- Low impact risks → *Monitoring*  
+- High impact + high likelihood → *Immediate action required*
+- High impact + low likelihood → *Mitigation planning*
+- Low impact risks → *Monitoring*
 
 This ensures efficient allocation of effort.
 

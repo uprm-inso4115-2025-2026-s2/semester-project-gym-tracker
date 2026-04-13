@@ -10,33 +10,33 @@ The goal of this section is to justify how raw discussion statements were transf
 
 ====== (1) “Difficulty remembering what was done during a workout”
 
-#In the rough sketch, participants did not merely say that they forgot workouts in general; they described forgetting which exercises they did on particular days, how long a session lasted, and what kind of workout it was. They also distinguished between knowing that they went to the gym and knowing what actually happened during the workout. This led to the abstraction of:#
+[.changed]#In the rough sketch, participants did not merely say that they forgot workouts in general; they described forgetting which exercises they did on particular days, how long a session lasted, and what kind of workout it was. They also distinguished between knowing that they went to the gym and knowing what actually happened during the workout. This led to the abstraction of:#
 
 * *Workout Session* - a specific occurrence of a workout at a particular time.
-* #*Exercise* - a structured unit of activity performed within a workout.#
+* [.added]#*Exercise* - a structured unit of activity performed within a workout.#
 * *Workout Notes* - short annotations describing what occurred.
 * *Attendance Day* - a calendar day on which a workout session occurred.
 
-#The terminology therefore reflects more than generic memory difficulty. It captures a bounded workout occurrence, its internal components, and the distinction between day-level attendance and session-level content.#
+[.changed]#The terminology therefore reflects more than generic memory difficulty. It captures a bounded workout occurrence, its internal components, and the distinction between day-level attendance and session-level content.#
 
 ====== (2) “Consistency and streaks as different ideas”
 
-#The strengthened elicitation statements distinguished between regular activity over time and uninterrupted consecutive activity. Participants described feeling “on track” when they had several active days in a week even if those days were not consecutive, while also describing streaks as a more specific motivational pattern. From this, we formalized:#
+[.changed]#The strengthened elicitation statements distinguished between regular activity over time and uninterrupted consecutive activity. Participants described feeling “on track” when they had several active days in a week even if those days were not consecutive, while also describing streaks as a more specific motivational pattern. From this, we formalized:#
 
 * *Streak* - a sequence of consecutive attendance days.
 * *Missed Day* - a calendar day without a workout despite expectation.
-* #*Consistency* - regularity of workout activity across a Time Frame, not necessarily consecutive.#
+* [.changed]#*Consistency* - regularity of workout activity across a Time Frame, not necessarily consecutive.#
 
-#This distinction is important because it prevents the terminology from treating consistency and streak as interchangeable. A streak is one specific pattern of regularity, while consistency is the broader behavioral idea.#
+[.changed]#This distinction is important because it prevents the terminology from treating consistency and streak as interchangeable. A streak is one specific pattern of regularity, while consistency is the broader behavioral idea.#
 
 ====== (3) “Weekly overview compared to goals”
 
 Participants proposed end-of-week feedback and accountability. This led to the formalization of:
 
-* *Goal* - #a desired level of activity within a defined Time Frame.#
-* *Weekly Activity Pattern* - #distribution of workout-related events across the Calendar Days of a Week.#
-* *Goal period has just ended* #(Domain Concept, Category: Event).#
-* *evaluateGoal(...) and summarizeWeek(...)* #(Domain Concepts, Category: Action).#
+* *Goal* - [.changed]#a desired level of activity within a defined Time Frame.#
+* *Weekly Activity Pattern* - [.changed]#distribution of workout-related events across the Calendar Days of a Week.#
+* *Goal period has just ended* [.changed]#(Domain Concept, Category: Event).#
+* *evaluateGoal(...) and summarizeWeek(...)* [.changed]#(Domain Concepts, Category: Action).#
 
 The sketch described an idea (“show if weekly goals were achieved”). The terminology converts that idea into explicit domain concepts, events, and evaluative functions.
 
