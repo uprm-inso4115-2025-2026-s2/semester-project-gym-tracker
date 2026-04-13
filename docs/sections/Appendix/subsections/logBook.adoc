@@ -3,7 +3,6 @@
 [.changed]#This table records Milestone 2 additions, modifications, and removals at section level. Each listed change must also be marked in the corresponding document content with the added, changed, or removed role.#
 
 [width="100%", cols="4*", options="header", frame=all, grid=all, halign=center]
-
 |===
 | Section Name | Member | Added or Modified | Description
 

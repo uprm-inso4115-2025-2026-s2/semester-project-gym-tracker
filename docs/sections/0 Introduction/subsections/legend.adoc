@@ -1,10 +1,26 @@
-== Notation for Changes 
+== Notation for Changes
 
 Milestone 2 change markers compare the current documentation against the attached First Milestone PDF.
 
-* [.added]#This text is new.#
-* [.changed]#This text has been modified.#
-* [.removed]#This text is no longer relevant.#
+[cols="1,1,1,2", options="header", width="100%"]
+|===
+| Notation | Purpose | Color | Example
+
+| `[.added]#<text>#`
+| Added
+| Green
+| [.added]#This text is new.#
+
+| `[.changed]#<text>#`
+| Paraphrased
+| Orange
+| [.changed]#This text has been modified.#
+
+| `[.removed]#<text>#`
+| Removed
+| Red
+| [.removed]#This text is no longer relevant.#
+|===
 
 Each added, changed, or removed item should have a corresponding LogBook entry that identifies the affected section and the change made.
 Unmarked text is unchanged carryover text or supporting context.
