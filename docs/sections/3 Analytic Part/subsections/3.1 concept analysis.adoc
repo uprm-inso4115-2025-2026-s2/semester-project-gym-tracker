@@ -287,3 +287,94 @@ The domain revolves around:
 * Reducing cognitive barriers to consistency
 
 All abstractions and concepts were derived from the rough sketch statements, and terminology conflicts were resolved to establish a stable domain vocabulary.
+
+==== 3.1.8 Concept Derivation: Missed or Failed Notifications Risk Analysis
+
+:author: AlejandroMB05
+
+== Overview
+
+The notification system in the gym tracker application is intended to help users maintain workout consistency and engagement by sending reminders, inactivity alerts, and workout-related updates. Because of this, missed or failed notifications present a significant risk to the effectiveness of the application.
+
+This analysis identifies possible causes of notification failures, the impact these failures may have on users, and considerations that may help reduce reliability issues in future development.
+
+== Possible Causes of Missed or Failed Notifications
+
+=== 1. Disabled Notification Permissions
+
+Users may deny or later disable notification permissions on their device. If permissions are disabled, the application will not be able to deliver notifications even if triggers occur successfully.
+
+*Potential Impact*
+
+* Users may miss workout reminders
+* Reduced workout consistency
+* Lower user engagement
+
+=== 2. Background Execution Restrictions
+
+Some devices restrict applications from running in the background to save battery life. This may prevent scheduled notifications from being triggered properly.
+
+*Potential Impact*
+
+* Delayed reminders
+* Missed inactivity alerts
+* Inconsistent notification behavior across devices
+
+=== 3. Incorrect Scheduling Logic
+
+Improper handling of timestamps, time zones, or scheduling conditions may cause notifications to trigger at the wrong time or not trigger at all.
+
+*Potential Impact*
+
+* Notifications appearing too early or too late
+* Duplicate reminders
+* Reduced user trust in the system
+
+=== 4. Application State Issues
+
+Notifications may fail if the application crashes, closes unexpectedly, or loses synchronization with stored workout data.
+
+*Potential Impact*
+
+* Workout reminders not generated
+* Missing progress-related notifications
+* Loss of user confidence
+
+=== 5. Device Connectivity Issues
+
+Some notifications may depend on synchronization or cloud-based scheduling. Poor internet connectivity could interfere with notification updates or scheduling consistency.
+
+*Potential Impact*
+
+* Delayed updates
+* Missed scheduled reminders
+* Incorrect notification timing
+
+
+== Recommendations
+
+=== 1. Permission Awareness
+
+The application should detect whether notification permissions are enabled and inform users when notifications are disabled.
+
+=== 2. Notification Validation
+
+The system should validate scheduled notifications to ensure reminders are not duplicated or triggered after workouts are completed.
+
+=== 3. Time Handling Consistency
+
+Notification scheduling should consistently handle timestamps and time zones to reduce timing-related issues.
+
+=== 4. Fallback Strategies
+
+The system should consider fallback mechanisms for missed reminders, such as rechecking notification conditions when the application is reopened.
+
+=== 5. User-Controlled Notification Settings
+
+Allowing users to configure reminders and notification behavior may reduce frustration caused by excessive or poorly timed notifications.
+
+== Summary
+
+Missed or failed notifications represent an important reliability risk for the gym tracker application. Notification failures can reduce user engagement, weaken workout consistency, and negatively affect the overall user experience.
+
+The main risks identified include disabled permissions, background execution restrictions, scheduling errors, application state issues, and connectivity problems. Addressing these concerns early in the design process will help create a more reliable and user-friendly notification system in future development.

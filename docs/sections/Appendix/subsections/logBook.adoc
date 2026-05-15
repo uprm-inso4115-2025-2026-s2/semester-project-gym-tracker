@@ -5,6 +5,6 @@
 |===
 | Section Name | Member | Added or Modified | Description
 
-| Blank | Blank Blank | Added | Blank blank blank blank blank blank blank blank.
+| 3.1 Concept Analysis | AlejandroMB05 | Added | Added a risk analysis document identifying possible causes of missed or failed notifications, their impact on user engagement and workout consistency, reliability concerns, and recommendations for improving notification reliability in the gym tracker application.
 
 |===
