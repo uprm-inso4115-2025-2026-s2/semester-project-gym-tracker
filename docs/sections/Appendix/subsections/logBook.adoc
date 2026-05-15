@@ -88,6 +88,8 @@
 
 | 3.1 Concept Analysis | AlejandroMB05 | Added | Added domain analysis for the notification system, including identification of core concepts such as Notification, User, Notification Trigger, Workout Event, and User Preferences.
 
+| 3.1 Concept Analysis | AlejandroMB05 | Added | Added a risk analysis document identifying possible causes of missed or failed notifications, their impact on user engagement and workout consistency, reliability concerns, and recommendations for improving notification reliability in the gym tracker application.
+
 | 3.1 Concept Analysis | Wilson A. Morales | Modified | Removed conflicting terms and aligned concept analysis with final terminology.
 
 | Section 4 (Domain Attributes)  | Hector Rivera | Added | Integrated Lecture Topic "Workout Data Validation and Integrity" into the Domain Attributes section. Refactored documentation structure according to guidelines (Discussions #221 and #277) and defined validation rules for key attributes such as weight, reps, and sets to ensure data integrity.
