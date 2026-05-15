@@ -1,0 +1,62 @@
+==== [LTT] Intentional View: Goal Model
+:author: Gabriel Visbal
+
+This Lecture Topic Task defines the intentional view of the Streaks subsystem in the Gym Tracker app by identifying the goals the system must achieve, classifying them, decomposing them into leaf goals, and documenting the obstacles that could obstruct them.
+
+The intentional view serves as the foundation for all other views. Every operation, agent responsibility, and system state must trace back to a goal defined here.
+
+===== Goals
+
+*1. MaintainWorkoutStreak (Maintain)*
+The system must keep track of the user's active streak and preserve it as long as the user logs at least one workout per day.
+*Priority:* High
+*Definition:* A streak is considered active when the user has logged a workout session on each consecutive day without interruption.
+
+Leaf goals:
+- `RecordDailyAttendance` — detect and store whether the user logged a session on a given day.
+- `EvaluateStreakContinuity` — verify that no day has been skipped since the last recorded session.
+- `UpdateStreakCounter` — increment the streak counter when continuity is confirmed.
+
+*2. TrackAttendance (Achieve)*
+The system must record which days the user attended the gym and which days were missed.
+*Priority:* High
+*Definition:* Attendance is determined by the presence or absence of at least one workout session logged on a given calendar day.
+
+*3. VisualizeConsistency (Achieve)*
+The system must present the user's attendance and streak data in a visual format that allows them to identify patterns over time.
+*Priority:* Medium
+*Definition:* Consistency patterns are represented through a calendar or timeline view showing attended, missed, and streak days.
+
+===== Obstacles
+
+*1. User misses a session*
+Obstructs `MaintainWorkoutStreak`. If the user fails to log a session on a given day, the streak is broken and the counter resets to zero.
+*Likelihood:* High
+*Criticality:* High
+
+*2. Session data not recorded correctly*
+Obstructs `TrackAttendance`. If a workout session is logged but not properly persisted in Supabase, the system may incorrectly mark the day as missed and break an active streak.
+*Likelihood:* Medium
+*Criticality:* High
+
+===== Goal Summary Table
+
+[cols="2,2,1,1"]
+|===
+| Name | Definition | Category | Priority
+
+| MaintainWorkoutStreak
+| Keep the streak active through consecutive daily sessions
+| Maintain
+| High
+
+| TrackAttendance
+| Record attended and missed days per user
+| Achieve
+| High
+
+| VisualizeConsistency
+| Display consistency patterns over time
+| Achieve
+| Medium
+|===
