@@ -1,0 +1,182 @@
+==== Domain Validation and Verification for Workout and Notification Systems
+:author: Gerald Rodríguez
+
+This Lecture Topic Task applies domain validation and verification concepts to the Gym Tracker system. In domain engineering, validation and verification are part of the process used to ensure that the domain model is correct, consistent, and useful for later implementation.
+
+Validation checks whether domain data and operations follow expected rules. Verification checks whether the system behavior correctly follows the domain model.
+
+===== Purpose
+
+The purpose of this task is to define validation rules and verification checks for key Gym Tracker features, including:
+
+* Workout logging
+* Daily progress tracking
+* Weekly progress tracking
+* Notification triggering and delivery states
+
+===== Validation Rules
+
+Validation rules define what must be true for the system data to be considered correct.
+
+====== Workout Logging Validation
+
+* A workout must belong to an authenticated user.
+* A workout count must not be negative.
+* A workout entry must be associated with a valid date.
+* A workout should update the correct daily and weekly progress records.
+
+====== Daily Progress Validation
+
+* Daily progress must be associated with the current user.
+* Daily progress must be associated with one calendar date.
+* The recorded value must be greater than or equal to zero.
+* The target value must be greater than zero.
+* A daily goal should only be marked completed when the recorded value meets or exceeds the target value.
+
+====== Weekly Progress Validation
+
+* Weekly progress must be associated with the current user.
+* Weekly progress must be associated with the start date of the current week.
+* The recorded value must represent workouts completed during that week.
+* Weekly goal completion should be based only on workouts logged within the current week.
+
+====== Notification Validation
+
+* A notification must belong to a valid user.
+* A notification must have a valid category, such as workout reminder, motivational message, or weekly progress summary.
+* A notification must include a title and message body.
+* A notification status must be one of the allowed delivery states: pending, sent, failed, or dismissed.
+
+===== Verification Logic
+
+Verification checks whether the system behaves according to the validated domain rules.
+
+====== Workout Logging Verification
+
+When a user logs a workout, the system should:
+
+* Create or update the user’s daily progress record.
+* Create or update the user’s weekly progress record.
+* Refresh the progress display after the update.
+* Keep the data scoped to the logged-in user.
+
+====== Daily Progress Verification
+
+The system should verify that:
+
+* The daily progress component displays only today’s progress.
+* A new calendar day starts with no recorded progress unless a workout has already been logged.
+* The progress percentage is calculated from recorded value divided by target value.
+* The daily goal status changes to completed when the target is reached.
+
+====== Weekly Progress Verification
+
+The system should verify that:
+
+* Weekly progress is calculated from the start of the current week.
+* Workouts from previous weeks are not counted in the current week.
+* The weekly summary updates after a workout is logged.
+* The weekly progress display reflects the correct goal completion percentage.
+
+====== Notification Verification
+
+The system should verify that:
+
+* Workout reminders are created only under valid trigger conditions.
+* Motivational messages are connected to user progress or inactivity.
+* Weekly progress summaries are generated from weekly activity data.
+* Notification delivery status changes correctly over time.
+
+===== Examples
+
+====== Example 1: Logging a Workout
+
+*Scenario:* A logged-in user clicks the "+ Log Workout" button.
+
+*Validation:*
+
+* The user must be authenticated.
+* The workout count must be valid.
+* The current date must be used for daily progress.
+* The current week start date must be used for weekly progress.
+
+*Verification:*
+
+* Daily progress increases immediately.
+* Weekly progress also increases.
+* The UI refreshes after the update.
+* The data is stored for the correct user.
+
+====== Example 2: Daily Goal Completion
+
+*Scenario:* A user has a daily goal of one workout and logs one workout today.
+
+*Validation:*
+
+* The daily target value is greater than zero.
+* The recorded value is greater than or equal to the target.
+* The progress record belongs to the logged-in user.
+
+*Verification:*
+
+* The daily progress component shows the updated count.
+* The progress percentage reaches 100%.
+* The daily goal status is marked completed.
+* Tomorrow, the daily component displays a new daily state based on the new date.
+
+====== Example 3: Weekly Progress Summary
+
+*Scenario:* A user logs workouts on multiple days during the same week.
+
+*Validation:*
+
+* Each workout must be associated with a valid date.
+* Weekly progress must use the correct week start date.
+* Only workouts from the current week should count.
+
+*Verification:*
+
+* The weekly summary displays the correct number of workouts.
+* The weekly percentage updates when new workouts are logged.
+* Workouts from previous weeks are excluded.
+* The weekly summary resets logically when a new week begins.
+
+====== Example 4: Notification Delivery State
+
+*Scenario:* The system creates a reminder notification for a user who has not logged a workout.
+
+*Validation:*
+
+* The notification must belong to a valid user.
+* The notification must have a valid type.
+* The notification must include a title and message.
+* The delivery status must start as pending.
+
+*Verification:*
+
+* The notification is created only when the trigger condition is met.
+* The status changes from pending to sent after delivery.
+* If delivery fails, the status changes to failed.
+* If the user dismisses the notification, the status changes to dismissed.
+
+===== Relationship to Gym Tracker Features
+
+This validation and verification model supports several Gym Tracker features:
+
+* Daily Goal Progress
+* Weekly Progress Summary
+* Workout Logging
+* Streak Tracking
+* Notification Reminders
+* Motivational Messages
+* Weekly Progress Notifications
+
+By defining rules and expected behavior, the system becomes easier to test, maintain, and extend.
+
+===== Conclusion
+
+Validation and verification help ensure that the Gym Tracker system behaves consistently with its domain model. Validation protects the correctness of user data, while verification confirms that system behavior matches expected rules.
+
+For workout tracking, this means progress must be calculated using valid user-specific data. For notifications, this means messages must be created and delivered according to clear trigger and status rules.
+
+Together, these checks improve reliability, consistency, and user trust in the Gym Tracker system.
