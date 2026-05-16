@@ -1,0 +1,106 @@
+== Exercise Requirements
+
+The purpose of the exercise system is simply to provide reusable exercise definitions that users can browse, search, and attach to workouts.
+
+=== Scope
+
+* Exercise storage
+* Exercise browsing
+* Exercise searching
+* Exercise ordering
+* Basic categorization
+
+The following features are considered out of scope:
+
+* Workout session management
+* Performance tracking
+* Sets and repetitions
+* Weight tracking
+* Duration tracking
+* Calories burned
+* Advanced exercise analytics
+
+=== Exercise Metadata
+
+Exercises should be stored as reusable entities to avoid duplication across the system.
+
+==== Table: Exercises
+
+[cols="1,1,3", options="header"]
+|===
+|Field |Type |Description
+
+|id
+|uuid (PK)
+|Unique exercise identifier
+
+|name
+|text
+|Exercise name
+
+|category
+|text
+|General exercise category
+
+|created_at
+|timestamp
+|Date when the exercise was added
+|===
+
+This structure keeps the exercise system lightweight while supporting future scalability if additional features are introduced later.
+
+=== Functional Requirements
+
+The system should support:
+
+==== Exercise Browsing
+
+Users should be able to view all available exercises.
+
+==== Exercise Searching
+
+Users should be able to search exercises by name.
+
+==== Exercise Filtering
+
+Exercises should support filtering by category.
+
+==== Exercise Ordering
+
+Exercises should support ordering for display purposes.
+
+Possible ordering methods include:
+
+* Alphabetical order
+* Recently added
+* Custom order
+
+=== Validation Rules
+
+==== Exercise Name
+
+* Required
+* Must not be empty
+* Should remain unique
+
+==== Exercise Category
+
+Allowed values may include:
+
+* Strength
+* Cardio
+* Flexibility
+* Mobility
+
+=== Design Considerations
+
+The exercise model intentionally avoids storing detailed fitness metrics because the application primarily focuses on workout encouragement and notifications rather than performance analysis.
+
+This simplified approach provides:
+
+* Easier maintenance
+* Reduced database complexity
+* Better scalability
+* Cleaner relational design
+
+while still supporting reusable exercise management throughout the system.
