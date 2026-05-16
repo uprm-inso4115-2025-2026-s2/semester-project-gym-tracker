@@ -1,0 +1,68 @@
+=== Anticipate Requirements Evolution for the Notification System
+
+Luis Sorrentini
+
+The Requirements Evolution lecture establishes that the problem world keeps changing, and therefore requirements consistency, completeness, and adequacy must be actively maintained over time. Changes are classified along two dimensions: revisions, which correct or improve a single-product version without altering its scope or user class, and variants, which adapt the system for a new class of users or a new environment, producing a multi-product version with shared commonalities and specific variations at variation points. Change anticipation requires identifying likely changes early, assessing their likelihood, and associating levels of stability with groups of requirements to prepare adequate responses when changes occur.
+
+The notification and feedback system in the Gym Tracker app is a clear candidate for this analysis. Its source code is explicit about its own incompleteness: the comment in `messages.js` reads "For the future we can add, delete, or modify any of these," and `TriggerNotification` documents itself as returning placeholder values that "will later be replaced with actual notification templates." The analysis that follows distinguishes between revisions and variants, organizes requirements by stability level, and identifies a volatile assumption that could trigger a requirements change if left unaddressed.
+
+==== Revision 1 — Tone Calibration for Motivational Messages
+
+The first revision is ameliorative in nature. It proposes improving an existing feature of the notification system without altering its scope or the user class it serves.
+
+The current implementation in `messages.js` defines six pools of motivational strings organized by trigger type: workout completion, streak maintenance, weekly goal achievement, personal records, comebacks, and general encouragement. The function `getRandomMessage(type)` selects a string uniformly at random from the corresponding pool. This means all users receive messages of the same tone regardless of their experience level, their current streak status, or their personal preferences. A beginner returning after two weeks of inactivity receives the same pool as an advanced lifter who just set a personal record — the trigger type matches, but the tone is indifferent to who is reading it. A message like "Goals set. Goals crushed." lands very differently on a user who is struggling to rebuild consistency than on one who is performing at their peak.
+
+The proposed revision introduces a `tone` preference field — with values such as `"gentle"`, `"neutral"`, and `"intense"` — into the `NotificationPreferences` interface. Each message pool in `messages.js` would be subdivided by tone, and `getRandomMessage` would accept the user's preference and select only from the matching sub-pool. A beginner in a comeback situation would receive a message such as "Every comeback starts with one step" rather than "Goals set. Goals crushed." This change touches `messages.js`, `NotificationPreferences.tsx`, and the `NotificationPreferences` type definition in `src/types/index.ts`.
+
+This qualifies as a revision because the notification system's scope, trigger logic, and user class remain unchanged. It is ameliorative because it is driven by a recognized quality gap between what the system currently delivers and what would better serve its users — not by a defect, but by an incomplete understanding of tone's role in user motivation.
+
+==== Revision 2 — Active-Session Suppression for Reminder Notifications
+
+The second revision is corrective in nature. It addresses a behavioral flaw that arises from a better understanding of when the reminder condition should not apply.
+
+The current `shouldAllowNotification` function in `notification_preferences_logic.ts` evaluates only two conditions: whether notifications are globally enabled through `preferences.enabled`, and whether the current time matches `preferences.reminderTime` for the `REMINDER` type. There is no check for whether the user is currently active in the application. As a consequence, a `REMINDER` notification can fire while a user is actively logging a workout on the `DailyGoalProgress` screen — the system reminds a user to do the very thing they are already doing.
+
+The proposed revision adds an `isUserActive` flag to the `NotificationPermissionCheck` interface. This flag would be set when the user has interacted with the application within a configurable recent window, such as the last ten minutes. The gate logic would then suppress `REMINDER` and `INACTIVITY` notifications when the flag is active. `COMPLETION` and `MISSED_WORKOUT` notifications are deliberately excluded from this suppression: `COMPLETION` is triggered by the user's own button press and is always contextually appropriate, and `MISSED_WORKOUT` is a post-hoc evaluation that should reach the user regardless of current session state.
+
+This qualifies as a revision because no new user class or environment is introduced. The fundamental requirement — that users receive timely reminders about their workouts — remains intact. The change corrects an incomplete specification of when the requirement should not fire.
+
+==== Variant — Coach/Trainer User Class
+
+The variant introduces a Coach/Trainer user class whose relationship to the notification system is structurally different from that of the existing personas. Where all current personas — beginner, intermediate, and advanced lifters — receive notifications about their own workouts and goals, a coach monitors their students' progress. This distinction affects the data scope, the message semantics, the notification type vocabulary, and the routing logic, making this an adaptive variant rather than a revision.
+
+Every component in the notification module currently assumes that the authenticated user is the subject of the data being displayed. `TriggerNotification` generates messages in the first person. `DailyGoalProgress` and `WeeklyProgressSummary` query sessions belonging to `user.id`. The motivational message pools address the reader directly. Introducing a coach means all of these assumptions break simultaneously — not because they are wrong for athletes, but because they do not apply to someone whose role is to observe others. A Coach/Trainer variant would require a new persona entry in `personas.js` with goals such as monitoring student consistency and receiving alerts when a student's streak breaks.
+
+At the infrastructure level, a `role` field distinguishing `"athlete"` from `"coach"` would need to be added to the `NotificationPreferences` interface and used by `shouldAllowNotification` to determine routing. New notification types such as `STUDENT_INACTIVITY` and `STUDENT_MILESTONE` would be added to `noti_trigger_function.ts`, referencing a `targetUserId` rather than the authenticated user. The `messages.js` pools would be extended with third-person message strings. A group progress summary component would aggregate data across multiple students for the coach's dashboard view.
+
+The commonalities with the master version are substantial: the `FeedbackMessage` component, the `GoalsFeedback` database schema, and the overall gate architecture of `shouldAllowNotification` remain shared infrastructure. The variation points are the data scope, the message voice, and the notification type definitions. This structure aligns with the variant model described in the lecture, where a variant version has all the features of the master version plus specific ones.
+
+==== Stability Hierarchy
+
+The stability hierarchy organizes the notification system's requirements from most stable to least stable, following the heuristic that functional aspects meeting key objectives are more stable than operational choices, and that choices among alternatives based on incomplete knowledge are least stable.
+
+The most stable requirements are the two that would survive any contraction, extension, or variant of the system: that the system notifies users about workout-related events, and that a user can enable or disable notifications globally. These represent the intentional and conceptual heart of the module — they define what the feature is for, not how it works.
+
+The `FeedbackMessage` component's typed card contract and the `GoalsFeedback` database schema occupy the next level. Both are design commitments that hold across all personas and all anticipated variants. They may grow over time, but the shape of their commitment is stable.
+
+The `shouldAllowNotification` gate logic and the single-user progress display components `DailyGoalProgress` and `WeeklyProgressSummary` sit in the middle. Their purpose is sound, but their implementation is a known target for change: Revision 2 modifies the gate's conditions, and the Variant extends the display components to cover group data. They are stable in intent, less stable in specification.
+
+The motivational message pools and the current two-field `NotificationPreferences` interface are less stable still. Both are named variation points in this analysis — Revision 1 subdivides the pools by tone, and the Variant adds a `role` field to preferences. They encode operational choices that are actively expected to change.
+
+The least stable element in the module is `TriggerNotification`, which returns hardcoded placeholder strings for each notification type. The source code documents this explicitly. It exists as a scaffold rather than a specification and will be replaced entirely before the system can be considered production-ready.
+
+==== Volatile Assumption
+
+The most significant volatile assumption underlying the notification system is that push notification permission is always available and granted at the device or browser level when the application attempts to deliver a notification.
+
+Both `notification_preferences_logic.ts` and `noti_trigger_function.ts` operate entirely within the application's own preference logic. Neither function checks `Notification.permission` against the browser Web Notifications API, nor verifies that a service worker is registered for background delivery. The system assumes that if the in-app gate returns `true`, the notification will reach the user.
+
+This assumption is volatile because modern browsers require an explicit user grant before displaying push notifications, and many users deny or revoke this permission. As the lecture establishes, when an environmental assumption underlying a requirement is no longer valid, the software requirements derived from it must be reconsidered. If the system evolves from in-app feedback cards to real push or scheduled background notifications — a foreseeable extension given that `TriggerNotification` is explicitly a placeholder — this assumption will fail silently. The `shouldAllowNotification` function returning `true` will not guarantee delivery, and every requirement that depends on notification reaching the user will need to be re-evaluated. Correcting this would require integrating a browser permission check into the trigger flow and implementing an in-app fallback for users who have denied access.
+
+==== Summary
+
+- The notification system's source code explicitly documents its own incompleteness, making it a natural and well-grounded subject for requirements evolution analysis
+- Revision 1 is ameliorative: it introduces tone calibration for motivational messages based on user preference, partitioning the `messages.js` pools by tone level without changing the trigger logic or user class
+- Revision 2 is corrective: it adds active-session awareness to `shouldAllowNotification` to suppress `REMINDER` and `INACTIVITY` notifications while the user is actively using the application, with `COMPLETION` and `MISSED_WORKOUT` deliberately exempted
+- The Coach/Trainer variant introduces a new user class with three variation points — data scope, message voice, and notification type vocabulary — while retaining the full notification infrastructure as shared commonality with the master version
+- The stability hierarchy ranges from the core notification objective and global enable toggle at the most stable level, down to the `TriggerNotification` placeholder at the least stable, with the `NotificationPreferences` interface and message pools as the primary variation points in between
+- The volatile assumption is that push notification delivery is guaranteed once the in-app gate passes; this is environmentally unverifiable and, per the lecture, invalidates all derived requirements if the assumption breaks
