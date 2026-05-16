@@ -1,0 +1,57 @@
+=== [LTT] Operational Preconditions/Postconditions for Workout Update
+:author: Ian Ramos
+
+This LTT documents one real operation in the codebase: `updateWorkoutSession(workoutId, updates)` in `/src/features/workouts/api.ts`.
+
+==== Operation Signature
+
+*Name:* `updateWorkoutSession`
+
+*Inputs*
+
+- `workoutId: string`
+- `updates: Partial<Pick<WorkoutSessionRecord, "workout_type" | "duration_minutes" | "calories_burned" | "notes">>`
+
+*Output*
+
+- `Promise<void>`
+
+*Side effects*
+
+- Sends a Supabase `UPDATE` to `workout_sessions` filtered by `workout_id`
+- Writes only the fields present in `updates`
+- Logs and rethrows errors from Supabase
+
+==== Preconditions
+
+Caller should satisfy these before invoking the operation:
+
+- `workoutId` is non-empty and points to a workout row owned by the current user
+- `updates` only includes allowed keys: `workout_type`, `duration_minutes`, `calories_burned`, `notes`
+- `workout_type` (if present) is a non-empty trimmed string
+- `duration_minutes` (if present) is an integer `> 0`
+- `calories_burned` (if present) is an integer `>= 0`
+- `notes` (if present) is either `null` or a trimmed string
+
+==== Postconditions
+
+If Supabase returns success:
+
+- The matching `workout_sessions` row is updated with the provided fields
+- Any field omitted from `updates` keeps its previous value
+- The function resolves without throwing
+
+Current limitation in this implementation:
+
+- The function does not verify that a row was actually updated (it only checks for `error`)
+
+==== Failure/Error Outcomes
+
+When the call fails:
+
+- *Supabase error:* invalid payload, permission problem, or connectivity issue; error is logged and thrown
+- *No matching row:* `workoutId` may be wrong or not owned by user; function may resolve with no visible change, so the UI must detect and report this case
+
+==== Traceability Note
+
+This operation is called from `/src/features/workouts/WorkoutHistoryPage.tsx` inside `handleEditSave`, after `validateEditDraft` passes.
