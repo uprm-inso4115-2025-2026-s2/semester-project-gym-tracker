@@ -1,0 +1,343 @@
+= LTT: Animation in React with CSS and SVG
+Sebastian Santiago <@seba-15>
+
+== Introduction
+
+The previous LTT explored how to build SVG components in React — circular progress rings and viewBox coordinate systems. This document goes one layer deeper: how to bring those components to life through animation.
+
+For the Gym Tracker project, animation is directly relevant to `ProgressVisual.tsx`. A progress ring that fills smoothly as workout data loads, or a streak bar that ticks in one day at a time, provides meaningful visual feedback that a static render cannot. This document covers three main animation approaches. CSS transitions, CSS keyframes, and the native SVG `<animate>` element.
+
+---
+
+== 1. CSS Transitions
+
+=== What They Are
+
+CSS transitions are the simplest animation tool available. They interpolate a CSS property from one value to another whenever that property changes. In React, this means changing a prop or state value triggers the animation automatically. No JavaScript needed.
+
+=== How They Work
+
+The key SVG property for progress rings is `stroke-dashoffset`. By setting `stroke-dasharray` equal to the circle's circumference and varying `stroke-dashoffset`, you control how much of the stroke is visible. So you "fill out". 
+
+[source,typescript]
+----
+// ProgressRing.tsx
+interface ProgressRingProps {
+  radius: number;
+  stroke: number;
+  progress: number; // 0 to 100
+}
+
+export default function ProgressRing({ radius, stroke, progress }: ProgressRingProps) {
+  const normalizedRadius = radius - stroke * 2;
+  const circumference = normalizedRadius * 2 * Math.PI;
+  const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+  return (
+    <svg height={radius * 2} width={radius * 2}>
+      <circle
+        stroke="#4ade80"
+        fill="transparent"
+        strokeWidth={stroke}
+        strokeDasharray={`${circumference} ${circumference}`}
+        style={{
+          strokeDashoffset,
+          transition: 'stroke-dashoffset 0.6s ease-in-out',
+          transformOrigin: '50% 50%',
+          transform: 'rotate(-90deg)',
+        }}
+        r={normalizedRadius}
+        cx={radius}
+        cy={radius}
+      />
+    </svg>
+  );
+}
+----
+
+When `progress` changes (e.g., from 0 to 75), the browser smoothly interpolates `stroke-dashoffset` over 0.6 seconds. No animation library required.
+
+
+=== When to Use
+
+- Simple state to state changes (e.g., progress value updates).
+- Any case where you want animation with zero extra dependencies.
+
+=== When NOT to Use
+
+- Multi step animations with precise timing between steps.
+- Animations that need to loop, repeat, or run on mount without a state change.
+
+---
+
+== 2. CSS Keyframes
+
+=== What They Are
+
+CSS keyframes define a sequence of animation steps using `@keyframes`, giving you full control over timing, easing, and intermediate states. In React, they are typically defined in a `.css` file or injected via a `<style>` tag, and applied to an SVG element.
+
+=== Animating the Progress Ring on Mount
+
+A common UX pattern is to animate the ring from 0 to its target value when the component first renders. CSS transitions alone can't do this reliably.
+
+[source,css]
+----
+/* ProgressVisual.css */
+@keyframes fillRing {
+  from {
+    stroke-dashoffset: var(--circumference);
+  }
+  to {
+    stroke-dashoffset: var(--target-offset);
+  }
+}
+
+.progress-ring-circle {
+  animation: fillRing 1s ease-in-out forwards;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+----
+
+[source,typescript]
+----
+// ProgressVisual.tsx  using CSS custom properties to pass values to keyframes
+export default function ProgressVisual({ progress }: { progress: number }) {
+  const radius = 54;
+  const stroke = 8;
+  const normalizedRadius = radius - stroke * 2;
+  const circumference = normalizedRadius * 2 * Math.PI;
+  const targetOffset = circumference - (progress / 100) * circumference;
+
+  return (
+    <svg
+      height={radius * 2}
+      width={radius * 2}
+      style={{
+        '--circumference': circumference,
+        '--target-offset': targetOffset,
+      } as React.CSSProperties}
+    >
+      <circle
+        className="progress-ring-circle"
+        stroke="#4ade80"
+        fill="transparent"
+        strokeWidth={stroke}
+        strokeDasharray={`${circumference} ${circumference}`}
+        r={normalizedRadius}
+        cx={radius}
+        cy={radius}
+      />
+    </svg>
+  );
+}
+----
+
+CSS custom variables act as a bridge between React's dynamic values.
+
+=== Animating the Weekly Streak Bar
+
+For the streak bar, keyframes can fade and scale each day indicator in sequentially using `animation-delay`:
+
+[source,css]
+----
+@keyframes popIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.streak-day {
+  animation: popIn 0.3s ease-out forwards;
+}
+----
+
+[source,typescript]
+----
+// StreakBar.tsx
+export default function StreakBar({ days }: { days: boolean[] }) {
+  return (
+    <svg width="200" height="24">
+      {days.map((active, i) => (
+        <rect
+          key={i}
+          className="streak-day"
+          x={i * 28}
+          y={0}
+          width={20}
+          height={24}
+          rx={4}
+          fill={active ? '#4ade80' : '#d1d5db'}
+          style={{ animationDelay: `${i * 0.05}s` }}
+        />
+      ))}
+    </svg>
+  );
+}
+----
+
+Each day tile pops in 50ms after the previous one, creating a staggered entrance effect.
+
+=== When to Use
+
+- Mount animations.
+- Looping animations.
+- Staggered sequences with `animation-delay`.
+
+=== When NOT to Use
+
+- When animation values are highly dynamic and change frequently 
+- For scroll linked animations.
+
+---
+
+== 3. Native SVG `<animate>`
+
+=== What They Are
+
+SVG has its own built-in animation system called SMIL. The `<animate>` element lives inside an SVG shape and defines how one of its attributes changes over time with no CSS and Javascript. 
+=== Basic Example
+
+[source,typescript]
+----
+// Pulsing ring — purely declarative
+export default function PulsingRing() {
+  return (
+    <svg width="120" height="120" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="50" fill="none" stroke="#4ade80" strokeWidth="6">
+        <animate
+          attributeName="stroke-opacity"
+          values="1;0.3;1"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="r"
+          values="50;54;50"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+      </circle>
+    </svg>
+  );
+}
+----
+
+This creates a breathing/pulsing effect with no CSS and no JavaScript. 
+
+
+=== Animating `stroke-dashoffset` with `<animate>`
+
+[source,typescript]
+----
+export default function AnimatedRing({ progress }: { progress: number }) {
+  const circumference = 2 * Math.PI * 45; // r=45
+  const targetOffset = circumference - (progress / 100) * circumference;
+
+  return (
+    <svg width="120" height="120" viewBox="0 0 120 120">
+      <circle
+        cx="60" cy="60" r="45"
+        fill="none"
+        stroke="#4ade80"
+        strokeWidth="8"
+        strokeDasharray={circumference}
+        strokeDashoffset={circumference}
+        transform="rotate(-90 60 60)"
+      >
+        <animate
+          attributeName="stroke-dashoffset"
+          from={circumference}
+          to={targetOffset}
+          dur="1s"
+          fill="freeze"
+          begin="0s"
+        />
+      </circle>
+    </svg>
+  );
+}
+----
+
+=== Limitations
+
+- Browser support for SMIL is good in modern browsers but has historically had gaps (Chrome briefly dropped support before reversing the decision).
+- For complex, state driven animations, CSS transitions or a library are more practical.
+
+=== When to Use
+
+- Simple, declarative looping animations.
+- Cases where you want zero CSS and zero JS overhead.
+- Rapid prototyping of animation behavior.
+
+=== When NOT to Use
+
+- When the animated value needs to respond to React state changes after mount.
+- For complex multi step sequences. 
+
+---
+
+== Comparison Summary
+
+[cols="1,1,1,1"]
+|===
+| | CSS Transitions | CSS Keyframes | SVG `<animate>`
+
+| *Complexity*
+| Low
+| Medium
+| Low–Medium
+
+| *Reactive to state*
+| Yes
+| Yes (via CSS vars)
+| Limited (mount only)
+
+| *Looping support*
+| No
+| Yes (`infinite`)
+| Yes (`indefinite`)
+
+| *Dependencies*
+| None
+| None
+| None
+
+| *Best for*
+| Value changes (progress %)
+| Mount anims, stagger
+| Declarative looping effects
+
+| *`ProgressVisual.tsx` use*
+| Ring fill on data update
+| Ring fill on mount
+| Pulse / idle state ring
+|===
+
+
+---
+
+== Applied to `ProgressVisual.tsx`
+
+The component currently renders static SVG rings and a streak bar. The recommended animation layering is:
+
+1. **CSS transition on `stroke-dashoffset`** for when progress data loads or updates. This is the most practical and reactive approach with zero dependencies.
+2. **CSS keyframes with `animation-delay`** on the streak bar's day tiles for a staggered mount entrance. Makes the component feel polished on first render.
+3. **SVG `<animate>`** for an optional idle pulse effect on the ring when the user has no active workout. 
+
+None of these approaches require an animation library, keeping the bundle lean and the component self contained.
+
+---
+
+== References
+
+* https://blog.logrocket.com/how-to-animate-svg-css-tutorial-examples/[LogRocket — How to Animate SVG with CSS]
+* https://motion.dev/docs/react-svg-animation[Motion (Framer Motion) — SVG Animation in React]
+* https://strapi.io/blog/mastering-react-svg-integration-animation-optimization[Strapi Blog — Mastering React SVG Integration, Animation and Optimization]
+* https://developer.mozilla.org/en-US/docs/Web/SVG/Element/animate[MDN — SVG `<animate>` element]
+* https://dev.to/harijn72/building-a-loader-animation-with-svg-css-only-4cnj[DEV.to — Building a Loader Animation with SVG + CSS Only]
