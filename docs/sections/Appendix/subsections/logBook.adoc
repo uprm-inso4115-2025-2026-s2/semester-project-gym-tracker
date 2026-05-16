@@ -90,6 +90,8 @@
 
 | 3.1 Concept Analysis | Wilson A. Morales | Modified | Removed conflicting terms and aligned concept analysis with final terminology.
 
+| 3.2 Validation and Verification | Alex Vazquez | Added | Added a Requirements and Domain Model Inspection subsection using a defect-driven checklist and a quality-driven checklist. The subsection lists inspectors, inspected documentation items, inspection questions, findings, and follow-up actions. Traceability-related review items were marked as pending for Julian Vivas instead of being counted as completed in this pass.
+
 | Section 4 (Domain Attributes)  | Hector Rivera | Added | Integrated Lecture Topic "Workout Data Validation and Integrity" into the Domain Attributes section. Refactored documentation structure according to guidelines (Discussions #221 and #277) and defined validation rules for key attributes such as weight, reps, and sets to ensure data integrity.
 
 | 4.1 Stakeholder Identification | Julian Vivas | Modified | Formalized stakeholder documentation per M2 rubric: added explicit Who/Why/Relation structure to all stakeholders; added Gym Staff as an indirect domain stakeholder; added Stakeholders vs. Personas clarification subsection; expanded Domain vs. Implementation Stakeholders table to include Gym Staff and Future Trainers. All new content highlighted for M2 change visibility.
