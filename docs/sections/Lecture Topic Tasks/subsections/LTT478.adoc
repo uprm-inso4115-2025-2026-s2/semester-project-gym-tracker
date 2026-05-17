@@ -1,0 +1,85 @@
+= Domain Acquisition Notes for Workout History Empty State
+
+:author: Carlos Ferrer
+
+== Purpose and Relevance
+
+This section documents domain facts for the Workout History empty state. The empty state happens when a user applies a filter in Workout History and no workout sessions match the selected filter. This is a small behavior, but it is important because users need to understand that their workouts are not gone. The selected filter simply has no matching workout sessions. This task connects to the Domain Acquisition lecture topic which is about collecting and recording facts about the domain. In this case, the facts describe what users expect when filtering workout history produces no results.
+
+== Current Implementation Observation
+
+The Workout History page keeps filter and sorting state.
+
+The implementation includes:
+
+* `sortOrder`, which can be `newest` or `oldest`
+* `typeFilter`, which can be `all` or a selected workout type
+* `filteredAndSortedSessions`, which filters sessions by workout type and sorts them by creation date
+* an empty state message when no sessions match the selected filter
+
+The current empty state message is:
+
+`No workouts match the selected filter.`
+
+== Domain Description Units
+
+[cols="1,1,1,1,3", options="header"]
+|===
+| Unit | Stakeholder Group | Related Concept | Kind | Explanation
+
+| Unit 1
+| Gym Tracker user
+| Workout Type Filter
+| Event
+| A user may select a workout type filter that does not match any saved workout sessions
+
+| Unit 2
+| Gym Tracker user
+| Sort Order
+| Event
+| A user may change the sort order while a filter is active
+
+| Unit 3
+| Gym Tracker user
+| Empty State
+| Behavior
+| When no workouts match the selected filter, the system should show an empty message instead of showing a blank list
+
+| Unit 4
+| Gym Tracker user
+| Empty State Message
+| Behavior
+| The empty message should make it clear that the current filter has no matching workouts
+
+| Unit 5
+| Development team
+| Filtered Workout Results
+| Function
+| The system should filter workout sessions before showing them in the list
+
+| Unit 6
+| Development team
+| Workout History List
+| Function
+| The system should only show workout cards when filtered results exist
+|===
+
+== Related Concepts
+
+* *Workout History:* The list of previous workout sessions saved by the user
+* *Workout Type Filter:* A control used to show only sessions of a selected workout type
+* *Sort Order:* A control used to show sessions from newest to oldest or oldest to newest
+* *Empty State:* The message shown when no workout sessions match the selected filter
+* *Workout Session:* A recorded workout entry that may appear in the history list
+
+== Notes
+
+The empty state should not be treated as an error. It is a normal result of filtering. For example, if a user selects `Cardio` but has no cardio workouts saved, the system should clearly explain that no workouts match the selected filter. This behavior supports usability because it helps users understand what happened and what they can do next.
+
+== Recommendation
+
+The current message is clear, but it could be improved by also suggesting a next step, such as changing the filter, for example.
+
+== Conclusion
+
+The Workout History empty state is a small but important part of the filtering behavior. Documenting it as part of domain acquisition helps clarify what the user expects and what the system should communicate when no workout sessions match the selected filter.
