@@ -1,0 +1,302 @@
+= Gym Tracker UI — State Machine Diagram
+:toc:
+:toc-title: Contents
+:imagesdir: ../images
+
+== Overview
+
+This document describes the state machine diagram for the Gym Tracker UI.
+It covers five key screens: Onboarding Flow, Home Screen, Workout Session,
+Progress Dashboard, and Settings Screen. Each section includes the diagram
+followed by a description of every state and transition within it.
+
+The following color conventions apply across all diagrams:
+
+* *Teal / green* — active or success state
+* *Gray* — neutral or loading state
+* *Red* — error or abandoned state
+* *Amber / orange* — in-progress state
+* *Purple* — populated or drill-down state
+
+---
+
+== Onboarding Flow
+
+image::onboarding_state_machine.svg[Onboarding flow state machine]
+
+The onboarding flow is a *linear, one-directional sequence* with no branching,
+loops, or ways to skip ahead. Every new user passes through all four steps in
+order before reaching the main app.
+
+=== States
+
+*Welcome*::
+The first screen the user sees on first launch. It introduces the app and
+prompts the user to begin setup.
+
+*Goal selection*::
+The user picks their primary fitness objective, such as weight loss, muscle
+gain, or endurance improvement.
+
+*Fitness level*::
+The user identifies their experience level: beginner, intermediate, or advanced.
+This is used to calibrate the difficulty of generated workout plans.
+
+*Equipment*::
+The user specifies what gym equipment they have access to and selects how many
+days per week they want to train.
+
+=== Transitions
+
+*Next (Welcome → Goal selection)*::
+The user taps the Next button to advance from the Welcome screen to Goal selection.
+
+*Next (Goal selection → Fitness level)*::
+After picking a goal, the user advances to the Fitness level step.
+
+*Next (Fitness level → Equipment)*::
+After picking a fitness level, the user advances to the Equipment step.
+
+*Complete setup (Equipment → Home Screen)*::
+Once the user finishes the Equipment step, the setup is marked complete and
+the user is taken directly to the Home Screen for the first time.
+
+---
+
+== Home Screen
+
+image::home_screen_state_machine.svg[Home screen state machine]
+
+The Home Screen starts in a Loading state every time it is opened, then
+branches into one of three outcomes depending on whether data is available
+and whether the API call succeeds. There is also an exit path into the
+Workout Session when the user decides to start training.
+
+=== States
+
+*Loading*::
+Shown immediately when the Home Screen is opened. A skeleton screen is
+displayed while the app fetches today's workout plan and metrics from the
+backend. No user interaction is possible during this state.
+
+*Populated*::
+The API responded successfully and the user has existing data. The screen
+shows today's workout plan, calorie summary, streak counter, and a
+quick-start button. This is the primary active state of the Home Screen.
+
+*Empty state*::
+The API responded successfully but the user has no workout history yet.
+A prompt is shown encouraging the user to log their first session.
+Typically seen only on first launch after onboarding.
+
+*Error*::
+The API call failed. A human-readable error message is displayed alongside
+a retry button. No workout data is shown.
+
+=== Transitions
+
+*Data ok (Loading → Populated)*::
+The API returned data successfully and the screen fills with the user's
+plan and metrics.
+
+*No data yet (Loading → Empty state)*::
+The API responded but returned no history. The screen shows the empty
+state prompt instead.
+
+*API fails (Loading → Error)*::
+The network request failed or timed out. The error state is shown with
+a retry option.
+
+*Retry (Error → Loading)*::
+The user taps the retry button. The screen returns to Loading and attempts
+the API call again. Shown as a dashed red arrow.
+
+*Start workout (Populated → Workout Session)*::
+The user taps the quick-start button from the Populated state. This exits
+the Home Screen and enters the Workout Session flow. Shown as a dashed
+green arrow leading downward into the Workout section.
+
+---
+
+== Workout Session
+
+image::workout_session_state_machine.svg[Workout session state machine]
+
+The Workout Session is the most complex screen in the diagram. It contains
+a repeating loop between Active and Rest timer, two branching paths from
+the Paused state, and two distinct terminal states depending on whether
+the session was saved or discarded.
+
+=== States
+
+*Idle*::
+The workout plan has been loaded and is ready to begin, but the session
+has not started yet. The user can see the planned exercises but no data
+is being recorded.
+
+*Active*::
+The user is actively logging sets and reps. This is the core working state
+of the session. The screen shows the current exercise, the target sets and
+reps, and a button to log each completed set.
+
+*Rest timer*::
+Triggered automatically after each logged set. A countdown timer is displayed
+giving the user time to rest before the next set. When the timer ends, the
+screen returns to Active automatically.
+
+*Paused*::
+The user has temporarily suspended the session. No data is being recorded.
+From this state, the user can either resume the session or discard it entirely.
+
+*Completed*::
+All sets for all exercises have been logged. A summary screen is shown
+displaying the full session breakdown before the user decides to save.
+
+*Saved*::
+The user confirmed the session summary and the data has been persisted to
+the backend. This is a successful terminal state. The user is then returned
+to the Home Screen.
+
+*Abandoned*::
+The user chose to discard the session from the Paused state. No workout
+data is saved. This is a non-destructive terminal state — the user is
+returned to the Home Screen with no changes recorded.
+
+=== Transitions
+
+*Begin (Idle → Active)*::
+The user taps the Begin button to start the session and begin recording.
+
+*Log set (Active → Rest timer)*::
+The user logs a completed set. The Rest timer starts immediately.
+
+*Timer ends (Rest timer → Active)*::
+The countdown reaches zero and the screen returns to Active for the next set.
+This transition repeats in a loop for every set in the session.
+
+*Pause (Active → Paused)*::
+The user taps the Pause button during an active session.
+
+*Resume (Paused → Active)*::
+The user taps Resume to continue from where they left off.
+Shown as a dashed arrow.
+
+*Last set done (Active → Completed)*::
+After the final set of the final exercise is logged, the session moves to
+the Completed state and the summary screen is shown.
+
+*Save (Completed → Saved)*::
+The user confirms the session summary. Data is persisted to the backend.
+
+*Discard (Paused → Abandoned)*::
+The user chooses to exit the session without saving while in the Paused state.
+All recorded data for this session is discarded.
+
+*Return home (Saved → Home Screen)*::
+After saving, the user is automatically returned to the Home Screen.
+Shown as a dashed green arrow. The Abandoned state also returns to the
+Home Screen via the same mechanism.
+
+---
+
+== Progress Dashboard
+
+image::progress_dashboard_state_machine.svg[Progress dashboard state machine]
+
+The Progress Dashboard follows a similar loading pattern to the Home Screen
+but adds an Expanded state for drilling into individual exercise statistics.
+The Collapse transition makes this the only screen with a reversible
+drill-down within a single flow.
+
+=== States
+
+*Loading*::
+Shown when the Progress tab is opened. Historical workout data is being
+fetched from the backend. A skeleton loader is displayed during this time.
+
+*Populated*::
+Data loaded successfully. The screen shows charts, streak counters, weekly
+frequency bars, and personal records for each exercise.
+
+*Expanded*::
+The user has tapped into a specific exercise to see its full historical
+performance. A detailed view is shown with per-session breakdowns.
+This state is only reachable from Populated.
+
+*Empty state*::
+The backend responded but no workout history exists yet. An encouraging
+message is shown prompting the user to complete their first session.
+
+*Error*::
+The data fetch failed. A retry button is shown with a human-readable
+error message.
+
+=== Transitions
+
+*Data ok (Loading → Populated)*::
+The API returned historical data and the dashboard fills with charts
+and statistics.
+
+*No history (Loading → Empty state)*::
+The API responded but the user has no logged workouts yet.
+
+*API fails (Loading → Error)*::
+The network request failed or timed out.
+
+*Retry (Error → Loading)*::
+The user taps the retry button. The screen returns to Loading and
+reattempts the data fetch. Shown as a dashed red arrow.
+
+*View detail (Populated → Expanded)*::
+The user taps on a specific exercise or stat card to drill into
+its detailed historical view.
+
+*Collapse (Expanded → Populated)*::
+The user closes the detailed view and returns to the main dashboard summary.
+Shown as a dashed arrow. This is the only reversible transition in this flow.
+
+---
+
+== Settings Screen
+
+image::settings_screen_state_machine.svg[Settings screen state machine]
+
+The Settings Screen is the simplest flow in the diagram. It is a short
+linear sequence that ends with an automatic reset, requiring no additional
+user action to return to the starting state.
+
+=== States
+
+*Default*::
+The read-only view of the user's current preferences. Notification settings,
+units, fitness goals, and account details are displayed but cannot be edited
+from this state.
+
+*Editing*::
+The user has entered edit mode. Input fields and toggles become interactive.
+Changes are held temporarily and not yet persisted.
+
+*Saving*::
+The user has confirmed their changes. The app is in the process of sending
+the updated preferences to the backend. A loading indicator is shown briefly.
+
+*Saved*::
+The backend confirmed the changes were saved successfully. A confirmation
+message or banner is shown to the user before the screen resets.
+
+=== Transitions
+
+*Edit (Default → Editing)*::
+The user taps the Edit button to enter edit mode and begin modifying preferences.
+
+*Confirm (Editing → Saving)*::
+The user taps Confirm or Save to submit their changes. The app begins
+persisting the data.
+
+*Done (Saving → Saved)*::
+The backend confirms the save was successful and the confirmation state is shown.
+
+*Auto-reset after 2s (Saved → Default)*::
+Two seconds after the confirmation is shown, the screen automatically
+returns to the Default read-only state without any user action required.
+Shown as a dashed green arrow looping back to the start.
