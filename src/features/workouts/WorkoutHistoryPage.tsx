@@ -128,6 +128,10 @@ export default function WorkoutHistoryPage() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [deletingSelected, setDeletingSelected] = useState(false);
 
+  // Filter + sorting state
+const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+const [typeFilter, setTypeFilter] = useState("all");
+
   useEffect(() => {
     async function loadWorkoutSessions() {
       if (!user?.id) {
@@ -267,7 +271,31 @@ export default function WorkoutHistoryPage() {
     }
   }
 
-  const dateGroups = groupSessionsByDate(sessions);
+    const workoutTypes = Array.from(
+    new Set(
+      sessions
+        .map((session) => session.workout_type)
+        .filter(Boolean)
+    )
+  );
+
+  const filteredAndSortedSessions = sessions
+    .filter((session) => {
+      return (
+        typeFilter === "all" ||
+        session.workout_type === typeFilter
+      );
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.created_at ?? "").getTime();
+      const dateB = new Date(b.created_at ?? "").getTime();
+
+      return sortOrder === "newest"
+        ? dateB - dateA
+        : dateA - dateB;
+    });
+
+  const dateGroups = groupSessionsByDate(filteredAndSortedSessions);
 
   return (
     <main className="history-page">
@@ -297,6 +325,44 @@ export default function WorkoutHistoryPage() {
             </button>
           </div>
         </header>
+        {sessions.length > 0 && (
+          <div className="history-header-actions">
+            <button
+              className="history-select-btn"
+              onClick={() =>
+                setSortOrder((prev) =>
+                  prev === "newest" ? "oldest" : "newest"
+                )
+              }
+            >
+              {sortOrder === "newest"
+                ? "Newest first"
+                : "Oldest first"}
+            </button>
+
+            <select
+              className="history-select-btn"
+              value={typeFilter}
+              onChange={(e) => setTypeFilter(e.target.value)}
+              style={{
+                appearance: "none",
+                WebkitAppearance: "none",
+                MozAppearance: "none",
+                textAlign: "center",
+                textAlignLast: "center",
+                
+              }}
+            >
+              <option value="all">All types</option>
+
+              {workoutTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {loadingSessions && (
           <div className="history-status">Loading workout history…</div>
@@ -320,7 +386,13 @@ export default function WorkoutHistoryPage() {
           </div>
         )}
 
-        {!loadingSessions && !sessionsError && sessions.length > 0 && (
+        {!loadingSessions && !sessionsError && sessions.length > 0 && filteredAndSortedSessions.length === 0 && (
+          <div className="history-status">
+            No workouts match the selected filter.
+          </div>
+        )}
+
+        {!loadingSessions && !sessionsError && filteredAndSortedSessions.length > 0 && (
           <div className="history-list">
             {dateGroups.map((group) => (
               <div key={group.dateKey} className="date-group">
