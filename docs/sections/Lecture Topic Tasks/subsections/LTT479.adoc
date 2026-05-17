@@ -1,0 +1,120 @@
+= [LTT] Domain Attributes in a Gym Tracker System
+Software Requirements Lecture
+:author: Jerac Duran
+
+== 1. Introduction
+
+Software systems that model real-world activities, such as a Gym Tracker application, must represent both stable and changing aspects of the domain. These characteristics are known as domain attributes and they influence how the system is designed and implemented.
+This lecture analyzes a Gym Tracker database and classifies its components into:
+
+- Static attributes
+- Dynamic attributes
+- Reactive behavior
+- Programmable behavior
+
+The goal is to understand how workout-related data (sessions, exercises, goals, and feedback) maps to software modeling concepts such as continuity, discreteness, and system responsiveness.
+
+== 2. Static Domain Attributes
+
+Static attributes represent stable domain concepts that do not frequently change. They define the structure of the system.
+
+=== Examples from the Database implemented
+
+* Table: exercises
+  - name (e.g., Bench Press, Squat, Deadlift)
+  - category (e.g., Cardio, weightlifting)
+  - equipment_type
+
+* Workout structure concepts
+  - Exercise definitions used across all sessions
+  - Predefined workout templates
+
+=== Explanation
+
+These attributes correspond to static domain phenomena:
+- Not time-dependent
+- Not affected by events
+- Define the structural model of the domain
+
+== 3. Dynamic Domain Attributes
+
+Dynamic attributes represent data that changes over time based on user activity or system updates.
+
+=== Examples from the Database
+
+* Table: workout_sessions
+  - duration_minutes
+  - calories_burned
+  - start_time
+  - end_time
+
+* Table: workout_exercises
+  - sets
+  - reps
+  - weight
+
+* Table: goals_feedback
+  - recorded_value
+  - status
+  - progress updates over time
+
+=== Explanation
+
+These attributes represent dynamic phenomena:
+
+- Evolve over time
+- Depend on user interaction
+- Represent system state changes
+
+== 4. Reactive Behavior in the System
+
+Reactive behavior occurs when the system responds directly to user actions or external events.
+
+=== Examples
+
+- Creating a workout session updates workout_sessions
+- Logging sets updates workout_exercises
+- Completing a workout updates duration and calories burned
+- Updating progress modifies goals_feedback status
+
+=== Explanation
+
+The system behaves reactively:
+
+- It responds to user input
+- It does not act independently
+- It updates state based on events
+
+== 5. Programmable Behavior in the System
+
+Programmable behavior refers to predefined logic that automatically executes based on system rules.
+
+=== Examples
+
+- Automatic calculation of total workout volume
+- Detection of goal completion in goals_feedback
+- Workout recommendations based on past workout_sessions
+- Progress comparison across sessions
+
+=== Explanation
+
+This behavior reflects:
+
+- Rule-based automation
+- Predefined system logic
+- Execution without direct user intervention
+
+== 6. Overall System Classification
+
+The Gym Tracker system can be classified as a hybrid domain system because it combines:
+
+* Static elements: exercise definitions and structure
+* Dynamic elements: workout history and progress tracking
+* Reactive behavior: real-time response to user actions
+* Programmable behavior: automated calculations and recommendations
+
+== 7. Conclusion
+
+The Gym Tracker database demonstrates how domain attributes influence system design. Static attributes define the structure of fitness data, dynamic attributes capture user activity over time, reactive behavior enables interaction with users, and programmable behavior introduces automation.
+
+This results in a hybrid, reactive, and partially programmable system model suitable for real-world fitness tracking applications.
