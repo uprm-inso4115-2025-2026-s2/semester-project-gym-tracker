@@ -65,7 +65,7 @@ the user is taken directly to the Home Screen for the first time.
 
 == Home Screen
 
-image::home_screen_state_machine.svg[Home screen state machine]
+images::home_screen_state_machine.svg[Home screen state machine]
 
 The Home Screen starts in a Loading state every time it is opened, then
 branches into one of three outcomes depending on whether data is available
@@ -120,7 +120,7 @@ green arrow leading downward into the Workout section.
 
 == Workout Session
 
-image::workout_session_state_machine.svg[Workout session state machine]
+images::workout_session_state_machine.svg[Workout session state machine]
 
 The Workout Session is the most complex screen in the diagram. It contains
 a repeating loop between Active and Rest timer, two branching paths from
@@ -201,7 +201,7 @@ Home Screen via the same mechanism.
 
 == Progress Dashboard
 
-image::progress_dashboard_state_machine.svg[Progress dashboard state machine]
+images::progress_dashboard_state_machine.svg[Progress dashboard state machine]
 
 The Progress Dashboard follows a similar loading pattern to the Home Screen
 but adds an Expanded state for drilling into individual exercise statistics.
@@ -259,7 +259,7 @@ Shown as a dashed arrow. This is the only reversible transition in this flow.
 
 == Settings Screen
 
-image::settings_screen_state_machine.svg[Settings screen state machine]
+images::settings_screen_state_machine.svg[Settings screen state machine]
 
 The Settings Screen is the simplest flow in the diagram. It is a short
 linear sequence that ends with an automatic reset, requiring no additional
