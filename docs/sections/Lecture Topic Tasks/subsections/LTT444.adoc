@@ -1,0 +1,105 @@
+==== [LTT] Operation Model: Streak Operation Signatures
+:author: Bruno Vergara
+This Lecture Topic Task characterizes the core operations of the Streaks subsystem in the Gym Tracker app by defining their signatures, domain pre- and postconditions, and performing agents. Each operation is traced back to at least one streak goal, ensuring the operation model is grounded in the intentional view.
+
+===== Operations
+
+*1. IncrementStreak*
+
+The system must increment the user's streak counter when a workout is logged on a valid consecutive day.
+
+*Performing Agent:* StreakEngine (software)
+
+*Signature:*
+- Input: `user: UserProfile / {lastWorkoutDate}`, `session: WorkoutSession / {date}`
+- Output: `streak: StreakRecord / {count, lastUpdated}`
+
+*DomPre:* The user has an active streak record and a new workout session has been logged.
+
+*DomPost:* The streak counter is incremented by one and the last updated date is set to today.
+
+*Goal:* `MaintainWorkoutStreak`
+
+---
+
+*2. ResetStreak*
+
+The system must reset the user's streak counter to zero when a day has been missed.
+
+*Performing Agent:* StreakEngine (software)
+
+*Signature:*
+- Input: `user: UserProfile / {lastWorkoutDate}`, `today: Date`
+- Output: `streak: StreakRecord / {count, lastUpdated}`
+
+*DomPre:* The difference between today's date and the last recorded workout date is greater than one day.
+
+*DomPost:* The streak counter is set to zero and the record is marked as broken.
+
+*Goal:* `MaintainWorkoutStreak`
+
+---
+
+*3. RecordAttendance*
+
+The system must mark a calendar day as attended when the user logs at least one workout session on that day.
+
+*Performing Agent:* StreakEngine (software)
+
+*Signature:*
+- Input: `session: WorkoutSession / {date, userId}`
+- Output: `attendance: AttendanceRecord / {day, status}`
+
+*DomPre:* No attendance record exists for the user on the given day.
+
+*DomPost:* An attendance record for the user on that day is created with status `attended`.
+
+*Goal:* `TrackAttendance`
+
+---
+
+*4. DisplayStreakVisual*
+
+The system must render the user's streak and attendance data in a visual calendar format.
+
+*Performing Agent:* StreakUI (software)
+
+*Signature:*
+- Input: `user: UserProfile`, `streak: StreakRecord`, `attendance: AttendanceRecord[]`
+- Output: `view: CalendarView / {markedDays, currentStreak}`
+
+*DomPre:* Streak and attendance records for the user are available.
+
+*DomPost:* A calendar view is rendered showing attended, missed, and current streak days.
+
+*Goal:* `VisualizeConsistency`
+
+---
+
+===== Operation Summary Table
+
+[cols="2,2,2,2"]
+|===
+| Operation | DomPre | DomPost | Performing Agent
+
+| IncrementStreak
+| New session logged on a consecutive day
+| Streak counter incremented, date updated
+| StreakEngine
+
+| ResetStreak
+| Gap of more than one day since last session
+| Streak counter reset to zero
+| StreakEngine
+
+| RecordAttendance
+| No attendance record exists for that day
+| Attendance record created with status `attended`
+| StreakEngine
+
+| DisplayStreakVisual
+| Streak and attendance records are available
+| Calendar view rendered with streak data
+| StreakUI
+
+|===

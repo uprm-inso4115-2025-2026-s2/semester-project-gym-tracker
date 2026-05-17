@@ -1,0 +1,283 @@
+= Lecture Topic Task: Requirements Stakeholders - Streak Feature User Personas
+:author: Oscar Santana
+
+== 🎯 Objective
+
+Identify and document different stakeholder groups for the streak feature, defining their specific needs, goals, and concerns to ensure the streak system serves diverse user types effectively.
+
+---
+
+== 1. Stakeholder Context
+
+The streak feature is designed for the Gym Tracker app's primary user base:
+- College students
+- Beginner and intermediate gym-goers
+- Casual athletes
+- Individuals building healthier habits
+
+These users interact with core streak components:
+- Current streak counter
+- Grace period system (2-day buffer)
+- Valid workout day definition (1 exercise / 5+ minutes)
+- Longest streak tracking
+- Streak reset conditions
+
+---
+
+== 2. Identified User Personas
+
+=== Persona 1: The Anxious Beginner
+
+*Background:* Sarah, 22, college student who just started going to the gym. Intimidated by fitness culture and fears failure.
+
+*Goals:*
+- Build consistent workout habit
+- Stay motivated without feeling overwhelmed
+- Not be punished for occasional missed days
+
+*Frustrations:*
+- Fear of losing streak after one missed day
+- Anxiety about "perfect" attendance records
+- Comparison to more experienced gym-goers
+
+*Feature Needs:*
+- Forgiving grace period
+- Encouragement over punishment
+- Low barrier to maintain streak (5-min minimum)
+- Fresh start feeling after breaks
+
+*Success Criteria:*
+- Feels supported, not shamed
+- Returns after missing days instead of quitting
+- Sees streak as motivational, not stressful
+
+---
+
+=== Persona 2: The Busy Professional
+
+*Background:* Marcus, 28, works irregular hours with unpredictable schedule. Wants to stay fit but often forgets to log workouts.
+
+*Goals:*
+- Track consistency despite chaotic schedule
+- Recover from forgotten logging
+- Maintain streak during travel/busy periods
+
+*Frustrations:*
+- Forgets to log workout until next day
+- Loses streaks to technical issues (app crashes, sync failures)
+- Travel across timezones disrupts tracking
+
+*Feature Needs:*
+- 48-hour backdating window
+- Manual workout entry option
+- Timezone-aware day boundaries
+- Grace period for missed days
+
+*Success Criteria:*
+- Can fix forgotten logs without penalty
+- Streak survives occasional chaos
+- System accommodates real-life unpredictability
+
+---
+
+=== Persona 3: The Competitive Athlete
+
+*Background:* Jake, 24, trains 6 days/week and values discipline. Sees streaks as accountability tool.
+
+*Goals:*
+- Track true consistency without exceptions
+- Achieve long streaks (100+, 365+ days)
+- Have permanent record of achievements
+
+*Frustrations:*
+- Grace periods feel like "cheating"
+- Losing long streak to technical error is devastating
+- Wants stricter rules than casual users
+
+*Feature Needs:*
+- Longest streak tracking (never resets)
+- Transparent reset conditions
+- Optional strict mode (no grace period)
+- Milestone celebrations (30, 100, 365 days)
+
+*Success Criteria:*
+- Feels proud of earned streak
+- Trust that streak count is accurate
+- Personal records preserved forever
+
+---
+
+=== Persona 4: The Returning User
+
+*Background:* Lisa, 26, had 60-day streak but stopped for 3 months due to injury. Now wants to restart.
+
+*Goals:*
+- Rebuild habit without dwelling on past failure
+- Feel welcomed back, not shamed
+- See that past effort still matters
+
+*Frustrations:*
+- Comparing new streak (3 days) to old streak (60 days) is demoralizing
+- Fear of starting from zero again
+- Guilt about losing previous progress
+
+*Feature Needs:*
+- Longest streak still visible (past achievement counts)
+- Fresh start without penalty
+- Optional one-time streak repair
+- Total workouts tracked separately from streak
+
+*Success Criteria:*
+- Doesn't abandon app after break
+- Sees returning as positive, not failure
+- Past achievements acknowledged
+
+---
+
+=== Persona 5: The Perfectionist
+
+*Background:* Emily, 23, obsesses over maintaining streak. Exercises when sick/injured to avoid reset.
+
+*Goals:*
+- Never lose streak
+- Maintain "perfect" record
+- Achieve longest possible streak
+
+*Frustrations:*
+- Anxiety about upcoming busy days
+- Exercises during illness to maintain streak
+- Can't enjoy rest days without guilt
+
+*Feature Needs:*
+- Scheduled rest days (mark in advance, don't break streak)
+- Pause feature for illness/injury
+- Reassurance that rest is healthy
+- Separation of streak from workout quality
+
+*Success Criteria:*
+- Can take healthy breaks without anxiety
+- Understands rest days are part of fitness
+- Streak motivates without causing harm
+
+---
+
+== 3. Conflicting Requirements Analysis
+
+=== Conflict 1: Forgiveness vs. Accountability
+
+*Conflict:*
+- Beginners need grace period to avoid discouragement
+- Competitive users want strict rules without exceptions
+
+*Current Resolution:*
+- 2-day grace period balances both needs
+- Not too strict (allows 2 missed days) but not too loose (resets on day 3)
+- Longest streak tracking satisfies competitive users
+
+*Trade-off:* Grace period feels "too easy" for competitive users, but is necessary for beginner retention
+
+---
+
+=== Conflict 2: Backdating vs. Integrity
+
+*Conflict:*
+- Professionals need backdating for forgotten logs
+- Competitive users see backdating as "cheating"
+
+*Current Resolution:*
+- 48-hour backdating window limits abuse
+- Manual entry allowed but time-restricted
+- System trusts users (honor system)
+
+*Trade-off:* Possible to game system, but benefits honest users more than it enables dishonesty
+
+---
+
+=== Conflict 3: Longest Streak Display vs. Discouragement
+
+*Conflict:*
+- Competitive users want longest streak prominently shown (achievement)
+- Returning users find comparison to past discouraging (3 days vs. 60 days)
+
+*Current Resolution:*
+- Longest streak tracked but NOT on main screen
+- Current streak emphasized over past record
+- Total workouts shown alongside streak (alternative achievement)
+
+*Trade-off:* Competitive users don't get prominent display, but returning users protected from demoralization
+
+---
+
+=== Conflict 4: Rest Days vs. Daily Consistency
+
+*Conflict:*
+- Perfectionists need rest days to not break streak (prevent unhealthy behavior)
+- Competitive users see rest days as "skipping" (want true daily consistency)
+
+*Current Resolution:*
+- Rest days not implemented yet (deferred to future)
+- Current system requires genuine activity
+- Grace period provides some flexibility
+
+*Unresolved Tension:* Perfectionists may exercise when sick to maintain streak (potential harm)
+
+---
+
+== 4. Feature-to-Stakeholder Mapping
+
+=== Core Features Currently Implemented
+
+*Grace Period (2-day buffer):*
+- Primary: Anxious Beginner (prevents abandonment)
+- Secondary: Busy Professional (accommodates chaotic schedules)
+- Opposed by: Competitive Athlete (wants strict rules)
+ 
+*48-Hour Backdating:*
+- Primary: Busy Professional (fix forgotten logs)
+- Secondary: Anxious Beginner (technical error recovery)
+- Tolerated by: Competitive Athlete (if time-limited)
+ 
+*Longest Streak Tracking:*
+- Primary: Competitive Athlete (achievement recognition)
+- Secondary: Returning User (past progress acknowledged)
+- Neutral: Anxious Beginner (doesn't care about records yet)
+ 
+*Valid Workout Definition (1 exercise OR 5 min):*
+- Primary: Anxious Beginner (low barrier to entry)
+- Secondary: Busy Professional (quick session counts)
+- Neutral: Competitive Athlete (works out longer anyway)
+ 
+*Total Workouts Counter:*
+- Primary: Returning User (alternative achievement metric)
+- Secondary: all personas (never resets, always growing)
+
+---
+
+=== Features Not Yet Implemented
+
+*Scheduled Rest Days:*
+- Primary beneficiary: Perfectionist (reduce anxiety)
+- Secondary: Competitive Athlete (plan recovery properly)
+- Implementation complexity: Medium (requires advance marking)
+
+*Streak Repair (One-time recovery):*
+- Primary: Returning User (recover from long break)
+- Secondary: Anxious Beginner (fix early mistakes)
+- Implementation complexity: Medium (requires usage tracking)
+
+*Strict Mode Toggle:*
+- Primary: Competitive Athlete (disable grace period)
+- Opposed by: Anxious Beginner (would choose forgiving mode)
+- Implementation complexity: High (dual logic paths)
+
+== ✅ Conclusion
+
+This stakeholder analysis shows that:
+
+- Five distinct personas interact with streak feature differently
+- Primary users (Anxious Beginner, Busy Professional) are well-served
+- Conflicting requirements exist between forgiveness and strictness
+- Current design prioritizes beginner retention over competitive features
+- Perfectionist needs require attention to prevent unhealthy behaviors
+
+The implemented features align with target demographic needs, though future iterations should address rest day scheduling and optional strict mode.
