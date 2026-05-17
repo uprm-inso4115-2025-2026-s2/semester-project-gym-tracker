@@ -1,0 +1,39 @@
+=== Modeling Guard Conditions in Workout Domain Operations
+
+Alejandro E. López Rodríguez
+
+Within the fitness tracking domain, workout-related actions often require the existence of valid contextual information before they can proceed. Recording workout activity, updating progress information, and evaluating workout consistency all depend on domain constraints that determine whether the operation is meaningful in the current situation. If those conditions are not satisfied, the operation should not produce a valid outcome.
+
+One example appears when recording a completed workout session. A workout session should only be recorded if the session contains at least one exercise entry. Attempting to record an empty session would not represent a meaningful workout activity within the domain.
+
+recordWorkout : WorkoutLog >< WorkoutSession -> WorkoutLog >< Option WorkoutRecord
+
+Guard Condition:
+
+* WorkoutSession must contain at least one ExerciseSet.
+
+If the guard condition is satisfied, the operation produces an updated workout log and a valid workout record. If the condition is not satisfied, the operation produces no valid result and the workout log remains unchanged.
+
+Another example appears when logging an exercise set into an existing workout session. The operation depends on the validity of the exercise information and repetition values.
+
+logExerciseSet : WorkoutSession >< Exercise >< RepetitionCount -> WorkoutSession >< Option ExerciseSet
+
+Guard Conditions:
+
+* Exercise must exist within the workout context.
+* RepetitionCount must be greater than zero.
+
+If both conditions are satisfied, the operation produces a valid exercise set entry associated with the workout session. Otherwise, the operation cannot produce a valid exercise set because the resulting state would violate workout tracking constraints.
+
+Guard conditions also appear in behaviors involving workout streaks and consistency tracking. Updating a workout streak requires the new workout activity to preserve temporal continuity between workout sessions.
+
+updateWorkoutStreak : WorkoutHistory >< WorkoutRecord -> WorkoutHistory >< Option Streak
+
+Guard Conditions:
+
+* WorkoutRecord must represent a completed workout.
+* The workout date must satisfy streak continuity requirements.
+
+If the continuity condition is satisfied, the streak value may be updated successfully. If too much time has passed between workout sessions, the operation cannot extend the streak because the domain behavior no longer represents continuous workout activity.
+
+These examples demonstrate how guard conditions influence the validity of domain operations. Instead of assuming that every operation may always execute successfully, the domain model explicitly identifies the situations in which an operation must be prevented from producing results. This approach helps preserve valid domain states and ensures that workout tracking behaviors remain consistent with real-world expectations. Additionally, it also improves the clarity of the domain description by making operational constraints explicit. The operations themselves describe what actions may occur, while the guard conditions explain when those actions are valid within the domain. 
