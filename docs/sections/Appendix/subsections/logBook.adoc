@@ -98,4 +98,6 @@
 
 | 4.3 Domain and Requirements Acquisition / 4.4 Traceability / Lecture Topic Tasks | Julian Vivas | Modified | Separated requirements acquisition from elicitation in Section 4.3; added AQ1, an 8-question gym-user questionnaire integrated into the section; mapped questionnaire evidence to concrete requirements and elicitation cases; extended traceability to include acquisition artifacts; and moved unrelated lecture topic task writeups out of Section 4.3 into dedicated LTT files.
 
+| Lecture Topic Tasks / LTT450 | Pedro Cortes | Added | Added a lecture topic task on boundary concepts in the Gym Tracker domain, clarifying the distinctions and relationships between Attendance Day and Workout Session, Consistency and Streak, Daily Goal and Weekly Goal, and Workout Tracking versus Nutrition Tracking as a scope boundary.
+
 |===
