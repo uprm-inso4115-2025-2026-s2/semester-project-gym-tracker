@@ -15,7 +15,7 @@
 
 [mermaid]
 ----
-ERdiagram
+erDiagram
 
     User {
         UUID user_id
