@@ -1,0 +1,156 @@
+==== [LTT] Dynamic Behavior Subtypes in the Notification & Feedback Domain
+:author: Ivan Morales
+
+Building on the static/dynamic classification established in LTT300, this task applies the finer-grained dynamic behavior subtypes from the Domain Attributes lecture to the Notification & Feedback domain of the Gym Tracker. Dynamic behaviors are classified into three subtypes—*inert*, *reactive*, and *biddable*—each capturing a distinct relationship between the phenomenon and the agents (users or systems) that participate in it.
+
+===== Conceptual Foundation
+
+The Domain Attributes lecture defines dynamic behavior subtypes as follows:
+
+*Inert* behaviors evolve on their own, independent of any agent's intention. No instruction or compliance is required, the phenomenon unfolds mechanically once its preconditions are satisfied.
+
+*Reactive* behaviors respond deterministically to stimuli. Given a specific input or event, the outcome is fixed and predictable. The phenomenon does not require agent cooperation,it simply transforms inputs to outputs according to a defined rule.
+
+*Biddable* behaviors involve autonomous agents (users, external systems) that can choose to comply or deviate from expected behavior. Because the agent has freedom to act otherwise, these behaviors are unreliable: partial compliance, refusal, or unanticipated actions are always possible.
+
+===== Inert Behaviors in the Notification & Feedback Domain
+
+Inert behaviors occur independently of user action or system decisions. They are governed by physical or temporal laws that no actor can suspend.
+
+*1. Passage of Time Since Last Workout*
+The interval between a users last recorded workout and the current moment increases continuously and unconditionally. No user action or system process can prevent time from advancing.
+_Example:_ A user logs a workout on Monday. By Wednesday, 48 hours have elapsed regardless of whether the user opened the app, acknowledged any notification, or performed any action.
+_Justification:_ This is inert because the phenomenon (elapsed time) is causally independent of all agents. It requires no decision and tolerates no deviation.
+
+*2. Scheduled Notification Window Opening*
+The operating system delivery window for push notifications opens at the clock time configured by the system. This transition happens mechanically once the system clock reaches the target time.
+_Example:_ The notification scheduler fires at 08:00:00 each morning because the OS timer expired. Whether the user is awake, the app is foregrounded, or network conditions are ideal is irrelevant to the timer firing itself.
+_Justification:_ The timer mechanism is inert ,it runs without asking for cooperation from any agent.
+
+===== Reactive Behaviors in the Notification & Feedback Domain
+
+Reactive behaviors produce deterministic outputs in response to defined inputs. Once the triggering condition is met, the outcome is fixed and automatic.
+
+*1. Goal-Completion Notification Trigger*
+When the system detects that a users logged workout data satisfies the configured daily goal, a notification is automatically enqueued for delivery.
+_Example:_ A user has a goal of 30 minutes of exercise per day. Upon logging a 35 minute run, the system immediately computes goal achievement and queues a "Daily goal reached!" notification. Every time these conditions are met, the same notification is generated—no deliberation occurs.
+_Justification:_ The mapping from input (goal fulfilled) to output (notification enqueued) is fixed and deterministic. The system does not deliberate; it reacts.
+
+*2. Weekly Summary Generation*
+At the end of each calendar week, the system aggregates the user's logged sessions, computes completion percentage, and generates a summary feedback report.
+_Example:_ On Sunday at midnight, the system collects all workouts logged Monday–Sunday, calculates that the user completed 4 of 5 planned sessions (80%), and produces a structured feedback message. The same aggregation logic runs every week without variation.
+_Justification:_ The behavior is reactive to the weekly boundary event. Given the same input data, the output is always identical.
+
+*3. Progress Percentage Recalculation*
+Each time a workout session is logged, the system recalculates the user s daily and weekly progress percentages and updates the feedback display.
+_Example:_ A user logs a second workout of the day. The system immediately recomputes the progress bar value from 50% to 100%. The update is instantaneous and deterministic.
+_Justification:_ The calculation is a pure function of stored data. No agent choice affects the arithmetic.
+
+*4. Notification Badge Count Update*
+When the user opens and acknowledges a notification, the system decrements the unread notification counter.
+_Example:_ The app badge shows "3 unread." The user taps the notification panel; the system reduces the badge to "2." This always happens the same way.
+_Justification:_ The state transition (badge decrement) is a deterministic response to the "acknowledged" event.
+
+===== Biddable Behaviors in the Notification & Feedback Domain
+
+Biddable behaviors depend on an autonomous agent, typically the user whose cooperation cannot be guaranteed. The system may issue a request, display a prompt, or deliver a notification, but the agent retains the freedom to comply partially, fully, or not at all.
+
+*1. User Enabling or Disabling Notification Preferences*
+The system displays a notification settings panel where users can toggle categories of alerts (reminders, achievements, weekly summaries). The system cannot force a user to keep notifications enabled.
+_Example:_ A user receives a workout reminder notification and finds it intrusive. They navigate to Settings and disable all reminder notifications. The system expected the user to engage with reminders; instead the user opted out entirely.
+_Unreliability:_ The system cannot guarantee that its notification channel remains open. Users may disable permissions at the OS level as well, bypassing in-app settings entirely. Partial compliance occurs when a user disables only some categories (e.g., keeps achievement alerts but disables reminders).
+
+*2. User Responding to a Feedback Prompt*
+After a workout is logged, the system displays a prompt asking the user to rate perceived effort (1–5 scale) or add notes. The user may respond, skip, or close the app without interacting.
+_Example:_ The app shows "How did that feel?" after a logged session. User A rates the session immediately. User B dismisses the prompt. User C closes the app before the prompt appears. All three cases are valid from the user's perspective, but only User A provides the feedback the system requested.
+_Unreliability:_ Feedback data will be sparse and non-uniform. Analyses built on this data must account for systematic non-response (e.g., users who only respond after hard sessions).
+
+*3. User Acting on a Workout Reminder Notification*
+The system delivers a reminder notification at the users configured time. The user may open the app and log a workout, dismiss the notification, or ignore it entirely.
+_Example:_ At 7:00 AM, the user receives "Time to work out!" The system's intent is for the user to start a session. The user could: (a) open the app and log a session—full compliance; (b) swipe the notification away without opening the app—non-compliance; (c) open the app but not log a session—partial compliance.
+_Biddable modeling:_ The compliance outcome is probabilistic, not deterministic. The system must not assume that notification delivery equals workout completion.
+
+*4. User Configuring Reminder Schedules*
+The system invites users to configure their preferred reminder times and workout targets. The user may provide thoughtful values, arbitrary values, or leave defaults unchanged.
+_Example:_ A user sets a 6:00 AM reminder but consistently ignores it because their schedule changed. The system's reminder model is built on the assumption that the user supplied time is meaningful, but the user never updated it to reflect reality.
+_Unreliability:_ The preference data is only as reliable as the user's self reporting. Partial compliance occurs when the user adjusts some settings but not others (e.g., updates the reminder time but never sets a weekly goal).
+
+===== Modeling Biddable Behaviors: Where Unreliability Enters
+
+The table below summarizes the three points at which biddable behavior in the Notification & Feedback domain can deviate from the system's expectations:
+
+[cols="2,3,3", options="header"]
+|===
+| Interaction Point | Expected (Full Compliance) | Possible Deviations
+
+| Notification permission grant
+| User allows all notification categories at the OS level
+| User denies; user grants then revokes; user grants selectively
+
+| Reminder notification receipt
+| User opens app and logs a session
+| User dismisses; user ignores; OS suppresses delivery
+
+| Post-workout feedback prompt
+| User rates effort and submits notes
+| User skips prompt; user provides incomplete data; user closes app
+
+| Preference configuration
+| User sets accurate, up-to-date reminder times and goals
+| User leaves defaults; user sets values that no longer reflect schedule; user sets unrealistic targets
+|===
+
+In each case, the system must treat the agent's response as a probability distribution rather than a guaranteed outcome. Requirements for these behaviors should explicitly state what the system does when compliance is partial or absent—such as falling back to a default reminder time, treating absent feedback as missing data rather than zero, or re-prompting after a grace period.
+
+===== Summary Classification Table
+
+[cols="3,2,4", options="header"]
+|===
+| Domain Phenomenon | Subtype | Justification
+
+| Elapsed time since last workout
+| Inert
+| Progresses unconditionally; no agent participation required
+
+| Scheduled notification window opening
+| Inert
+| OS timer fires mechanically when clock reaches target time
+
+| Goal-completion notification trigger
+| Reactive
+| Deterministic response to workout data satisfying goal threshold
+
+| Weekly summary generation
+| Reactive
+| Fixed aggregation triggered by weekly boundary event
+
+| Progress percentage recalculation
+| Reactive
+| Pure function of logged data; always produces same result for same input
+
+| Notification badge count update
+| Reactive
+| Deterministic state transition upon acknowledgment event
+
+| User enabling/disabling notification preferences
+| Biddable
+| User has genuine freedom to comply or opt out at any time
+
+| User responding to feedback prompt
+| Biddable
+| User may skip, answer partially, or close app without responding
+
+| User acting on reminder notification
+| Biddable
+| Delivery does not guarantee any particular user response
+
+| User configuring reminder schedules
+| Biddable
+| Accuracy of preferences depends on voluntary, accurate self-reporting
+|===
+
+===== Conclusion
+
+The Notification & Feedback domain of the Gym Tracker contains all three dynamic behavior subtypes. Inert behaviors, such as time progression and timer expiry unfold without any agent involvement. Reactive behaviors, such as goal-completion triggers and weekly summaries produce deterministic outputs from defined inputs. Biddable behaviors, such as responding to reminders or completing feedback prompts introduce irreducible uncertainty because they depend on user agency.
+
+Correct system design must treat inert and reactive behaviors as reliable and model them precisely, while treating biddable behaviors as inherently probabilistic. Requirements for biddable interactions must specify fallback behavior, partial-compliance handling, and what the system infers when the expected agent response does not arrive.

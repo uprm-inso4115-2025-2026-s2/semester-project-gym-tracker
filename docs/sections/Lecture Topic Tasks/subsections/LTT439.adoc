@@ -1,0 +1,242 @@
+= Lecture Topic Task : Requirements Analysis & Concept Formation for Workout Calendar & Reminder System
+
+== 🎯 Objective
+
+Apply requirements analysis and concept formation techniques to the *Workout Calendar & Reminder System* in order to:
+
+- Extract machine concepts from requirement descriptions
+- Identify abstractions and relationships between requirements
+- Detect inconsistencies, conflicts, and incompleteness
+- Improve requirement clarity, consistency, and structure
+
+---
+
+== 📌 Background & Rationale
+
+The current Gym Tracker system focuses primarily on workout tracking and historical data logging. However, modern fitness systems also require planning and commitment mechanisms that allow users to prepare future workout sessions and maintain consistency.
+
+The *Workout Calendar & Reminder System* introduces:
+- workout scheduling
+- reminder notifications
+- calendar visualization
+- completion tracking
+- achievement integration
+
+From a Requirements Engineering perspective, this feature introduces multiple interacting requirements that must be analyzed carefully to ensure consistency and completeness.
+
+This deliverable applies *Requirements Analysis* and *Concept Formation* principles to improve requirement quality before implementation begins.
+
+---
+
+== 🧩 Scope
+
+=== In Scope
+
+- Analyze requirement prescription units
+- Identify machine concepts through abstraction
+- Detect inconsistencies and conflicts
+- Identify incomplete or undefined behaviors
+- Simplify requirements into structured narratives
+- Create concept relationship models
+
+=== Out of Scope
+
+- UI implementation
+- Database implementation
+- Notification infrastructure implementation
+- Mobile-specific notification handling
+- Calendar rendering implementation
+
+---
+
+== 👥 Stakeholders
+
+- End users scheduling workouts
+- Product owners defining feature expectations
+- Developers implementing scheduling and reminders
+- QA engineers validating workflow behavior
+
+---
+
+== 🧠 Requirement Prescription Units
+
+The following requirement descriptions are extracted from the proposed feature:
+
+- Users can schedule workouts for future dates
+- Users can configure reminder alarms
+- The system supports calendar visualization
+- Scheduled workouts may transition to completed or missed
+- Reminder notifications trigger at configured times
+- Planned vs completed metrics are computed
+- Achievement events react to workout completion
+
+These descriptions represent requirement prescription units analyzed in this task.
+
+---
+
+== 🧩 Concept Formation
+
+According to Requirements Engineering principles, requirement descriptions can be abstracted into machine concepts.
+
+=== Abstracted Machine Concepts
+
+[cols="2,2", options="header"]
+|===
+| Requirement Description | Machine Concept
+
+| Workout scheduling
+| Scheduled Workout
+
+| Reminder alarms
+| Notification System
+
+| Calendar visualization
+| Calendar Interface
+
+| Completion tracking
+| Workout Status Tracking
+
+| Achievement triggers
+| Achievement Engine
+
+| Reminder timing
+| Scheduling Engine
+|===
+
+---
+
+== 🔄 Simplified Requirement Narrative
+
+After concept abstraction, the system can be described as:
+
+- Users create *Scheduled Workouts*
+- The *Scheduling Engine* manages workout timing
+- The *Notification System* delivers reminders
+- The *Calendar Interface* displays planned workouts
+- The *Workout Status Tracking* component manages session outcomes
+- The *Achievement Engine* reacts to completion events
+
+This abstraction simplifies requirement understanding and system organization.
+
+---
+
+== 📊 Requirements Analysis Workflow
+
+----
+[Requirement Descriptions]
+           |
+           v
+[Identify Requirement Units]
+           |
+           v
+[Extract Concepts]
+           |
+           v
+[Abstract into Machine Concepts]
+           |
+           v
+[Analyze Consistency & Completeness]
+           |
+           v
+[Create Simplified Narrative]
+----
+
+---
+
+== ⚠ Potential Inconsistencies
+
+An inconsistency occurs when requirements prescribe incompatible behaviors.
+
+=== Example
+
+Requirement A:
+- Notifications must trigger exactly at configured time
+
+Requirement B:
+- Notifications retry delivery if unavailable
+
+Potential issue:
+- Retry behavior may violate exact timing guarantees
+
+Recommended clarification:
+- Define acceptable notification delay tolerance
+
+---
+
+== ⚠ Potential Conflicts
+
+A conflict occurs when stakeholders strongly prefer incompatible requirements.
+
+=== Example
+
+Stakeholder Group A:
+- Wants frequent reminders for accountability
+
+Stakeholder Group B:
+- Wants minimal notifications to avoid annoyance
+
+Potential conflict:
+- Reminder frequency expectations oppose each other
+
+Recommended solution:
+- Allow user-configurable reminder settings
+
+---
+
+== ⚠ Potential Incompleteness
+
+Incompleteness occurs when behaviors or conditions remain undefined.
+
+=== Possible Missing Requirements
+
+- No offline reminder behavior defined
+- No overlap handling for multiple scheduled workouts
+- No limit defined for reminders per session
+- No timezone transition behavior specified
+- No precise workout completion matching rules
+
+Recommended improvement:
+- Add explicit edge-case requirements
+
+---
+
+== 🛡 Requirement Quality Improvements
+
+To improve requirement quality:
+
+- Define retry policies for reminders
+- Clarify timezone handling behavior
+- Define overlap handling constraints
+- Specify completion matching rules
+- Add validation requirements for scheduling
+
+---
+
+== 🧱 Concept Relationship Model
+
+----
+[User]
+   |
+   v
+[Scheduled Workout]
+   |
+   +--> [Scheduling Engine]
+   |
+   +--> [Notification System]
+   |
+   +--> [Calendar Interface]
+   |
+   +--> [Workout Status Tracking]
+   |
+   +--> [Achievement Engine]
+----
+
+---
+
+== 🧠 Conclusion
+
+This deliverable demonstrates how Requirements Analysis and Concept Formation techniques improve requirement quality before implementation begins.
+
+By abstracting requirement descriptions into machine concepts and identifying inconsistencies, conflicts, and incompleteness, the Workout Calendar & Reminder System becomes more maintainable, understandable, and reliable.
+
+These techniques reduce future development risks and improve overall system structure.
