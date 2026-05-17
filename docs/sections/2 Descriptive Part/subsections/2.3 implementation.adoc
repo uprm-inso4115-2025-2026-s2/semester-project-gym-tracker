@@ -13,6 +13,8 @@
 
 [.changed]#Attendance Day, Goal Evaluation, Weekly Summary, and Streak are not stored as a separate primary history. They are derived from persisted Workout Sessions. `src/lib/workouts.ts` turns stored timestamps into date keys, counts workouts on a day, counts unique workout days across a Week, and computes longest streak length from completed workout days. `src/features/streaks/streakcalc.ts` implements the stricter active-streak rules and grace-period behavior. This matches the modeling choice in Section 2.1.6, where Attendance Days and Streak are derived from Workout History rather than stored as separate primary collections.#
 
+image::../images/implementation-er-diagram.png[Entity Relationship Diagram]
+
 ===== [.changed]#Architectural Realization#
 
 [.changed]#The main integration point is `src/App.tsx`. That file wraps the application in `AuthProvider` and `BrowserRouter`, defines the protected routes, and assembles the home dashboard from the feedback and streak components. The protected route set includes `/`, `/history`, `/profile`, and `/settings`. The public route set includes `/login`, `/signup`, `/forgot-password`, and `/reset-password`.#
