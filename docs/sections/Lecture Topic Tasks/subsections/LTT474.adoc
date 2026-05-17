@@ -1,0 +1,186 @@
+= Gym Tracker UI — State Machine Diagram
+:toc:
+:toc-title: Contents
+
+== Overview
+
+The following state machine diagram covers five key screens of the Gym Tracker UI:
+Onboarding Flow, Home Screen, Workout Session, Progress Dashboard, and Settings Screen.
+
+[NOTE]
+====
+This diagram uses Mermaid syntax, which renders automatically on GitHub and GitLab
+with no installation required.
+====
+
+== Onboarding Flow
+
+++++
+<pre class="mermaid">
+stateDiagram-v2
+    direction LR
+    [*] --> Welcome
+    Welcome --> GoalSelection   : Next
+    GoalSelection --> FitnessLevel : Next
+    FitnessLevel --> Equipment  : Next
+    Equipment --> [*]           : Complete setup
+
+    state Welcome         : Intro screen on first launch
+    state GoalSelection   : Pick fitness goal
+    state FitnessLevel    : Pick experience level
+    state Equipment       : Select equipment and schedule
+</pre>
+++++
+
+++++
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true });
+</script>
+++++
+
+== Home Screen
+
+++++
+<pre class="mermaid">
+stateDiagram-v2
+    direction LR
+    [*] --> Loading
+    Loading --> Populated  : Data ok
+    Loading --> EmptyState : No data yet
+    Loading --> Error      : API fails
+    Error   --> Loading    : Retry
+
+    state Populated  : Today plan, calories, streak
+    state EmptyState : Prompt to log first workout
+    state Error      : Human-readable error + retry button
+</pre>
+++++
+
+== Workout Session
+
+++++
+<pre class="mermaid">
+stateDiagram-v2
+    [*] --> Idle
+    Idle      --> Active    : Begin
+    Active    --> RestTimer : Log set
+    RestTimer --> Active    : Timer ends
+    Active    --> Paused    : Pause
+    Paused    --> Active    : Resume
+    Active    --> Completed : Last set done
+    Completed --> Saved     : Save
+    Paused    --> Abandoned : Discard
+    Saved     --> [*]       : Return home
+    Abandoned --> [*]       : Return home
+
+    state Idle      : Plan loaded, not yet started
+    state Active    : User logging sets and reps
+    state RestTimer : Countdown between sets
+    state Paused    : Session on hold
+    state Completed : All sets done, summary shown
+    state Saved     : Data persisted to backend
+    state Abandoned : Session discarded, no data saved
+</pre>
+++++
+
+== Progress Dashboard
+
+++++
+<pre class="mermaid">
+stateDiagram-v2
+    direction LR
+    [*] --> Loading
+    Loading   --> Populated  : Data ok
+    Loading   --> EmptyState : No history
+    Loading   --> Error      : API fails
+    Error     --> Loading    : Retry
+    Populated --> Expanded   : View detail
+    Expanded  --> Populated  : Collapse
+
+    state Populated  : Charts, streaks, personal records
+    state EmptyState : No history yet, shows tip
+    state Error      : Retry button displayed
+    state Expanded   : Drill-down for one exercise
+</pre>
+++++
+
+== Settings Screen
+
+++++
+<pre class="mermaid">
+stateDiagram-v2
+    direction LR
+    [*] --> Default
+    Default --> Editing : Edit
+    Editing --> Saving  : Confirm
+    Saving  --> Saved   : Done
+    Saved   --> Default : Auto-reset after 2s
+
+    state Default : Read-only view of preferences
+    state Editing : User modifying settings
+    state Saving  : Persisting changes to backend
+    state Saved   : Confirmation shown briefly
+</pre>
+++++
+
+== State Descriptions
+
+=== Onboarding Flow
+
+[cols="1,3", options="header"]
+|===
+| State | Description
+| Welcome | Introductory screen shown on first launch.
+| Goal selection | User picks a primary fitness goal (weight loss, muscle gain, or endurance).
+| Fitness level | User selects their experience level (beginner, intermediate, advanced).
+| Equipment | User specifies available equipment and preferred workout days per week.
+|===
+
+=== Home Screen
+
+[cols="1,3", options="header"]
+|===
+| State | Description
+| Loading | Skeleton screen shown while fetching today's plan and metrics.
+| Populated | Full home screen with daily summary card, streak counter, and quick-start button.
+| Empty state | Shown to new users with no logged data; prompts first workout.
+| Error | API request failed; displays a human-readable message and a retry button.
+|===
+
+=== Workout Session
+
+[cols="1,3", options="header"]
+|===
+| State | Description
+| Idle | Workout plan is loaded and ready; session has not started.
+| Active | User is actively logging sets and reps.
+| Rest timer | Countdown displayed between sets; auto-advances back to Active.
+| Paused | Session is on hold; user can resume or discard.
+| Completed | All sets finished; summary screen displayed.
+| Saved | Session data persisted to the backend; user returned to Home.
+| Abandoned | Session discarded without saving; user returned to Home.
+|===
+
+=== Progress Dashboard
+
+[cols="1,3", options="header"]
+|===
+| State | Description
+| Loading | Skeleton loaders shown while fetching historical data.
+| Populated | Charts, streak counter, and personal records displayed.
+| Empty state | No workout history exists yet; onboarding tip shown.
+| Error | Data fetch failed; retry button displayed.
+| Expanded | Drill-down view for a specific exercise's historical performance.
+|===
+
+=== Settings Screen
+
+[cols="1,3", options="header"]
+|===
+| State | Description
+| Default | Read-only view of current preferences.
+| Editing | User is actively modifying settings (notifications, units, goals).
+| Saving | Changes are being persisted to the backend.
+| Saved | Confirmation banner shown; screen auto-resets to Default after 2 seconds.
+|===
