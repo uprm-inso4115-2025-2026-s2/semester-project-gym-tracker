@@ -88,6 +88,8 @@
 
 | 3.1 Concept Analysis | AlejandroMB05 | Added | Added domain analysis for the notification system, including identification of core concepts such as Notification, User, Notification Trigger, Workout Event, and User Preferences.
 
+| 3.1 Concept Analysis | AlejandroMB05 | Added | Added a risk analysis document identifying possible causes of missed or failed notifications, their impact on user engagement and workout consistency, reliability concerns, and recommendations for improving notification reliability in the gym tracker application.
+
 | 3.1 Concept Analysis | Wilson A. Morales | Modified | Removed conflicting terms and aligned concept analysis with final terminology.
 
 | 3.2 Validation and Verification | Alex Vazquez | Added | Added a Requirements and Domain Model Inspection subsection using a defect-driven checklist and a quality-driven checklist. The subsection lists inspectors, inspected documentation items, inspection questions, findings, and follow-up actions. Traceability-related review items were marked as pending for Julian Vivas instead of being counted as completed in this pass.
