@@ -1,0 +1,178 @@
+==== [LTT] Intentional View: Goal Model
+:author: EnriqueVilela2714
+This Lecture Topic Task defines the intentional view of the Notifications subsystem in the Gym Tracker app by identifying the goals the system must achieve, classifying them, decomposing them into leaf goals, and documenting the obstacles that could obstruct them.
+
+The intentional view serves as the foundation for all other views. Every operation, agent responsibility, and system state must trace back to a goal defined here.
+
+===== Goals
+
+*1. RemindUpcomingSession (Achieve)*
+
+The system must notify users about their scheduled gym sessions before they occur, helping them prepare and stay committed to their planned workouts.
+
+*Priority:* High
+
+*Definition:* A reminder notification is sent to the user at an optimal time before a scheduled session (e.g., 1 hour before), ensuring the user has enough time to prepare and arrive on time.
+
+Leaf goals:
+- `IdentifyUpcomingSession` — detect sessions scheduled within a predefined timeframe (next 24 hours or next week).
+- `DetermineOptimalNotificationTime` — calculate the best time to send the reminder based on user preferences and session timing.
+- `SendReminderNotification` — deliver the notification through the user's preferred channel (push, email, in-app).
+- `TrackNotificationDelivery` — confirm that the notification was successfully sent and received.
+
+*2. ReEngageInactiveUser (Achieve)*
+
+The system must identify users with declining attendance patterns and send targeted notifications to encourage them to return to the gym.
+
+*Priority:* High
+
+*Definition:* An inactive user is one whose attendance has dropped significantly over a defined period (e.g., no sessions in 7 days). Notifications must be personalized and non-intrusive to avoid being perceived as spam.
+
+Leaf goals:
+- `DetectInactivityPattern` — monitor user attendance data and identify when a user hasn't logged a session for a threshold period.
+- `GeneratePersonalizedMessage` — create a customized notification that references the user's streak or recent achievements.
+- `SendReEngagementNotification` — deliver the notification with optimal timing and frequency.
+- `MeasureReEngagementSuccess` — track whether the notification led to the user logging a session within 48 hours.
+
+*3. ConfirmBookingAction (Achieve)*
+
+The system must send confirmation notifications when the user books, modifies, or cancels a gym session, providing immediate feedback and a record of the action.
+
+*Priority:* Medium
+
+*Definition:* A confirmation notification is sent immediately after a booking-related action is completed, containing relevant details (session time, date, location, confirmation code if applicable).
+
+Leaf goals:
+- `CaptureBookingEvent` — detect booking, modification, or cancellation actions.
+- `FormatConfirmationMessage` — prepare a clear, structured notification with all relevant session details.
+- `DeliverConfirmationImmediately` — send the notification within seconds of the action completion.
+- `StoreNotificationRecord` — log the sent notification for audit and analytics purposes.
+
+*4. PreserveUserPreferences (Maintain)*
+
+The system must respect user notification settings and avoid sending notifications that violate their preferences or quiet hours.
+
+*Priority:* High
+
+*Definition:* User preferences include notification frequency, preferred channels, quiet hours (do not disturb windows), and opt-in/opt-out status for each notification type.
+
+Leaf goals:
+- `RetrieveUserPreferences` — load the user's notification settings from the database.
+- `CheckQuietHours` — verify that the current time is outside the user's designated quiet hours.
+- `ValidateNotificationEligibility` — confirm that the notification type is enabled by the user.
+- `BypassIfDisabled` — skip sending the notification if the user has opted out of that category.
+
+===== Obstacles
+
+*1. User has notifications disabled globally*
+
+Obstructs `RemindUpcomingSession`, `ReEngageInactiveUser`, and `ConfirmBookingAction`. If the user has disabled all notifications at the OS level or in the app, critical reminders may not be delivered, leading to missed sessions and broken streaks.
+
+*Likelihood:* Medium
+
+*Criticality:* High
+
+*Mitigation:* Provide in-app alerts as a fallback; offer a settings prompt to re-enable notifications when the user opens the app.
+
+*2. Notification sent at suboptimal time*
+
+Obstructs `RemindUpcomingSession`. Sending a reminder too early (and the user forgets) or too late (when the user is already at the gym) reduces effectiveness and may annoy the user.
+
+*Likelihood:* High
+
+*Criticality:* Medium
+
+*Mitigation:* Use user behavior data to determine optimal send times; allow users to customize reminder timing per session type.
+
+*3. Repeated notifications cause user fatigue*
+
+Obstructs `PreserveUserPreferences` and `ReEngageInactiveUser`. Sending too many re-engagement notifications or reminder notifications within a short period may lead users to mute the app or uninstall it.
+
+*Likelihood:* High
+
+*Criticality:* High
+
+*Mitigation:* Implement notification frequency caps and cooldown periods between similar notification types.
+
+*4. Network failure or service unavailability*
+
+Obstructs `ConfirmBookingAction` and all reminder notifications. If the notification service (push, email) is down, users receive no confirmation or reminders.
+
+*Likelihood:* Low
+
+*Criticality:* High
+
+*Mitigation:* Queue failed notifications for retry; log failures for monitoring; provide in-app fallback messages.
+
+*5. User misses session despite reminder*
+
+Obstructs `RemindUpcomingSession`. Even with a reminder, the user may still miss the session due to external factors (work, family, weather).
+
+*Likelihood:* High
+
+*Criticality:* Medium
+
+*Mitigation:* This is expected behavior. Focus on making reminders helpful rather than guaranteeing attendance.
+
+===== Goal Summary Table
+
+[cols="2,2,1,1"]
+|===
+| Name | Definition | Category | Priority
+
+| RemindUpcomingSession
+| Notify users about scheduled sessions at optimal times
+| Achieve
+| High
+
+| ReEngageInactiveUser
+| Send personalized notifications to re-activate users
+| Achieve
+| High
+
+| ConfirmBookingAction
+| Provide immediate confirmation of booking actions
+| Achieve
+| Medium
+
+| PreserveUserPreferences
+| Respect user settings and quiet hours
+| Maintain
+| High
+
+|===
+
+===== Goal Decomposition Diagram
+
+[source]
+----
+RemindUpcomingSession (Achieve)
+├── IdentifyUpcomingSession
+├── DetermineOptimalNotificationTime
+├── SendReminderNotification
+└── TrackNotificationDelivery
+
+ReEngageInactiveUser (Achieve)
+├── DetectInactivityPattern
+├── GeneratePersonalizedMessage
+├── SendReEngagementNotification
+└── MeasureReEngagementSuccess
+
+ConfirmBookingAction (Achieve)
+├── CaptureBookingEvent
+├── FormatConfirmationMessage
+├── DeliverConfirmationImmediately
+└── StoreNotificationRecord
+
+PreserveUserPreferences (Maintain)
+├── RetrieveUserPreferences
+├── CheckQuietHours
+├── ValidateNotificationEligibility
+└── BypassIfDisabled
+----
+
+===== Next Steps
+
+- Define agent responsibilities for each leaf goal (e.g., NotificationService, UserPreferenceManager, AnalyticsLogger).
+- Create the Strategic Dependency (SD) view to map dependencies between actors.
+- Implement the Strategic Rationale (SR) view to detail how each goal is operationalized.
