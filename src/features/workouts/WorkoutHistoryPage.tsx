@@ -153,6 +153,16 @@ const [typeFilter, setTypeFilter] = useState("all");
     loadWorkoutSessions();
   }, [user]);
 
+  useEffect(() => {
+    if (!actionMessage) return;
+
+    const timeout = setTimeout(() => {
+      setActionMessage(null);
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [actionMessage]);
+
   function exitSelectMode() {
     setSelectMode(false);
     setSelectedIds(new Set());
@@ -193,7 +203,7 @@ const [typeFilter, setTypeFilter] = useState("all");
       await Promise.all(Array.from(selectedIds).map((id) => deleteWorkoutSession(id)));
       setSessions((prev) => prev.filter((s) => !selectedIds.has(s.workout_id)));
       exitSelectMode();
-      setActionMessage(`Deleted ${deletedCount} workout${deletedCount === 1 ? "" : "s"}.`);
+      setActionMessage(`Deleted ${deletedCount} workout${deletedCount === 1 ? "" : "s"}`);
       window.dispatchEvent(new Event("progress-updated"));
     } catch {
       setActionError("Some deletions failed. Please try again.");
@@ -262,7 +272,7 @@ const [typeFilter, setTypeFilter] = useState("all");
       );
       setEditingId(null);
       setEditDraft(null);
-      setActionMessage("Workout updated.");
+      setActionMessage("Workout updated");
       window.dispatchEvent(new Event("progress-updated"));
     } catch {
       setActionError("Failed to save changes. Please try again.");
@@ -326,41 +336,64 @@ const [typeFilter, setTypeFilter] = useState("all");
           </div>
         </header>
         {sessions.length > 0 && (
-          <div className="history-header-actions">
-            <button
-              className="history-select-btn"
-              onClick={() =>
-                setSortOrder((prev) =>
-                  prev === "newest" ? "oldest" : "newest"
-                )
-              }
-            >
-              {sortOrder === "newest"
-                ? "Newest first"
-                : "Oldest first"}
-            </button>
+          <div
+            className="history-filter-row"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "1rem",
+            }}
+          >
+            <div className="history-header-actions">
+              <button
+                className="history-select-btn"
+                onClick={() =>
+                  setSortOrder((prev) =>
+                    prev === "newest" ? "oldest" : "newest"
+                  )
+                }
+              >
+                {sortOrder === "newest"
+                  ? "Newest first"
+                  : "Oldest first"}
+              </button>
 
-            <select
-              className="history-select-btn"
-              value={typeFilter}
-              onChange={(e) => setTypeFilter(e.target.value)}
-              style={{
-                appearance: "none",
-                WebkitAppearance: "none",
-                MozAppearance: "none",
-                textAlign: "center",
-                textAlignLast: "center",
-                
-              }}
-            >
-              <option value="all">All types</option>
+              <select
+                className="history-select-btn"
+                value={typeFilter}
+                onChange={(e) => setTypeFilter(e.target.value)}
+                style={{
+                  appearance: "none",
+                  WebkitAppearance: "none",
+                  MozAppearance: "none",
+                  textAlign: "center",
+                  textAlignLast: "center",
+                }}
+              >
+                <option value="all">All types</option>
 
-              {workoutTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
+                {workoutTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {actionMessage && (
+              <div
+                className="history-action-message"
+                style={{
+                  color: "var(--primary)",
+                  fontWeight: 600,
+                  fontSize: "0.85rem",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {actionMessage}
+              </div>
+            )}
           </div>
         )}
 
@@ -370,10 +403,6 @@ const [typeFilter, setTypeFilter] = useState("all");
 
         {sessionsError && (
           <div className="history-status-error">{sessionsError}</div>
-        )}
-
-        {actionMessage && (
-          <div className="history-status">{actionMessage}</div>
         )}
 
         {actionError && (
