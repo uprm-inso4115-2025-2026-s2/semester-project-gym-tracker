@@ -1,0 +1,75 @@
+==== [LTT] Operation Model: Streak Operationalization Diagram
+:author: Bruno Vergara Collado
+
+This Lecture Topic Task produces an operationalization diagram for the Streaks subsystem,
+visually capturing the relationships between streak goals and the operations that fulfill them.
+The diagram serves as a communication artifact for the team and a traceability tool that maps
+implemented behavior back to stated goals.
+
+===== Diagram Description
+
+Since operationalization diagrams are graphical artifacts, the diagram for the Streaks subsystem
+is described textually below and represented as a structured breakdown that mirrors its visual
+layout.
+
+---
+
+*Goal: MaintainWorkoutStreak*
+
+Operationalized by two operations connected via operationalization links:
+
+*IncrementStreak*
+- Input: `user.lastWorkoutDate`, `session.date`
+- Output: `streak.count`, `streak.lastUpdated`
+- ReqTrig: Consecutive session logged
+- ReqPre: Streak record is active
+
+*ResetStreak*
+- Input: `user.lastWorkoutDate`, `today`
+- Output: `streak.count`, `streak.status`
+- ReqTrig: Gap greater than one day since last session
+- ReqPost: Streak counter set to zero, status marked broken
+
+---
+
+*Goal: TrackAttendance*
+
+Operationalized by one operation connected via an operationalization link:
+
+*RecordAttendance*
+- Input: `session.date`, `session.userId`
+- Output: `attendance.day`, `attendance.status`
+- ReqTrig: Session logged on a given day
+- ReqPre: No attendance record exists for that day
+- ReqPost: Attendance record created with status `attended`
+
+---
+
+===== Consistency with Operation Signatures
+
+All operations, input/output variables, and conditions in this diagram are consistent with
+the specs defined in the Streak Operation Signatures LTT. No new operations were introduced
+and no conditions were modified.
+
+===== Diagram Element Summary
+
+[cols="2,2,2,2"]
+|===
+| Operation | Goal | Input Variables | Output Variables
+
+| IncrementStreak
+| MaintainWorkoutStreak
+| user.lastWorkoutDate, session.date
+| streak.count, streak.lastUpdated
+
+| ResetStreak
+| MaintainWorkoutStreak
+| user.lastWorkoutDate, today
+| streak.count, streak.status
+
+| RecordAttendance
+| TrackAttendance
+| session.date, session.userId
+| attendance.day, attendance.status
+
+|===
