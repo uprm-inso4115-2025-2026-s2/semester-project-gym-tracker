@@ -1,0 +1,85 @@
+= Domain Acquisition Notes for Workout History Sort Order
+
+:author: Carlos Ferrer
+
+== Purpose and Relevance
+
+This section documents the Workout History sort order behavior. The sort order lets the user choose how workout sessions are shown in the Workout History page. The user can view workouts from newest to oldest or from oldest to newest. This task connects to the Domain Acquisition lecture topic. Domain acquisition is about collecting and recording facts about the domain. Here, the facts describe what should happen when a user changes the order of workout history results.
+
+== Current Implementation Observation
+
+The Workout History page has sorting behavior.
+
+The current implementation includes:
+
+* `sortOrder`, which can be `newest` or `oldest`
+* a button that lets the user switch between `Newest first` and `Oldest first`
+* `filteredAndSortedSessions`, which sorts the workout sessions by creation date
+* grouped workout sessions shown after the selected sort order is applied
+
+When `sortOrder` is `newest`, the newest workout sessions should appear first.
+
+When `sortOrder` is `oldest`, the oldest workout sessions should appear first.
+
+== Domain Description Units
+
+[cols="1,1,1,1,3", options="header"]
+|===
+| Unit | Stakeholder Group | Related Concept | Kind | Explanation
+
+| Unit 1
+| Gym Tracker user
+| Sort Order
+| Event
+| A user may choose to view workout sessions from newest to oldest
+
+| Unit 2
+| Gym Tracker user
+| Sort Order
+| Event
+| A user may choose to view workout sessions from oldest to newest
+
+| Unit 3
+| Gym Tracker user
+| Workout History
+| Behavior
+| The Workout History page should update the order of the visible workout sessions when the user changes the sort option
+
+| Unit 4
+| Gym Tracker user
+| Workout Session Date
+| Behavior
+| Workout sessions should be ordered using their saved date or creation time
+
+| Unit 5
+| Development team
+| Sorted Workout Results
+| Function
+| The system should sort workout sessions before showing them in the Workout History list
+
+| Unit 6
+| Development team
+| Workout History List
+| Function
+| The system should keep the selected sort order consistent while showing the workout sessions
+|===
+
+== Related Concepts
+
+* *Workout History:* The list of previous workout sessions saved by the user
+* *Sort Order:* A control used to change the order of workout sessions
+* *Newest First:* The option that shows the most recent workout sessions first
+* *Oldest First:* The option that shows the oldest workout sessions first
+* *Workout Session:* A saved workout entry that may appear in the history list
+
+== Notes
+
+Sorting is a normal way for the user to navigate their workout history. For example, a user may choose `Newest first` when they want to quickly see their latest workout. A user may choose `Oldest first` when they want to review progress from earlier sessions. This behavior helps users find workout sessions more easily.
+
+== Recommendation
+
+The sort button should make the current order clear. The user should be able to tell whether the list is showing newest workouts first or oldest workouts first.
+
+== Conclusion
+
+The Workout History sort order is a small but useful part of the Workout History page. Documenting it with domain description units helps explain what the user expects and what the system should do when the sort option changes.
