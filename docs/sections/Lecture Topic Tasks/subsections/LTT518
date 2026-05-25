@@ -7,10 +7,10 @@ Examine how workout history data forms a multi-dimensional domain model through 
 
 == Description
 
-This lecture explores the concept of multi-dimensional domain modeling using the workout history system of a gym tracker application.
-The presentation analyzes how workout data is structured through interconnected entities such as users, workout sessions, exercises, and exercise performance records.
+This lecture explores the concept of multi-dimensional domain modeling using the workout history system of a gym tracker application. 
+We will nalyzes how workout data is structured through interconnected entities such as users, workout sessions, exercises, and exercise performance records.
 
-The lecture discusses why workout history cannot be represented as a simple linear structure: workouts contain multiple exercises, and each exercise record contains additional attributes such as sets, reps, weight, and timestamps.
+This lecture discusses why workout history cannot be represented as a simple linear structure: workouts contain multiple exercises, and each exercise record contains additional attributes such as sets, reps, weight, and timestamps.
 
 The topic connects these relationships to concepts from the "Domain Attributes" lecture, including dimensions, structured phenomena, recursive relationships, and temporal modeling.
 
