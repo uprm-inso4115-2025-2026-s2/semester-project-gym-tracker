@@ -1,17 +1,18 @@
-= [Domain Attributes] Analyze Continuous, Discrete, and Hybrid Data in Workout Tracking Systems
-:author: Jerac Duran
+= [Multi-Dimensional Modeling] Analyze Hierarchical Workout History Structures in a Gym Tracker System
+:Author: Jerac Duran
 
 == Objective
 
-Classify and analyze workout tracking data as continuous, discrete, or hybrid domain phenomena within a gym tracker application.
+Examine how workout history data forms a multi-dimensional domain model through relationships between users, workouts, exercises, sets, reps, and temporal records.
 
 == Description
 
-This lecture examines how workout tracking systems model different types of domain data discussed in the "Domain Attributes" lecture.
-The presentation focuses on workout-related information stored in the gym tracker database, including workout sessions, sets, reps, calories burned, duration tracking, and progress monitoring.
+This lecture explores the concept of multi-dimensional domain modeling using the workout history system of a gym tracker application.
+The presentation analyzes how workout data is structured through interconnected entities such as users, workout sessions, exercises, and exercise performance records.
 
-This lecture explains how workout data can behave as continuous phenomena, discrete phenomena, or hybrid systems depending on how information is collected, updated, and modeled over time.
-The topic also explores temporal behavior in workout history and discusses how fitness applications combine manually entered data with continuously changing metrics.
+The lecture discusses why workout history cannot be represented as a simple linear structure: workouts contain multiple exercises, and each exercise record contains additional attributes such as sets, reps, weight, and timestamps.
+
+The topic connects these relationships to concepts from the "Domain Attributes" lecture, including dimensions, structured phenomena, recursive relationships, and temporal modeling.
 
 == Database Entities Used
 
@@ -21,71 +22,80 @@ The topic also explores temporal behavior in workout history and discusses how f
 * `goals_feedback`
 * `session_comparison`
 
-== Continuous Data in the Gym Tracker
+== Multi-Dimensional Structure of Workout History
 
-Continuous phenomena represent values that change over time and can be measured or estimated along a continuous scale.
+The workout history system is multi-dimensional because multiple entities interact simultaneously across several layers of the domain.
 
-In this system, the closest examples of continuous-natured data are:
+The system contains relationships between:
 
-* `duration_minutes` — represents elapsed time, a quantity that is continuous in the real world; in the schema it is stored as a `bigint` snapshot recorded at session end
-* `calories_burned` — represents an estimated expenditure value that accumulates continuously during physical activity; also stored as a `bigint` snapshot in `workout_sessions`
-* Progress metrics in `goals_feedback` such as `target_value` and `recorded_value`, which represent measurable quantities that change across time periods
+* Users
+* Workout sessions
+* Exercises
+* Sets and reps (per exercise record)
+* Weight values
+* Timestamps
+* Progress records
 
-It is important to note that while these phenomena are continuous in the physical domain, the schema stores them as whole-number snapshots rather than streaming values.
-This is a deliberate modeling decision: the system captures a final recorded value rather than tracking continuous change in real time.
-The continuous nature exists in the underlying domain; the database representation is a discrete approximation of it.
+A single workout session may contain multiple exercises, and each exercise record within that session may carry different sets, reps, and weight values.
+No single value or flat table can represent this structure fully, which is what makes the system multi-dimensional.
 
-== Discrete Data in the Gym Tracker
+== Hierarchical Modeling
 
-Discrete phenomena represent countable, finite values or isolated events that do not vary continuously between states.
+Workout history is hierarchical rather than purely linear because each entity depends on the one above it in the structure.
 
-Examples from the system include:
+.Workout History Hierarchy
+[source]
+----
+auth.users (user_id)
+└── workout_sessions (user_id FK → auth.users)
+    └── workout_exercises (workout_id FK → workout_sessions)
+        └── exercises (exercise_id FK → workout_exercises)
+            ├── sets
+            ├── reps
+            └── weight
+----
 
-* `sets` — a whole-number count of how many sets were performed
-* `reps` — a whole-number count of repetitions within each set
-* Completed workout sessions — each session is a distinct, bounded event
-* Exercise records — each exercise entry is a separate, identifiable record
+Users are the root of this hierarchy, but only through `workout_sessions`.
+The `workout_exercises` and `exercises` tables have no direct `user_id` column — a user's exercise records are only reachable by traversing through `workout_sessions` first.
+This means the hierarchy is strictly top-down: to identify which user performed a given exercise, you must join `workout_exercises` → `workout_sessions` → `auth.users`.
 
-The `workout_exercises` table stores discrete values because sets and reps are countable integers; there is no meaningful value between 3 reps and 4 reps.
-Workout sessions themselves are also discrete events because each session is recorded separately using start and end timestamps, making every session a distinct unit of data.
+Each level of the hierarchy adds a new dimension to the domain model, and no level can be fully interpreted without its parent.
 
-== Hybrid Behavior in Workout Tracking Systems
+== Structured Domain Phenomena
 
-Hybrid systems combine both continuous and discrete behavior within the same domain model.
+The system demonstrates *structured domain phenomena* because workout data cannot be modeled using a single atomic value — it requires a network of related entities.
 
-The gym tracker demonstrates hybrid behavior because:
+Examples:
 
-* Users manually enter discrete values (sets and reps) as countable integers
-* The system records continuous metrics such as duration and estimated calories burned
-* Progress metrics such as weight lifted or endurance evolve continuously over time across sessions
-* Individual workouts are stored as separate discrete session records, while the progression across those sessions forms a continuous trend
+* `workout_sessions` connects `auth.users` with time-bounded workout events via `user_id`
+* `workout_exercises` connects each workout session with specific exercises and their performance metrics (`sets`, `reps`, `weight`) via foreign keys to both `workout_sessions` and `exercises`
+* `exercises` defines the exercise catalog, providing names and categories referenced by `workout_exercises`
+* `goals_feedback` stores user-level goal and feedback records scoped to `user_id`; it has no foreign key to `workout_sessions`, so it tracks progress at the user level independently of individual sessions
 
-A fitness tracking environment may also combine smartwatch sensor data — which samples heart rate and movement continuously — with manually entered workout data stored in `workout_exercises`.
-In such a system, the sensor stream is continuous while the logged exercise records remain discrete, making the overall system hybrid by design.
+These interconnected relationships create a structured and highly dimensional system where meaning depends on the relationships between entities, not just the values stored within them.
 
-== Temporal Modeling
+== Temporal and Sequential Relationships
 
-Workout history demonstrates temporal behavior because workout sessions and progress records are stored chronologically using timestamps, allowing the system to represent how data changes over time.
+Workout history is time-dependent in addition to being structurally complex.
 
 Examples include:
 
-* `created_at` in `workout_sessions` — marks when each session was recorded, enabling chronological ordering
-* `period_date` in `goals_feedback` — anchors goal and feedback records to specific time periods
+* Workout sessions recorded using `created_at` timestamps, establishing chronological order
+* Progress tracking across different `period_date` values in `goals_feedback`
+* Session-over-session comparisons enabled by the `session_comparison` entity
 
-It is important to note that `goals_feedback` is scoped to `user_id` only and has no foreign key to `workout_sessions`.
-This means goal and feedback records track user-level progress over time, but are not directly linked to individual sessions.
-Temporal analysis of goals must therefore be done at the user level rather than the session level.
-
-Session-to-session performance comparisons are handled separately by the `session_comparison` entity, which holds two foreign keys both pointing to `workout_sessions`.
+The `session_comparison` entity demonstrates how workout history can be analyzed across multiple temporal states — for example, comparing a user's performance in the current session against a previous one.
+This temporal dimension adds a sequential axis to the already multi-dimensional domain model.
 
 == Relationship to Domain Attributes Lecture
 
-This topic directly applies the following concepts discussed in the lecture:
+This topic applies the following concepts discussed in the lecture:
 
-* *Continuity* — duration and calories burned change along a continuous scale
-* *Discreteness* — sets, reps, and individual sessions are countable and distinct
-* *Hybridicity* — the gym tracker combines both continuous and discrete phenomena
-* *Temporal behavior* — timestamps enable chronological modeling of workout history
-* *Dynamic systems* — user progress and performance metrics change over time
+* *Dimensions* — workout data spans user, session, exercise, performance, and time dimensions simultaneously
+* *Structured domain phenomena* — the domain cannot be reduced to atomic values; it requires interconnected entities
+* *Recursive relationships* — a user has many sessions; a session has many exercises; each creates a nested, repeating structure
+* *Temporal modeling* — timestamps and date fields introduce a time-ordered dimension to the data
+* *Multi-dimensional systems* — the workout history system is an example of a domain that requires multiple axes to model correctly
 
-The gym tracker database models both continuous and discrete phenomena simultaneously, making it a hybrid domain system.
+The workout tracking system demonstrates how software requirements often involve highly structured and interconnected domain relationships that cannot be captured with simple flat data models.
+
