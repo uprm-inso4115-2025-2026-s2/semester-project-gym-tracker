@@ -8,7 +8,7 @@ Classify and analyze workout tracking data as continuous, discrete, or hybrid do
 == Description
 
 This lecture examines how workout tracking systems model different types of domain data discussed in the "Domain Attributes" lecture.
-The presentation focuses on workout-related information stored in the gym tracker database, including workout sessions, sets, reps, calories burned, duration tracking, and progress monitoring.
+This presentation focuses on workout-related information stored in the gym tracker database, including workout sessions, sets, reps, calories burned, duration tracking, and progress monitoring.
 
 The lecture explains how workout data can behave as continuous phenomena, discrete phenomena, or hybrid systems depending on how information is collected, updated, and modeled over time.
 The topic also explores temporal behavior in workout history and discusses how fitness applications combine manually entered data with continuously changing metrics.
