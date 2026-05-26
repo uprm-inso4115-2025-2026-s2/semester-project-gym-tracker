@@ -42,6 +42,8 @@
 
 | 2.1.4 Domain Narrative | Wilson A. Morales | Modified | Synced narrative with revised concepts and actions.
 
+| 2.1.4 Domain Narrative | Alex Vazquez | Modified | Revised the Domain Narrative to tell concrete Gym Tracker scenarios using the defined terminology. Added examples showing how a GymGoer records a Workout Session, how that session becomes part of Workout History, how past sessions can be retrieved or compared, and how Attendance Days, Missed Days, Streak, Consistency Measure, Goal Result, and Weekly Summary are derived from Workout History.
+
 | 2.2.1 User Stories, Epics, Features | Alejandro Lopez | Modified | Rewrote user stories to use roles as the primary actor of the stories with the names referenced parenthetically.
 
 | 2.2.1 User Stories, Epics, Features | Alejandro Lopez | Modified | Replaced 4 instances of 'user' with domain specific language.
