@@ -36,6 +36,8 @@
 
 | 2.1.2 Terminology | Wilson A. Morales | Modified | Unified concepts; added signatures; removed duplicates; redefined behaviors.
 
+| 2.1.2 Terminology | Alex Vazquez | Modified |Revised domain terminology for consistency with the narrative and function signatures. Clarified the GymGoer, Workout Session, and Workout History relationship; replaced Minutes with Duration as the main domain concept; added retrieval and comparison actions for Workout History; and kept events, actions, and behaviors in one terminology section to avoid duplicate definitions.
+
 | 2.1.3 Domain Terminology in Relation to Domain Rough Sketch | Wilson A. Morales | Modified | Updated traceability wording to match revised terminology.
 
 | 2.1.4 Narrative | Ariana Rodriguez | Modified | Rewrote the domain narrative so it narrates domain concepts and their relationships.
