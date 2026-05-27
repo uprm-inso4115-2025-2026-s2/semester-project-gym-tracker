@@ -1,0 +1,87 @@
+==== [LTT] Operation Model: Streak Goal Operationalization
+:author: Bruno Vergara Collado
+
+This Lecture Topic Task connects the streak leaf goals to the operations that fulfill them by
+specifying prescriptive conditions on those operations. A goal is only truly operationalized
+when the system can guarantee it will be satisfied through defined permissions, obligations,
+and required effects.
+
+===== Goal Operationalization
+
+*1. MaintainWorkoutStreak*
+
+Operationalized by: `IncrementStreak`, `ResetStreak`
+
+*IncrementStreak*
+
+- *ReqTrig for MaintainWorkoutStreak:* A workout session has been logged and the date is
+consecutive to the last recorded session.
+- *ReqPre for MaintainWorkoutStreak:* The user has an existing streak record that is not broken.
+
+*ResetStreak*
+
+- *ReqTrig for MaintainWorkoutStreak:* More than one day has passed since the last logged session.
+- *ReqPost for MaintainWorkoutStreak:* The streak counter is set to zero and the record is marked
+as broken.
+
+*Satisfaction Argument:* MaintainWorkoutStreak is satisfied because IncrementStreak fires whenever
+a consecutive session is logged and ResetStreak fires whenever continuity is broken, ensuring the
+streak counter always reflects the true state of the user's consistency.
+
+---
+
+*2. TrackAttendance*
+
+Operationalized by: `RecordAttendance`
+
+*RecordAttendance*
+
+- *ReqTrig for TrackAttendance:* The user logs at least one workout session on a given day.
+- *ReqPre for TrackAttendance:* No attendance record exists for the user on that day.
+- *ReqPost for TrackAttendance:* The attendance record for that day is marked as attended.
+
+*Satisfaction Argument:* TrackAttendance is satisfied because RecordAttendance is obligated to
+fire on every day a session is logged, and its permission prevents duplicate records from being
+created for the same day.
+
+---
+
+===== Consistency Check
+
+[cols="2,2,2"]
+|===
+| Operation | ReqTrig | ReqPre compatible?
+
+| IncrementStreak
+| Consecutive session logged
+| Yes — only fires when streak record exists and is active
+
+| ResetStreak
+| Gap greater than one day
+| Yes — no conflicting permission blocks the reset
+
+| RecordAttendance
+| Session logged on a given day
+| Yes — permission prevents duplicate records on same day
+
+|===
+
+===== Operationalization Summary
+
+[cols="2,2,2"]
+|===
+| Goal | Operationalized By | Condition Type
+
+| MaintainWorkoutStreak
+| IncrementStreak
+| ReqTrig, ReqPre
+
+| MaintainWorkoutStreak
+| ResetStreak
+| ReqTrig, ReqPost
+
+| TrackAttendance
+| RecordAttendance
+| ReqTrig, ReqPre, ReqPost
+
+|===
