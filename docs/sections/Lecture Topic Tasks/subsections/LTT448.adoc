@@ -1,0 +1,50 @@
+=== [LTT] Traceability Map for Workout Edit Flow
+:author: igrv2003
+
+This table maps each workout-edit requirement to the code that implements it today.
+
+==== Scope Reviewed
+
+* `src/features/workouts/WorkoutHistoryPage.tsx`
+* `src/features/workouts/api.ts`
+
+==== Requirement-to-Code Traceability
+
+[cols="1,2,3"]
+|===
+h| Requirement
+h| Code Location
+h| Rationale
+
+| Open the edit flow from Workout History
+| `src/features/workouts/WorkoutHistoryPage.tsx` (`handleEditStart(session)`, `session-edit-icon-btn` `onClick`)
+| Clicking the edit icon calls `handleEditStart`. That function opens the selected card, sets `editingId`, and copies session values into `editDraft`.
+
+| Load selected workout data into editable fields
+| `src/features/workouts/WorkoutHistoryPage.tsx` (`sessionToEditDraft(session)` and edit form field bindings)
+| `sessionToEditDraft` converts the stored session into form values. The edit inputs and textarea read/write that same draft state.
+
+| Validate that workout type is present before save
+| `src/features/workouts/WorkoutHistoryPage.tsx` (`validateEditDraft(draft)`, check: `!draft.workout_type.trim()`)
+| `handleEditSave` runs `validateEditDraft` before the API call. An empty or whitespace-only type returns an error and stops save.
+
+| Validate numeric constraints for duration and calories
+| `src/features/workouts/WorkoutHistoryPage.tsx` (`validateEditDraft(draft)` numeric checks)
+| The validator rejects non-integer values, duration values `<= 0`, and calorie values `< 0`.
+
+| Save updates through the workout API
+| `src/features/workouts/WorkoutHistoryPage.tsx` (`handleEditSave(workoutId)` calls `updateWorkoutSession(workoutId, updates)`); `src/features/workouts/api.ts` (`updateWorkoutSession(...)`)
+| `handleEditSave` builds `updates` (trimmed strings plus number/null conversion) and passes it to `updateWorkoutSession`.
+
+| Persist update to storage with target row filter
+| `src/features/workouts/api.ts` (`supabase.from("workout_sessions").update(updates).eq("workout_id", workoutId)`)
+| The query updates `workout_sessions` and filters by `workout_id`, so only the selected row is targeted.
+
+| Show success feedback after a completed save
+| `src/features/workouts/WorkoutHistoryPage.tsx` (`handleEditSave` success path: `setActionMessage("Workout updated.")`)
+| After a successful update call, the page shows `Workout updated.`, closes edit mode, and updates local session data.
+
+| Handle failed update requests with user-visible error
+| `src/features/workouts/WorkoutHistoryPage.tsx` (`handleEditSave` catch: `setActionError("Failed to save changes. Please try again.")`); `src/features/workouts/api.ts` (error branch logs and `throw error`)
+| `updateWorkoutSession` throws on Supabase errors. `handleEditSave` catches that failure and shows an error message in the page status area.
+|===
