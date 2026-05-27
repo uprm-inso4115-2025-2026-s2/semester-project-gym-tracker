@@ -1,0 +1,169 @@
+==== [LTT] Intentional View: Goal Model
+:author: EnriqueVilela2714
+This Lecture Topic Task defines the intentional view of the User Profile subsystem in the Gym Tracker app by identifying the goals the system must achieve, classifying them, decomposing them into leaf goals, and documenting the obstacles that could obstruct them.
+
+The intentional view serves as the foundation for all other views. Every operation, agent responsibility, and system state must trace back to a goal defined here.
+
+===== Goals
+
+*1. MaintainAccurateUserData (Maintain)*
+
+The system must ensure that all user profile information remains current, consistent, and correctly persisted across all interactions and sessions.
+
+*Priority:* High
+
+*Definition:* User data is considered accurate when the stored values reflect the user's most recent intentional input, have passed validation rules, and are consistently reflected across all views that consume profile data.
+
+Leaf goals:
+- `ValidateProfileInput` — apply field-level validation rules (e.g., name length, valid email format, numeric weight range).
+- `PersistProfileChanges` — write validated changes to the database atomically.
+- `SyncProfileAcrossViews` — propagate updated profile data to all UI components and dependent subsystems.
+- `AuditProfileModifications` — log each profile update with a timestamp and user identifier.
+
+*2. TrackFitnessProgress (Achieve)*
+
+The system must aggregate and expose fitness-related metrics derived from the user's workout history to provide a longitudinal view of their physical progression.
+
+*Priority:* High
+
+*Definition:* Fitness progress is represented through metrics such as total sessions completed, average session duration, personal records, and body measurements over time. These metrics must be recalculated upon each new workout log entry.
+
+Leaf goals:
+- `AggregateWorkoutMetrics` — compute summary statistics from the user's workout history.
+- `UpdatePersonalRecords` — detect and store new personal bests for tracked exercises.
+- `StoreBodyMeasurements` — persist user-entered physical measurements (weight, body fat percentage, etc.) with date stamps.
+- `RenderProgressTimeline` — display historical fitness data in a chronological visual format.
+
+*3. PersonalizeUserExperience (Achieve)*
+
+The system must use profile data to adapt content, recommendations, and interface behavior to each individual user's characteristics and preferences.
+
+*Priority:* Medium
+
+*Definition:* Personalization is achieved when the app surfaces content (e.g., recommended workouts, goal suggestions) that is contextually relevant to the user's fitness level, stated goals, and historical behavior patterns.
+
+Leaf goals:
+- `ReadUserGoalsAndPreferences` — retrieve the user's stated fitness objectives and interface preferences.
+- `ApplyContentFilters` — filter and rank available content based on profile attributes.
+- `AdaptInterfaceDefaults` — configure default values (e.g., unit system, default workout duration) based on user profile.
+- `RefreshPersonalizationOnProfileChange` — recompute personalized content whenever profile data is updated.
+
+*4. ProtectUserPrivacy (Avoid)*
+
+The system must prevent unauthorized access to or unintended exposure of personal user data at all layers of the application.
+
+*Priority:* High
+
+*Definition:* A privacy violation occurs when user profile data (name, email, body measurements, workout history) is accessible to unauthorized parties, exposed through insecure endpoints, or retained beyond the user's consent period.
+
+===== Obstacles
+
+*1. User provides incorrect or inconsistent data*
+
+Obstructs `MaintainAccurateUserData`. Users may enter physically implausible values (e.g., weight of 5 kg) or contradictory information that passes basic validation but produces misleading fitness metrics.
+
+*Likelihood:* High
+
+*Criticality:* Medium
+
+*Mitigation:* Implement range-based validation with user-friendly warnings; allow users to review and confirm significant changes before saving.
+
+*2. Profile sync fails across devices*
+
+Obstructs `MaintainAccurateUserData`. If the user edits their profile on one device while offline and the sync mechanism fails, stale data may overwrite the latest values upon reconnection.
+
+*Likelihood:* Medium
+
+*Criticality:* High
+
+*Mitigation:* Implement last-write-wins or conflict-resolution strategies with timestamp comparison; notify the user of sync conflicts.
+
+*3. Outdated fitness metrics displayed after workout deletion*
+
+Obstructs `TrackFitnessProgress`. If a user deletes a past workout session, dependent metrics (personal records, totals) must be recalculated. Failure to do so results in inflated or incorrect progress data.
+
+*Likelihood:* Medium
+
+*Criticality:* High
+
+*Mitigation:* Trigger metric recalculation on workout deletion events; use event-driven architecture to keep metrics consistent with workout data.
+
+*4. Personalization engine uses stale profile data*
+
+Obstructs `PersonalizeUserExperience`. If profile changes are not propagated in real time to the personalization logic, the user receives recommendations that no longer match their current goals or fitness level.
+
+*Likelihood:* Medium
+
+*Criticality:* Medium
+
+*Mitigation:* Invalidate personalization cache on profile update; subscribe personalization service to profile change events.
+
+*5. Unauthorized access to profile data through API*
+
+Obstructs `ProtectUserPrivacy`. If API endpoints do not enforce row-level security, a user could retrieve another user's profile data by manipulating request parameters.
+
+*Likelihood:* Low
+
+*Criticality:* High
+
+*Mitigation:* Enforce Supabase Row Level Security (RLS) policies on all profile tables; validate user identity server-side on every request.
+
+===== Goal Summary Table
+
+[cols="2,2,1,1"]
+|===
+| Name | Definition | Category | Priority
+
+| MaintainAccurateUserData
+| Keep user profile data current, validated, and consistently persisted
+| Maintain
+| High
+
+| TrackFitnessProgress
+| Aggregate and display longitudinal fitness metrics from workout history
+| Achieve
+| High
+
+| PersonalizeUserExperience
+| Adapt content and interface behavior to each user's profile and goals
+| Achieve
+| Medium
+
+| ProtectUserPrivacy
+| Prevent unauthorized access or exposure of personal user data
+| Avoid
+| High
+
+|===
+
+===== Goal Decomposition Diagram
+
+[source]
+----
+MaintainAccurateUserData (Maintain)
+├── ValidateProfileInput
+├── PersistProfileChanges
+├── SyncProfileAcrossViews
+└── AuditProfileModifications
+
+TrackFitnessProgress (Achieve)
+├── AggregateWorkoutMetrics
+├── UpdatePersonalRecords
+├── StoreBodyMeasurements
+└── RenderProgressTimeline
+
+PersonalizeUserExperience (Achieve)
+├── ReadUserGoalsAndPreferences
+├── ApplyContentFilters
+├── AdaptInterfaceDefaults
+└── RefreshPersonalizationOnProfileChange
+
+ProtectUserPrivacy (Avoid)
+[enforced through RLS policies, authentication guards, and data retention controls]
+----
+
+===== Next Steps
+
+- Define agent responsibilities for each leaf goal (e.g., ProfileService, MetricsAggregator, PersonalizationEngine, AuthGuard).
+- Create the Strategic Dependency (SD) view to map dependencies between actors.
+- Implement the Strategic Rationale (SR) view to detail how each goal is operationalized.

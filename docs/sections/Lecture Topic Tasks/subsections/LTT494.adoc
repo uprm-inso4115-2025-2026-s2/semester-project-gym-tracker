@@ -1,0 +1,62 @@
+==== [LTT] Structural View: Domain Object Model
+:author: Gabriel Visbal
+
+This Lecture Topic Task defines the structural view of the Streaks subsystem in the Gym Tracker app by identifying and classifying core domain objects, mapping their structural relationships, establishing multiplicities, and defining their intrinsic attributes. 
+
+Following Chapter 10 of the course material, the structural view captures a conceptual model of the problem world rather than an implementation design. It defines the vocabulary and the data states that represent the fitness tracking environment without referencing database keys, technical file architectures, or UI structures.
+
+===== Conceptual Objects
+
+*1. User (Agent / Entity)*
+Represents the individual athlete whose consistency, attendance, and habit tracking are being actively managed by the system.
+*Definition:* An active participant in the fitness domain who executes workout sessions to build and maintain consistency.
+
+Attributes:
+- `username: String` — the unique identifier name chosen by the user.
+- `joinDate: Date` — the calendar date when the user created their account.
+
+*2. WorkoutSession (Event)*
+Represents a specific, bounded physical training event logged by the user in the problem world.
+*Definition:* An instance of training occurring at a specific time, which serves as the concrete proof of attendance required to satisfy a streak.
+
+Attributes:
+- `sessionTimestamp: DateTime` — the exact date and time the training session was recorded.
+- `activityType: String` — the category of training performed (e.g., Weights, Cardio).
+
+*3. StreakRecord (Entity)*
+A structural concept that materializes and encapsulates the history and state of consecutive workout behavior.
+*Definition:* An entity that counts uninterrupted daily attendance patterns and tracks historical peak metrics for a given user.
+
+Attributes:
+- `currentCounter: Integer` — the running count of consecutive active workout days.
+- `highestPeak: Integer` — the maximum streak value historically achieved by the user.
+- `lastActiveDate: Date` — the most recent calendar day that successfully kept the streak alive.
+
+===== Associations
+
+*1. User-Logs-WorkoutSession*
+Connects a specific user to the training events they perform over time.
+*Multiplicity:* `1` (User) to `*` (WorkoutSession)
+*Reasoning:* A single user can log multiple distinct workout sessions throughout their fitness journey, but each specific workout session must belong to exactly one responsible user.
+
+*2. User-Maintains-StreakRecord*
+Connects the user to their running consistency metrics.
+*Multiplicity:* `1` (User) to `1` (StreakRecord)
+*Reasoning:* To avoid confusion and clutter, each user maintains exactly one dedicated streak profile tracking their progress, and a streak record cannot exist without being tied to an individual user.
+
+===== Association Summary Table
+
+[cols="2,2,1,1"]
+|===
+| Association Name | Source Object | Target Object | Multiplicity
+
+| UserLogsWorkout
+| User
+| WorkoutSession
+| 1 -> *
+
+| UserMaintainsStreak
+| User
+| StreakRecord
+| 1 -> 1
+|===
