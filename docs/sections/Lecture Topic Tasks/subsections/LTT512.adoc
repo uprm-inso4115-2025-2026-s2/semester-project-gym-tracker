@@ -1,0 +1,189 @@
+==== Identify Temporal Constraints in Workout Reminder and Feedback Systems
+:author: Gerald Rodríguez
+
+This Lecture Topic Task analyzes temporal constraints and time-dependent behavior within the Gym Tracker notification and feedback systems.
+
+Temporal constraints are important in software domains because many system operations depend on timing, scheduling, duration, expiration periods, and recurring events.
+
+Within Gym Tracker, notifications, workout reminders, streak calculations, and weekly summaries all depend heavily on time-based rules and behaviors.
+
+===== Purpose
+
+The purpose of this task is to identify and explain how temporal constraints influence:
+- workout reminders,
+- weekly summaries,
+- streak systems,
+- progress tracking,
+- and notification delivery behavior.
+
+Understanding these constraints helps improve system reliability, consistency, and user experience.
+
+===== Temporal Constraints
+
+====== 1. Reminder Scheduling Constraint
+
+Workout reminder notifications must be delivered at scheduled times defined by the system or user preferences.
+
+Examples include:
+- morning workout reminders,
+- evening inactivity reminders,
+- weekly summary notifications.
+
+This temporal constraint ensures that notifications are delivered at meaningful and expected times.
+
+====== 2. Daily Progress Reset Constraint
+
+Daily workout progress must reset at the start of a new calendar day.
+
+This means:
+- yesterday’s completed workouts should not count toward today’s daily goal,
+- daily percentages must be recalculated using only current-day data,
+- and daily feedback messages must reflect the new day’s progress state.
+
+This constraint maintains accuracy in daily tracking behavior.
+
+====== 3. Weekly Summary Time Window Constraint
+
+Weekly summaries must only include workouts logged during the active weekly period.
+
+The system must:
+- identify the beginning of the week,
+- ignore workouts outside the current week,
+- and recalculate summaries when a new week begins.
+
+This temporal rule prevents incorrect progress calculations.
+
+====== 4. Streak Expiration Constraint
+
+Streak continuity depends on consecutive daily workout activity.
+
+If a user does not log a workout before the end of the allowed time period:
+- the streak may reset,
+- milestone progression may stop,
+- and streak feedback behavior changes.
+
+This constraint creates urgency and continuity within the system.
+
+====== 5. Notification Delay Constraint
+
+Notifications may experience delayed delivery because of:
+- network latency,
+- background scheduling,
+- system processing delays,
+- or unavailable services.
+
+The system must therefore:
+- track notification delivery states,
+- detect failed deliveries,
+- and maintain delivery consistency when possible.
+
+===== Time-Dependent Behaviors
+
+====== Workout Reminder Behavior
+
+Workout reminders depend on recurring schedules and inactivity timing.
+
+Examples:
+- reminders triggered after long inactivity periods,
+- reminders scheduled daily at a fixed hour,
+- reminders triggered before goal deadlines.
+
+This behavior changes dynamically over time.
+
+====== Weekly Feedback Generation Behavior
+
+Weekly progress summaries depend on accumulated activity during a specific time interval.
+
+As workouts are logged throughout the week:
+- progress percentages evolve,
+- workout counts increase,
+- and feedback messages change.
+
+====== Streak Maintenance Behavior
+
+Streak systems continuously evaluate temporal continuity between workouts.
+
+The system checks:
+- whether workouts occurred on consecutive days,
+- whether gaps exist between sessions,
+- and whether streak milestones have been reached.
+
+===== Examples
+
+====== Example 1: Daily Goal Reset
+
+*Scenario:* A user completes their daily workout goal on Monday.
+
+Temporal Constraint:
+- The completed progress only applies to Monday.
+
+System Behavior:
+- On Tuesday, the daily progress system starts with a new daily state.
+- Monday’s workout count does not carry over.
+
+====== Example 2: Weekly Summary Calculation
+
+*Scenario:* A user logs workouts on Monday, Wednesday, and Friday.
+
+Temporal Constraint:
+- Only workouts from the current week count toward the summary.
+
+System Behavior:
+- The weekly summary reflects three workouts.
+- When a new week begins, the weekly calculation resets.
+
+====== Example 3: Reminder Notification Timing
+
+*Scenario:* A user enables workout reminders for 7:00 PM.
+
+Temporal Constraint:
+- Notifications should be delivered at or near the configured time.
+
+System Behavior:
+- The system schedules reminders accordingly.
+- Notification states update from pending to sent after delivery.
+
+====== Example 4: Streak Continuity
+
+*Scenario:* A user logs workouts for five consecutive days.
+
+Temporal Constraint:
+- Consecutive activity must occur within allowed daily intervals.
+
+System Behavior:
+- The streak value increases daily.
+- Missing a day may break the streak sequence.
+
+===== Connection to Gym Tracker Features
+
+These temporal constraints directly influence several Gym Tracker features:
+
+* Daily Goal Progress
+* Weekly Progress Summary
+* Workout Reminder Notifications
+* Streak Tracking
+* Motivational Feedback Messages
+* Notification Delivery Tracking
+
+Without proper temporal rules, these systems would produce inconsistent or incorrect results.
+
+===== Importance of Temporal Constraints
+
+Temporal constraints improve:
+- data consistency,
+- scheduling reliability,
+- user trust,
+- and progress accuracy.
+
+They also help define how the system should behave across different time periods and scheduling conditions.
+
+===== Conclusion
+
+Temporal constraints are a fundamental part of the Gym Tracker notification and feedback systems.
+
+Workout reminders, weekly summaries, streak calculations, and progress tracking all depend on time-sensitive rules and recurring scheduling behavior.
+
+By identifying these constraints, the development team gains a better understanding of:
+- how time influences system operations,
+- how domain behaviors evolve,
+- and how the application maintains consistency over extended periods of use.
