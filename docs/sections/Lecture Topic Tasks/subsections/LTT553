@@ -1,0 +1,84 @@
+= Lecture Topic Task: Traceability of Workout Comparison Requirements
+:author: Hector Rivera
+
+== Objective
+
+This task analyzes the traceability between the workout comparison requirements and the actual implementation within the Gym Tracker system. The goal is to clearly map our feature requirements to specific artifacts like the compareSessions() function, our data structures, and the validation logic that keeps the system stable.
+
+== Topic Connection
+
+This falls under Application Lifecycle Management and Requirements Traceability. In the context of our Gym Tracker, traceability is vital because the comparison feature isn't just one block of code—it’s a dependency chain involving workout sessions, individual exercises, set/rep counts, and weight progression. Being able to trace these keeps the system predictable.
+
+== Requirement Traceability Analysis
+
+The workout comparison feature includes several requirements that can be traced to implementation behavior.
+
+[cols="1,1,1", options="header"]
+|===
+| Requirement
+| Related Artifact
+| Traceability Explanation
+
+| Compare workout duration between two sessions
+| `compareSessions()`
+| The function compares `durationMinutes` from both workout sessions and returns a message explaining which session was longer.
+
+| Compare common exercises between sessions
+| `Exercise[]` data passed into `compareSessions()`
+| The function identifies exercises that appear in both sessions by matching exercise names.
+
+| Compare repetitions
+| `reps` attribute in `Exercise`
+| The function compares repetitions for each common exercise and reports which session had more reps.
+
+| Compare sets
+| `sets` attribute in `Exercise`
+| The function compares the number of sets performed for each common exercise.
+
+| Compare weight progression per set
+| `weight` array in `Exercise`
+| The function compares weight values set by set and reports the difference between the two sessions.
+
+| Avoid invalid or inconsistent comparison data
+| Validation rules and normalized data flow
+| The system should rely on valid workout sessions and exercise records connected through the correct database relationships.
+|===
+
+== Data Flow Traceability
+
+The comparison feature relies on a clean retrieval flow. Our shift to a normalized model significantly improves how we trace data:
+
+[source,text]
+----
+session_comparison
+ → workout_a
+ → workout_sessions
+ → workout_exercises
+
+session_comparison
+ → workout_b
+ → workout_sessions
+ → workout_exercises
+----
+
+By decoupling exercises from the workout session objects and passing them into the function separately, we create a direct line of sight from the source database records to the comparison output. This removes the ambiguity that came with the old embedded-data approach.
+
+== Validation Connection
+
+Traceability isn't just about functionality; it's about reliability. Validation rules act as the "gatekeepers" for our traceability chain. Key checks include:
+
+* Workout duration should be a positive number.
+* Workout dates should not be in the future.
+* Exercises should belong to valid workout sessions.
+* Repetitions and sets should represent valid workout performance data.
+* Weight values should correspond to performed sets.
+
+These rules ensure that if a comparison result is displayed, it is derived from valid, consistent data.
+
+== Maintainability Impact
+
+Traceability makes the codebase easier to live with. When a requirement shifts—for example, if we need to change how we calculate weight progression—the team doesn't have to hunt through the entire project. We can trace the requirement directly to the specific logic block within compareSessions(). This reduces the risk of regression and makes testing much more straightforward.
+
+== Conclusion
+
+This analysis demonstrates how requirements traceability acts as a blueprint for the Gym Tracker system. By explicitly linking our functional requirements to the implementation logic and our normalized data flow, we’ve created a system that is easier to debug, extend, and review. Traceability isn't just documentation; it's a tool for better engineering.
