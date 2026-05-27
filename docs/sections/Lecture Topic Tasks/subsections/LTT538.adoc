@@ -1,0 +1,203 @@
+==== [LTT] Domain Description Units for Workout Session Creation and Validation
+:author: igrv2003
+
+This Lecture Topic Task applies Domain Acquisition concepts to the workout session creation flow of Gym Tracker.
+
+The analysis focuses on how a gym-goer creates a workout session, how required and optional fields are validated, and how the system responds to valid and invalid inputs.
+
+===== Classification Categories
+
+[cols="1,3", options="header"]
+|===
+|Category |Description
+
+|Entity
+|A domain object that exists in the workout logging process.
+
+|Event
+|A domain occurrence that triggers workflow transitions.
+
+|Function
+|A capability that performs a domain operation.
+
+|Behavior
+|An observable recurring interaction pattern.
+
+|Domain Attribute
+|A property that characterizes an entity or operation.
+|===
+
+===== Domain Description Units
+
+====== 1. Workout Session Record
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Stakeholder Group
+|Gym-goer, product team, data maintainers.
+
+|Related Concept
+|Workout ownership and workout history tracking.
+
+|Kind
+|Entity.
+
+|Explanation
+|A workout session is the central object created when activity is logged. It later supports history, streak, and progress features.
+
+|Code Evidence
+|`createWorkoutSession(...)` inserts into `workout_sessions` with `user_id`, `workout_type`, `duration_minutes`, `calories_burned`, and `notes`.
+|===
+
+====== 2. Session Ownership by Authenticated User
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Stakeholder Group
+|Gym-goer, security/access control.
+
+|Related Concept
+|Protected ownership of workout data.
+
+|Kind
+|Domain Attribute.
+
+|Explanation
+|Every created workout session must be linked to the authenticated account.
+
+|Code Evidence
+|`supabase.auth.getUser()` and `if (!user) throw new Error("User not logged in")` in `workoutSessionsApi.ts`; insert sets `user_id: user.id`.
+|===
+
+====== 3. Workout Submission Trigger
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Stakeholder Group
+|Gym-goer.
+
+|Related Concept
+|Starting the logging workflow.
+
+|Kind
+|Event.
+
+|Explanation
+|Submitting the Log Workout form triggers validation and persistence.
+
+|Code Evidence
+|`handleSubmit(e)` in `LogWorkoutModal.tsx`.
+|===
+
+====== 4. Duration Validity Check
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Stakeholder Group
+|Gym-goer, QA.
+
+|Related Concept
+|Minimum data quality for workout effort.
+
+|Kind
+|Function.
+
+|Explanation
+|Duration is required and must be a positive number before save operations proceed.
+
+|Code Evidence
+|`handleSubmit` validates `duration` and `durationNum > 0`; invalid input sets: `Please enter a valid duration in minutes.`.
+|===
+
+====== 5. Optional Calories Constraint
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Stakeholder Group
+|Gym-goer, analytics consumers.
+
+|Related Concept
+|Optional energy metric quality.
+
+|Kind
+|Function.
+
+|Explanation
+|Calories are optional, but if present they must be numeric and not negative.
+
+|Code Evidence
+|`handleSubmit` validates parsed calories and enforces `>= 0`; invalid input sets: `Calories burned must be 0 or greater.`.
+|===
+
+====== 6. Rollback on Exercise Save Failure
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Stakeholder Group
+|Gym-goer, operations/data integrity.
+
+|Related Concept
+|Consistency between workout session and exercise details.
+
+|Kind
+|Behavior.
+
+|Explanation
+|If exercise persistence fails after session creation, the system attempts rollback so partial workout records are not left behind.
+
+|Code Evidence
+|`saveExercisesForSession(...)` failure path calls `deleteWorkoutSession(workoutId)` in `LogWorkoutModal.tsx`.
+|===
+
+====== 7. Immediate User Feedback on Failure
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Stakeholder Group
+|Gym-goer.
+
+|Related Concept
+|Transparent validation and persistence outcomes.
+
+|Kind
+|Behavior.
+
+|Explanation
+|The system returns explicit error feedback for invalid input or save failures; successful completion refreshes data and closes modal.
+
+|Code Evidence
+|Failure uses `setError(message)`; success executes `await onWorkoutLogged(); onClose();`.
+|===
+
+===== Relationship Summary
+
+* The submission event triggers validation functions.
+* Validation gates session creation and prevents invalid writes.
+* Session creation and exercise persistence form one consistency behavior with rollback on downstream failure.
+* Error feedback behavior exposes failures to the gym-goer without silent failure.
+
+===== Connection to Current Gym Tracker Features
+
+The documented units map directly to current behavior in:
+
+* Workout logging modal flow (`LogWorkoutModal.tsx`)
+* Session persistence service (`workoutSessionsApi.ts`)
+* Rollback dependency for consistency (`api.ts` -> `deleteWorkoutSession`)
+
+===== Conclusion
+
+These domain description units capture the current workout-session creation and validation behavior using Domain Acquisition categories (entity, event, function, behavior, and domain attribute). The units are tied to existing Gym Tracker logic and provide a structured artifact for lecture-topic traceability.
