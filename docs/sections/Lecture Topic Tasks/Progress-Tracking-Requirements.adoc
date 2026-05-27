@@ -1,0 +1,25 @@
+= Lecture Topic Task: Progress Tracking Requirements
+
+== A. Concept Definition
+
+1. Workout – An action done by the User which must be registered into the Gym Tracker app. It is a list of one or more **exercises**. 
+2. Exercise – A physical activity done with the purpose of improving one’s physical performance and/or overall wellbeing. They are grouped by **sets**, and they can be time-dependent or **repetition**-dependent.
+3. Set – Amount of how many times an **exercise** was done. It can contain a group of **repetitions** or it can have a selected time, depending on the **exercise**.
+4. Repetitions – The amount of times an **exercise** was done in one **set**.
+5. Streak – How many consecutive days has the User registered a **workout**. 
+6. Statistics – Every record that the user has, such as most done **exercise,** longest **streak,** highest **personal record**, and more.
+7. Personal Record – The max weight done on each **exercise** or max amount of time for time-based **exercise**.
+
+== B. Visual Requirements
+
+The Gym Tracker app must show Users their Statistics. These Statistics must include (but not necessarily be limited to):
+- Longest Streak
+- Current Streak
+- Most Frequent Exercise
+- Highest Personal Record (weight)
+- Highest Personal Record (time)
+- First Workout Date
+- Registered Workouts (amount)
+
+The Longest Streak and the Current Streak can be the same number if the Current Streak is the Longest Streak. The Most Frequent Exercise must be the exercise that appears the most across all workouts, but it is not required to be on all workouts. Highest Personal Record will have two numbers with two different exercises, one will be time-based and it will hold the set with the longest time, the other will hold the set with the highest weight, both must specify the exercise and the date this Personal Record was achieved. The First Workout Date must present the date in which a workout was recorded for the first time. The Registered Workouts must the number of workouts that have been recorded since the first one until the current date.
+With all this data, Users can track their progress since the beginning of their fitness journey until today and compare results.
