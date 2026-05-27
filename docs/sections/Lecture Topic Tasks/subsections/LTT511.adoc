@@ -1,0 +1,207 @@
+==== Domain Description Units for Notification and Feedback Features
+:author: Gerald Rodríguez
+
+This Lecture Topic Task applies concepts from domain acquisition and domain description modeling to the Gym Tracker system.
+
+The goal of this task is to identify and classify domain description units associated with the notification and feedback subsystems of the application. Domain description units help organize domain knowledge into structured categories that improve understanding of how entities, behaviors, events, and functions interact within the system.
+
+The notification and feedback modules are important because they support user motivation, workout consistency, and progress awareness through reminders, summaries, and activity tracking.
+
+===== Purpose
+
+Domain description units provide a structured way to represent domain knowledge.
+
+By organizing domain information into categories such as entities, functions, events, behaviors, and domain attributes, the development team can better understand:
+- how the system behaves,
+- how users interact with the application,
+- and how different domain concepts relate to one another.
+
+This analysis focuses on Gym Tracker notification and feedback features.
+
+===== Classification Categories
+
+The following categories are used throughout this analysis:
+
+[cols="1,3", options="header"]
+|===
+|Category |Description
+
+|Entity
+|A domain object that exists within the system.
+
+|Function
+|An operation or capability performed by the system.
+
+|Event
+|A domain occurrence that triggers behavior or state changes.
+
+|Behavior
+|A recurring or observable domain activity.
+
+|Domain Attribute
+|A property or characteristic associated with a domain concept.
+|===
+
+===== Domain Description Units
+
+====== 1. Workout Reminder Notification
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Category
+|Entity
+
+|Description
+|Represents a notification generated to remind users to complete workouts.
+
+|Related Features
+|Workout reminders, notification scheduling, feedback system.
+|===
+
+This entity exists to improve workout consistency and user engagement.
+
+====== 2. Weekly Progress Summary Generation
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Category
+|Function
+
+|Description
+|Calculates and displays a summary of workouts completed during the week.
+
+|Related Features
+|Weekly progress tracking, feedback summaries.
+|===
+
+This function helps users visualize progress and maintain motivation.
+
+====== 3. Workout Logging Event
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Category
+|Event
+
+|Description
+|Occurs when a user logs a workout session into the application.
+
+|Related Features
+|Workout history, streak tracking, daily progress.
+|===
+
+This event acts as a trigger for multiple system updates, including streak recalculation and feedback updates.
+
+====== 4. Daily Progress Tracking
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Category
+|Behavior
+
+|Description
+|Represents the recurring monitoring of daily workout completion.
+
+|Related Features
+|Daily goals, progress feedback, workout tracking.
+|===
+
+This behavior evolves continuously as users interact with the system.
+
+====== 5. Notification Delivery Status
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Category
+|Domain Attribute
+
+|Description
+|Represents the current state of a notification.
+
+|Examples
+|pending, sent, failed, dismissed.
+|===
+
+This attribute allows the system to track notification lifecycle states.
+
+====== 6. Motivational Feedback Message
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Category
+|Entity
+
+|Description
+|Represents messages generated to encourage continued workout activity.
+
+|Related Features
+|Feedback system, motivational notifications.
+|===
+
+These messages help reinforce user consistency and engagement.
+
+====== 7. Streak Update Trigger
+
+[cols="1,3", options="header"]
+|===
+|Classification |Description
+
+|Category
+|Event
+
+|Description
+|Occurs when the system recalculates streak values after workout activity.
+
+|Related Features
+|Streak system, progress tracking.
+|===
+
+This event supports continuity tracking and milestone achievement logic.
+
+===== Relationships Between Units
+
+The domain description units interact in several ways:
+
+* Workout logging events trigger streak updates and progress recalculations.
+* Weekly summary generation depends on workout tracking behavior.
+* Notification entities depend on notification status attributes.
+* Motivational feedback messages are influenced by user progress behavior.
+* Daily tracking behaviors generate data used by summary functions.
+
+These relationships demonstrate how the notification and feedback systems are interconnected within the Gym Tracker domain.
+
+===== Connection to Gym Tracker Features
+
+The identified domain description units directly support multiple Gym Tracker features:
+
+* Workout reminders
+* Daily goal progress
+* Weekly progress summaries
+* Streak tracking
+* Motivational notifications
+* Workout history tracking
+
+Together, these units help structure the domain knowledge required to understand and maintain the notification and feedback subsystems.
+
+===== Conclusion
+
+Domain description units provide a structured representation of domain knowledge within the Gym Tracker system.
+
+By classifying notification and feedback concepts into entities, functions, events, behaviors, and attributes, the development team gains a clearer understanding of:
+- how the system operates,
+- how user interactions affect system behavior,
+- and how different domain concepts depend on one another.
+
+This organization improves communication, traceability, and future system evolution.

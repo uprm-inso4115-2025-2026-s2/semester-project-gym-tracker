@@ -1,0 +1,86 @@
+==== Requirements and Constraints for Workout Comparison Features
+:author: Héctor L. Rivera Betances
+
+===== Introduction
+
+The ability to compare workout sessions is a core feature for any fitness tracking app; it’s how users actually visualize their progress over time. This document outlines the functional requirements and technical constraints for building a robust comparison tool within our "Gym Tracker" project, focusing on data consistency, long-term maintainability, and sound software engineering principles.
+
+===== Functional Requirements
+
+The workout comparison feature must support the following functionalities:
+
+* Compare workout duration between two sessions.
+* Compare common exercises between sessions.
+* Compare total repetitions and total sets.
+* Compare weight progression for each set.
+* Display meaningful comparison results to the user.
+
+===== Non-Functional Requirements
+
+* Maintainability:
+The comparison logic must be modular. We should be able to update or add metrics without refactoring the entire codebase.
+
+* Scalability:
+The feature must perform efficiently, even as the user’s workout history grows over months or years.
+
+* Readability:
+The output needs to be intuitive. If the user can’t understand the comparison at a glance, the feature isn't doing its job.
+
+* Consistency:
+We strictly follow a "single source of truth" approach. Exercise data is fetched through database relationships; we never duplicate it inside a session record.
+
+===== Domain Constraints
+
+* Workout durations must always be positive values.
+* Exercises must be explicitly linked to a valid workout session.
+* A comparison can only occur if both referenced sessions exist in the system.
+* The weight array must match the total number of sets performed.
+* Comparison logic only triggers for exercises that share the exact same name.
+
+===== Data Flow Design
+
+The original implementation attempted to store exercise data directly inside workout sessions, which created inconsistencies in the comparison flow.
+
+The improved implementation follows a normalized structure:
+
+[source,text]
+----
+session_comparison
+ → workout_a
+ → workout_sessions
+ → workout_exercises
+
+session_comparison
+ → workout_b
+ → workout_sessions
+ → workout_exercises
+----
+
+This design separates workout sessions from exercise entities and improves maintainability and scalability.
+
+===== Implementation Discussion
+
+The comparison feature was implemented using a function that receives:
+
+[source,typescript]
+----
+compareSessions(
+  session1,
+  exercises1,
+  session2,
+  exercises2
+)
+----
+
+The system compares:
+
+* Duration differences
+* Repetition differences
+* Set differences
+* Weight differences per set
+
+The comparison results are formatted into a readable summary for the user.
+
+===== Conclusion
+
+This process highlights how domain constraints dictate software architecture. By moving to a normalized data model and enforcing strict validation, we’ve ensured that the comparison feature is not only reliable but also easy to scale. Proper entity relationships are the foundation of a high-quality fitness tracking experience.

@@ -1,0 +1,69 @@
+=== [LTT] Multi-View Integration and Package Structuring for Feedback Submodels
+Luis Sorrentini
+
+The Integrating Multiple System Views lecture establishes that a comprehensive system model built for requirements engineering is not a single monolithic diagram but a collection of complementary, overlapping submodels capturing distinct facets of the problem world. Because these submodels cover intersecting boundaries of the same software domain, a rigorous integration framework is required to guarantee that views remain structurally compatible and mutually reinforcing as the system evolves. Chapter 14 defines three formal mechanisms for achieving this coherence: defining a common meta-model, enforcing explicit inter-diagram consistency rules, and organizing model fragments into logical packages.
+
+The notification and feedback module of the Gym Tracker app presents a critical candidate for this multi-view integration. Currently, its specifications exist as informally decoupled fragments scattered across type systems, trigger scripts, and database constraints. This document applies Chapter 14 integration mechanisms to construct an auditable packaging scheme, define verifiable cross-view consistency rules, and map a shared system entity across four separate submodel perspectives to isolate and correct architectural design gaps.
+
+=== Model Package Scheme Design
+
+Following the grouping standards from Chapter 14, model packages are structured containers that group related artifacts from different submodels based on logical view types. This framework uses a recursive, reverse-domain namespace layout (`org.gymtracker.notification`) to manage layout complexity, localize naming scope, and formalize structural dependencies.
+
+[horizontal]
+`org.gymtracker.notification.goal` (Goal Model View):: 
+Captures the intentional structure of what the system is tracking. Its primary artifact is `GoalsForFeedback.mmd`, the conceptual model defining the `goals` entity, the `GoalType` enumeration (`daily`, `weekly`), and the foundational `GoalStatus` state enumeration (`pending`, `completed`, `failed`). This package represents the core customer desires and has zero incoming dependency blocks from within the module.
+`org.gymtracker.notification.object` (Structural Object View):: 
+Declares the concrete database schemas and type configurations that instantiate conceptual goal items. Key artifacts include the relational layout inside `goals_preliminary.sql` and the physical interface contracts in `goals_feedback_types.ts` (defining `GoalsFeedback` and mutation types). It maintains a direct dependency link importing structural definitions from `..notification.goal`.
+`org.gymtracker.notification.operation` (Functional Operation View):: 
+Defines the functional capabilities that fulfill intentional goals. Its primary artifact is `noti_trigger_function.ts`, which exports the execution controller `TriggerNotification` and routes the four system notification channels: `REMINDER`, `INACTIVITY`, `COMPLETION`, and `MISSED_WORKOUT`. This package depends directly on `..notification.goal` for the leaf intentions it operationalizes and on `..notification.object` for the data types its routines execute against.
+`org.gymtracker.notification.agent` (Responsibility Agent View):: 
+Allocates operational control to distinct system or human components. Its primary artifact is `notification_preferences_logic.ts`, which establishes the automated agent `shouldAllowNotification`. This agent monitors preference flags to guard dispatch streams. It depends down on `..notification.operation` to control function pathways and on `..notification.object` to validate the attribute values under observation.
+`org.gymtracker.notification.behavior` (Dynamic Behavioral View):: 
+Traces the execution lifecycles and time-based state transitions of the system. It tracks the internal goal states (`pending` -> `completed` -> `failed`) and sequence interactions. It maintains incoming dependencies pointing to `..notification.goal` for state spaces and `..notification.operation` for the message operations that drive transitions.
+
+=== Inter-Diagram Consistency Rules
+
+Inter-view consistency rules establish strict cross-diagram constraints that prevent separate system views from drifting into contradicting architectural designs. When a consistency check fails, it indicates an incomplete or incorrect submodel definition that must be corrected.
+
+=== Rule 1 — Monitored State Variable Declaration
+[horizontal]
+Rule Statement:: Every monitored or controlled state variable referenced by an agent within the responsibility model must be explicitly declared as a typed object or attribute within the structural object model.
+Formal Target:: If the agent logic `shouldAllowNotification` inside `notification_preferences_logic.ts` monitors the conditional flags `preferences.enabled` and `preferences.reminderTime`, those variables must exist as attributes inside the module's structural boundary.
+Identified Violation:: The `NotificationPreferences` type configuration currently resides in an external global directory completely outside the `org.gymtracker.notification.object` package scope. The agent is guarding decisions using attributes hidden from the module's local structural view.
+Correction Path:: Update the packaging boundary by explicitly refactoring the `NotificationPreferences` interface declaration into `goals_feedback_types.ts`, or establish an explicit package-level import link to bind the external schema dependency into the local object view.
+
+=== Rule 2 — Goal Operationalization Mapping
+[horizontal]
+Rule Statement:: Every separate function mode or notification category defined within the functional operation model must map to and satisfy exactly one leaf goal declared within the intentional goal model.
+Formal Target:: The execution modes defined in `noti_trigger_function.ts` (`COMPLETION`, `MISSED_WORKOUT`, `REMINDER`, `INACTIVITY`) must map directly to leaf-level goal requirements nodes.
+Identified Violation:: While `GoalsForFeedback.mmd` captures core status enumerations, it fails to declare the underlying leaf goals being satisfied. The operationalization links for the four alert subcategories are missing, leaving the operation model unverified.
+Correction Path:: Expand the intentional goal diagram in `GoalsForFeedback.mmd` to include explicit leaf nodes: `Maintain [UserInformedOfGoalCompletion]`, `Maintain [UserInformedOfMissedPeriod]`, `Achieve [UserRemindedOfWorkout]`, and `Achieve [UserPromptedOnInactivity]`.
+
+=== Rule 3 — State Transition to Operation Alignment
+[horizontal]
+Rule Statement:: Every internal execution event or transition label defined within the behavioral state model must correspond to a named operational function or subcategory exported by the functional operation model.
+Formal Target:: The lifecycle transitions within the goal status state machine must match the execution pathways driven by the `TriggerNotification` engine.
+Identified Violation:: The behavioral model tracks transitions from `pending` to `completed` (matching `COMPLETION`) and `pending` to `failed` (matching `MISSED_WORKOUT`). However, the operation model exposes an `INACTIVITY` routing capability that has no corresponding transition or trigger hook mapped inside the behavioral statechart. The behavioral view is incomplete.
+Correction Path:: Update the behavioral state diagram to introduce a time-elapsed self-transition path on the `pending` state node, explicitly labeled with an `OnExtendedInactivity` trigger event that invokes the `INACTIVITY` notification routine.
+
+== Trace View Overlaps: NotificationPreferences
+
+To demonstrate complete multi-view integration, the core domain element **"User Notification Preferences"** is traced below across four separate submodel perspectives, documenting how its abstraction shifts while maintaining absolute structural alignment.
+
+[horizontal]
+Structural View (ObjectModel):: 
+Manifests as a static data contract interface (`NotificationPreferences`) within `src/types/index.ts` and as logical boolean/string data columns (`preferences_enabled`, `reminder_time`) inside the SQL layout of `goals_preliminary.sql`. This is the definition layer defining memory footprint and data types.
+Responsibility View (AgentModel):: 
+Transforms into active control inputs evaluated by the automated system agent `shouldAllowNotification`. The structural attributes are consumed as runtime logic variables: `preferences.enabled` acts as a global master gate to kill execution, and `preferences.reminderTime` acts as a temporal window filter.
+Functional View (OperationModel):: 
+Acts as an operational constraint or pre-condition for the `TriggerNotification` script execution tree. Though not explicitly passed as an input type parameter to the function, a consistency constraint dictates that no execution path is valid unless the agent validation layer has resolved to `true` against the active preference state.
+Behavioral View (BehaviorModel):: 
+Appears as a conditional guard expression (`[preferences.enabled == true]`) attached directly to the transition arrows of the lifecycle state machine and sequence interaction lines. It dictates whether execution control passes downward to trigger UI rendering layers or drops out early to conserve system resource usage.
+
+=== Summary
+
+* **Cohesive Packaging:** Restructures the notification module into five sub-packages (`goal`, `object`, `operation`, `agent`, `behavior`) aligned to Chapter 14 view-type standards to eliminate overlapping, disordered files.
+* **Traceable Dependencies:** Establishes directional dependency vectors running from dynamic behavior and agent views down toward the structural data specifications and intentional goals.
+* **Verifiable Consistency:** Defines three cross-view consistency rules to guarantee that monitored variables are declared, operational functions map to intentional leaf goals, and behavioral state transitions match code operations.
+* **Resolved Architecture Gaps:** Identifies two critical structural omissions: an out-of-scope preferences data model definition and an unmapped `INACTIVITY` operation that lacks a behavioral transition pathway.
+* **Cross-View Traceability:** Successfully tracks the `NotificationPreferences` element across four separate layers—mapping its evolution from a static database column schema up to an active runtime behavioral guard condition.

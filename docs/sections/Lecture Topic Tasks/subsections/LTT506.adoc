@@ -1,0 +1,140 @@
+==== [LTT]: Streak Intent (Definition and Operational Model)
+:author: Jan Davey Morales Vazquez
+
+== Objective
+
+Define a formal specification for *Streak Intent*, a derived behavioral signal used to infer whether a user is actively attempting to maintain a workout streak versus passively achieving streak continuity.
+
+This introduces an abstraction layer above raw streak tracking and workout validation logic.
+
+== Definition
+
+*Streak Intent* is a probabilistic behavioral classification representing the likelihood that a user is consciously engaging in actions to preserve or extend an active streak.
+
+It is not directly observable. It must be inferred from user behavior signals, historical patterns, and interaction context.
+
+Streak Intent is explicitly distinct from:
+- Streak state (e.g., Active Streak, Streak Reset)
+- Workout validity (Workout Completion rules)
+- Engagement metrics (e.g., consistency score)
+
+== Scope Boundaries
+
+=== Included
+- Behavioral inference from user activity patterns
+- Temporal and interaction-based signals
+- Aggregated classification outputs (intent score / label)
+
+=== Excluded
+- Direct modification of streak computation rules
+- Workout qualification logic
+- Reward or badge eligibility systems (unless explicitly extended)
+
+== Behavioral Signals
+
+The following signals can contribute to Streak Intent inference:
+
+=== Temporal Proximity Signal
+Measures how closely user activity aligns with streak boundary conditions (e.g., workouts performed near end-of-day cutoff windows).
+
+=== Last-Minute Completion Signal
+Detects repeated patterns of workouts completed shortly before streak expiration thresholds.
+
+=== Notification Response Signal
+Captures whether users act shortly after receiving reminders or notifications.
+
+=== Consistency Volatility Signal
+Evaluates variance in workout timing. Low variance near deadlines may indicate intent-driven behavior.
+
+=== Recovery Window Usage Signal
+Tracks whether users actively utilize recovery mechanisms (e.g., streak freezes or grace periods) immediately after a lapse.
+
+=== Manual Engagement Signal
+Includes explicit actions such as opening streak dashboards, checking progress screens, or interacting with streak-related UI elements prior to workout completion.
+
+== Classification Approaches
+
+Two primary approaches are defined for Streak Intent inference:
+
+=== 1. Rule-Based Heuristic Model
+
+A deterministic scoring system using weighted behavioral signals.
+
+Example structure:
+- Assign weights to each signal (e.g., notification response = +2, last-minute completion = +3)
+- Aggregate score over rolling window (e.g., 14 or 30 days)
+- Classify intent into tiers:
+  - Low Intent
+  - Medium Intent
+  - High Intent
+
+Advantages:
+- Transparent and explainable
+- Easy to debug and tune
+- Low computational overhead
+
+Limitations:
+- Limited adaptability to behavioral drift
+- Sensitive to manually chosen thresholds
+
+=== 2. Probabilistic / ML-Based Model
+
+A supervised or semi-supervised model trained on historical user behavior sequences.
+
+Potential inputs:
+- Time-to-deadline distributions
+- Notification interaction logs
+- Workout timing entropy
+- Streak survival outcomes
+
+Output:
+- Probability score P(intent)
+
+Advantages:
+- Captures nonlinear behavioral patterns
+- Adapts to user heterogeneity
+- Scales with dataset growth
+
+Limitations:
+- Requires labeled or proxy-labeled data
+- Reduced interpretability
+- Sensitive to dataset bias
+
+== Output Model
+
+Streak Intent can be represented as:
+
+- Binary classification: Intent / No Intent
+- Multi-class: Low / Medium / High Intent
+- Continuous score: 0.0 – 1.0 probability scale
+
+Recommended baseline: continuous score with optional thresholding for product use cases.
+
+== Limitations and Failure Cases
+
+=== Ambiguous Behavior
+Users may naturally exercise at consistent times without intent to maintain streaks, leading to false positives.
+
+=== External Constraints
+Work schedules, time zones, or environmental factors may mimic intent-driven behavior.
+
+=== Notification-Induced Bias
+System reminders may artificially inflate perceived intent by influencing timing.
+
+=== Sparse Data Users
+New or infrequent users lack sufficient history for reliable inference.
+
+=== Multi-Session Workouts
+Split sessions may distort temporal proximity and completion signals.
+
+=== Cultural and Behavioral Variability
+Workout habits differ significantly across user segments, reducing model generalizability.
+
+== System Integration Constraints
+
+Streak Intent must remain:
+- Non-blocking to streak computation
+- Non-authoritative for streak validity
+- Optional input to engagement and personalization systems
+
+It should be treated as an auxiliary analytical layer.
