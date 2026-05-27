@@ -106,4 +106,6 @@
 
 | 2.2.4 Interface Requirements | Derek Velez | Modified | Applied RQA ambiguity review (RE Ch. 5): replaced weak qualifiers and the "shall provide means for" placeholder, unified actor terminology to User per Section 2.1.2, and bound the Streak/Consistency trigger to the events in Section 2.1.5.
 
+| Lecture Topic Tasks / LTT503 | Pedro Cortes | Added | Added a lecture topic task on domain engineering overview and scope boundary refinement, clarifying Gym Tracker's core focus on workout consistency, streaks, goals, and progress summaries while explicitly separating nutrition tracking and broader health-management concerns from the current scope.
+
 |===
