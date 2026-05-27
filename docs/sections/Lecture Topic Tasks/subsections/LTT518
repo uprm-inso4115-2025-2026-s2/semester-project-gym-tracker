@@ -1,0 +1,101 @@
+= [Multi-Dimensional Modeling LTT] Analyze Hierarchical Workout History Structures in a Gym Tracker System
+:Author: Jerac Duran
+
+== Objective
+
+Examine how workout history data forms a multi-dimensional domain model through relationships between users, workouts, exercises, sets, reps, and temporal records.
+
+== Description
+
+This lecture explores the concept of multi-dimensional domain modeling using the workout history system of a gym tracker application. 
+We will nalyzes how workout data is structured through interconnected entities such as users, workout sessions, exercises, and exercise performance records.
+
+This lecture discusses why workout history cannot be represented as a simple linear structure: workouts contain multiple exercises, and each exercise record contains additional attributes such as sets, reps, weight, and timestamps.
+
+The topic connects these relationships to concepts from the "Domain Attributes" lecture, including dimensions, structured phenomena, recursive relationships, and temporal modeling.
+
+== Database Entities Used
+
+* `workout_sessions`
+* `workout_exercises`
+* `exercises`
+* `goals_feedback`
+* `session_comparison`
+
+== Multi-Dimensional Structure of Workout History
+
+The workout history system is multi-dimensional because multiple entities interact simultaneously across several layers of the domain.
+
+The system contains relationships between:
+
+* Users
+* Workout sessions
+* Exercises
+* Sets and reps (per exercise record)
+* Weight values
+* Timestamps
+* Progress records
+
+A single workout session may contain multiple exercises, and each exercise record within that session may carry different sets, reps, and weight values.
+No single value or flat table can represent this structure fully, which is what makes the system multi-dimensional.
+
+== Hierarchical Modeling
+
+Workout history is hierarchical rather than purely linear because each entity depends on the one above it in the structure.
+
+.Workout History Hierarchy
+[source]
+----
+auth.users (user_id)
+└── workout_sessions (user_id FK → auth.users)
+    └── workout_exercises (workout_id FK → workout_sessions)
+        └── exercises (exercise_id FK → workout_exercises)
+            ├── sets
+            ├── reps
+            └── weight
+----
+
+Users are the root of this hierarchy, but only through `workout_sessions`.
+The `workout_exercises` and `exercises` tables have no direct `user_id` column — a user's exercise records are only reachable by traversing through `workout_sessions` first.
+This means the hierarchy is strictly top-down: to identify which user performed a given exercise, you must join `workout_exercises` → `workout_sessions` → `auth.users`.
+
+Each level of the hierarchy adds a new dimension to the domain model, and no level can be fully interpreted without its parent.
+
+== Structured Domain Phenomena
+
+The system demonstrates *structured domain phenomena* because workout data cannot be modeled using a single atomic value — it requires a network of related entities.
+
+Examples:
+
+* `workout_sessions` connects `auth.users` with time-bounded workout events via `user_id`
+* `workout_exercises` connects each workout session with specific exercises and their performance metrics (`sets`, `reps`, `weight`) via foreign keys to both `workout_sessions` and `exercises`
+* `exercises` defines the exercise catalog, providing names and categories referenced by `workout_exercises`
+* `goals_feedback` stores user-level goal and feedback records scoped to `user_id`; it has no foreign key to `workout_sessions`, so it tracks progress at the user level independently of individual sessions
+
+These interconnected relationships create a structured and highly dimensional system where meaning depends on the relationships between entities, not just the values stored within them.
+
+== Temporal and Sequential Relationships
+
+Workout history is time-dependent in addition to being structurally complex.
+
+Examples include:
+
+* Workout sessions recorded using `created_at` timestamps, establishing chronological order
+* Progress tracking across different `period_date` values in `goals_feedback`
+* Session-over-session comparisons enabled by the `session_comparison` entity
+
+The `session_comparison` entity demonstrates how workout history can be analyzed across multiple temporal states — for example, comparing a user's performance in the current session against a previous one.
+This temporal dimension adds a sequential axis to the already multi-dimensional domain model.
+
+== Relationship to Domain Attributes Lecture
+
+This topic applies the following concepts discussed in the lecture:
+
+* *Dimensions* — workout data spans user, session, exercise, performance, and time dimensions simultaneously
+* *Structured domain phenomena* — the domain cannot be reduced to atomic values; it requires interconnected entities
+* *Recursive relationships* — a user has many sessions; a session has many exercises; each creates a nested, repeating structure
+* *Temporal modeling* — timestamps and date fields introduce a time-ordered dimension to the data
+* *Multi-dimensional systems* — the workout history system is an example of a domain that requires multiple axes to model correctly
+
+The workout tracking system demonstrates how software requirements often involve highly structured and interconnected domain relationships that cannot be captured with simple flat data models.
+
