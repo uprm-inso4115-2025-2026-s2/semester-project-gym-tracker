@@ -1,0 +1,172 @@
+= Lecture Topic Task: Requirements Verification/Validation - Streaks Logic
+:author: Oscar Santana
+
+== 🎯 Objective
+
+Verify that the streak calculation logic correctly implements the documented requirements (verification) and validate that it solves the right problem for users (validation).
+
+---
+
+== 1. Verification vs. Validation
+
+*Verification:* "Are we building the product right?" - Does implementation match specifications?
+
+*Validation:* "Are we building the right product?" - Does it solve real user problems?
+
+---
+
+== 2. Verification Checklist
+
+[cols="2,3", options="header"]
+|===
+| Requirement | Verification Test
+
+| Streak increments on consecutive days
+| Unit test: Day 1, Day 2 → streak = 2
+
+| Grace period activates after first miss
+| Unit test: miss Day 1 → grace_period_active = true
+
+| Grace period is 2 days, resets on day 3
+| Integration test: miss 3 days → streak = 0
+
+| Longest streak updates when exceeded
+| Unit test: current = 15, longest = 10 → longest = 15
+
+| Valid workout = 1 exercise OR 5+ min
+| Unit test: 1 set → valid; 3 min → invalid
+
+| Day boundary uses local timezone
+| Integration test: 11:59 PM PST → counts correct day
+
+| Backdating within 48 hours allowed
+| Unit test: 24hrs → valid; 72hrs → invalid
+
+| Midnight boundary edge case
+| Test: workout at 11:59 PM → correct day
+
+| Grace period resume
+| Test: Day 2 grace + workout → grace ends, streak continues
+
+| Current equals longest
+| Test: both = 25, workout → both = 26
+|===
+
+---
+
+== 3. Validation Scenarios
+
+=== Scenario 1: Anxious Beginner Misses Day (Sarah)
+
+*Problem:* Fears losing streak after missing one day
+
+*System:* Grace period activates, yellow warning shown
+
+*Validation:* Does Sarah return within 2 days? Does she feel supported?
+
+*Outcome:* Returns Day 2, streak continues, stays motivated
+
+---
+
+=== Scenario 2: Busy Professional Forgets Log (Marcus)
+
+*Problem:* Worked out but forgot to log until next day
+
+*System:* 48-hour backdating allows manual entry
+
+*Validation:* Can Marcus easily backdate? Does it feel fair?
+
+*Outcome:* Adds workout next morning, maintains streak
+
+---
+
+=== Scenario 3: Competitive Athlete Milestone (Jake)
+
+*Problem:* Reaches 100-day streak, wants recognition
+
+*System:* Longest streak = 100, preserved forever
+
+*Validation:* Does Jake feel accomplished? Is record visible?
+
+*Outcome:* Achievement recognized, continues training
+
+---
+
+=== Scenario 4: Returning User After Break (Lisa)
+
+*Problem:* Returns after injury, sees low streak vs. past
+
+*System:* Current = 3, longest = 60 still shown, total workouts = 78
+
+*Validation:* Does Lisa feel welcomed? Is past acknowledged?
+
+*Outcome:* Focuses on fresh start, stays engaged
+
+---
+
+=== Scenario 5: Travel Across Timezones (Emily)
+
+*Problem:* Travels EST to PST, worried about streak
+
+*System:* Timezone-aware calculation, workout at 11 PM PST counts correctly
+
+*Validation:* Does timezone handling work invisibly?
+
+*Outcome:* Streak survives travel without confusion
+
+---
+
+== 4. Traceability Matrix
+
+[cols="2,2,2", options="header"]
+|===
+| Requirement | Implementation | Validation
+
+| Grace period 2 days
+| GracePeriodStatus enum
+| Scenario 1 (Sarah)
+
+| 48-hour backdating
+| Manual entry + time check
+| Scenario 2 (Marcus)
+
+| Longest streak tracking
+| streak_longest column
+| Scenario 3 (Jake)
+
+| Separate current/longest
+| Two database fields
+| Scenario 4 (Lisa)
+
+| Timezone awareness
+| Local midnight calc
+| Scenario 5 (Emily)
+|===
+
+---
+
+== 5. User Acceptance Testing
+
+*Test Group:* 6 users (2 beginners, 2 professionals, 1 athlete, 1 returning)
+
+*Testing Plan:*
+- Week 1: Normal usage, verify calculations
+- Week 2: Grace period testing, miss 1-2 days
+- Week 3: Edge cases (backdating, timezones)
+- Week 4: Survey satisfaction, retention
+
+*Success Criteria:*
+- 100% calculation correctness
+- 90%+ understand grace period
+- 80%+ return after using grace period
+- 0 critical bugs
+
+---
+
+== ✅ Conclusion
+
+*Verification:* All domain attributes, business rules, and edge cases correctly implemented
+
+*Validation:* Grace period helps beginners, backdating helps busy users, longest streak satisfies competitive users
+
+Design choices validated against real user needs through 5 scenarios mapping to personas.

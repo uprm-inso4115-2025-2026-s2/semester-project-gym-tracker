@@ -1,0 +1,242 @@
+= LTT: Accessibility (a11y) in Custom SVG Components
+Sebastian Santiago <@seba-15>
+
+== 1. Introduction
+
+SVG elements rendered inline in React are powerful for custom UI, but by default they are invisible to assistive technologies like screen readers. Users who rely on keyboard navigation or screen readers will encounter progress rings, streak bars, and charts as meaningless or entirely skipped elements unless accessibility attributes are explicitly added.
+
+This document covers the ARIA attributes and HTML patterns that make custom SVG components accessible, with practical examples drawn from the `ProgressVisual.tsx` component built for this project.
+
+== 2. Why SVG Accessibility Matters
+
+When a screen reader encounters an `<svg>` element with no accessible label, it may:
+
+* Announce it as "image" with no description
+* Skip it entirely
+* Read raw text content that makes no sense out of context
+
+For a fitness tracker, progress rings and streak bars convey critical information to the user. If a visually impaired user cannot access this data, the component fails its core purpose.
+
+== 3. ARIA Roles for SVG
+
+=== 1. `role="img"`
+
+The most common pattern. Declares the SVG as a single image to assistive technologies. Pair it with `aria-label` or `aria-labelledby` to provide a description.
+
+[source,tsx]
+----
+<svg
+  role="img"
+  aria-label="Weekly progress: 3 of 5 workouts completed"
+  viewBox="0 0 100 100"
+>
+  {/* circle rings */}
+</svg>
+----
+
+=== 2. `role="graphics-document"` and `role="graphics-symbol"`
+
+Part of the WAI-ARIA Graphics Module. Use `graphics-document` for complex SVGs with multiple meaningful parts, and `graphics-symbol` for reusable icon-like elements that are referenced elsewhere.
+
+For simple progress indicators like those, `role="img"` is sufficient.
+
+=== 3. `aria-hidden="true"`
+
+When an SVG is purely decorative and its meaning is already conveyed by adjacent text, hide it from the accessibility tree entirely.
+
+[source,tsx]
+----
+{/* Icon next to a label — the label already describes it */}
+<svg aria-hidden="true" focusable="false">
+  {/* decorative icon */}
+</svg>
+<span>3 workouts this week</span>
+----
+
+
+
+== 4. `<title>` and `<desc>` Elements
+
+=== 4.1 `<title>`
+
+The `<title>` element is the SVG equivalent of an `alt` attribute on an `<img>`. It provides a short accessible name for the SVG. It must be the *first child* of the element it describes.
+
+[source,tsx]
+----
+<svg role="img" aria-labelledby="progress-title">
+  <title id="progress-title">Workout progress ring: 60% complete</title>
+  <circle ... />
+</svg>
+----
+
+Using `aria-labelledby` pointing to the `<title>` id is more reliable across screen readers than `aria-label` alone.
+
+=== 4.2 `<desc>`
+
+Provides a longer description for complex SVGs. Used alongside `<title>` via `aria-describedby`.
+
+[source,tsx]
+----
+<svg
+  role="img"
+  aria-labelledby="streak-title"
+  aria-describedby="streak-desc"
+>
+  <title id="streak-title">Weekly streak bar</title>
+  <desc id="streak-desc">
+    Shows workout activity for each day this week.
+    Monday, Wednesday, and Friday are marked as completed.
+  </desc>
+  {/* streak bars */}
+</svg>
+----
+
+== 5. Keyboard Navigation and Focus Management
+
+=== 1. Non-interactive SVGs
+
+Progress rings and streak bars in `ProgressVisual.tsx` are display only, they do not need to be focusable. 
+
+[source,tsx]
+----
+<svg
+  role="img"
+  aria-label="Progress: 4 of 7 days active"
+  tabIndex={-1}
+>
+  ...
+</svg>
+----
+
+Setting `tabIndex={-1}` removes the element from the natural tab order while still allowing programmatic focus if needed.
+
+=== 2. Interactive SVGs
+
+If SVG elements have click or hover interactions (e.g. a bar that shows a tooltip on hover), they must also be keyboard-operable:
+
+[source,tsx]
+----
+<rect
+  role="button"
+  tabIndex={0}
+  aria-label="Monday: workout completed"
+  onClick={handleClick}
+  onKeyDown={(e) => e.key === 'Enter' && handleClick()}
+/>
+----
+
+== 6. Screen Reader Behavior with Inline SVG in React
+
+Screen reader support for SVG varies by browser and reader combination. The most reliable patterns are:
+
+[cols="1,1,2"]
+|===
+|Screen Reader | Browser | Notes
+
+|VoiceOver
+|Safari (macOS/iOS)
+|Reads `<title>` reliably when `role="img"` and `aria-labelledby` are set.
+
+|NVDA
+|Firefox / Chrome
+|Reads `aria-label` and `<title>`. Prefers `aria-labelledby` over inline `aria-label`.
+
+|JAWS
+|Chrome / Edge
+|Reads `aria-label`. Also supports `<title>` with `aria-labelledby`.
+
+|TalkBack
+|Chrome (Android)
+|Reads `aria-label`. `<title>` support is inconsistent — always include `aria-label` as fallback.
+|===
+
+
+
+== 7. Before / After: ProgressVisual.tsx
+
+=== 7.1 Before (inaccessible)
+
+[source,tsx]
+----
+
+<svg viewBox="0 0 100 100" width={size} height={size}>
+  <circle
+    cx="50" cy="50" r={radius}
+    fill="none"
+    stroke="#e5e7eb"
+    strokeWidth={strokeWidth}
+  />
+  <circle
+    cx="50" cy="50" r={radius}
+    fill="none"
+    stroke={color}
+    strokeWidth={strokeWidth}
+    strokeDasharray={circumference}
+    strokeDashoffset={offset}
+    strokeLinecap="round"
+    transform="rotate(-90 50 50)"
+  />
+</svg>
+----
+
+=== 7.2 After (accessible)
+
+[source,tsx]
+----
+<svg
+  viewBox="0 0 100 100"
+  width={size}
+  height={size}
+  role="img"
+  aria-labelledby={`progress-title-${id}`}
+  aria-label={`${label}: ${Math.round(percentage)}% complete`}
+>
+  <title id={`progress-title-${id}`}>
+    {label}: {Math.round(percentage)}% complete
+  </title>
+  <circle
+    cx="50" cy="50" r={radius}
+    fill="none"
+    stroke="#e5e7eb"
+    strokeWidth={strokeWidth}
+  />
+  <circle
+    cx="50" cy="50" r={radius}
+    fill="none"
+    stroke={color}
+    strokeWidth={strokeWidth}
+    strokeDasharray={circumference}
+    strokeDashoffset={offset}
+    strokeLinecap="round"
+    transform="rotate(-90 50 50)"
+  />
+</svg>
+----
+
+Key changes:
+
+* Added `role="img"` so assistive technologies treat it as a single image.
+* Added `<title>` with a unique `id` for reliable screen reader announcement.
+* Added `aria-labelledby` pointing to the `<title>` id.
+* Added `aria-label` as a fallback for screen readers with inconsistent `<title>` support.
+* Used a dynamic `id` prop to avoid duplicate IDs when multiple rings render on the same page.
+
+== 8. Objectives
+
+* Understand the accessibility limitations of SVG elements by default.
+* Learn which ARIA attributes apply to SVG and when to use them.
+* Apply a11y improvements to an existing component in the project.
+* Document findings in a way useful to the rest of the team.
+
+== 9. Acceptance Criteria
+
+* [x] Document covers ARIA roles, `<title>`/`<desc>` usage, and screen reader behavior.
+* [x] At least one before/after code example referencing `ProgressVisual.tsx`.
+
+== 10. References
+
+* https://www.w3.org/WAI/tutorials/images/complex/[W3C WAI — Complex Images]
+* https://www.deque.com/blog/creating-accessible-svgs/[Deque — Creating Accessible SVGs]
+* https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/img_role[MDN — ARIA role: img]
+* https://www.w3.org/TR/graphics-aria-1.0/[WAI-ARIA Graphics Module]
+* https://css-tricks.com/accessible-svgs/[CSS-Tricks — Accessible SVGs]

@@ -1,0 +1,344 @@
+= Lecture Topic Task: Modeling Conceptual Objects with Class Diagrams
+
+== 🎯 Objective
+
+Apply conceptual object modeling techniques to Requirements Engineering in order to:
+
+- Identify conceptual objects from system descriptions
+- Differentiate entities, associations, attributes, agents, and events
+- Analyze relationships between conceptual objects using UML class diagrams
+- Understand specialization, aggregation, multiplicities, and inheritance
+- Improve system understanding through structured conceptual modeling
+
+---
+
+== 📄 Description
+
+The task explores:
+
+- conceptual objects
+- entities and associations
+- attributes and multiplicities
+- specialization and inheritance
+- aggregation and composition
+- UML class diagram modeling heuristics
+
+The analysis is centered on answering:
+
+- What are conceptual objects and why are they important?
+- How can system concepts be represented structurally?
+- How are relationships modeled in Requirements Engineering?
+- How can conceptual object models improve requirement quality?
+
+---
+
+== ✅ Acceptance Criteria
+
+- Conceptual objects are identified and explained, including:
+  * entities
+  * associations
+  * attributes
+  * agents
+  * events
+
+- UML structural relationships are analyzed, including:
+  * multiplicities
+  * specialization
+  * aggregation
+  * inheritance
+
+- A conceptual object workflow is provided and easy to understand
+
+- UML-style relationship structures are included
+
+- Modeling heuristics are identified and explained
+
+- The task demonstrates alignment with lecture concepts such as:
+  * conceptual objects
+  * UML class diagrams
+  * specialization
+  * aggregation
+  * multiplicities
+
+- The analysis improves understanding of system structure and requirements
+
+---
+
+== 1. Introduction to Conceptual Objects
+
+A conceptual object:
+
+- represents a system-specific concept
+- contains identifiable instances
+- shares common properties and behaviors
+- may differ in internal state across instances
+
+Conceptual object modeling helps engineers organize domain knowledge before implementation.
+
+---
+
+== 2. Types of Conceptual Objects
+
+=== Entities
+
+Entities are passive and autonomous objects that may exist independently.
+
+Examples from real-world systems include:
+
+- Library Book
+- Customer Account
+- Patient Record
+- Vehicle
+
+Characteristics:
+
+- independently identifiable
+- may exist without other objects
+- contain attributes and properties
+
+Example structure:
+
+----
+[Book]
+- ISBN
+- Title
+- Author
+- PublicationYear
+----
+
+---
+
+=== Associations
+
+Associations define conceptual links between objects.
+
+Examples:
+
+- Student enrolls in Course
+- Customer places Order
+- User borrows Book
+
+Associations describe:
+
+- connected objects
+- participation roles
+- multiplicity constraints
+
+Example:
+
+----
+[Student] ---- EnrolledIn ---- [Course]
+----
+
+---
+
+=== Agents
+
+Agents are active conceptual objects capable of controlling behavior.
+
+Examples:
+
+- TrainController
+- Payment Processor
+- Notification Manager
+
+Characteristics:
+
+- active behavior
+- autonomous actions
+- system interaction control
+
+---
+
+=== Events
+
+Events are instantaneous conceptual objects.
+
+Examples:
+
+- User Login
+- Purchase Request
+- Payment Confirmation
+
+Characteristics:
+
+- occur in a single state
+- represent transitions or actions
+- may trigger behaviors
+
+---
+
+== 3. Attributes and Multiplicity
+
+Attributes represent intrinsic characteristics of conceptual objects.
+
+Examples:
+
+[cols="2,2", options="header"]
+|===
+| Object | Example Attributes
+
+| Student
+| ID, Name, GPA
+
+| Product
+| Name, Price, Quantity
+
+| Reservation
+| Date, Duration
+|===
+
+Attributes may include multiplicities.
+
+Examples:
+
+- `[1..1]` mandatory single value
+- `[0..1]` optional value
+- `[0..*]` multiple optional values
+
+Example:
+
+----
+[Customer]
+PhoneNumbers [0..*]
+Email [1..1]
+----
+
+---
+
+== 4. Specialization and Generalization
+
+Specialization organizes concepts into subclasses.
+
+Example:
+
+----
+[Vehicle]
+   |
+   +--> [Car]
+   |
+   +--> [Truck]
+----
+
+Inheritance allows specialized concepts to reuse shared features.
+
+Benefits:
+
+- avoids duplication
+- improves maintainability
+- increases abstraction quality
+
+---
+
+== 5. Aggregation and Composition
+
+Aggregation models “whole-part” relationships between objects.
+
+Example:
+
+----
+[Library]
+   |
+   +--> [Bookshelf]
+          |
+          +--> [Book]
+----
+
+Composition is a stronger relationship where components exist only with the parent object.
+
+Examples:
+
+- Order → Order Items
+- Car → Engine
+- House → Rooms
+
+---
+
+== 6. Conceptual Modeling Workflow
+
+----
+[Identify Domain Concepts]
+            |
+            v
+[Determine Object Type]
+(Entity / Agent / Event)
+            |
+            v
+[Identify Associations]
+            |
+            v
+[Define Attributes]
+            |
+            v
+[Specify Multiplicities]
+            |
+            v
+[Apply Specialization]
+            |
+            v
+[Create UML Class Diagram]
+----
+
+---
+
+== 7. Modeling Heuristics
+
+Important heuristics include:
+
+- Determine whether a concept is an object or attribute
+- Identify associations from domain relationships
+- Distinguish entities, agents, associations, and events
+- Apply specialization only when meaningful
+- Use aggregation carefully
+- Avoid poor modeling practices ("bad smells")
+
+---
+
+== 8. Common Modeling Mistakes
+
+Poor conceptual models may include:
+
+- implementation-oriented naming
+- vague object definitions
+- missing relationships
+- unnecessary duplication
+- treating relationships as attributes instead of associations
+
+Example of bad practice:
+
+----
+Loan
+BookID
+BorrowerID
+----
+
+Better representation:
+
+----
+[Borrower]
+      |
+      +---- Loan ----+
+                     |
+                 [Book]
+----
+
+
+---
+
+== 🧠 Key Insight
+
+Conceptual object modeling improves Requirements Engineering because it transforms vague domain descriptions into structured system representations.
+
+Instead of describing systems only through text, engineers can model entities, relationships, constraints, and abstractions visually and systematically.
+
+This reduces ambiguity, improves communication, and creates a stronger foundation for later system design.
+
+---
+
+== 🧠 Conclusion
+
+This Lecture Topic Task demonstrates how conceptual object modeling supports Requirements Engineering by organizing domain concepts into structured UML representations.
+
+By identifying entities, associations, agents, events, attributes, multiplicities, specialization, and aggregation, engineers gain a clearer understanding of system structure and behavior.
+
+These techniques improve requirement precision, reduce modeling mistakes, and create a shared conceptual vocabulary before implementation begins.
