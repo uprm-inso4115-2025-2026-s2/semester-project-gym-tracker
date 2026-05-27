@@ -58,6 +58,8 @@
 
 | 2.2.1 User Stories, Epics, Features | Wilson A. Morales | Modified | Differentiated overlapping streak-related user stories by separating general progress visibility after a streak break from recovery-progress tracking after restart.
 
+| 2.2.2 Personas | Alex Vazquez | Modified | Expanded the personas with more concrete daily context and day-in-the-life details. Revised Alejandro, Derek, and Ana so their routines, goals, frustrations, and design implications are easier to connect to Gym Tracker features and requirements.
+
 | 2.2.3 Domain Requirements | Alex Vazquez | Modified | Added six candidate-resolution cases inside Domain Requirements: three from further elicitation and three from resolution tactics. Each case states the inconsistency, the method used, and the candidate resolution. Linked to issue #342.
 
 | 2.2.3 Domain Requirements | Derek Velez | Added | Added two new domain requirements related to ownership and data validation of workout sessions.
