@@ -1,0 +1,70 @@
+==== [LTT]: Streaks Domain Glossary
+:author: Jan Davey Morales Vazquez
+
+== Overview
+
+This glossary standardizes terminology used within the Streaks module of the gym tracker application. It is intended to ensure consistent language across development, testing, analytics, and product documentation.
+
+All terms are defined in the context of user workout consistency tracking and related behavioral systems.
+
+== Glossary
+
+=== Active Streak
+A continuous sequence of days in which a user has met the defined workout criteria without interruption.
+
+=== Achievement System
+The subsystem responsible for tracking, evaluating, and awarding user accomplishments such as badges, milestones, and rewards.
+
+=== Badge Unlock
+The event in which a user earns and receives a badge after fulfilling predefined conditions within the streak or challenge systems.
+
+=== Challenge Participation
+The state in which a user is actively enrolled in a structured goal or task with defined rules and duration, often influencing streak progression or rewards.
+
+=== Consistency Score
+A computed metric representing how consistently a user completes workouts over a defined time window, factoring in streaks, missed days, and activity frequency.
+
+=== Consecutive Workout
+A workout session that occurs on sequential eligible days contributing directly to an active streak.
+
+=== Daily Goal
+A user-specific or system-defined target that must be completed within a day to qualify as a valid workout contribution toward streaks.
+
+=== Missed Day
+A day in which the user did not meet the required activity criteria, potentially impacting or breaking an active streak depending on recovery rules.
+
+=== Milestone Reward
+A predefined reward granted when a user reaches specific streak lengths or consistency thresholds.
+
+=== Notification Reminder
+A system-generated prompt intended to encourage users to complete their daily workout goal and maintain their streak.
+
+=== Progress Tracking
+The continuous monitoring and recording of user workout activity and streak progression over time.
+
+=== Recovery Window
+A limited time period during which a user may restore or preserve an active streak after a missed or incomplete workout day, depending on system rules.
+
+=== Rest Day
+A day intentionally or system-recognized as non-active, which may or may not affect streak continuity depending on configuration.
+
+=== Streak Freeze
+A mechanism that allows a user to preserve their active streak despite not meeting daily activity requirements for a limited number of occurrences.
+
+=== Streak Reset
+The event in which a user's active streak is returned to zero due to failure to meet continuity rules beyond allowable exceptions (e.g., freezes or recovery windows).
+
+=== Weekly Target
+A higher-level goal representing the number of workouts or active days a user should complete within a week.
+
+=== Workout Completion
+A validated workout session that satisfies system criteria to count toward streak progression and other metrics.
+
+=== Workout Session
+A recorded instance of user physical activity within the system, which may or may not qualify as a completed workout depending on rules.
+
+=== User Activity Log
+A structured record of all user interactions and workout-related events used for analytics, streak calculation, and historical tracking.
+
+=== Longest Streak
+The maximum number of consecutive active streak days achieved by a user over their lifetime in the system.
