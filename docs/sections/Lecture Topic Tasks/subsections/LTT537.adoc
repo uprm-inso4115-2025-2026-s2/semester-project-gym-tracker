@@ -1,0 +1,89 @@
+=== Analyze Chaotic User Behavior in Workout Scheduling Systems 
+
+== Introduction 
+
+The web-app gym tracker is being developed to help users maintain healthy habits through various elements like reminders, schedules, streaks, etc. 
+
+However, predicting the behaviors of users is not always easy, in domain engineering, some systems contain chaotic attributes, this means that some actions taken by users can be difficult to predict. 
+
+In a web-app like gym tracker, chaotic behavior could happen when users skip, workouts, interact inconsistently or just do unpredicted behavior. 
+
+To improve reliability and adapt our system to the user it's important for us to understand chaotic behavior. 
+
+  
+
+== Chaos Attribute in Domain Engineering 
+
+Domain engineering studies the characteristics and behavior of systems within a specific domain. 
+
+In domain analysis, an important attribute is chaos, a behavior that can happen when only some inputs have predictable outputs, which makes the system more unpredictable for unaccounted scenarios.  
+
+Since chaotic systems could be hard to predict their reactions, factors like changing user actions, user decisions, motivation, stress, etc., can create unstable or inconsistent patterns of behaviors. 
+
+  
+
+== Examples of Chaotic Behavior in a Gym Tracker System 
+
+1. Irregular Workout Scheduling 
+
+ A user first starting with pretty good consistency to later begin skipping sessions, for example someone going in weekly but stopping because of stress or motivation, this causes chaotic behavior since the system can no longer predict the user and when they'll complete a future workout. This could make other in app features to become inaccurate, if the user later becomes more active 
+
+  
+
+2. Sudden Goal Changes 
+
+ Users could change their goals frequently, from a losing weight mindset to maybe one for strength or endurance. These changes affect the systems' predictions and recommendations, making it harder for the system to adapt. As a result, generated data could become inconsistent or irrelevant. 
+
+  
+
+3. Inconsistent App Interaction 
+
+ Different users perform in diverse ways; some could workout daily, others maybe disappear and suddenly appear when they have more motivation. These inconsistencies affect how notifications, recommendations, and streaks perform. 
+
+ 
+
+== Effects of Chaotic Behavior on System Operations 
+
+Some of the systems that the chaotic user behavior can affect are the following: 
+
+  
+
+= Workout Reminder Systems 
+
+ Usually, reminders are made by learning recognizable patterns, but if a user behaves ‘chaotic’ notifications just become less effective, since the system can't catch on to a pattern and doesn't determine the best times for reminders.  
+
+  
+
+= Streak Tracking Systems 
+
+ Streaks are usually made to motivate users to keep working towards their goals, but chaotic behavior can interrupt streaks and reduce motivation. Users that miss workouts can become less motivated after they lose a high streak. This makes streaks more difficult for the systems to decide how the rules for the streaks should be.  
+
+  
+
+= Recommendation and Analytics Features 
+
+ App analytics can be heavily impacted by chaotic behavior. Since fitness recommendations rely on the users' previous behaviors, the changes on intensity, duration, or goals can impact the accuracy of the analytics. For example, estimates for calories or graphs could stop displaying correct information since the behavior changed. 
+
+  
+
+== Relation to Gym Tracker Features 
+
+Even though its outside the current scope for the web-app, Gym tracker could include adaptive scheduling's features to handle the chaotic behavior, and instead fixed schedules the system could be more dynamic and analyze more recent data to adjust the workout reminders better. 
+
+  
+
+== Importance of Studying Chaotic Behavior 
+
+Users are not as predictable as one might think, so to make the app more reliable, analyzing chaotic behavior is important. When an app assumes to know its users could fail to keep their users motivated. By understanding chaos attributes, we can work on making a web-app that is more flexible and adaptive; this would improve the user experience overall.  
+
+ 
+
+== Conclusion 
+
+Chaotic behavior is an important domain attribute in fitness tracking systems because user actions are often inconsistent and difficult to predict.  
+
+Irregular workout schedules, changing goals, and inconsistent application usage all contribute to chaos within the system.  
+
+These behaviors affect reminders, streak tracking, and recommendation systems.  
+
+Studying chaotic behavior allows developers to create more adaptive and user-friendly gym tracker applications capable of handling real-world unpredictability. 
