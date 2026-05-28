@@ -1,0 +1,117 @@
+=== Temporal Analysis of Streak Continuity
+:author: Ariana Rodriguez
+
+The streak system depends on the continuous evaluation of attendance behavior 
+across time. Streak continuity is not directly recorded as an isolated value, 
+but instead from ordered workout history, attendance classification, inactivity periods, 
+and temporal relationships between workout sessions. Because streak persistence depends on
+multiple time-dependent conditions remaining valid simultaneously, analyzing the
+temporal behavior governing streak continuity is necessary to preserve
+consistency and reliability within the domain.
+
+One important temporal relationship involves consecutive attendance days.
+A streak only persists when qualifying workout activity occurs on consecutive
+calendar days without interruption. The streak system evaluates continuity by
+comparing workout dates and determining whether attendance occurred within the
+expected temporal sequence.
+
+This temporal relationship directly affects streak persistence because
+continuity depends on uninterrupted attendance progression. If consecutive
+attendance is not maintained, streak progression stops and inactivity handling
+begins. To preserve continuity, workout sessions must always be evaluated in
+chronological order using consistent date calculations.
+
+Missed days introduce a new temporal behavior. A missed day occurs when 
+no qualifying workout activity is recorded during a calendar day.
+Because streak continuity depends on uninterrupted attendance, inactivity
+affects the state of the streak system.
+
+The first missed day activates the grace period state, while additional
+missed days increase the risk of streak interruption. This behavior affects
+streak continuity because prolonged inactivity causes streak reset conditions 
+to occur. To mitigate premature interruption, the domain introduces a temporary recovery 
+window through grace period handling.
+
+Grace periods represent a temporal recovery mechanism intended to
+preserve streak continuity during short inactivity periods. Instead of
+immediately resetting the streak after one missed day, the system temporarily
+maintains continuity while monitoring additional attendance behavior.
+
+This temporal constraint allows users to recover continuity by resuming
+qualifying workout activity before the grace period expires. The grace period
+progresses through multiple temporal states, including warning, critical, and
+expiration states depending on the number of consecutive missed days.
+
+[cols="1,2", options="header"]
+|===
+| Missed Days | Grace Period State
+
+| 1
+| Warning State
+
+| 2
+| Critical State
+
+| 3
+| Grace Expired / Streak Reset
+|===
+
+This behavior affects streak persistence because continuity may still be
+restored during the grace period window. However, once inactivity exceeds the
+allowed threshold, the streak resets.
+
+Workout timing and calendar-day interpretation also influence streak
+continuity. Attendance classification depends not only on whether a workout was
+performed, but also on the local time at which workout activity occurred.
+
+This temporal relationship becomes important near midnight boundaries or
+during timezone transitions. If workout timestamps are interpreted
+incorrectly, sessions may appear under different calendar days, unexpectedly
+interrupting continuity. To preserve reliable streak behavior, workout sessions
+must always be interpreted using standardized timezone calculations and local
+midnight boundaries.
+
+Another temporal behavior involves duplicate workouts within the same calendar
+day. Because streaks are derived from attendance rather than workout quantity, 
+multiple workout sessions within one day must not artificially
+extend continuity.
+
+This constraint prevents inflated streak progression and preserves
+correct attendance classification. Multiple workouts within the same day still
+contribute to only one Attendance Day within the continuity calculation.
+
+Workout history ordering also represents a critical temporal constraint.
+Streak persistence depends entirely on evaluating attendance in chronological
+order across time.
+
+If workout sessions are processed out of sequence, continuity calculations
+may incorrectly continue or reset streaks despite actual attendance behavior.
+To preserve reliability, workout history must always remain chronologically
+sorted before streak calculations occur.
+
+Backdating introduces another important temporal relationship. Users may
+complete workouts but fail to log them immediately. To preserve continuity in
+these situations, the domain allows workout entries to be added retroactively
+within a limited temporal window.
+
+This temporal rule supports continuity recovery while preventing abuse of
+the streak system. Backdated workouts may restore interrupted attendance
+sequences when entered within the allowed timeframe. However, entries beyond the
+48-hour window are rejected to preserve integrity within continuity.
+
+Streak reset behavior itself is also governed by temporal constraints. A
+streak resets only after inactivity exceeds the permitted grace period.
+
+This relationship connects inactivity duration to streak interruption. 
+Once a reset occurs, the current streak value returns to zero while
+historical records such as longest streak values remain preserved.
+
+Both attendance history and activity patterns form the foundation of
+streak continuity. Individual workouts alone do not establish meaningful streak
+behavior. Instead, continuity emerges from repeated attendance across extended
+time periods.
+
+As a result, streak persistence depends on maintaining accurate workout
+history, reliable attendance classification, valid temporal ordering, and
+consistent inactivity handling across multiple days rather than isolated workout
+events.

@@ -1,0 +1,141 @@
+= Lecture Topic Task: Requirements Satisfiability/Feasibility - Streaks Constraints
+:author: Oscar Santana
+
+== 🎯 Objective
+
+Analyze whether all streak feature requirements can be satisfied simultaneously without conflicts and assess the technical, resource, and time feasibility of implementing current and proposed features.
+
+---
+
+== 1. Conflicting Requirements
+
+=== Conflict 1: Prevent Cheating vs. Allow Backdating
+
+*Conflict:* Backdating enables recovery but also enables gaming system
+*Resolution:* 48-hour window limits abuse while helping honest users
+
+---
+
+=== Conflict 2: Strict Accountability vs. Beginner Forgiveness
+
+*Conflict:* Grace period too easy for competitive users, necessary for beginners
+*Resolution:* 2-day grace period balances both needs
+
+---
+
+=== Conflict 3: Achievement Display vs. Discouragement
+
+*Conflict:* Showing "longest: 60, current: 3" demoralizes returning users
+*Resolution:* Longest in profile (not prominent), current on main screen
+
+---
+
+=== Conflict 4: Rest Days vs. True Consistency
+
+*Conflict:* Rest days feel like "skipping" to competitive users
+*Status:* UNRESOLVED - Deferred to future (optional feature)
+
+---
+
+== 2. Satisfiability Analysis
+
+[cols="2,1", options="header"]
+|===
+| Requirement Combination | Status
+
+| Forgiving + Integrity
+| Partially (time limits)
+
+| Consistency + Rest
+| Partially (grace period)
+
+| Privacy + Tracking
+| Fully
+
+| Beginners + Competitive
+| Partially (separate features)
+|===
+
+---
+
+== 3. Technical Feasibility
+
+[cols="2,1,2", options="header"]
+|===
+| Component | Verdict | Notes
+
+| Database Performance
+| ✓ Feasible
+| Indexed queries, incremental updates
+
+| Timezone Handling
+| ✓ Feasible
+| date-fns-tz, needs testing
+
+| Grace Automation
+| ✓ Feasible
+| Supabase Edge Functions
+
+| Concurrent Updates
+| ✓ Feasible
+| Database transactions required
+|===
+
+---
+
+== 4. Resource Feasibility
+
+*Milestone 3 (Achievable):*
+- ✓ Core calculation, grace period, backdating, longest streak
+
+*Deferred (Future):*
+- ✗ Rest day scheduling, streak repair, social features, AI
+
+*Constraints:*
+- 3-4 developers, 3-4 weeks, $0 budget
+- Must use Supabase, TypeScript, web-only
+
+---
+
+== 5. Feature Prioritization
+
+[cols="2,1,1", options="header"]
+|===
+| Feature | Impact/Feasibility | Priority
+
+| Grace period
+| High/High
+| Must Have ✓
+
+| Backdating
+| High/High
+| Must Have ✓
+
+| Longest streak
+| Med/High
+| Should Have ✓
+
+| Rest days
+| Med/Med
+| Could Have
+
+| Strict mode
+| Low/Low
+| Won't Have
+|===
+
+---
+
+== 6. Trade-Off Decisions
+
+*Simplicity vs. Flexibility:* Fixed 2-day grace (not customizable) → Simpler implementation
+*Performance vs. Accuracy:* Incremental updates (not full recalculation) → Better UX
+*Privacy vs. Social:* Private streaks only → Simpler, defers friend system
+
+---
+
+== ✅ Conclusion
+
+*Satisfiability:* Most conflicts resolvable through compromises (time limits, separate features)
+*Feasibility:* Core features achievable in Milestone 3; advanced features deferred
+*Key Constraints:* 3-4 weeks, limited team, must prioritize beginner needs over competitive features
