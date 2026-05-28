@@ -143,36 +143,8 @@ This document describes the Dataflow Diagram (DFD) for the exercise selection fl
  
 == Diagram
  
-[plantuml, exercise-selection-dfd, svg]
 ----
-@startuml
-skinparam defaultFontName Arial
-skinparam ArrowColor #555555
- 
-database "Exercises table (DS-01)\nid · name · category · created_at" as DS
- 
-rectangle "P-01\nBrowse" as P1
-rectangle "P-02\nSearch" as P2
-rectangle "P-03\nFilter by category" as P3
-rectangle "P-04\nOrder" as P4
- 
-rectangle "User (EE-01)" as User
- 
-DS --> P1 : exercise records
-DS --> P2 : exercise records
-DS --> P3 : exercise records
-DS --> P4 : exercise records
- 
-User ..> P1 : browse request
-User ..> P2 : search query
-User ..> P3 : category filter
-User ..> P4 : order preference
- 
-P1 --> User : exercise results
-P2 --> User : exercise results
-P3 --> User : exercise results
-P4 --> User : exercise results
-@enduml
+image::../images/exercise_selection_dfd_v3.svg[]
 ----
  
 ---
