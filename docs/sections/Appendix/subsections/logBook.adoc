@@ -116,4 +116,6 @@
 
 | Lecture Topic Tasks / LTT503 | Pedro Cortes | Added | Added a lecture topic task on domain engineering overview and scope boundary refinement, clarifying Gym Tracker's core focus on workout consistency, streaks, goals, and progress summaries while explicitly separating nutrition tracking and broader health-management concerns from the current scope.
 
+| 4.3 Domain and Requirements Acquisition | Derek Velez | Added | Added a new section on domain and requirements acquisition about Domain Analysis through Competitive Analysis. It works for reference for our statements about Strava and MyFitnessPal
+
 |===
