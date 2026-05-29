@@ -8,17 +8,17 @@ Where multiple outputs indicate updated state and produced results.
 
 ===== Core Recording Functions
 
-[.underline]#recordWorkout :#
-[.underline]#    WorkoutHistory >< Activity >< Duration >< CalendarDay >< Notes#
-[.underline]#    -> WorkoutHistory >< WorkoutSession#
+[.added]#recordWorkout :#
+[.added]#    WorkoutHistory >< Activity >< Duration >< CalendarDay >< Notes#
+[.added]#    -> WorkoutHistory >< WorkoutSession#
 
-[.underline]#Adds a completed Workout Session to the WorkoutHistory and returns the updated history together with the created session. Duration replaces the earlier type name Minutes throughout all signatures to align with the domain terminology in Section 2.1.2.#
+[.added]#Adds a completed Workout Session to the WorkoutHistory and returns the updated history together with the created session. Duration replaces the earlier type name Minutes throughout all signatures to align with the domain terminology in Section 2.1.2.#
 
-[.underline]#updateWorkoutSession :#
-[.underline]#    WorkoutHistory >< WorkoutSession >< Activity >< Duration >< CalendarDay >< Notes#
-[.underline]#    -> WorkoutHistory >< WorkoutSession#
+[.added]#updateWorkoutSession :#
+[.added]#    WorkoutHistory >< WorkoutSession >< Activity >< Duration >< CalendarDay >< Notes#
+[.added]#    -> WorkoutHistory >< WorkoutSession#
 
-[.underline]#Modifies an existing recorded Workout Session within the WorkoutHistory.#
+[.added]#Modifies an existing recorded Workout Session within the WorkoutHistory.#
 
 deleteWorkoutSession :
     WorkoutHistory >< WorkoutSession
@@ -89,7 +89,7 @@ compareSessions :
     WorkoutSession >< WorkoutSession
     -> SessionComparison
 
-Evaluates differences between two sessions, such as Duration or activity type. [.underline]#To obtain two sessions for comparison, the caller first invokes retrieveWorkoutHistory to obtain the GymGoer's WorkoutHistory, then invokes getSessionsInRange or getLastSessionByActivity to select the two sessions.#
+Evaluates differences between two sessions, such as Duration or activity type. [.added]#To obtain two sessions for comparison, the caller first invokes retrieveWorkoutHistory to obtain the GymGoer's WorkoutHistory, then invokes getSessionsInRange or getLastSessionByActivity to select the two sessions.#
 
 evaluateConsistency :
     WorkoutHistory >< TimePeriod
@@ -110,4 +110,4 @@ WorkoutSessions are obtained for a given GymGoer.#
 management functions, while GoalResult is the value returned by goal
 evaluation functions.#
 
-[.underline]#The type name Duration is used throughout all function signatures in place of the earlier Minutes. Duration is defined in Section 2.1.2 as the domain-level name for elapsed session time, expressed in minutes. The rename ensures that the function signature language matches the domain terminology rather than an implementation unit.#
+[.added]#The type name Duration is used throughout all function signatures in place of the earlier Minutes. Duration is defined in Section 2.1.2 as the domain-level name for elapsed session time, expressed in minutes. The rename ensures that the function signature language matches the domain terminology rather than an implementation unit.#

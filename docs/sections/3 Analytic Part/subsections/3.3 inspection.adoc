@@ -1,219 +1,219 @@
-=== [.underline]#3.3 Requirements and Domain Model Inspection#
+=== [.added]#3.3 Requirements and Domain Model Inspection#
 
-[.underline]#This section documents a formal inspection of selected portions of the GymTracker domain model and requirements. The inspection uses both a defect-driven checklist (targeting known defect categories in requirements engineering) and a quality-driven checklist (targeting requirement quality attributes). The findings inform what was already corrected, what remains as a known gap, and what should be addressed in future iterations.#
+[.added]#This section documents a formal inspection of selected portions of the GymTracker domain model and requirements. The inspection uses both a defect-driven checklist (targeting known defect categories in requirements engineering) and a quality-driven checklist (targeting requirement quality attributes). The findings inform what was already corrected, what remains as a known gap, and what should be addressed in future iterations.#
 
-==== [.underline]#3.3.1 Inspection Overview#
+==== [.added]#3.3.1 Inspection Overview#
 
-[.underline]#*Type of inspection:* Checklist-based peer inspection.#
+[.added]#*Type of inspection:* Checklist-based peer inspection.#
 
-[.underline]#*Purpose:* To identify defects, ambiguities, inconsistencies, and quality gaps in the domain terminology (Section 2.1.2), domain requirements (Section 2.2.3), and interface requirements (Section 2.2.4) before final submission.#
+[.added]#*Purpose:* To identify defects, ambiguities, inconsistencies, and quality gaps in the domain terminology (Section 2.1.2), domain requirements (Section 2.2.3), and interface requirements (Section 2.2.4) before final submission.#
 
-[.underline]#*Items inspected:*#
+[.added]#*Items inspected:*#
 
 [cols="1,3", options="header"]
 |===
-|[.underline]#Item ID# |[.underline]#Description#
+|[.added]#Item ID# |[.added]#Description#
 
-|[.underline]#I-1#
-|[.underline]#Domain terminology section (Section 2.1.2) — 10 core domain concepts: Workout Session, Exercise, Attendance Day, Missed Day, Streak, Consistency, Goal, Time Frame, Week, Weekly Summary#
+|[.added]#I-1#
+|[.added]#Domain terminology section (Section 2.1.2) — 10 core domain concepts: Workout Session, Exercise, Attendance Day, Missed Day, Streak, Consistency, Goal, Time Frame, Week, Weekly Summary#
 
-|[.underline]#I-2#
-|[.underline]#Domain requirements (Section 2.2.3) — 8 requirements: Low-Effort Logging, Essential Information Recording, Persistent Storage and Retrieval, Streak Representation, Streak Calculation, Goal Evaluation, Weekly Aggregation, Editing and Correction of Workout Data#
+|[.added]#I-2#
+|[.added]#Domain requirements (Section 2.2.3) — 8 requirements: Low-Effort Logging, Essential Information Recording, Persistent Storage and Retrieval, Streak Representation, Streak Calculation, Goal Evaluation, Weekly Aggregation, Editing and Correction of Workout Data#
 
-|[.underline]#I-3#
-|[.underline]#Interface requirements (Section 2.2.4) — 5 requirements: User Initialization, Recording Real-World Workouts, Editing and Correction of Workout Data (interface side), Goal Initialization and Update, Viewing Progress and History#
+|[.added]#I-3#
+|[.added]#Interface requirements (Section 2.2.4) — 5 requirements: User Initialization, Recording Real-World Workouts, Editing and Correction of Workout Data (interface side), Goal Initialization and Update, Viewing Progress and History#
 |===
 
-[.underline]#*Inspectors:*#
+[.added]#*Inspectors:*#
 
 [cols="1,2,2", options="header"]
 |===
-|[.underline]#Inspector# |[.underline]#Role# |[.underline]#Items reviewed#
+|[.added]#Inspector# |[.added]#Role# |[.added]#Items reviewed#
 
-|[.underline]#Diego A. Perez Gandarillas (@diegoperez16)#
-|[.underline]#Project Manager / Reviewer#
-|[.underline]#I-2, I-3#
+|[.added]#Diego A. Perez Gandarillas (@diegoperez16)#
+|[.added]#Project Manager / Reviewer#
+|[.added]#I-2, I-3#
 
-|[.underline]#Julian Vivas (@julivivas)#
-|[.underline]#Documentation Team Leader#
-|[.underline]#I-1, I-2#
+|[.added]#Julian Vivas (@julivivas)#
+|[.added]#Documentation Team Leader#
+|[.added]#I-1, I-2#
 
-|[.underline]#Wilson A. Morales (@WilsonMorales8)#
-|[.underline]#Documentation Team Member#
-|[.underline]#I-1, I-3#
+|[.added]#Wilson A. Morales (@WilsonMorales8)#
+|[.added]#Documentation Team Member#
+|[.added]#I-1, I-3#
 
-|[.underline]#Alex M. Vazquez Galiano (@AlexitoUpr)#
-|[.underline]#Documentation Team Member#
-|[.underline]#I-2, I-3#
+|[.added]#Alex M. Vazquez Galiano (@AlexitoUpr)#
+|[.added]#Documentation Team Member#
+|[.added]#I-2, I-3#
 |===
 
-==== [.underline]#3.3.2 Defect-Driven Checklist#
+==== [.added]#3.3.2 Defect-Driven Checklist#
 
-[.underline]#The defect-driven checklist targets known defect categories in requirements and domain models. Each question is applied to every inspected item. A finding is recorded if a question exposes a defect.#
+[.added]#The defect-driven checklist targets known defect categories in requirements and domain models. Each question is applied to every inspected item. A finding is recorded if a question exposes a defect.#
 
 [cols="1,5,1", options="header"]
 |===
-|[.underline]#ID# |[.underline]#Question# |[.underline]#Scope#
+|[.added]#ID# |[.added]#Question# |[.added]#Scope#
 
-|[.underline]#DC-1#
-|[.underline]#Does the term or requirement use the word "user" in place of a domain-specific actor name (e.g., GymGoer)?#
-|[.underline]#I-1, I-2, I-3#
+|[.added]#DC-1#
+|[.added]#Does the term or requirement use the word "user" in place of a domain-specific actor name (e.g., GymGoer)?#
+|[.added]#I-1, I-2, I-3#
 
-|[.underline]#DC-2#
-|[.underline]#Does the requirement use vague qualifiers such as "quickly," "easily," "appropriate," or "sufficient" without a measurable definition?#
-|[.underline]#I-2, I-3#
+|[.added]#DC-2#
+|[.added]#Does the requirement use vague qualifiers such as "quickly," "easily," "appropriate," or "sufficient" without a measurable definition?#
+|[.added]#I-2, I-3#
 
-|[.underline]#DC-3#
-|[.underline]#Does a single requirement contain more than one obligation (i.e., uses "and" to join two distinct behavioral constraints that could be separated)?#
-|[.underline]#I-2, I-3#
+|[.added]#DC-3#
+|[.added]#Does a single requirement contain more than one obligation (i.e., uses "and" to join two distinct behavioral constraints that could be separated)?#
+|[.added]#I-2, I-3#
 
-|[.underline]#DC-4#
-|[.underline]#Is there a requirement that specifies implementation rather than observable behavior (e.g., names a specific data structure or programming pattern)?#
-|[.underline]#I-2, I-3#
+|[.added]#DC-4#
+|[.added]#Is there a requirement that specifies implementation rather than observable behavior (e.g., names a specific data structure or programming pattern)?#
+|[.added]#I-2, I-3#
 
-|[.underline]#DC-5#
-|[.underline]#Does a requirement reference a domain concept that is not defined in the domain terminology (Section 2.1.2)?#
-|[.underline]#I-2, I-3#
+|[.added]#DC-5#
+|[.added]#Does a requirement reference a domain concept that is not defined in the domain terminology (Section 2.1.2)?#
+|[.added]#I-2, I-3#
 
-|[.underline]#DC-6#
-|[.underline]#Is there an initial or boundary case that the requirement does not cover (e.g., first ever session, empty history, zero goal value)?#
-|[.underline]#I-2#
+|[.added]#DC-6#
+|[.added]#Is there an initial or boundary case that the requirement does not cover (e.g., first ever session, empty history, zero goal value)?#
+|[.added]#I-2#
 
-|[.underline]#DC-7#
-|[.underline]#Does a domain concept lack a stated definition, attributes, or relationship to other concepts?#
-|[.underline]#I-1#
+|[.added]#DC-7#
+|[.added]#Does a domain concept lack a stated definition, attributes, or relationship to other concepts?#
+|[.added]#I-1#
 
-|[.underline]#DC-8#
-|[.underline]#Does a requirement conflict with another requirement in the same section (i.e., they cannot both be satisfied simultaneously)?#
-|[.underline]#I-2, I-3#
+|[.added]#DC-8#
+|[.added]#Does a requirement conflict with another requirement in the same section (i.e., they cannot both be satisfied simultaneously)?#
+|[.added]#I-2, I-3#
 
-|[.underline]#DC-9#
-|[.underline]#Does a requirement specify behavior for a failure mode (network error, validation rejection, rollback failure) that the domain model does not mention as an event?#
-|[.underline]#I-2, I-3#
+|[.added]#DC-9#
+|[.added]#Does a requirement specify behavior for a failure mode (network error, validation rejection, rollback failure) that the domain model does not mention as an event?#
+|[.added]#I-2, I-3#
 
-|[.underline]#DC-10#
-|[.underline]#Is a time-dependent term (e.g., "timely," "recent," "current") used without a concrete time bound or reference to a defined Time Frame?#
-|[.underline]#I-2, I-3#
+|[.added]#DC-10#
+|[.added]#Is a time-dependent term (e.g., "timely," "recent," "current") used without a concrete time bound or reference to a defined Time Frame?#
+|[.added]#I-2, I-3#
 |===
 
-==== [.underline]#3.3.3 Quality-Driven Checklist#
+==== [.added]#3.3.3 Quality-Driven Checklist#
 
-[.underline]#The quality-driven checklist targets requirement quality attributes as defined in standard requirements engineering literature (completeness, consistency, traceability, verifiability, necessity, unambiguity, feasibility, atomicity, terminology alignment, prioritization).#
+[.added]#The quality-driven checklist targets requirement quality attributes as defined in standard requirements engineering literature (completeness, consistency, traceability, verifiability, necessity, unambiguity, feasibility, atomicity, terminology alignment, prioritization).#
 
 [cols="1,5,1", options="header"]
 |===
-|[.underline]#ID# |[.underline]#Question# |[.underline]#Scope#
+|[.added]#ID# |[.added]#Question# |[.added]#Scope#
 
-|[.underline]#QC-1#
-|[.underline]#Is the requirement complete? Does it specify all preconditions, the main success path, and at least one exception path?#
-|[.underline]#I-2, I-3#
+|[.added]#QC-1#
+|[.added]#Is the requirement complete? Does it specify all preconditions, the main success path, and at least one exception path?#
+|[.added]#I-2, I-3#
 
-|[.underline]#QC-2#
-|[.underline]#Is the requirement consistent with the domain model? Does it use only concepts defined in Section 2.1.2 or explicitly introduced?#
-|[.underline]#I-2, I-3#
+|[.added]#QC-2#
+|[.added]#Is the requirement consistent with the domain model? Does it use only concepts defined in Section 2.1.2 or explicitly introduced?#
+|[.added]#I-2, I-3#
 
-|[.underline]#QC-3#
-|[.underline]#Is the requirement traceable? Can it be linked to at least one stakeholder need (N*) and one project goal (G*) in the traceability matrix?#
-|[.underline]#I-2, I-3#
+|[.added]#QC-3#
+|[.added]#Is the requirement traceable? Can it be linked to at least one stakeholder need (N*) and one project goal (G*) in the traceability matrix?#
+|[.added]#I-2, I-3#
 
-|[.underline]#QC-4#
-|[.underline]#Is the requirement verifiable? Can it be confirmed as satisfied or violated by observing system output, running a test, or inspecting a record?#
-|[.underline]#I-2, I-3#
+|[.added]#QC-4#
+|[.added]#Is the requirement verifiable? Can it be confirmed as satisfied or violated by observing system output, running a test, or inspecting a record?#
+|[.added]#I-2, I-3#
 
-|[.underline]#QC-5#
-|[.underline]#Is the requirement necessary? Would removing it reduce the system's value to at least one identified stakeholder?#
-|[.underline]#I-2, I-3#
+|[.added]#QC-5#
+|[.added]#Is the requirement necessary? Would removing it reduce the system's value to at least one identified stakeholder?#
+|[.added]#I-2, I-3#
 
-|[.underline]#QC-6#
-|[.underline]#Is the requirement unambiguous? Is there only one valid interpretation of the stated behavior?#
-|[.underline]#I-2, I-3#
+|[.added]#QC-6#
+|[.added]#Is the requirement unambiguous? Is there only one valid interpretation of the stated behavior?#
+|[.added]#I-2, I-3#
 
-|[.underline]#QC-7#
-|[.underline]#Is the requirement feasible? Can it be implemented with the current React + Supabase tech stack within the remaining project timeline?#
-|[.underline]#I-2, I-3#
+|[.added]#QC-7#
+|[.added]#Is the requirement feasible? Can it be implemented with the current React + Supabase tech stack within the remaining project timeline?#
+|[.added]#I-2, I-3#
 
-|[.underline]#QC-8#
-|[.underline]#Is the requirement atomic? Does it describe exactly one observable behavior or system obligation?#
-|[.underline]#I-2, I-3#
+|[.added]#QC-8#
+|[.added]#Is the requirement atomic? Does it describe exactly one observable behavior or system obligation?#
+|[.added]#I-2, I-3#
 
-|[.underline]#QC-9#
-|[.underline]#Does the requirement use terminology from the domain vocabulary (Section 2.1.2) consistently? Does it avoid mixing domain terms with implementation jargon in the same statement?#
-|[.underline]#I-2, I-3#
+|[.added]#QC-9#
+|[.added]#Does the requirement use terminology from the domain vocabulary (Section 2.1.2) consistently? Does it avoid mixing domain terms with implementation jargon in the same statement?#
+|[.added]#I-2, I-3#
 
-|[.underline]#QC-10#
-|[.underline]#Is the requirement reflected in the AHP prioritization (Section 2.2.9)? If not, is there a documented reason for its exclusion from the prioritization?#
-|[.underline]#I-2#
+|[.added]#QC-10#
+|[.added]#Is the requirement reflected in the AHP prioritization (Section 2.2.9)? If not, is there a documented reason for its exclusion from the prioritization?#
+|[.added]#I-2#
 |===
 
-==== [.underline]#3.3.4 Inspection Findings#
+==== [.added]#3.3.4 Inspection Findings#
 
-[.underline]#Findings are classified by severity: High (blocks or misleads implementation), Medium (causes ambiguity or incomplete coverage), Low (style or traceability gap with minor impact).#
+[.added]#Findings are classified by severity: High (blocks or misleads implementation), Medium (causes ambiguity or incomplete coverage), Low (style or traceability gap with minor impact).#
 
 [cols="1,1,1,1,4,2", options="header"]
 |===
-|[.underline]#Finding ID# |[.underline]#Item# |[.underline]#Checklist# |[.underline]#Severity# |[.underline]#Description# |[.underline]#Disposition#
+|[.added]#Finding ID# |[.added]#Item# |[.added]#Checklist# |[.added]#Severity# |[.added]#Description# |[.added]#Disposition#
 
-|[.underline]#F-01#
-|[.underline]#I-2, I-3#
-|[.underline]#DC-1#
-|[.underline]#Medium#
-|[.underline]#Several requirements in Section 2.2.3 and 2.2.4 used the generic term "user" rather than the domain actor "GymGoer" in earlier milestone versions. Alejandro Lopez and Wilson Morales partially addressed this in Milestone 2. Residual instances remain in interface requirement narrative text.#
-|[.underline]#Partially resolved. Residual instances tracked for Milestone 3 cleanup.#
+|[.added]#F-01#
+|[.added]#I-2, I-3#
+|[.added]#DC-1#
+|[.added]#Medium#
+|[.added]#Several requirements in Section 2.2.3 and 2.2.4 used the generic term "user" rather than the domain actor "GymGoer" in earlier milestone versions. Alejandro Lopez and Wilson Morales partially addressed this in Milestone 2. Residual instances remain in interface requirement narrative text.#
+|[.added]#Partially resolved. Residual instances tracked for Milestone 3 cleanup.#
 
-|[.underline]#F-02#
-|[.underline]#I-2#
-|[.underline]#DC-6, QC-1#
-|[.underline]#High#
-|[.underline]#The "Streak Calculation" requirement does not specify the output when a GymGoer logs their very first Workout Session and there is no prior Streak to continue or break. This initial-state gap was independently identified in Section 2.2.8 (weak inconsistency WI-4). The requirement is incomplete for the first-session boundary case.#
-|[.underline]#Documented in 2.2.8. Implementation handles it by returning streak = 1, but the requirement text does not reflect this. Requirement needs update.#
+|[.added]#F-02#
+|[.added]#I-2#
+|[.added]#DC-6, QC-1#
+|[.added]#High#
+|[.added]#The "Streak Calculation" requirement does not specify the output when a GymGoer logs their very first Workout Session and there is no prior Streak to continue or break. This initial-state gap was independently identified in Section 2.2.8 (weak inconsistency WI-4). The requirement is incomplete for the first-session boundary case.#
+|[.added]#Documented in 2.2.8. Implementation handles it by returning streak = 1, but the requirement text does not reflect this. Requirement needs update.#
 
-|[.underline]#F-03#
-|[.underline]#I-3#
-|[.underline]#DC-2, QC-6#
-|[.underline]#Medium#
-|[.underline]#The notification and reminder interface requirements use the term "timely" when describing when reminders should be delivered, without binding "timely" to a defined Time Frame or concrete interval. This introduces ambiguity about whether "timely" means within the same day, within a configurable window, or before a specific event.#
-|[.underline]#Open. Notification team should add a concrete delivery window definition or reference the configurable preference in the Settings interface requirement.#
+|[.added]#F-03#
+|[.added]#I-3#
+|[.added]#DC-2, QC-6#
+|[.added]#Medium#
+|[.added]#The notification and reminder interface requirements use the term "timely" when describing when reminders should be delivered, without binding "timely" to a defined Time Frame or concrete interval. This introduces ambiguity about whether "timely" means within the same day, within a configurable window, or before a specific event.#
+|[.added]#Open. Notification team should add a concrete delivery window definition or reference the configurable preference in the Settings interface requirement.#
 
-|[.underline]#F-04#
-|[.underline]#I-2#
-|[.underline]#DC-10, QC-1#
-|[.underline]#Medium#
-|[.underline]#The "Goal Evaluation" requirement does not explicitly state whether a daily goal and a weekly goal are evaluated independently or whether meeting the daily goal contributes automatically toward the weekly target. The questionnaire AQ1-Q3 confirms stakeholders disagreed on this point. The elicitation case FE-2 resolves it as active days within a Week, but the requirement text itself does not state this resolution clearly.#
-|[.underline]#Partially resolved by FE-2. The requirement text should be updated to state explicitly that Goal Evaluation counts distinct Attendance Days within the Week, not raw session count.#
+|[.added]#F-04#
+|[.added]#I-2#
+|[.added]#DC-10, QC-1#
+|[.added]#Medium#
+|[.added]#The "Goal Evaluation" requirement does not explicitly state whether a daily goal and a weekly goal are evaluated independently or whether meeting the daily goal contributes automatically toward the weekly target. The questionnaire AQ1-Q3 confirms stakeholders disagreed on this point. The elicitation case FE-2 resolves it as active days within a Week, but the requirement text itself does not state this resolution clearly.#
+|[.added]#Partially resolved by FE-2. The requirement text should be updated to state explicitly that Goal Evaluation counts distinct Attendance Days within the Week, not raw session count.#
 
-|[.underline]#F-05#
-|[.underline]#I-1#
-|[.underline]#DC-7#
-|[.underline]#Low#
-|[.underline]#The term "Progress" appears in Section 2.1.2's consolidated vocabulary (Section 3.1.6) but does not have a standalone definition with stated attributes or relationships in the terminology section. It is used informally in several requirements. This gap means requirements referencing "Progress" cannot be fully evaluated for concept traceability.#
-|[.underline]#Open. Add a definition of Progress to Section 2.1.2 that links it to Workout History, Goal Evaluation, and Weekly Summary.#
+|[.added]#F-05#
+|[.added]#I-1#
+|[.added]#DC-7#
+|[.added]#Low#
+|[.added]#The term "Progress" appears in Section 2.1.2's consolidated vocabulary (Section 3.1.6) but does not have a standalone definition with stated attributes or relationships in the terminology section. It is used informally in several requirements. This gap means requirements referencing "Progress" cannot be fully evaluated for concept traceability.#
+|[.added]#Open. Add a definition of Progress to Section 2.1.2 that links it to Workout History, Goal Evaluation, and Weekly Summary.#
 
-|[.underline]#F-06#
-|[.underline]#I-2#
-|[.underline]#QC-3#
-|[.underline]#Low#
-|[.underline]#The "Separation of Nutrition Tracking" requirement in Section 2.2.3 does not appear in the traceability matrix in Section 4.4, and is not assigned a need ID. It is traceable informally to the domain boundary decision in Section 3.1.5 but does not have a formal N* link.#
-|[.underline]#Open. Add a traceability link or note that this requirement is a scope constraint rather than a stakeholder need, and document that distinction in Section 4.4.#
+|[.added]#F-06#
+|[.added]#I-2#
+|[.added]#QC-3#
+|[.added]#Low#
+|[.added]#The "Separation of Nutrition Tracking" requirement in Section 2.2.3 does not appear in the traceability matrix in Section 4.4, and is not assigned a need ID. It is traceable informally to the domain boundary decision in Section 3.1.5 but does not have a formal N* link.#
+|[.added]#Open. Add a traceability link or note that this requirement is a scope constraint rather than a stakeholder need, and document that distinction in Section 4.4.#
 
-|[.underline]#F-07#
-|[.underline]#I-3#
-|[.underline]#QC-4#
-|[.underline]#Medium#
-|[.underline]#The "Viewing Progress and History" interface requirement does not specify an observable success criterion for what constitutes a correctly displayed history. It states the system "shall provide means" but does not bound what must be visible, in what order, or within what time frame. This makes it difficult to write a deterministic acceptance test.#
-|[.underline]#Open. Acceptance test in `tests/acceptance/app.acceptance.test.tsx` partially covers it. The requirement text should add at minimum an ordering constraint (reverse chronological) and a completeness expectation (all sessions for the authenticated GymGoer).#
+|[.added]#F-07#
+|[.added]#I-3#
+|[.added]#QC-4#
+|[.added]#Medium#
+|[.added]#The "Viewing Progress and History" interface requirement does not specify an observable success criterion for what constitutes a correctly displayed history. It states the system "shall provide means" but does not bound what must be visible, in what order, or within what time frame. This makes it difficult to write a deterministic acceptance test.#
+|[.added]#Open. Acceptance test in `tests/acceptance/app.acceptance.test.tsx` partially covers it. The requirement text should add at minimum an ordering constraint (reverse chronological) and a completeness expectation (all sessions for the authenticated GymGoer).#
 
-|[.underline]#F-08#
-|[.underline]#I-2#
-|[.underline]#DC-3#
-|[.underline]#Low#
-|[.underline]#The "Persistent Storage and Retrieval" requirement combines two distinct obligations in a single statement: the system must persist Workout Sessions durably AND must make them retrievable by the owning GymGoer. These are separable and should be expressed as two atomic requirements (storage and retrieval) to support independent verification.#
-|[.underline]#Open. Low priority for course submission. Note for future requirement decomposition.#
+|[.added]#F-08#
+|[.added]#I-2#
+|[.added]#DC-3#
+|[.added]#Low#
+|[.added]#The "Persistent Storage and Retrieval" requirement combines two distinct obligations in a single statement: the system must persist Workout Sessions durably AND must make them retrievable by the owning GymGoer. These are separable and should be expressed as two atomic requirements (storage and retrieval) to support independent verification.#
+|[.added]#Open. Low priority for course submission. Note for future requirement decomposition.#
 |===
 
-==== [.underline]#3.3.5 Inspection Summary#
+==== [.added]#3.3.5 Inspection Summary#
 
-[.underline]#Eight findings were identified across the three inspected items. Two findings (F-02, F-07) are classified as high or medium severity and affect verifiability. F-02 documents a missing boundary case in Streak Calculation that was already partially handled in the implementation but is not reflected in the requirement text. F-07 documents a missing observable success criterion in the Viewing Progress and History interface requirement.#
+[.added]#Eight findings were identified across the three inspected items. Two findings (F-02, F-07) are classified as high or medium severity and affect verifiability. F-02 documents a missing boundary case in Streak Calculation that was already partially handled in the implementation but is not reflected in the requirement text. F-07 documents a missing observable success criterion in the Viewing Progress and History interface requirement.#
 
-[.underline]#Five findings (F-01, F-03, F-04, F-05, F-06) are medium or low severity and are either partially resolved through earlier milestone work or documented as open items. F-08 is a low-severity atomicity issue that does not block implementation but should be addressed in a later revision.#
+[.added]#Five findings (F-01, F-03, F-04, F-05, F-06) are medium or low severity and are either partially resolved through earlier milestone work or documented as open items. F-08 is a low-severity atomicity issue that does not block implementation but should be addressed in a later revision.#
 
-[.underline]#None of the inspected requirements were found to be infeasible (QC-7) or unnecessary (QC-5). All eight core domain requirements are traceable to at least one epic and one identified user need. The domain terminology is internally consistent after the revisions made in Milestone 2. The remaining gaps are localized and do not undermine the overall correctness of the domain model.#
+[.added]#None of the inspected requirements were found to be infeasible (QC-7) or unnecessary (QC-5). All eight core domain requirements are traceable to at least one epic and one identified user need. The domain terminology is internally consistent after the revisions made in Milestone 2. The remaining gaps are localized and do not undermine the overall correctness of the domain model.#
