@@ -1,10 +1,10 @@
-#extends: default
+extends: default
 
-#role:
-  #added:
-    #font-color: 008000
-  #changed:
-    #font-color: D96C00
-  #removed:
-    #font-color: C00000
-    #text-decoration: line-through
+role:
+  added:
+    font-color: 008000
+  changed:
+    font-color: D96C00
+  removed:
+    font-color: C00000
+    text-decoration: line-through

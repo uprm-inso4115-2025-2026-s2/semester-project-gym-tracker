@@ -4,6 +4,8 @@ Prof. Marko Schütz-Schmuck
 :doctype: book
 :toc:
 :sectnums!:
+:pdf-themesdir: {docdir}/themes
+:pdf-theme: gym-tracker
 
 include::sections/0 Introduction/section.adoc[]
 
