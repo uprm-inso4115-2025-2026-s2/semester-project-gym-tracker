@@ -2,8 +2,9 @@
 
 ===== Domain Events
 
-The following events are observable from the stakeholder perspective
-and occur at specific moments in time.
+[.underline]#The events listed here use the exact names and definitions established in Section 2.1.2. Each entry below is a reference to the corresponding concept in the terminology, not a separate definition. The purpose of this subsection is to show how these events appear in the context of the behaviors described below, not to restate or redefine them.#
+
+[.added]#The events listed here should align with those defined in Section 2.1.2. Where a name in this section differs from the terminology section, the terminology section definition takes precedence.#
 
 *Workout session has just been completed*
 A person has finished performing one or more activities intended for fitness.
@@ -25,6 +26,7 @@ The time interval associated with a weekly goal has completed.
 
 *Weekly activity summary has just been evaluated*
 The completed week’s activity has been compared against its goal.
+
 
 ===== Actions
 
@@ -50,3 +52,72 @@ A gradual increase in regularity of attendance over time.
 
 *Tracking progress over time*
 A repeated cycle of performing workouts, recording them, and reviewing outcomes.
+
+===== [.added]#State Machine Diagram: Streak Lifecycle#
+
+[.added]#The following state machine diagram captures the behavioral lifecycle of a GymGoer's Streak — the primary consistency-tracking concept identified in Section 2.1.2. The diagram models how the system transitions between streak states in response to the domain events described above. It enhances this section by making explicit the conditions under which a Streak is created, extended, placed in a grace period, or broken, supplementing the textual event descriptions with a precise behavioral specification.#
+
+[plantuml, streak-state-machine, svg]
+....
+@startuml
+skinparam state {
+  BackgroundColor #1e3a5f
+  BorderColor #4a9eca
+  FontColor white
+  ArrowColor #4a9eca
+}
+skinparam backgroundColor #0d2137
+
+[*] --> NO_STREAK : GymGoer has no\nworkout history
+
+state NO_STREAK {
+  NO_STREAK : No consecutive attendance days recorded.
+}
+
+state ACTIVE {
+  ACTIVE : currentStreak ≥ 1
+  ACTIVE : Most recent qualifying workout\nwas today or yesterday.
+}
+
+state GRACE {
+  GRACE : currentStreak ≥ 1
+  GRACE : Most recent qualifying workout\nwas 2 calendar days ago.
+  GRACE : Grace period active — streak\ncan still be recovered.
+}
+
+state BROKEN {
+  BROKEN : currentStreak = 0
+  BROKEN : Most recent qualifying workout\nmore than 2 days ago.
+}
+
+NO_STREAK --> ACTIVE : Workout Session recorded /\nfirst qualifying attendance day
+ACTIVE --> ACTIVE : Workout Session recorded\non next Calendar Day /\nstreak incremented
+ACTIVE --> GRACE : Calendar Day passes\nwith no Workout Session /\ngrace period begins
+GRACE --> ACTIVE : Workout Session recorded\nduring grace window /\nstreak continues
+GRACE --> BROKEN : Second Calendar Day passes\nwith no Workout Session /\ngrace period expired
+ACTIVE --> BROKEN : Two or more Calendar Days pass\nwith no Workout Session
+BROKEN --> NO_STREAK : [streak = 0 and\nno prior streak exists]
+BROKEN --> ACTIVE : New Workout Session recorded /\nnew streak begins from 1
+
+@enduml
+....
+
+[.added]#*State definitions*#
+
+[cols="1,3", options="header"]
+|===
+|[.added]#State# |[.added]#Condition#
+
+|[.added]#NO_STREAK#
+|[.added]#The GymGoer has no recorded workout history, or had a broken streak that was reset to zero with no active history prior.#
+
+|[.added]#ACTIVE#
+|[.added]#The GymGoer has at least one qualifying consecutive Attendance Day. The most recent qualifying Workout Session occurred today or on the immediately preceding Calendar Day.#
+
+|[.added]#GRACE#
+|[.added]#The current streak is still held but the most recent qualifying workout occurred two Calendar Days ago. The system has not yet invalidated the streak because the grace window allows a late session to recover it.#
+
+|[.added]#BROKEN#
+|[.added]#The grace period has expired. The current streak resets to zero. Any new Workout Session begins a fresh streak from one.#
+|===
+

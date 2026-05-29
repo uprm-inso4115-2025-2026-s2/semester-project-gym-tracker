@@ -65,6 +65,7 @@ The amount of time spent in a Workout Session or Exercise. Duration is
 the domain concept. Minutes may be used as the measurement unit for
 Duration, but Minutes is not the main domain term.
 
+
 [.changed]#*Weekday* (Domain Concept, Category: Entity)#
 One of the seven named days of the week used when a requirement needs a
 day-of-week value separate from a full Calendar Day.
@@ -135,6 +136,11 @@ Attendance Days, ending consecutiveness.
 
 [.changed]#*Weekly Summary has just been generated* (Domain Concept, Category: Event)#
 An event in which the GymGoer’s activity for a Week has been summarized.
+
+
+[.added]#*recordWorkout(gymGoer: GymGoer, workout: Workout, date: CalendarDay, notes: WorkoutNotes) : GymGoer >< WorkoutSession* (Domain Concept, Category: Action)#
+[.added]#An action that creates a Workout Session for a GymGoer on a given Calendar Day and returns both the updated GymGoer (whose Workout History now contains the new session) and the newly created WorkoutSession. The GymGoer is included in the result because recording a workout modifies the GymGoer's Workout History — the WorkoutSession exists within that history and cannot be observed independently of it.#
+
 
 [.changed]#*recordWorkout(gymGoer: GymGoer, workout: Workout, date: CalendarDay, duration: Duration, notes: WorkoutNotes) : GymGoer* (Domain Concept, Category: Action)#
 An action that records a Workout Session for a GymGoer. The result is
@@ -258,6 +264,7 @@ action.#
 [.changed]#*Duration* is the domain concept. Minutes may still be used as a unit
 for measuring Duration, but Minutes is not modeled as the main domain
 concept.#
+
 
 [.changed]#*Workout Session* and *Workout History* are related through the
 GymGoer. A Workout Session belongs to the Workout History of the

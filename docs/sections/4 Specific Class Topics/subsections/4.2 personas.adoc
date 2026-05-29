@@ -34,4 +34,3 @@ Represents users who respond strongly to supportive tone and weekly accountabili
 |Epic 2 (Consistency), Epic 3 (Weekly summary), Epic 4 (Reminders)
 |===
 
-NOTE: In later milestones we may add an *implementation stakeholder persona* (e.g., a developer/administrator responsible for operational stability) to justify observability/security machine requirements, but it is not critical for milestone 1.

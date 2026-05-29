@@ -24,3 +24,5 @@ Milestone 2 change markers compare the current documentation against the attache
 
 Each added, changed, or removed item should have a corresponding LogBook entry that identifies the affected section and the change made.
 Unmarked text is unchanged carryover text or supporting context.
+
+[.added]#Milestone 3 additions use the same `[.added]#<text>#` notation. Each Milestone 3 change is recorded in the Milestone 3 section of the LogBook with the member responsible and a description of what changed.#
