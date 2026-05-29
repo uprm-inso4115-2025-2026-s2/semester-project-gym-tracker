@@ -1,5 +1,5 @@
 === 2.3 Implementation
-==== 2.3 Implementation Overview
+==== Overview
 
 ===== Scope
 

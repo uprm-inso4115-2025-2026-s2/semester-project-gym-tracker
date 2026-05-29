@@ -138,14 +138,8 @@ Attendance Days, ending consecutiveness.
 An event in which the GymGoer’s activity for a Week has been summarized.
 
 
-[.added]#*recordWorkout(gymGoer: GymGoer, workout: Workout, date: CalendarDay, notes: WorkoutNotes) : GymGoer >< WorkoutSession* (Domain Concept, Category: Action)#
-[.added]#An action that creates a Workout Session for a GymGoer on a given Calendar Day and returns both the updated GymGoer (whose Workout History now contains the new session) and the newly created WorkoutSession. The GymGoer is included in the result because recording a workout modifies the GymGoer's Workout History — the WorkoutSession exists within that history and cannot be observed independently of it.#
-
-
-[.changed]#*recordWorkout(gymGoer: GymGoer, workout: Workout, date: CalendarDay, duration: Duration, notes: WorkoutNotes) : GymGoer* (Domain Concept, Category: Action)#
-An action that records a Workout Session for a GymGoer. The result is
-the updated GymGoer, whose Workout History now contains the new Workout
-Session.
+[.added]#*recordWorkout(gymGoer: GymGoer, workout: Workout, date: CalendarDay, duration: Duration, notes: WorkoutNotes) : GymGoer >< WorkoutSession* (Domain Concept, Category: Action)#
+[.added]#An action that records a Workout Session for a GymGoer on a given Calendar Day and returns both the updated GymGoer — whose Workout History now contains the new session — and the newly created WorkoutSession. Duration is required. WorkoutNotes are optional. The GymGoer is included in the result because recording a workout modifies the GymGoer's Workout History; the WorkoutSession exists within that history and is not accessible independently of it.#
 
 [.changed]#*retrieveWorkoutHistory(gymGoer: GymGoer) : WorkoutHistory* (Domain Concept, Category: Action)#
 An action that returns the Workout History associated with a given
@@ -158,6 +152,9 @@ occurred within a Time Frame.
 [.changed]#*findLastWorkoutSession(history: WorkoutHistory) : WorkoutSession* (Domain Concept, Category: Action)#
 An action that returns the most recent Workout Session in a Workout
 History.
+
+[.added]#*findSessionsByExercise(history: WorkoutHistory, exercise: Exercise) : List<WorkoutSession>* (Domain Concept, Category: Action)#
+[.added]#An action that returns all Workout Sessions in a WorkoutHistory that included a given Exercise. Used when a GymGoer wants to review past sessions that featured a specific exercise, such as bench press or treadmill.#
 
 [.changed]#*findSessionsByExercise(history: WorkoutHistory, exercise: Exercise) : List<WorkoutSession>* (Domain Concept, Category: Action)#
 An action that returns the Workout Sessions in which a specific Exercise

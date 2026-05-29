@@ -2,30 +2,25 @@
 
 ===== Domain Events
 
-[.added]#The events listed here use the exact names and definitions established in Section 2.1.2. Each entry below is a reference to the corresponding concept in the terminology, not a separate definition. The purpose of this subsection is to show how these events appear in the context of the behaviors described below, not to restate or redefine them.#
+[.added]#The events listed here use the exact names defined in Section 2.1.2. Each entry is a reference to that concept — not a new or alternate definition. The purpose of listing them here is to show how the events appear in context with the actions and behaviors below.#
 
-[.added]#The events listed here should align with those defined in Section 2.1.2. Where a name in this section differs from the terminology section, the terminology section definition takes precedence.#
+[.added]#*Workout Session has just been performed* (→ Section 2.1.2)#
+[.added]#An event in which a Workout Session has occurred at a specific time on a specific Calendar Day.#
 
-*Workout session has just been completed*
-A person has finished performing one or more activities intended for fitness.
+[.added]#*Workout Session has just been skipped* (→ Section 2.1.2)#
+[.added]#An event in which an expected opportunity for workout activity has passed without a Workout Session occurring.#
 
-*Workout session has just been recorded*
-A completed workout has been added to the activity history.
+[.added]#*Goal period has just ended* (→ Section 2.1.2)#
+[.added]#An event in which the Time Frame associated with a Goal has completed.#
 
-*Workout day has just been missed*
-A day expected to include activity has passed without a workout session.
+[.added]#*Streak has just been extended* (→ Section 2.1.2)#
+[.added]#An event in which a Workout Session has occurred on the Calendar Day immediately following an Attendance Day, preserving consecutiveness.#
 
-*Streak has just been extended*
-A workout has occurred on a day immediately following another attendance day.
+[.added]#*Streak has just been broken* (→ Section 2.1.2)#
+[.added]#An event in which a Missed Day has occurred after one or more Attendance Days, ending consecutiveness.#
 
-*Streak has just been broken*
-A missed day has occurred following one or more consecutive attendance days.
-
-*Weekly goal period has just ended*
-The time interval associated with a weekly goal has completed.
-
-*Weekly activity summary has just been evaluated*
-The completed week’s activity has been compared against its goal.
+[.added]#*Weekly Summary has just been generated* (→ Section 2.1.2)#
+[.added]#An event in which the GymGoer’s activity for a Week has been summarized.#
 
 
 ===== Actions

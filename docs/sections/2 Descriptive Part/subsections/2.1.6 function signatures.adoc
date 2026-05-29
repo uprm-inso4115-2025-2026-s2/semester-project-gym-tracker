@@ -9,10 +9,10 @@ Where multiple outputs indicate updated state and produced results.
 ===== Core Recording Functions
 
 [.added]#recordWorkout :#
-[.added]#    WorkoutHistory >< Activity >< Duration >< CalendarDay >< Notes#
-[.added]#    -> WorkoutHistory >< WorkoutSession#
+[.added]#    GymGoer >< Workout >< CalendarDay >< Duration >< WorkoutNotes#
+[.added]#    -> GymGoer >< WorkoutSession#
 
-[.added]#Adds a completed Workout Session to the WorkoutHistory and returns the updated history together with the created session. Duration replaces the earlier type name Minutes throughout all signatures to align with the domain terminology in Section 2.1.2.#
+[.added]#Records a Workout Session for a GymGoer and returns the updated GymGoer together with the newly created WorkoutSession. The GymGoer is in the result because recording a workout modifies the GymGoer's WorkoutHistory; the WorkoutSession exists within that history and is not accessible independently. This signature is consistent with the definition in Section 2.1.2.#
 
 [.added]#updateWorkoutSession :#
 [.added]#    WorkoutHistory >< WorkoutSession >< Activity >< Duration >< CalendarDay >< Notes#
