@@ -2,6 +2,76 @@
 
 ==== *2.2.1 User Stories, Epics, Features*
 
+===== [.underline]#Use Case Diagram: GymTracker System Operations#
+
+[.underline]#The following use case diagram shows the five core epic areas as system operations, the primary and secondary actors involved, and the extend relationships between key use cases. It enhances this section by providing a system-level view of what the GymTracker system does from the outside, complementing the detailed user stories below and connecting the epics to their supporting actors.#
+
+[plantuml, use-case-diagram, svg]
+....
+@startuml
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor #1e3a5f
+  BorderColor #4a9eca
+  FontColor white
+}
+skinparam backgroundColor #0d2137
+skinparam ArrowColor #4a9eca
+skinparam ActorBorderColor #4a9eca
+skinparam ActorFontColor white
+
+actor "GymGoer" as GG
+actor "Supabase Auth" as Auth <<external>>
+
+rectangle "GymTracker" {
+  usecase "Register Account" as UC1
+  usecase "Log In" as UC2
+  usecase "Log Workout Session" as UC3
+  usecase "Record Exercise Details" as UC4
+  usecase "View Workout History" as UC5
+  usecase "Edit Past Workout Session" as UC6
+  usecase "View Daily Goal Progress" as UC7
+  usecase "View Weekly Summary" as UC8
+  usecase "View Streak" as UC9
+  usecase "Set Goal" as UC10
+  usecase "Configure Notification Preferences" as UC11
+  usecase "Manage Profile" as UC12
+}
+
+GG --> UC1
+GG --> UC2
+GG --> UC3
+GG --> UC5
+GG --> UC7
+GG --> UC8
+GG --> UC9
+GG --> UC10
+GG --> UC11
+GG --> UC12
+
+UC3 .> UC4 : <<extend>>
+UC5 .> UC6 : <<extend>>
+UC2 .> UC1 : <<include>>
+
+Auth --> UC1
+Auth --> UC2
+
+@enduml
+....
+
+[.underline]#*Actor descriptions*#
+
+[cols="1,3", options="header"]
+|===
+|[.underline]#Actor# |[.underline]#Role#
+
+|[.underline]#GymGoer#
+|[.underline]#The primary user of the system. A college student or beginner-to-intermediate gym-goer building consistent fitness habits. Corresponds to the personas defined in Section 2.2.2 and the GymGoer domain entity in Section 2.1.2.#
+
+|[.underline]#Supabase Auth (external)#
+|[.underline]#The external authentication provider that validates credentials and manages sessions during Register Account and Log In. It is an implementation boundary, not a domain stakeholder.#
+|===
+
 ===== *Epic 1: Workout and Run Logging with Session Details*
 As a busy #gym goer#, I want to log gym sessions and runs with essential details so that I can remember what I did and build a consistent routine over time.
 

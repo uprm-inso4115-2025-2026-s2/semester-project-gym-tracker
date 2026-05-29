@@ -6,3 +6,10 @@
 * #A fully highlighted paragraph, heading, list item, or table cell means the whole visible unit changed.#
 * #Each addition or modification should have a corresponding LogBook entry that identifies the affected section and the change made.#
 * #Unhighlighted text is unchanged carryover text or supporting context.#
+
+[.underline]#Milestone 3 additions or modifications are recorded in the LogBook and shown as underlined highlighted text. In the AsciiDoc source, Milestone 3 passages are wrapped in `[.underline]#...#`.#
+
+* [.underline]#An underlined highlighted word, phrase, or clause means only that fragment was added or changed in Milestone 3.#
+* [.underline]#A fully underlined highlighted paragraph or block means the entire unit was added or changed in Milestone 3.#
+* [.underline]#Each Milestone 3 addition or modification has a corresponding LogBook entry in the Milestone 3 section of the LogBook.#
+* [.underline]#Text carrying both plain highlight and underline was changed in both milestones.#

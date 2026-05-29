@@ -42,11 +42,79 @@ A person inspects their past activity and current consistency.
 
 ===== Behaviors
 
-*Maintaining a workout routine*  
+*Maintaining a workout routine*
 A repeated pattern of performing workouts across days or weeks.
 
-*Building consistency*  
+*Building consistency*
 A gradual increase in regularity of attendance over time.
 
-*Tracking progress over time*  
+*Tracking progress over time*
 A repeated cycle of performing workouts, recording them, and reviewing outcomes.
+
+===== [.underline]#State Machine Diagram: Streak Lifecycle#
+
+[.underline]#The following state machine diagram captures the behavioral lifecycle of a GymGoer's Streak — the primary consistency-tracking concept identified in Section 2.1.2. The diagram models how the system transitions between streak states in response to the domain events described above. It enhances this section by making explicit the conditions under which a Streak is created, extended, placed in a grace period, or broken, supplementing the textual event descriptions with a precise behavioral specification.#
+
+[plantuml, streak-state-machine, svg]
+....
+@startuml
+skinparam state {
+  BackgroundColor #1e3a5f
+  BorderColor #4a9eca
+  FontColor white
+  ArrowColor #4a9eca
+}
+skinparam backgroundColor #0d2137
+
+[*] --> NO_STREAK : GymGoer has no\nworkout history
+
+state NO_STREAK {
+  NO_STREAK : No consecutive attendance days recorded.
+}
+
+state ACTIVE {
+  ACTIVE : currentStreak ≥ 1
+  ACTIVE : Most recent qualifying workout\nwas today or yesterday.
+}
+
+state GRACE {
+  GRACE : currentStreak ≥ 1
+  GRACE : Most recent qualifying workout\nwas 2 calendar days ago.
+  GRACE : Grace period active — streak\ncan still be recovered.
+}
+
+state BROKEN {
+  BROKEN : currentStreak = 0
+  BROKEN : Most recent qualifying workout\nmore than 2 days ago.
+}
+
+NO_STREAK --> ACTIVE : Workout Session recorded /\nfirst qualifying attendance day
+ACTIVE --> ACTIVE : Workout Session recorded\non next Calendar Day /\nstreak incremented
+ACTIVE --> GRACE : Calendar Day passes\nwith no Workout Session /\ngrace period begins
+GRACE --> ACTIVE : Workout Session recorded\nduring grace window /\nstreak continues
+GRACE --> BROKEN : Second Calendar Day passes\nwith no Workout Session /\ngrace period expired
+ACTIVE --> BROKEN : Two or more Calendar Days pass\nwith no Workout Session
+BROKEN --> NO_STREAK : [streak = 0 and\nno prior streak exists]
+BROKEN --> ACTIVE : New Workout Session recorded /\nnew streak begins from 1
+
+@enduml
+....
+
+[.underline]#*State definitions*#
+
+[cols="1,3", options="header"]
+|===
+|[.underline]#State# |[.underline]#Condition#
+
+|[.underline]#NO_STREAK#
+|[.underline]#The GymGoer has no recorded workout history, or had a broken streak that was reset to zero with no active history prior.#
+
+|[.underline]#ACTIVE#
+|[.underline]#The GymGoer has at least one qualifying consecutive Attendance Day. The most recent qualifying Workout Session occurred today or on the immediately preceding Calendar Day.#
+
+|[.underline]#GRACE#
+|[.underline]#The current streak is still held but the most recent qualifying workout occurred two Calendar Days ago. The system has not yet invalidated the streak because the grace window allows a late session to recover it.#
+
+|[.underline]#BROKEN#
+|[.underline]#The grace period has expired. The current streak resets to zero. Any new Workout Session begins a fresh streak from one.#
+|===

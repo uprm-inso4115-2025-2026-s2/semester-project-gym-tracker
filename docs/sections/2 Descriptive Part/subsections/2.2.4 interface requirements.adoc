@@ -1,4 +1,73 @@
 ==== 2.2.4 Interface Requirements
+
+===== [.underline]#Event Trace Diagram: Workout Session Logging Flow#
+
+[.underline]#The following event trace diagram shows the sequence of interactions between the GymGoer and the system components during the primary workout logging scenario. It enhances this section by making the ordering and responsibilities of each interface interaction explicit, supplementing the scenario narratives below with a precise interaction model that connects the interface requirements to their underlying system operations.#
+
+[plantuml, event-trace-logging, svg]
+....
+@startuml
+skinparam sequence {
+  ActorBorderColor #4a9eca
+  ActorFontColor white
+  ParticipantBackgroundColor #1e3a5f
+  ParticipantBorderColor #4a9eca
+  ParticipantFontColor white
+  ArrowColor #4a9eca
+  LifeLineBorderColor #4a9eca
+}
+skinparam backgroundColor #0d2137
+skinparam noteBorderColor #4a9eca
+skinparam noteBackgroundColor #1e3a5f
+skinparam noteFontColor white
+
+actor "GymGoer" as GG
+participant "DailyGoalProgress" as DGP
+participant "LogWorkoutModal" as LWM
+participant "workoutSessionsApi" as API
+database "Supabase" as DB
+
+GG -> DGP : tap "+ Log Workout"
+DGP -> LWM : open modal
+activate LWM
+
+GG -> LWM : select workout type
+GG -> LWM : enter duration (minutes)
+GG -> LWM : enter calories (optional)
+GG -> LWM : enter notes (optional)
+GG -> LWM : add exercise rows (optional)
+GG -> LWM : submit
+
+LWM -> LWM : validate(duration, calories)
+note right : Rejects if duration ≤ 0\nor calories < 0
+
+LWM -> API : createWorkoutSession(type, duration, calories, notes, userId)
+activate API
+API -> DB : INSERT workout_sessions
+DB --> API : { workout_id }
+deactivate API
+
+alt exercises provided
+  LWM -> API : saveExercisesForSession(workout_id, exercises)
+  activate API
+  API -> DB : INSERT workout_exercises
+  DB --> API : success
+  deactivate API
+else no exercises
+  note over LWM : session saved without exercise rows
+end
+
+LWM -> DGP : onWorkoutLogged()
+deactivate LWM
+DGP -> DGP : refresh daily goal count
+DGP -> DGP : dispatch("progress-updated")
+
+note over DGP : Dashboard components\n(WeeklyProgressSummary,\nStreakDisplay) react to\nprogress-updated event
+@enduml
+....
+
+[.underline]#*Rollback behavior (not shown above for clarity)*: If `saveExercisesForSession` fails after the session was already created, the modal attempts `deleteWorkoutSession(workout_id)`. If the rollback also fails, the GymGoer is informed that the session may exist without its exercise details. This behavior corresponds to the resilience requirement stated in the scenarios below.#
+
 ===== Definition
 
 In this project, _interface requirements_ #describe how users interact with the system to input, modify and view information related to their fitness activities. These focus on the boundary between the user and the system, specifying the actions users can perform and the information presented in response.#
