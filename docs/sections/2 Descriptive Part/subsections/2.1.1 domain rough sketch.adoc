@@ -24,14 +24,26 @@
 
 [.changed]#*Team interpretation of consistency and streaks*#: [.changed]#A significant portion of the conversation focused on consistency. The idea of maintaining a "streak" was repeatedly brought up as something that psychologically motivates people. The term "Duolingo-like" was used to describe how maintaining consecutive days of activity can encourage discipline. At the same time, concerns were raised about how reminders or notifications should be framed, since overly aggressive or judgmental messages might discourage rather than motivate.#
 
-[.changed]#*Raw stakeholder statements about weekly feedback and goals*#
+[.added]#*Raw stakeholder statements about weekly feedback and goals*#
 
-* [.changed]#"Weekly overview compared to goals."#
-* [.changed]#"Daily versus weekly goals."#
-* [.changed]#"No agreement on which works best."#
-* [.changed]#"Seeing progress motivates people."#
+[.added]#The initial statements in this cluster were too brief for meaningful analysis, so the team followed up with targeted questions to obtain more specific evidence.#
 
-[.changed]#*Team interpretation of weekly feedback and goals*#: [.changed]#Another idea that emerged was the concept of end-of-week feedback. Some participants felt that having a weekly overview of activity compared to goals would increase accountability. The suggestion included showing whether weekly goals were achieved or how far off they were. The idea of daily versus weekly goals was discussed, with no final agreement on which structure works best.#
+[.added]#Initial statements (too general, prompted follow-up)::#
+
+* [.added]#"Weekly overview compared to goals."#
+* [.added]#"Daily versus weekly goals."#
+* [.added]#"No agreement on which works best."#
+* [.added]#"Seeing progress motivates people."#
+
+[.added]#Follow-up questions asked::#
+
+* [.added]#"When you say weekly overview, what exactly would you want to see — number of days attended, total time, both?"# → [.added]#Most respondents said they care most about how many days they showed up that week, not total minutes.#
+* [.added]#"If your goal is 'work out 4 times this week' and you do two sessions on Saturday, does that count as 2 toward the goal or 1?"# → [.added]#Most said 1 — they think in terms of active days, not session count. One respondent said "I want credit for showing up, not for how many sets I did."#
+* [.added]#"Would you set a daily goal, a weekly goal, or both?"# → [.added]#Responses split roughly 50/50. Those who prefer daily goals want a quick sense of whether today is a gym day. Those who prefer weekly goals want flexibility to move sessions around without feeling they failed on a specific day.#
+* [.added]#"When do you find feedback most useful — at the end of a workout, at the end of the day, or at the end of the week?"# → [.added]#The most common answer was end-of-week: "I don't need a report after every workout, I just want to know how the week went."#
+* [.added]#"What does seeing progress actually do for you? Does it motivate you to continue or does it not affect you much?"# → [.added]#Most said visible progress is primarily useful when they are close to a goal or coming back from a break. One respondent said "If I can see I did 3 out of 4 days, I am much more likely to do the fourth."#
+
+[.added]#*Team interpretation of weekly feedback and goals*#: [.added]#The follow-up evidence resolved the initial ambiguity. GymGoers think about weekly progress in terms of Attendance Days within a Week, not raw session counts. A daily goal and a weekly goal serve different purposes: the daily goal gives immediate direction, the weekly goal provides a bigger-picture check. Both are valuable for different user behaviors. The team derived the dual goal structure — daily and weekly targets — from this evidence rather than from an arbitrary design choice. This directly informed the Goal Evaluation and Weekly Aggregation domain requirements in Section 2.2.3.#
 
 [.changed]#*Raw stakeholder statements about nutrition and scope*#
 
