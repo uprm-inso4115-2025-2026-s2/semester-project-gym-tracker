@@ -326,3 +326,7 @@
     text-align: left;
   }
 }
+
+[data-theme="dark"] .profile-page {
+  background-color: #121416;
+}

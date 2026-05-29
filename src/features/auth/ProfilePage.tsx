@@ -13,12 +13,25 @@ interface StatCardProps {
   value: string;
   label: string;
   icon: ReactNode;
+  color: string;
 }
 
-function StatCard({ value, label, icon }: StatCardProps) {
+function StatCard({ value, label, icon, color }: StatCardProps) {
   return (
     <article className="stat-card">
-      <div className="stat-icon">{icon}</div>
+      <div className="stat-icon" style={{
+        background: color,
+        width: "44px",
+        height: "44px",
+        borderRadius: "var(--radius-md)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "1.2rem",
+        margin: "0 auto var(--space-1)",
+      }}>
+        {icon}
+      </div>
       <h3 className="stat-value">{value}</h3>
       <p className="stat-label">{label}</p>
     </article>
@@ -146,18 +159,20 @@ export default function ProfilePage() {
     ? new Date(user.created_at).toLocaleDateString("en-US", { year: "numeric", month: "long" })
     : "—";
 
-  const statsData = [
-    {
-      value: loadingStats ? "…" : String(workoutCount ?? 0),
-      label: "Workouts",
-      icon: <FaDumbbell />,
-    },
-    {
-      value: loadingStats ? "…" : `${currentStreak ?? 0}d`,
-      label: "Streak",
-      icon: <FaFire />,
-    },
-  ];
+const statsData = [
+  {
+    value: loadingStats ? "…" : String(workoutCount ?? 0),
+    label: "Workouts",
+    icon: <FaDumbbell color="#ffffff" />,
+    color: "linear-gradient(135deg, #004bca, #0061ff)",
+  },
+  {
+    value: loadingStats ? "…" : `${currentStreak ?? 0}d`,
+    label: "Streak",
+    icon: <FaFire color="#ffffff" />,
+    color: "linear-gradient(135deg, #f59e0b, #ef4444)",
+  },
+];
 
   return (
     <main className="profile-page">
@@ -204,8 +219,8 @@ export default function ProfilePage() {
 
           <div className="stats-row">
             {statsData.map((stat) => (
-              <StatCard key={stat.label} value={stat.value} label={stat.label} icon={stat.icon} />
-            ))}
+  <StatCard key={stat.label} value={stat.value} label={stat.label} icon={stat.icon} color={stat.color} />
+))}
           </div>
 
           <section className="info-section">

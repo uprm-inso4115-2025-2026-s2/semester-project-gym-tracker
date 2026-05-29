@@ -26,7 +26,7 @@
   background-image: url('/Dark-Logo.svg');
   background-repeat: repeat;
   background-size: 150px 150px;
-  opacity: 0.06;
+  opacity: 0.05;
   pointer-events: none;
   z-index: 0;
 }
@@ -34,12 +34,14 @@
 /* ── Header row: logo left, greeting right ── */
 .home-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-1);
   max-width: 720px;
   margin: 0 auto var(--space-3);
   position: relative;
   z-index: 1;
+  text-align: center;
 }
 
 .home-logo {
@@ -128,4 +130,45 @@
   padding: var(--space-2);
   box-sizing: border-box;
   overflow: hidden;
+}
+
+[data-theme="dark"] .home-main {
+  background-color: #121416;
+}
+
+[data-theme="dark"] .home-title {
+  color: #e2e5e8;
+}
+
+[data-theme="dark"] .home-subtitle {
+  color: rgba(226, 229, 232, 0.5);
+}
+
+[data-theme="dark"] .dash-card {
+  background: var(--surface-container-lowest);
+}
+
+[data-theme="dark"] .weekly-progress-title,
+[data-theme="dark"] .weekly-progress-summary {
+  color: #e2e5e8;
+}
+
+[data-theme="dark"] .weekly-progress-dot {
+  background: var(--surface-container-high);
+}
+
+[data-theme="dark"] .dash-summary p {
+  color: rgba(226, 229, 232, 0.65) !important;
+}
+
+[data-theme="dark"] .dash-daily p {
+  color: rgba(226, 229, 232, 0.65) !important;
+}
+
+[data-theme="dark"] .weekly-progress-dot.completed {
+  background: var(--secondary) !important;
+}
+
+[data-theme="dark"] .weekly-progress-dot {
+  background: var(--surface-container-high) !important;
 }

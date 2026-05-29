@@ -11,6 +11,16 @@ import {
 } from "./api";
 import "./WorkoutHistoryPage.css";
 
+function getWorkoutIcon(type: string | null): string {
+  switch (type?.toLowerCase()) {
+    case "gym": return "🏋️";
+    case "run": return "🏃";
+    case "cardio": return "❤️";
+    case "other": return "⚡";
+    default: return "💪";
+  }
+}
+
 function formatWorkoutDate(dateString: string | null | undefined) {
   if (!dateString) return "—";
   const date = new Date(dateString);
@@ -310,13 +320,11 @@ const [typeFilter, setTypeFilter] = useState("all");
   return (
     <main className="history-page">
       <div className="history-inner">
-        <header className="history-header">
-          <div>
-            <h1 className="history-heading">Workout History</h1>
-            <p className="history-subheading">
-              Your previous workout sessions.
-            </p>
-          </div>
+<header className="history-header">
+  <div className="history-title-card">
+    <h1 className="history-heading">Workout History</h1>
+    <p className="history-subheading">Your previous workout sessions.</p>
+  </div>
 
           <div className="history-header-actions">
             {sessions.length > 0 && (
@@ -462,10 +470,25 @@ const [typeFilter, setTypeFilter] = useState("all");
                                 : handleToggleWorkoutDetails(session.workout_id)
                             }
                           >
-                            <div>
-                              <h2 className="session-type">{session.workout_type}</h2>
-                              <p className="session-date">{formatWorkoutDate(session.created_at)}</p>
-                            </div>
+<div style={{ display: "flex", alignItems: "center", gap: "0.65rem" }}>
+  <span style={{
+    fontSize: "1.5rem",
+    width: "40px",
+    height: "40px",
+    borderRadius: "var(--radius-md)",
+    background: "var(--primary-fixed)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+  }}>
+    {getWorkoutIcon(session.workout_type)}
+  </span>
+  <div>
+    <h2 className="session-type">{session.workout_type}</h2>
+    <p className="session-date">{formatWorkoutDate(session.created_at)}</p>
+  </div>
+</div>
                             {!selectMode && (
                               <div className="session-meta-right">
                                 <p className="session-duration">{formatDuration(session.duration_minutes)}</p>

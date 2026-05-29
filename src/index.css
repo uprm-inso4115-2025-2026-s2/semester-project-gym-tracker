@@ -90,3 +90,27 @@ body {
 .ghost-border {
   border: var(--ghost-border);
 }
+
+[data-theme="dark"] body {
+  background-color: #121416;
+  color: #e2e5e8;
+}
+
+[data-theme="dark"] {
+  --surface: #121416;
+  --surface-container-lowest: #1e2124;
+  --surface-container-low: #25282c;
+  --surface-container: #2c2f33;
+  --surface-container-high: #33373b;
+  --surface-container-highest: #3a3e42;
+  --on-surface: #e2e5e8;
+  --outline-variant: #3a3e42;
+}
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] p {
+  color: #e2e5e8;
+}
+

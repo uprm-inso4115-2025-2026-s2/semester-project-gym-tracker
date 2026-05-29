@@ -19,6 +19,10 @@ export default function SettingsPage() {
       reminderTime: "18:00",
     });
 
+    const [darkMode, setDarkMode] = useState<boolean>(
+      () => localStorage.getItem("theme") === "dark"
+    );  
+
   useEffect(() => {
     const meta = user?.user_metadata;
 
@@ -47,6 +51,13 @@ export default function SettingsPage() {
   function handleNotificationPreferencesChange(updated: NotificationPreferences) {
     setNotificationPreferences(updated);
     localStorage.setItem("notificationPreferences", JSON.stringify(updated));
+  }
+
+  function handleDarkModeToggle() {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem("theme", newMode ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", newMode ? "dark" : "light");
   }
 
   return (
@@ -120,6 +131,37 @@ export default function SettingsPage() {
             onChange={handleNotificationPreferencesChange}
           />
         </div>
+
+{/* Appearance */}
+<div className="settings-card">
+  <h2 className="settings-section-title">Appearance</h2>
+  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+    <p className="settings-value">Dark Mode</p>
+    <div
+      onClick={handleDarkModeToggle}
+      style={{
+        width: "52px",
+        height: "28px",
+        borderRadius: "9999px",
+        background: darkMode ? "var(--primary)" : "var(--outline-variant)",
+        cursor: "pointer",
+        position: "relative",
+        transition: "background 0.2s",
+      }}
+    >
+      <span style={{
+        position: "absolute",
+        top: "3px",
+        left: darkMode ? "27px" : "3px",
+        width: "22px",
+        height: "22px",
+        borderRadius: "50%",
+        background: "#ffffff",
+        transition: "left 0.2s",
+      }} />
+    </div>
+  </div>
+</div>
       </div>
     </main>
   );

@@ -117,3 +117,25 @@
   height: 16px;
   cursor: pointer;
 }
+
+[data-theme="dark"] .settings-page {
+  background-color: #121416;
+}
+
+[data-theme="dark"] .settings-value {
+  color: rgba(226, 229, 232, 0.7);
+}
+
+[data-theme="dark"] .settings-section-title {
+  color: #e2e5e8;
+}
+
+[data-theme="dark"] .settings-card {
+  background: var(--surface-container-lowest);
+}
+
+[data-theme="dark"] .settings-radio-label {
+  color: #e2e5e8;
+}
+
+

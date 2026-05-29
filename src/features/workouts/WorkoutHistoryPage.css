@@ -505,3 +505,90 @@
   opacity: 0.4;
   cursor: default;
 }
+
+[data-theme="dark"] .history-page {
+  background-color: #121416;
+}
+
+[data-theme="dark"] .history-heading {
+  color: #e2e5e8;
+}
+
+[data-theme="dark"] .history-subheading {
+  color: rgba(226, 229, 232, 0.55);
+}
+
+[data-theme="dark"] .history-back-btn {
+  background: var(--surface-container-lowest);
+}
+
+[data-theme="dark"] .history-select-btn {
+  background: var(--surface-container-lowest);
+  color: rgba(226, 229, 232, 0.65);
+  border-color: rgba(226, 229, 232, 0.2);
+}
+
+[data-theme="dark"] .date-group-label {
+  color: rgba(226, 229, 232, 0.45);
+}
+
+[data-theme="dark"] .date-group-header::before,
+[data-theme="dark"] .date-group-header::after {
+  background: rgba(226, 229, 232, 0.12);
+}
+
+[data-theme="dark"] .session-card {
+  background: var(--surface-container-lowest);
+}
+
+[data-theme="dark"] .session-type {
+  color: #e2e5e8;
+}
+
+[data-theme="dark"] .session-date {
+  color: rgba(226, 229, 232, 0.55);
+}
+
+[data-theme="dark"] .session-duration {
+  color: #e2e5e8;
+}
+
+[data-theme="dark"] .session-card-trigger:hover {
+  background: var(--surface-container-low);
+}
+
+[data-theme="dark"] .history-status {
+  background: var(--surface-container-lowest);
+  color: rgba(226, 229, 232, 0.55);
+}
+
+[data-theme="dark"] .session-card-trigger span[style] {
+  background: rgba(0, 75, 202, 0.25) !important;
+}
+
+/* ── Gradient title card ── */
+.history-title-card {
+  background: var(--power-gradient);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-3);
+  width: 100%;
+}
+
+.history-title-card .history-heading {
+  color: #ffffff;
+}
+
+.history-title-card .history-subheading {
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 0.25rem;
+}
+
+/* ── Accent bar on session cards ── */
+.session-card {
+  border-left: 4px solid var(--primary);
+}
+
+[data-theme="dark"] .session-icon-bg {
+  background: rgba(0, 75, 202, 0.25);
+}
