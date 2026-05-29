@@ -1,0 +1,199 @@
+=== Apply Concept Formation to the GymGoer–WorkoutHistory Aggregate Relationship
+
+Diego A. Perez Gandarillas
+
+The Domain Analysis and Concept Formation lecture (Schütz-Schmuck, 2024) establishes a
+four-step concept formation process: review domain description units, identify useful abstractions,
+define concepts and develop terminology, and rewrite the domain description units into a domain
+narrative. This task applies that process to one specific cluster of the GymTracker domain — the
+relationship between GymGoer, WorkoutHistory, and WorkoutSession — in order to determine
+whether these three concepts form a natural aggregate, who the root is, and what that implies for
+how WorkoutSessions are created and accessed.
+
+==== Step 1: Domain Description Units Under Review
+
+The following raw stakeholder statements were collected during domain acquisition and serve as
+the description units for this analysis. Each is labeled for traceability.
+
+*DDU-A:* "I want my workout history saved to my account so I can review it over time."
+
+*DDU-B:* "When I look back at last week, I remember that I worked out but not what I did on each day."
+
+*DDU-C:* "There is a difference between knowing I went to the gym that day and knowing what I actually did."
+
+*DDU-D:* "I want to compare two sessions from different weeks."
+
+These four statements were selected because they each describe the relationship between a
+GymGoer, their history of sessions, and the individual sessions within it — but they describe it
+from different angles. DDU-A is about ownership and persistence. DDU-B is about recall and
+temporal structure. DDU-C makes an explicit conceptual distinction. DDU-D introduces a retrieval
+and comparison requirement that exposes a structural gap.
+
+==== Step 2: Identifying Useful Abstractions
+
+Applying the concept formation process to each description unit reveals the following raw
+abstractions:
+
+*From DDU-A:*
+"workout history" and "my account" appear together. The history is not free-floating — it is
+always *mine*. The word "my" indicates possession and identity. This suggests that the history
+belongs to a specific individual and cannot be meaningfully separated from them. The word
+"review" implies retrieval: the GymGoer must be able to access the contents of the history
+through the account.
+
+*From DDU-B:*
+The phrase "I worked out" refers to the fact of attendance — the GymGoer was at the gym.
+The phrase "what I did on each day" refers to the specific content of that attendance — the
+exercises, the duration, the effort. These are two different levels of description of the same
+Calendar Day. The first is an Attendance Day; the second is the content of the Workout Session
+that occurred on it. The stakeholder cannot separate them — the session is always "mine" and
+always on a specific day within "my" history.
+
+*From DDU-C:*
+This is the sharpest description unit of the four. The stakeholder explicitly names the distinction
+between two different kinds of knowledge about a Calendar Day. Knowing attendance is not the
+same as knowing session content. This supports the separation of Attendance Day from Workout
+Session as distinct domain concepts. More importantly, it implies that a Workout Session has
+richer identity than just "a day was attended." A session has internal content (exercises, duration)
+that gives it meaning beyond presence.
+
+*From DDU-D:*
+This is the most revealing description unit for the aggregate question. The stakeholder wants to
+compare two sessions from different weeks. To do this, the system must be able to locate two
+specific sessions. Where do they come from? The stakeholder does not say "the system's
+sessions" or "any sessions" — they say "sessions," implying sessions that belong to them. The
+comparison can only be meaningful within the context of a specific GymGoer's history. There
+is no scenario in these description units where a session is accessed outside of the identity of
+the GymGoer who performed it.
+
+*Common structure across all four description units:*
+Every statement anchors the session (or the history of sessions) to a specific GymGoer. The
+sessions are always "mine," retrieved through "my account," from "my history," for "my"
+comparison. There is no description unit in which a WorkoutSession is treated as an independent
+object that exists apart from a GymGoer.
+
+==== Step 3: Concept Definition and Terminology Development
+
+From the abstractions identified above, the following analysis produces the aggregate structure
+and its implications.
+
+===== The Aggregate Root Question
+
+*Can a WorkoutSession exist independently of the GymGoer whose history it belongs to?*
+
+The answer is no.
+
+Every description unit situates the WorkoutSession within the GymGoer's account and history.
+DDU-A establishes that the history is saved to *an account* — it is owned. DDU-B says the
+GymGoer remembers that *they* worked out — the session is always a session *by* this GymGoer.
+DDU-C distinguishes attending *that day* from what *they* did — the session belongs to the same
+individual whose attendance it records. DDU-D asks to compare sessions from different weeks, but
+always within the same GymGoer's context — the comparison is between two of *their* sessions,
+not two arbitrary records from the system.
+
+This is the defining characteristic of an aggregate: the contained entity (WorkoutSession) has no
+identity or meaning outside the aggregate root (GymGoer). A WorkoutSession cannot be created
+without a GymGoer to own it, cannot be retrieved except through that GymGoer's WorkoutHistory,
+and is only meaningful as part of the GymGoer's record over time.
+
+*Conclusion: GymGoer is the aggregate root. WorkoutSession lives within the GymGoer's
+WorkoutHistory and is not a standalone domain entity.*
+
+===== Implications for the recordWorkout Function
+
+If GymGoer is the aggregate root, then recording a workout does not merely produce a
+WorkoutSession — it produces a modified GymGoer. The GymGoer's WorkoutHistory gains a
+new entry. The function must therefore return the updated GymGoer together with the newly
+created WorkoutSession:
+
+----
+recordWorkout :
+    GymGoer >< Workout >< CalendarDay >< WorkoutNotes
+    -> GymGoer >< WorkoutSession
+----
+
+The GymGoer in the result carries the updated WorkoutHistory. The WorkoutSession in the result
+is the newly created record. A caller who wants to confirm the session was added can inspect the
+returned GymGoer's WorkoutHistory. This is consistent with the aggregate root pattern: mutation
+of the aggregate is observed through the root, not through the contained entity directly.
+
+The earlier definition `recordWorkout : WorkoutHistory >< Activity >< Duration >< CalendarDay >< Notes -> WorkoutHistory >< WorkoutSession` models the same intent at the WorkoutHistory level rather than the GymGoer level. Both are valid depending on whether the entry point is the GymGoer or the history. However, the description units consistently speak at the GymGoer level ("my account," "my history"), so the GymGoer-level signature more closely matches the stakeholder's model.
+
+===== The Missing Retrieval Path
+
+DDU-D exposed a gap: to compare two sessions, you must be able to retrieve them. The earlier
+function signatures defined `compareSessions : WorkoutSession >< WorkoutSession -> SessionComparison`
+but did not define how two specific WorkoutSessions are selected from a GymGoer's history
+for comparison. Without a retrieval path, the function is unconnected to the domain model.
+
+The concept formation process requires that every path from description unit to system function
+be traceable. DDU-D's path is:
+
+. GymGoer → `retrieveWorkoutHistory` → WorkoutHistory
+. WorkoutHistory + CalendarDay range → `getSessionsInRange` → [WorkoutSession]
+. WorkoutSession × WorkoutSession → `compareSessions` → SessionComparison
+
+The two new functions added to Section 2.1.6 close this gap:
+
+----
+getSessionsInRange :
+    WorkoutHistory >< CalendarDay >< CalendarDay
+    -> [WorkoutSession]
+----
+
+Returns all WorkoutSessions whose Calendar Day falls within the specified range. A caller uses
+this to select sessions from two different weeks before passing them to `compareSessions`.
+
+----
+getLastSessionByActivity :
+    WorkoutHistory >< Activity
+    -> WorkoutSession
+----
+
+Returns the most recent WorkoutSession of a given Activity type. This expresses a common
+query ("last bench press session") that the description units imply but that was not previously
+defined as a function.
+
+==== Step 4: Rewritten Domain Narrative Fragment
+
+Applying the concept formation process, the raw description units are now rewritten using only
+the defined terminology. The narrative makes the aggregate relationship explicit and exposes the
+retrieval path that the original description units implied but did not state.
+
+____
+A GymGoer accumulates WorkoutSessions in their WorkoutHistory over time. Each WorkoutSession
+is created through `recordWorkout`, which takes the GymGoer and the details of the Workout that
+was performed, and returns both the updated GymGoer — whose WorkoutHistory now contains the
+new session — and the newly created WorkoutSession. A WorkoutSession has no identity outside
+the GymGoer whose history contains it; it can only be observed through `retrieveWorkoutHistory`.
+
+To compare two WorkoutSessions from different Weeks, a GymGoer first obtains their
+WorkoutHistory through `retrieveWorkoutHistory`. They then use `getSessionsInRange` to select
+the sessions within each Week of interest, and pass the two selected sessions to `compareSessions`
+to produce a SessionComparison. The path from the GymGoer to the comparison result is always
+mediated by the WorkoutHistory.
+
+This structure reflects the aggregate root pattern: the GymGoer is the root, the WorkoutHistory is
+the GymGoer's primary collection attribute, and the WorkoutSession is the contained element that
+exists only within that collection. Operations that create, retrieve, or modify WorkoutSessions
+always pass through the GymGoer or the WorkoutHistory, never directly.
+____
+
+==== Summary
+
+The concept formation process applied to DDU-A through DDU-D produced three results:
+
+. *GymGoer is the aggregate root.* WorkoutSessions are only meaningful within a GymGoer's
+  WorkoutHistory and are not standalone domain entities.
+
+. *`recordWorkout` returns `GymGoer >< WorkoutSession`.* The updated GymGoer is the
+  observable consequence of recording a workout; the WorkoutSession is the artifact produced
+  within the aggregate.
+
+. *The retrieval gap exposed by DDU-D is closed by `getSessionsInRange` and
+  `getLastSessionByActivity`.* These functions make the path from WorkoutHistory to a specific
+  WorkoutSession explicit, enabling `compareSessions` to be used without floating inputs.
+
+These conclusions are grounded in the description units themselves, not in implementation
+details. The aggregate structure is a property of the domain as described by stakeholders — not
+a decision imposed by the React or Supabase architecture.

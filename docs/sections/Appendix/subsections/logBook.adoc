@@ -23,6 +23,8 @@
 
 | [.underline]#4.4 Traceability# | [.underline]#Diego Perez# | [.underline]#Added# | [.underline]#Added Sections 4.4.5 through 4.4.8: traceability policy (what to trace, what not to, granularity, alternatives, rationale); extended traceability matrix adding N5 and implementation/verification links for all five needs; three change scenarios (grace period removal, goal counting semantics change, Google-only auth) fully traced across requirements, source files, tests, and documentation; and effort assessment comparing traceability maintenance overhead to implementation effort across the three scenarios.#
 
+| [.underline]#Lecture Topic Tasks — LTT575# | [.underline]#Diego Perez# | [.underline]#Added# | [.underline]#Applied the four-step concept formation process (Schütz-Schmuck, 2024) to four raw domain description units about the GymGoer–WorkoutHistory–WorkoutSession relationship. Established that GymGoer is the aggregate root; revised `recordWorkout` to return `GymGoer >< WorkoutSession`; added `getSessionsInRange` and `getLastSessionByActivity` to close the retrieval gap exposed by DDU-D; rewrote the affected domain narrative fragment using only defined terminology. GH-575.#
+
 |===
 
 ==== #Milestone 2 Changes#
