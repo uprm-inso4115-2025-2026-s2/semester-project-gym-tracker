@@ -32,7 +32,7 @@
 
 [.added]#*Requirements involved:* Goal Initialization and Update (Interface), Editing and Correction of Workout Data (Interface)#
 
-[.added]#"Goal Initialization and Update" prevents modification of completed historical goal records. "Editing and Correction of Workout Data" permits editing previously recorded sessions. If a user edits a past session and moves its date outside a goal's time frame, the session count drops. A goal that was previously marked complete may now be unsatisfied. Since the goal record is immutable, the system cannot update its completion status to reflect the corrected data.#
+[.changed]#"Goal Initialization and Update" prevents modification of completed historical goal records. "Editing and Correction of Workout Data" permits editing previously recorded sessions. If a GymGoer edits a past session and moves its date outside a goal's time frame, the session count drops. A goal that was previously marked complete may now be unsatisfied. Since the goal record is immutable, the system cannot update its completion status to reflect the corrected data.#
 
 * [.added]#P: A completed goal record cannot be changed.#
 * [.added]#not-P: Editing a session should cause re-evaluation of all affected goal records.#
@@ -45,12 +45,12 @@
 
 [.added]#*Requirements involved:* Streak Calculation, Streak Representation#
 
-[.added]#"Streak Calculation" determines whether a session "continues or breaks an existing Streak." "Streak Representation" represents sequences of consecutive sessions. When a user logs their very first session, there is no existing streak to continue or break and no prior sequence to extend. Neither requirement specifies the output for this initial case.#
+[.changed]#"Streak Calculation" determines whether a session "continues or breaks an existing Streak." "Streak Representation" represents sequences of consecutive sessions. When a GymGoer logs their very first session, there is no existing streak to continue or break and no prior sequence to extend. Neither requirement specifies the output for this initial case.#
 
 * [.added]#P: A session either continues or breaks an existing streak.#
 * [.added]#not-P: No streak exists yet; the session initializes rather than continues or breaks.#
 
-[.added]#*Boundary condition:* The user's session history is empty when the first session is logged.#
+[.changed]#*Boundary condition:* The GymGoer's session history is empty when the first session is logged.#
 
 [.added]#Outside this condition, a streak value already exists and Streak Calculation operates as described.#
 

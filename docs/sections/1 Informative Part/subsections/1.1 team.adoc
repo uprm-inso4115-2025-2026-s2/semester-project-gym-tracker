@@ -44,7 +44,7 @@ and milestone consistency as defined in the course specification.
 The Accounts and Design Team is responsible for user identity management and conceptual interface coherence.
 
 Their responsibility includes reasoning about:
-- User accounts and authentication concepts
+- [.changed]#Account and authentication concepts#
 - Personal workout history storage
 - Data continuity and ownership
 - Structural clarity and usability principles

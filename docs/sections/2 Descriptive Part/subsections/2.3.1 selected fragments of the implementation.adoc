@@ -63,14 +63,14 @@ include::../../../../tests/acceptance/auth-flow.acceptance.test.tsx[lines=44..17
 
 ===== [.changed]#Fragment 2: Workout History retrieval and source data#
 
-[.changed]#`src/features/workouts/api.ts` provides `getUserWorkoutSessions(userId)` and returns the signed-in GymGoer's stored Workout Sessions in reverse chronological order:#
+[.changed]#`src/features/workouts/api.ts` currently provides `getUserWorkoutSessions(userId)`, an implementation-specific persistence adapter that returns the signed-in GymGoer's stored Workout Session records in reverse chronological order. In the domain model, this adapter should sit underneath `retrieveWorkoutHistory(gymGoer) -> WorkoutHistory`; exposing the adapter name in application code is a remaining clean-architecture gap documented in Section 2.3.#
 
 [source,typescript]
 ----
 include::../../../../src/features/workouts/api.ts[lines=62..79]
 ----
 
-[.changed]#`src/App.tsx` uses that retrieval path as the source for the home-page streak and weekly-progress derivations:#
+[.changed]#`src/App.tsx` uses that adapter as the source for the home-page streak and weekly-progress derivations:#
 
 [source,tsx]
 ----
@@ -81,14 +81,14 @@ include::../../../../src/App.tsx[lines=110..158]
 
 [source,tsx]
 ----
-include::../../../../src/features/feedback/DailyGoalProgress.tsx[lines=28..56]
+include::../../../../src/features/feedback/DailyGoalProgress.tsx[lines=29..51]
 ----
 
 [.changed]#`src/features/feedback/WeeklyProgressSummary.tsx` consumes the same history for the weekly summary and active streak:#
 
 [source,tsx]
 ----
-include::../../../../src/features/feedback/WeeklyProgressSummary.tsx[lines=29..77]
+include::../../../../src/features/feedback/WeeklyProgressSummary.tsx[lines=28..54]
 ----
 
 [.changed]#`src/features/workouts/WorkoutHistoryPage.tsx` loads the same retrieval result for the routed history page:#
@@ -98,7 +98,7 @@ include::../../../../src/features/feedback/WeeklyProgressSummary.tsx[lines=29..7
 include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=131..150]
 ----
 
-[.changed]#This retrieval path is the implemented counterpart to `retrieveWorkoutHistory : GymGoer -> WorkoutHistory` in Section 2.1.6. It also explains why the current dashboard and history views derive Attendance Days, Goal Evaluation, and Streak from stored sessions instead of from a separate derived-history table.#
+[.changed]#This retrieval path is the current implementation-level counterpart to `retrieveWorkoutHistory : GymGoer -> WorkoutHistory` in Section 2.1.6, but it is not yet expressed with the same domain type names in source code. The documentation therefore treats it as an adapter-level implementation detail and records the clean-architecture refactor target: application and domain code should consume `WorkoutHistory`, while storage-specific details remain inside infrastructure adapters.#
 
 ===== [.changed]#Fragment 3: Workout logging and rollback behavior#
 
@@ -155,7 +155,7 @@ include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=41..67]
 include::../../../../src/features/workouts/WorkoutHistoryPage.tsx[lines=85..105]
 ----
 
-[.added]#The initial history load uses the same `getUserWorkoutSessions(...)` retrieval path discussed above:#
+[.changed]#The initial history load uses the same `getUserWorkoutSessions(...)` persistence adapter discussed above:#
 
 [source,tsx]
 ----

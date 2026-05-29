@@ -14,7 +14,7 @@
 
 | [.added]#2.1.5 Events, Actions, and Behaviors# | [.added]#Diego Perez# | [.added]#Added# | [.added]#Added a state machine diagram (PlantUML) modeling the Streak lifecycle with four states (NO_STREAK, ACTIVE, GRACE, BROKEN), all transitions, and a state definition table. Placed in this section because the events defined here (Streak extended, Streak broken, etc.) map directly to the state transitions.#
 
-| [.added]#2.2.1 User Stories, Epics, Features# | [.added]#Diego Perez# | [.added]#Added# | [.added]#Added a use case diagram (PlantUML) showing the five epic areas as system operations, the GymGoer and Supabase Auth actors, and the extend/include relationships between use cases. Placed before the epics so the diagram provides a system-scope view that the individual user stories then decompose.#
+| [.changed]#2.2.1 GymGoer Stories, Epics, Features# | [.added]#Diego Perez# | [.added]#Added# | [.changed]#Added a use case diagram (PlantUML) showing the five epic areas as system operations, the GymGoer and Supabase Auth actors, and the extend/include relationships between use cases. Placed before the epics so the diagram provides a system-scope view that the individual GymGoer stories then decompose.#
 
 | [.added]#2.2.4 Interface Requirements# | [.added]#Diego Perez# | [.added]#Added# | [.added]#Added an event trace diagram (PlantUML sequence diagram) showing the full workout logging interaction between GymGoer, DailyGoalProgress, LogWorkoutModal, workoutSessionsApi, and Supabase. Includes the rollback note for the exercise persistence failure path. Placed before the requirement definitions to anchor the scenarios that follow.#
 
@@ -23,6 +23,48 @@
 | [.added]#4.4 Traceability# | [.added]#Diego Perez# | [.added]#Added# | [.added]#Added the initial Milestone 3 traceability expansion: traceability policy (what to trace, what not to, granularity, alternatives, rationale); extended traceability matrix adding N5 and implementation/verification links for all five needs; three change scenarios (grace period removal, goal counting semantics change, Google-only auth) fully traced across requirements, source files, tests, and documentation; and effort assessment comparing traceability maintenance overhead to implementation effort across the three scenarios.#
 
 | [.added]#4.4 Traceability Management Cycle# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Expanded the Milestone 3 traceability section into a complete management cycle: added DD*/IC*/TC* artifact IDs, explicit link types and bidirectional-link rules, link creation and maintenance timing, a requirement-to-design-code-test traceability matrix, change scenarios classified by requirement/design/implementation impact, a maintenance plan with roles and review frequency, and Jira/GitHub tool-configuration guidance for traceability metadata and reports.#
+
+| [.added]#2.1.2 Terminology# | [.added]#Julian Vivas# | [.added]#Modified# | [.changed]#Removed duplicate `findSessionsByExercise` definition — the older `[.changed]` version was left in place below the canonical `[.added]` version from M3; the duplicate has been removed. Updated the superseded generic role-label entry to note that this term is now replaced by GymGoer throughout the document, including in interface and system requirements. Updated the categorization note to state that GymGoer is used everywhere in requirement prose. Addresses M2 professor feedback on inconsistent terminology and role naming.#
+
+| [.added]#2.1.6 Function Signatures# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Fixed stale bare `#...#` marker on the `retrieveWorkoutHistory` description line — it was rendered as a Milestone 2 highlight (plain `#...#`) instead of the correct Milestone 3 change marker (`[.changed]#...#`). Converted to `[.changed]#...#` to match the surrounding M3 additions. This was the leftover edit marker flagged by the professor.#
+
+| [.added]#2.2.4 Interface Requirements# | [.added]#Julian Vivas# | [.added]#Modified# | [.changed]#Replaced all remaining generic role-label occurrences with "GymGoer" throughout section 2.2.4, including the definition paragraph, the account-setup heading, and every interface requirement statement and resilience/precondition clause. All replacements are wrapped in `[.changed]#...#` to mark them as M3 post-submission changes. Addresses professor feedback that the generic system-actor label is a poor role name when describing someone performing exercises.#
+
+| [.added]#2.2.5 Machine Requirements# | [.added]#Julian Vivas# | [.added]#Modified# | [.changed]#Replaced remaining generic role-label wording with the GymGoer role name in the Authentication/Security and Privacy/Protection machine requirements. Wrapped replacements with `[.changed]#...#` markers.#
+
+| [.added]#2.2.6 Risk Assessment# | [.added]#Julian Vivas# | [.added]#Modified# | [.changed]#Replaced three remaining generic role-label occurrences in the FMEA Effects column with GymGoer phrasing. These were inside existing `[.added]#...#` blocks from M2 and are now consistent with the global role name.#
+
+| [.added]#1.1 Team# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Replaced the remaining generic role wording in the team task description with account/authentication terminology. Addresses the M2 professor feedback cleanup issue on using GymGoer/domain language instead of the generic system-actor label.#
+
+| [.added]#1.3.1 Scope and Span# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Reworded the out-of-scope interface-layout bullet so it no longer uses the generic role name. Addresses the M2 professor feedback cleanup issue on global terminology consistency.#
+
+| [.added]#1.3.2 Synopsis / 1.5 Derived Goals# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Replaced remaining generic audience wording with GymGoer-focused wording in the project synopsis and derived goals. Addresses the M2 professor feedback cleanup issue on role naming.#
+
+| [.added]#2.1.2 Terminology# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Removed the superseded generic role label as a named term and rewrote the note to state that GymGoer is the canonical role name in submitted domain and requirement prose. Addresses the M2 professor feedback cleanup issue on duplicate/inconsistent terminology.#
+
+| [.added]#2.1.5 Events, Actions, and Behaviors# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Removed duplicate event definitions from this section and changed the section to reference the canonical event definitions in Section 2.1.2. Rewrote actions and behaviors so they are composed from defined events and domain functions. Addresses the M2 professor feedback cleanup issue on overlapping event/action/behavior definitions.#
+
+| [.added]#2.1.6 Function Signatures# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Aligned function-signature names and types with Section 2.1.2: `findWorkoutSessions`, `findLastWorkoutSession`, `findSessionsByExercise`, `WorkoutNotes`, `TimeFrame`, and `Streak`. Added an explicit WorkoutHistory-to-WorkoutSession query by Exercise. Addresses the M2 professor feedback cleanup issue on function-signature inconsistency and missing history/session relationship functions.#
+
+| [.added]#2.2.1 GymGoer Stories, Epics, Features# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Renamed the section wording from generic user-story language to GymGoer-story wording where appropriate and added inline persona cross-references directly inside story text for Alejandro, Derek, and Ana. Addresses the M2 professor feedback cleanup issue on persona traceability and role naming.#
+
+| [.added]#2.2.6 Risk Assessment# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Replaced remaining generic role wording in risk scenarios and justifications with GymGoer terminology. Addresses the M2 professor feedback cleanup issue on global role naming.#
+
+| [.added]#2.2.9 AHP Prioritization# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Renamed the prioritization criterion from generic value wording to GymGoer value so prioritization terminology matches the role name used elsewhere. Addresses the M2 professor feedback cleanup issue on speaking one language throughout the document.#
+
+| [.added]#2.3 Implementation / 2.3.1 Selected Fragments# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Clarified that the source code still exposes implementation-specific adapters such as `getUserWorkoutSessions(userId)` and Supabase-backed goal retrieval, while the domain model uses `retrieveWorkoutHistory(gymGoer) -> WorkoutHistory`. Added the clean-architecture refactor target as a documented boundary instead of claiming the code was refactored. Addresses the M2 professor feedback cleanup issue on source-code architecture, Supabase coupling, and language mismatch between documentation and code.#
+
+| [.added]#3.1 Concept Analysis# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Replaced generic notification-domain role wording with GymGoer and GymGoer Preferences. Addresses the M2 professor feedback cleanup issue on role naming across analytic sections.#
+
+| [.added]#3.2 Validation and Verification / 3.3 Inspection# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Updated inspection findings so resolved signature-name mismatches are no longer presented as open defects, and renamed remaining generic story/account setup labels to GymGoer wording. Addresses the M2 professor feedback cleanup issue on stale annotations and terminology consistency.#
+
+| [.added]#4.1 Stakeholder Identification / 4.2 Personas# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Replaced remaining generic stakeholder/persona role wording with GymGoer-focused names such as first-time GymGoer and goal-oriented GymGoer. Addresses the M2 professor feedback cleanup issue on role naming.#
+
+| [.added]#4.3 Domain and Requirements Acquisition# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Replaced remaining generic respondent wording with GymGoer terminology and kept the concrete AQ1 follow-up questions that make rough sketch statements more specific. Addresses the M2 professor feedback cleanup issue on acquisition specificity and role naming.#
+
+| [.added]#4.4 Traceability# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Replaced remaining generic role labels in traceability entries and change scenarios with GymGoer terminology, including account setup and GymGoer value references. Addresses the M2 professor feedback cleanup issue on global terminology consistency and traceability.#
+
+| [.added]#Appendix LogBook# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Added logbook entries for the documentation-only M2 professor feedback cleanup pass, including section-level entries for terminology, function signatures, role naming, implementation-boundary documentation, traceability, and inspection updates.#
 
 |===
 
@@ -74,17 +116,17 @@
 
 | 2.1.4 Domain Narrative | Alex Vazquez | Modified | Revised the Domain Narrative to tell concrete Gym Tracker scenarios using the defined terminology. Added examples showing how a GymGoer records a Workout Session, how that session becomes part of Workout History, how past sessions can be retrieved or compared, and how Attendance Days, Missed Days, Streak, Consistency Measure, Goal Result, and Weekly Summary are derived from Workout History.
 
-| 2.2.1 User Stories, Epics, Features | Alejandro Lopez | Modified | Rewrote user stories to use roles as the primary actor of the stories with the names referenced parenthetically.
+| [.changed]#2.2.1 GymGoer Stories, Epics, Features# | Alejandro Lopez | Modified | [.changed]#Rewrote GymGoer stories to use roles as the primary actor of the stories with the names referenced parenthetically.#
 
-| 2.2.1 User Stories, Epics, Features | Alejandro Lopez | Modified | Replaced 4 instances of 'user' with domain specific language.
+| [.changed]#2.2.1 GymGoer Stories, Epics, Features# | Alejandro Lopez | Modified | [.changed]#Replaced four instances of generic role wording with domain-specific language.#
 
-| 2.2.1 User Stories, Epics, Features | Alex Vazquez | Modified | Reorganized the user stories section around Epic → Feature → User stories. Added short explanations for each feature, grouped user stories under the features they support, and added related personas and requirements to make the feature-story relationship clearer.
+| [.changed]#2.2.1 GymGoer Stories, Epics, Features# | Alex Vazquez | Modified | [.changed]#Reorganized the GymGoer-story section around Epic → Feature → GymGoer stories. Added short explanations for each feature, grouped stories under the features they support, and added related personas and requirements to make the feature-story relationship clearer.#
 
 | Title Pages / 2.3 Implementation / 2.3.1 Selected Fragments of the Implementation | Diego Perez | Modified | Removed stale Milestone 1 wording, rewrote and revalidated the implementation sections against the latest Development branch, linked the overview back to the domain definitions and function signatures, updated the testing evidence, added implementation screenshots captured from the running interface, and highlighted the revised text for milestone change visibility.
 
 | 2.3 Implementation / 2.3.1 Selected Fragments of the Implementation / Appendix LogBook | Diego Perez | Modified | For issue #317, replaced illustrative implementation snippets with `include::` directives that pull committed source, test, and Vitest configuration files imported from `Development`; corrected the auth wrapper names to `signInWithEmail`, `signUpWithEmail`, `requestPasswordReset`, and `updatePassword`; revised the workout-logging rollback wording to match the current code path; added focused auth acceptance evidence for Fragment 1; and imported the minimal support files needed to run the cited unit and acceptance tests on this branch.
 
-| 2.2.1 User Stories, Epics, Features | Wilson A. Morales | Modified | Differentiated overlapping streak-related user stories by separating general progress visibility after a streak break from recovery-progress tracking after restart.
+| [.changed]#2.2.1 GymGoer Stories, Epics, Features# | Wilson A. Morales | Modified | [.changed]#Differentiated overlapping streak-related GymGoer stories by separating general progress visibility after a streak break from recovery-progress tracking after restart.#
 
 | 2.2.2 Personas | Alex Vazquez | Modified | Expanded the personas with more concrete daily context and day-in-the-life details. Revised Alejandro, Derek, and Ana so their routines, goals, frustrations, and design implications are easier to connect to Gym Tracker features and requirements.
 
@@ -122,7 +164,7 @@
 
 | 2.2.9 AHP Prioritization of Criteria and Requirements | Diego Perez | Added | Added a Section 2.2 AHP analysis for issue #347 with a criteria pairwise matrix, local requirement priorities under each criterion, consistency ratios, final global priorities, and a reproducible calculation artifact (`docs/support/ahp_prioritization.py` and `docs/support/ahp_prioritization_results.txt`). The section also states explicitly that the repository did not preserve recoverable per-member ballots or prior R `ahp` output.
 
-| 3.1 Concept Analysis | AlejandroMB05 | Added | Added domain analysis for the notification system, including identification of core concepts such as Notification, User, Notification Trigger, Workout Event, and User Preferences.
+| 3.1 Concept Analysis | AlejandroMB05 | Added | [.changed]#Added domain analysis for the notification system, including identification of core concepts such as Notification, GymGoer, Notification Trigger, Workout Event, and GymGoer Preferences.#
 
 | 3.1 Concept Analysis | AlejandroMB05 | Added | Added a risk analysis document identifying possible causes of missed or failed notifications, their impact on user engagement and workout consistency, reliability concerns, and recommendations for improving notification reliability in the gym tracker application.
 
@@ -140,7 +182,7 @@
 
 | 2.3 Implementation | Derek Velez | Added | Added ER diagram to the Related to Domain part of 2.3.
 
-| 2.2.4 Interface Requirements | Derek Velez | Modified | Applied RQA ambiguity review (RE Ch. 5): replaced weak qualifiers and the "shall provide means for" placeholder, unified actor terminology to User per Section 2.1.2, and bound the Streak/Consistency trigger to the events in Section 2.1.5.
+| 2.2.4 Interface Requirements | Derek Velez | Modified | [.changed]#Applied RQA ambiguity review (RE Ch. 5): replaced weak qualifiers and the "shall provide means for" placeholder, unified actor terminology to GymGoer per Section 2.1.2, and bound the Streak/Consistency trigger to the events in Section 2.1.5.#
 
 | Lecture Topic Tasks / LTT503 | Pedro Cortes | Added | Added a lecture topic task on domain engineering overview and scope boundary refinement, clarifying Gym Tracker's core focus on workout consistency, streaks, goals, and progress summaries while explicitly separating nutrition tracking and broader health-management concerns from the current scope.
 

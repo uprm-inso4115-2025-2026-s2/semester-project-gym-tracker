@@ -6,11 +6,11 @@ need is plausible in the current tool landscape: some tools offer many
 features but can feel excessive for a gym goer who mainly wants to record
 workouts and review progress. For example, platforms such as MyFitnessPal
 or Garmin Connect combine multiple dashboards, metrics, and tracking areas
-that may be useful for advanced users but also increase interaction
+that may be useful for advanced [.changed]#GymGoers# but also increase interaction
 overhead. Other tools focus strongly on only one dimension of fitness, such
 as Strava on endurance activity tracking or Strong on strength-training log
 detail. These examples do not make such tools bad; they illustrate that the
-project addresses a gap for users who want a simpler and more balanced view
+project addresses a gap for [.changed]#GymGoers# who want a simpler and more balanced view
 of attendance, progress, and routine.#
 
 [.changed]#Beyond this primary objective, several secondary goals naturally arise from
@@ -21,7 +21,7 @@ support.#
 ==== *Strengthening Long-Term Habit Formation*
 
 A derived goal of the project is to strengthen long-term habit formation.
-If users consistently log workouts and observe their progress over time,
+If [.changed]#GymGoers# consistently log workouts and observe their progress over time,
 they are more likely to internalize exercise as part of their identity
 rather than as a temporary activity.
 
@@ -47,7 +47,7 @@ The project also aims to support a culture of personal accountability.
 By maintaining a visible history of actions over time, individuals
 confront objective records of their consistency.
 
-[.changed]#This is not a system feature, but a behavioral outcome: encouraging users
+[.changed]#This is not a system feature, but a behavioral outcome: encouraging GymGoers
 to take responsibility for their commitments by making their own patterns
 harder to ignore.#
 
@@ -55,7 +55,7 @@ harder to ignore.#
 
 [.changed]#Related to the primary goal of reducing friction, a secondary goal is to
 make tracking feel sustainable over time rather than punitive after missed
-days or imperfect weeks. Many users do not stop tracking only because the
+days or imperfect weeks. Many [.changed]#GymGoers# do not stop tracking only because the
 steps are inconvenient, but also because the experience can amplify guilt
 or make lapses feel like failure.#
 
@@ -68,7 +68,7 @@ mistakes, or inconsistent periods.#
 
 A final derived goal is to promote a growth-oriented mindset in which
 progress is evaluated over time rather than judged in isolated sessions.
-This encourages users to value gradual improvement instead of perfection.
+This encourages [.changed]#GymGoers# to value gradual improvement instead of perfection.
 
 [.changed]#This partly complements the goal of supporting consistency, but it is not
 identical to it. Consistency is about whether activity is maintained; a

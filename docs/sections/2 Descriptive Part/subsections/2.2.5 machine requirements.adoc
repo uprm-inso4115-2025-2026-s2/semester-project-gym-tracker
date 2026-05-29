@@ -24,7 +24,7 @@ These requirements are still under development. Some thresholds will be refined 
 
 [.changed]#The system shall support at least 100 concurrent active sessions performing typical actions (viewing dashboard, logging workouts, editing workouts, updating goals) without violating Initial Page Load Time response-time targets.#
 
-* [.changed]#“Concurrent” refers to overlapping user activity within a time window.#
+* [.changed]#“Concurrent” refers to overlapping GymGoer activity within a time window.#
 
 [.changed]#Under load exceeding 100 concurrent active sessions:#
 
@@ -34,9 +34,9 @@ These requirements are still under development. Some thresholds will be refined 
 
 ** [.changed]#Response times may increase but shall remain ≤ 2.5 seconds for at least 90% of requests.#
 
-** [.changed]#The system shall not allow indefinite delays or request starvation for any active user.#
+** [.changed]#The system shall not allow indefinite delays or request starvation for any active GymGoer.#
 
-** [.changed]#The system shall provide user-facing feedback (“High system load—responses may be slower than usual”) when performance degradation is detected.#
+** [.changed]#The system shall provide GymGoer-facing feedback (“High system load—responses may be slower than usual”) when performance degradation is detected.#
 
 ====== Availability (Reliability/Availability)
 
@@ -56,7 +56,7 @@ These requirements are still under development. Some thresholds will be refined 
 
 * [.changed]#Hot standby#
 
-[.changed]#If schedule maintenance is unavoidable, it shall be rare, justified and communicated to users at least 24 hours in advance.#
+[.changed]#If schedule maintenance is unavoidable, it shall be rare, justified and communicated to GymGoers at least 24 hours in advance.#
 
 ====== Data Durability on Failure (Reliability)
 
@@ -65,17 +65,17 @@ When a write operation (e.g., logging a Workout Session or updating a Goal) retu
 [.added]#Satisfiability and Feasibility Discussion#
 [.added]#Satisfiability: This requirement is satisfiable within the current design because the machine requirements already define success in terms of committed persistent storage rather than temporary UI acknowledgment, and the interface requirements now state that the system must not report success before backend confirmation. The risk assessment further supports this requirement by identifying failed workout persistence as a concrete failure mode and proposing countermeasures such as retry logic, temporary local caching, and explicit success/failure feedback. Together, these sections provide a coherent basis for satisfying durability expectations.#
 
-[.added]#Feasibility: This requirement is feasible within project constraints because the selected backend platform is a managed persistence service and the document does not require custom distributed-storage research or unusually strict fault-tolerance guarantees beyond normal web reliability practice. The requirement is stronger than simple best-effort saving, but it remains realistic: the team can implement it through confirmed writes, controlled user feedback, and retry-oriented resilience behavior already described elsewhere in the document.#
+[.changed]#Feasibility: This requirement is feasible within project constraints because the selected backend platform is a managed persistence service and the document does not require custom distributed-storage research or unusually strict fault-tolerance guarantees beyond normal web reliability practice. The requirement is stronger than simple best-effort saving, but it remains realistic: the team can implement it through confirmed writes, controlled GymGoer feedback, and retry-oriented resilience behavior already described elsewhere in the document.#
 
 ====== Authentication and Session Security (Security)
 
-The system shall require authentication for all access to User-specific data. The system shall ensure that a User can only read or modify their own Workout Sessions, Goals, and Progress History via enforced authorization checks.
+The system shall require authentication for all access to [.changed]#GymGoer#-specific data. The system shall ensure that a [.changed]#GymGoer# can only read or modify their own Workout Sessions, Goals, and Progress History via enforced authorization checks.
 
 The session timeout / token lifetime policy will be determined based on Supabase defaults and course security expectations.
 
 ====== Protection of Data in Transit and at Rest (Security/Privacy)
 
-The system shall protect data in transit using HTTPS for all client-server communication. The system shall store User credentials only using secure, non-reversible hashing managed by the authentication provider (Supabase Auth).
+The system shall protect data in transit using HTTPS for all client-server communication. The system shall store [.changed]#GymGoer# credentials only using secure, non-reversible hashing managed by the authentication provider (Supabase Auth).
 
 Requirements for additional at-rest encryption beyond managed provider defaults will be researched using Supabase documentation and project risk assessment.
 

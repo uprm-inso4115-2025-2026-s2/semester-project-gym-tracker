@@ -14,9 +14,9 @@
 
 [cols="5*", options="header"]
 |===
-|[.added]#Criteria# |[.added]#User value# |[.added]#Risk reduction# |[.added]#Feasibility# |[.added]#Traceability#
+|[.added]#Criteria# |[.added]#GymGoer value# |[.added]#Risk reduction# |[.added]#Feasibility# |[.added]#Traceability#
 
-|[.added]#User value#
+|[.added]#GymGoer value#
 |[.added]#1#
 |[.added]#2#
 |[.added]#3#
@@ -51,7 +51,7 @@
 |===
 |[.added]#Criterion# |[.added]#Local priority order# |[.added]#Consistency ratio#
 
-|[.added]#User value#
+|[.added]#GymGoer value#
 |[.added]#Low-Effort Logging (0.31) > Persistent Storage and Retrieval (0.27) > Streak Calculation (0.21) > Goal Evaluation (0.12) > Editing and Correction of Workout Data (0.09)#
 |[.added]#0.00#
 
@@ -74,7 +74,7 @@
 
 [cols="6*", options="header"]
 |===
-|[.added]#Requirement# |[.added]#User value# |[.added]#Risk reduction# |[.added]#Feasibility# |[.added]#Traceability# |[.added]#Global priority#
+|[.added]#Requirement# |[.added]#GymGoer value# |[.added]#Risk reduction# |[.added]#Feasibility# |[.added]#Traceability# |[.added]#Global priority#
 
 |[.added]#Persistent Storage and Retrieval#
 |[.added]#0.27#

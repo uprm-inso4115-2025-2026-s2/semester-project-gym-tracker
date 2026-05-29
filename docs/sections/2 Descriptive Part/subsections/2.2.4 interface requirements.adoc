@@ -71,34 +71,34 @@ note over DGP : Dashboard components\n(WeeklyProgressSummary,\nStreakDisplay) re
 
 ===== Definition
 
-In this project, _interface requirements_ describe how [.changed]#Users#
+In this project, _interface requirements_ describe how [.changed]#GymGoers#
 interact with the system to [.changed]#record Workout Sessions, edit
 previously recorded Workout Sessions, set Goals, and review their Workout
 History and Progress#. These focus on the boundary between the
-[.changed]#User# and the system, specifying [.changed]#the Actions a User
+[.changed]#GymGoer# and the system, specifying [.changed]#the Actions a GymGoer
 can invoke (as defined in Section 2.1.5) and the information the system
 presents in response#.
 
-Interface requirements define the available [.changed]#User# interactions
+Interface requirements define the available [.changed]#GymGoer# interactions
 without specifying implementation details or internal data structures.
 
 ===== Interface Requirements
 
-====== User Initialization
+====== [.changed]#GymGoer# Account Setup
 
-The system shall provide [.changed]#an interface for a prospective User# to
+The system shall provide [.changed]#an interface for a prospective GymGoer# to
 create [.changed]#an Account# by entering [.changed]#the registration
 fields enumerated in Section 2.2.3 (Domain Requirements)#.
 
 ====== Recording Real-World Workouts
 
-The system shall provide an interface for a [.changed]#User# to
+The system shall provide an interface for a [.changed]#GymGoer# to
 [.changed]#record a Workout Session# that [.changed]#has just been
 completed (Section 2.1.5)#.
 
 ====== Editing and Correction of Workout Data
 
-The system shall provide [.changed]#an interface for a User# to view and
+The system shall provide [.changed]#an interface for a GymGoer# to view and
 edit previously recorded Workout Sessions [.changed]#in order to correct
 fields whose stored value does not match the Workout Session that occurred
 in the real world#.
@@ -107,7 +107,7 @@ in the real world#.
 
 *Satisfiability:* This requirement is satisfiable within the current design
 because the interface section already defines workflows in which
-[.changed]#a User# reopens a previously recorded Workout Session, edits
+[.changed]#a GymGoer# reopens a previously recorded Workout Session, edits
 [.changed]#one or more of its stored fields#, submits the correction, and
 triggers recalculation of dependent indicators. The interaction
 requirements also now specify validation on submit and resilience behavior
@@ -127,17 +127,17 @@ mechanisms already documented.
 
 ====== Goal Initialization and Update
 
-The system shall provide [.changed]#an interface for a User# to create,
+The system shall provide [.changed]#an interface for a GymGoer# to create,
 view and update [.changed]#Goals as defined in Section 2.1.2#.
 
 ====== Viewing Progress and History
 
-The system shall provide [.changed]#an interface for a User# to view
+The system shall provide [.changed]#an interface for a GymGoer# to view
 [.changed]#their Workout History and Progress (Section 2.1.2)#.
 
 ====== Automatic Streak Synchronization
 
-The system shall display the [.changed]#User's current Streak and
+The system shall display the [.changed]#GymGoer's current Streak and
 Consistency Measure (Section 2.1.2)#. The system shall update the
 displayed [.changed]#Streak and Consistency Measure# in response to
 [.changed]#the domain events defined in Section 2.1.5: _Workout session
@@ -150,11 +150,11 @@ For [.changed]#the interaction flows that create or edit a Workout Session
 (Recording Real-World Workouts and Editing and Correction of Workout
 Data)#, the interface shall apply batch validation on submit before
 persistence. [.changed]#The fields enumerated as required in Section 2.2.3
-shall be checked# when the [.changed]#User# attempts to save, and the
+shall be checked# when the [.changed]#GymGoer# attempts to save, and the
 system shall reject the submission if [.changed]#any required field is
 missing or any submitted value fails the validation rules defined in
 Section 2.2.3#. Validation feedback shall [.changed]#name each rejected
-field and state the rule it violated, so the User can correct the entry
+field and state the rule it violated, so the GymGoer can correct the entry
 without re-opening the form#.
 
 The validation strategy for Workout Session entry shall, at minimum,
@@ -171,16 +171,16 @@ For [.changed]#the interaction flows that create or edit a Workout Session
 (Recording Real-World Workouts and Editing and Correction of Workout
 Data)#, the interface shall not present the operation as successful until
 the backend confirms persistence. If a backend write fails, the system
-shall present explicit failure feedback to the [.changed]#User# and shall
-retain the entered data locally [.changed]#until the User either retries
+shall present explicit failure feedback to the [.changed]#GymGoer# and shall
+retain the entered data locally [.changed]#until the GymGoer either retries
 the submission successfully or discards the entry#, rather than forcing
 complete re-entry.
 
 If the failure is caused by a transient connectivity or service issue, the
-interface shall allow the [.changed]#User# to retry submission. If local
+interface shall allow the [.changed]#GymGoer# to retry submission. If local
 retention is used while the write remains unconfirmed, the interface shall
 [.changed]#display the unconfirmed Workout Session with an explicit
-"not yet saved" status label so the User can distinguish it from Workout
+"not yet saved" status label so the GymGoer can distinguish it from Workout
 Sessions that are part of the persistent Workout History#. Once
 persistence succeeds, [.changed]#the following derived values shall be
 recomputed from the stored Workout History: Streak, Consistency Measure,
@@ -189,9 +189,9 @@ and Weekly Summary#.
 ===== Preconditions and Assumptions for [.changed]#Workout Session and Goal Interaction Flows#
 
 Unless explicitly stated otherwise, the [.changed]#interaction flows
-defined above# assume that the [.changed]#User# is authenticated, has an
+defined above# assume that the [.changed]#GymGoer# is authenticated, has an
 active session, and is interacting with their own Account data. Flows that
-create or edit Workout Sessions also assume that the [.changed]#User# has
+create or edit Workout Sessions also assume that the [.changed]#GymGoer# has
 reached the relevant page or form and that [.changed]#the interface# can
 attempt communication with backend services, even if that attempt later
 fails.

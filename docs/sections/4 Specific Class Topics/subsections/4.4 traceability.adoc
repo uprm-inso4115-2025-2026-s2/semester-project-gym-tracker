@@ -59,7 +59,7 @@ We will label artifacts with short IDs and reference them inline:
 |===
 |[.changed]#Acquisition artifact# |[.changed]#What it contributes# |[.changed]#Linked requirements / elicitation decisions#
 
-|[.changed]#AQ1 - Gym-user questionnaire#
+|[.changed]#AQ1 - GymGoer questionnaire#
 |[.changed]#Collects stakeholder evidence about logging friction, correction behavior, weekly goal interpretation, desired summaries, validation expectations, and account needs.#
 |[.changed]#Low-Effort Logging; Essential Information Recording; Separation of Nutrition Tracking; Persistent Storage and Retrieval; Goal Evaluation; Performance Summary Representation; Data Validation Rules; Recording Real-World Workouts; Editing and Correction of Workout Data; Viewing Progress and History; FE-1; FE-2; FE-3.#
 
@@ -69,7 +69,7 @@ We will label artifacts with short IDs and reference them inline:
 
 |[.changed]#AQ3 - Competitive feature review#
 |[.changed]#Provides comparison points for minimum logging fields, summary patterns, and known friction sources from existing fitness tools.#
-|[.changed]#Low-Effort Logging; Performance Summary Representation; user account management acquisition in LTT266.#
+|[.changed]#Low-Effort Logging; Performance Summary Representation; GymGoer account management acquisition in LTT266.#
 |===
 
 ==== 4.4.4 How We Will Maintain Traceability
@@ -138,7 +138,7 @@ This scheme supports quick impact analysis when requirements evolve during later
 
 * [.added]#Inline source code comments pointing to requirement IDs — rejected because they become stale on refactoring and create a false sense of completeness#
 * [.added]#CSS and styling decisions — these are presentation choices that do not correspond to domain requirements or stakeholder needs#
-* [.added]#Third-party library selection (Supabase, React, Vite) — implementation choices traceable to machine requirements at most, not to domain requirements or user stories#
+* [.changed]#Third-party library selection (Supabase, React, Vite) — implementation choices traceable to machine requirements at most, not to domain requirements or GymGoer stories#
 * [.added]#Build configuration and CI pipeline details — infrastructure, not domain behavior#
 * [.added]#Internal refactors where no behavior visible to a GymGoer changes#
 
@@ -216,10 +216,10 @@ This scheme supports quick impact analysis when requirements evolve during later
 |[.added]#`src/features/streaks/streakcalc.test.ts` (streak growth, grace period, reset); `src/features/streaks/StreakDisplay.tsx`#
 
 |[.added]#N5#
-|[.added]#Clarity and simplicity for beginner and intermediate users#
+|[.changed]#Clarity and simplicity for beginner and intermediate GymGoers#
 |[.added]#G4, G5#
 |[.added]#E1, E3, E5#
-|[.added]#DR: Low-Effort Logging; IR: User Initialization; IR: Recording Real-World Workouts; MR: Interactive Response Time#
+|[.changed]#DR: Low-Effort Logging; IR: GymGoer Account Setup; IR: Recording Real-World Workouts; MR: Interactive Response Time#
 |[.added]#`tests/acceptance/auth-flow.acceptance.test.tsx` (login, signup flows); UI design system review#
 |===
 
@@ -259,7 +259,7 @@ This scheme supports quick impact analysis when requirements evolve during later
 |[.added]#TC4: `src/features/streaks/streakcalc.test.ts` streak growth, grace, and reset cases; V2: Section 3.2 test summary.#
 |[.added]#The state machine and test cases both point back to the streak requirements; changing GRACE requires updating Section 2.1.5, Section 2.2.8, tests, and this matrix.#
 
-|[.added]#IR: User Initialization / authentication-related machine requirements#
+|[.changed]#IR: GymGoer Account Setup / authentication-related machine requirements#
 |[.added]#N5, G4, AQ1-Q8#
 |[.added]#DD5: authenticated identity owns workout history, goals, and profile context; email/password auth is the current implemented path through Supabase Auth.#
 |[.added]#IC10: `src/features/auth/api.ts`; IC11: `src/features/auth/LoginPage.tsx`; IC12: `src/features/auth/SignupPage.tsx`; IC13: `src/features/auth/AuthCallbackPage.tsx`.#
@@ -316,7 +316,7 @@ This scheme supports quick impact analysis when requirements evolve during later
 |[.added]#Artifact# |[.added]#Impact#
 
 |[.added]#N3 → G2 (Encourage Reflection)#
-|[.added]#The goal rationale changes: counting sessions favors high-frequency users over consistent-attendance users.#
+|[.changed]#The goal rationale changes: counting sessions favors high-frequency GymGoers over consistent-attendance GymGoers.#
 
 |[.added]#AQ1-Q3 (Acquisition evidence)#
 |[.added]#The questionnaire asked stakeholders this exact question. The FE-2 elicitation resolution chose active days because stakeholders found day-counting more natural. This stakeholder evidence now conflicts with the proposed change; it should be revisited before implementing.#
@@ -345,20 +345,20 @@ This scheme supports quick impact analysis when requirements evolve during later
 
 ===== [.added]#Scenario 3: Implementation change - Email/password authentication replaced by Google-only sign-in#
 
-[.added]#*Change description:* The team decides to remove email and password authentication entirely and require all users to authenticate through the Google OAuth IDP.#
+[.changed]#*Change description:* The team decides to remove email and password authentication entirely and require all GymGoers to authenticate through the Google OAuth IDP.#
 
 [cols="1,4", options="header"]
 |===
 |[.added]#Artifact# |[.added]#Impact#
 
-|[.added]#IR: User Initialization#
-|[.added]#Primary requirement change. The interface requirement for creating an account via email/password is no longer valid. It must be replaced with an OAuth-based user initialization requirement.#
+|[.changed]#IR: GymGoer Account Setup#
+|[.changed]#Primary requirement change. The interface requirement for creating an account via email/password is no longer valid. It must be replaced with an OAuth-based GymGoer account setup requirement.#
 
 |[.added]#IR: Login Flow (implicit, Section 2.2.4)#
 |[.added]#The scenario and interface description for logging in with email/password must be replaced.#
 
 |[.added]#N5 → G4 (Reduce Friction)#
-|[.added]#Google sign-in could reduce friction for users with Google accounts, but creates a dependency on a third-party provider. The need rationale is partially preserved.#
+|[.changed]#Google sign-in could reduce friction for GymGoers with Google accounts, but creates a dependency on a third-party provider. The need rationale is partially preserved.#
 
 |[.added]#MR: Authentication (Section 2.2.5)#
 |[.added]#Machine requirements referencing password-based authentication must be updated.#

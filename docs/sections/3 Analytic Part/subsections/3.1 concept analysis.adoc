@@ -320,8 +320,8 @@ All abstractions and concepts were derived from the rough sketch statements, and
 ====== Notification
 [.added]#A brief message that is sent to the user that reminds them of their workouts.#
 
-====== User
-[.added]#A person who uses the Gym Tracker app and receives notifications.#
+====== [.changed]#GymGoer#
+[.changed]#A person in the fitness domain who performs Workout Sessions and receives notifications related to reminders, consistency, and progress.#
 
 ====== Notification Trigger
 [.added]#An event that triggers a notification to be sent to the user (e.g., missed workout).#
@@ -329,26 +329,26 @@ All abstractions and concepts were derived from the rough sketch statements, and
 ====== Workout Event
 [.added]#An activity that could be ongoing, completed, or missed that may trigger a notification.#
 
-====== User Preferences
-[.added]#Settings where a user decides what notifications they want to receive or not.#
+====== [.changed]#GymGoer Preferences#
+[.changed]#Settings where a GymGoer decides what notifications they want to receive or not.#
 
 ===== Relationships Between Concepts
 
-* [.added]#Users receive notifications about their workout events.#
-* [.added]#A notification trigger generates a notification for the user.#
+* [.changed]#GymGoers receive notifications about their workout events.#
+* [.changed]#A notification trigger generates a notification for the GymGoer.#
 * [.added]#A workout event can cause a notification trigger (e.g., starting a workout in the app).#
-* [.added]#Users can adjust their preferences to limit the quantity or type of notifications received.#
+* [.changed]#GymGoers can adjust their preferences to limit the quantity or type of notifications received.#
 
 ===== Example Scenarios
 
-* [.added]#A user has a scheduled workout → the system creates a reminder notification.#
-* [.added]#A user hasn't logged activity for several days → a notification is triggered due to inactivity.#
-* [.added]#A user completes a workout → a notification may appear showing progress or completion.#
+* [.changed]#A GymGoer has a scheduled workout → the system creates a reminder notification.#
+* [.changed]#A GymGoer has not logged activity for several days → a notification is triggered due to inactivity.#
+* [.changed]#A GymGoer completes a workout → a notification may appear showing progress or completion.#
 
 ===== Summary
 
-[.added]#The notification system domain consists of several key concepts, including notifications, users, notification triggers, workout events, and user preferences.
-Notifications are generated when specific triggers occur, such as workout creation or inactivity. These notifications are delivered to users based on their preferences, helping improve engagement and maintain workout consistency.#
+[.changed]#The notification system domain consists of several key concepts, including Notifications, GymGoers, Notification Triggers, Workout Events, and GymGoer Preferences.
+Notifications are generated when specific triggers occur, such as workout creation or inactivity. These notifications are delivered to GymGoers based on their preferences, helping improve engagement and maintain workout consistency.#
 
 ==== Concept Derivation: Missed or Failed Notifications Risk Analysis
 
@@ -356,19 +356,19 @@ Notifications are generated when specific triggers occur, such as workout creati
 
 == Overview
 
-The notification system in the gym tracker application is intended to help users maintain workout consistency and engagement by sending reminders, inactivity alerts, and workout-related updates. Because of this, missed or failed notifications present a significant risk to the effectiveness of the application.
+The notification system in the gym tracker application is intended to help [.changed]#GymGoers# maintain workout consistency and engagement by sending reminders, inactivity alerts, and workout-related updates. Because of this, missed or failed notifications present a significant risk to the effectiveness of the application.
 
-This analysis identifies possible causes of notification failures, the impact these failures may have on users, and considerations that may help reduce reliability issues in future development.
+This analysis identifies possible causes of notification failures, the impact these failures may have on [.changed]#GymGoers#, and considerations that may help reduce reliability issues in future development.
 
 == Possible Causes of Missed or Failed Notifications
 
 === 1. Disabled Notification Permissions
 
-Users may deny or later disable notification permissions on their device. If permissions are disabled, the application will not be able to deliver notifications even if triggers occur successfully.
+[.changed]#GymGoers# may deny or later disable notification permissions on their device. If permissions are disabled, the application will not be able to deliver notifications even if triggers occur successfully.
 
 *Potential Impact*
 
-* Users may miss workout reminders
+* [.changed]#GymGoers# may miss workout reminders
 * Reduced workout consistency
 * Lower user engagement
 
@@ -416,7 +416,7 @@ Some notifications may depend on synchronization or cloud-based scheduling. Poor
 
 === 1. Permission Awareness
 
-The application should detect whether notification permissions are enabled and inform users when notifications are disabled.
+The application should detect whether notification permissions are enabled and inform [.changed]#GymGoers# when notifications are disabled.
 
 === 2. Notification Validation
 
@@ -430,12 +430,12 @@ Notification scheduling should consistently handle timestamps and time zones to 
 
 The system should consider fallback mechanisms for missed reminders, such as rechecking notification conditions when the application is reopened.
 
-=== 5. User-Controlled Notification Settings
+=== [.changed]#5. GymGoer-Controlled Notification Settings#
 
-Allowing users to configure reminders and notification behavior may reduce frustration caused by excessive or poorly timed notifications.
+Allowing [.changed]#GymGoers# to configure reminders and notification behavior may reduce frustration caused by excessive or poorly timed notifications.
 
 == Summary
 
 Missed or failed notifications represent an important reliability risk for the gym tracker application. Notification failures can reduce user engagement, weaken workout consistency, and negatively affect the overall user experience.
 
-The main risks identified include disabled permissions, background execution restrictions, scheduling errors, application state issues, and connectivity problems. Addressing these concerns early in the design process will help create a more reliable and user-friendly notification system in future development.
+The main risks identified include disabled permissions, background execution restrictions, scheduling errors, application state issues, and connectivity problems. Addressing these concerns early in the design process will help create a more reliable and [.changed]#GymGoer-friendly# notification system in future development.

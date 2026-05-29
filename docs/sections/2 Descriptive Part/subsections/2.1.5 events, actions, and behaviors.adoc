@@ -2,51 +2,42 @@
 
 ===== Domain Events
 
-[.added]#The events listed here use the exact names defined in Section 2.1.2. Each entry is a reference to that concept — not a new or alternate definition. The purpose of listing them here is to show how the events appear in context with the actions and behaviors below.#
+[.changed]#The events listed here use the exact names defined in Section 2.1.2. This section does not redefine them. It only references the canonical event terms so behaviors can show which defined events compose them.#
 
-[.added]#*Workout Session has just been performed* (→ Section 2.1.2)#
-[.added]#An event in which a Workout Session has occurred at a specific time on a specific Calendar Day.#
-
-[.added]#*Workout Session has just been skipped* (→ Section 2.1.2)#
-[.added]#An event in which an expected opportunity for workout activity has passed without a Workout Session occurring.#
-
-[.added]#*Goal period has just ended* (→ Section 2.1.2)#
-[.added]#An event in which the Time Frame associated with a Goal has completed.#
-
-[.added]#*Streak has just been extended* (→ Section 2.1.2)#
-[.added]#An event in which a Workout Session has occurred on the Calendar Day immediately following an Attendance Day, preserving consecutiveness.#
-
-[.added]#*Streak has just been broken* (→ Section 2.1.2)#
-[.added]#An event in which a Missed Day has occurred after one or more Attendance Days, ending consecutiveness.#
-
-[.added]#*Weekly Summary has just been generated* (→ Section 2.1.2)#
-[.added]#An event in which the GymGoer’s activity for a Week has been summarized.#
-
+* [.changed]#*Workout Session has just been performed* (canonical definition: Section 2.1.2)#
+* [.changed]#*Workout Session has just been recorded* (canonical definition: Section 2.1.2)#
+* [.changed]#*Workout Session has just been corrected* (canonical definition: Section 2.1.2)#
+* [.changed]#*Workout Session has just been removed* (canonical definition: Section 2.1.2)#
+* [.changed]#*Workout day has just been missed* (canonical definition: Section 2.1.2)#
+* [.changed]#*Goal period has just ended* (canonical definition: Section 2.1.2)#
+* [.changed]#*Streak has just been extended* (canonical definition: Section 2.1.2)#
+* [.changed]#*Streak has just been broken* (canonical definition: Section 2.1.2)#
+* [.changed]#*Weekly Summary has just been generated* (canonical definition: Section 2.1.2)#
 
 ===== Actions
 
-*Perform workout*
-A person engages in physical activity such as exercising, running, or lifting.
+*performWorkout*
+[.changed]#A GymGoer performs a Workout composed of one or more Exercises or Activities during a bounded Duration on a Calendar Day. The corresponding canonical event is *Workout Session has just been performed*.#
 
-*Record workout*
-A person logs details of a completed workout session.
+*recordWorkout*
+[.changed]#A GymGoer records a performed Workout Session so it becomes part of the GymGoer's Workout History. The canonical function signature is defined in Section 2.1.6. The corresponding canonical event is *Workout Session has just been recorded*.#
 
-*Set activity goal*
-A person defines a target amount of activity for a future time period.
+*setWeeklyGoal*
+[.changed]#A GymGoer defines a Goal with a Goal Target Count for a Week. Goal Evaluation later uses the GymGoer's Workout History to produce a Goal Result.#
 
-*Review progress*
-A person inspects their past activity and current consistency.
+*reviewProgress*
+[.changed]#A GymGoer retrieves a Workout History and observes a Weekly Summary, Session Comparison, Streak, Consistency Measure, or Goal Result derived from it.#
 
 ===== Behaviors
 
 *Maintaining a workout routine*
-A repeated pattern of performing workouts across days or weeks.
+[.changed]#A repeated behavior composed of *Workout Session has just been performed* and *Workout Session has just been recorded* events across multiple Calendar Days.#
 
 *Building consistency*
-A gradual increase in regularity of attendance over time.
+[.changed]#A behavior in which Attendance Days accumulate across a Time Frame and evaluateConsistency(...) produces a Consistency Measure from the GymGoer's Workout History.#
 
 *Tracking progress over time*
-A repeated cycle of performing workouts, recording them, and reviewing outcomes.
+[.changed]#A repeated cycle in which a GymGoer performs a Workout Session, records it through recordWorkout(...), retrieves the resulting Workout History, and observes derived results such as Session Comparison, Goal Result, Streak, and Weekly Summary.#
 
 ===== [.added]#State Machine Diagram: Streak Lifecycle#
 
@@ -115,4 +106,3 @@ BROKEN --> ACTIVE : New Workout Session recorded /\nnew streak begins from 1
 |[.added]#BROKEN#
 |[.added]#The grace period has expired. The current streak resets to zero. Any new Workout Session begins a fresh streak from one.#
 |===
-

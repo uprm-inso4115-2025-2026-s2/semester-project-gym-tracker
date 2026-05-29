@@ -7,16 +7,16 @@
 
 ===== Severity
 
-[.added]#Represents how serious the consequences of a failure would be for the user or the system if the failure occurs.#
+[.changed]#Represents how serious the consequences of a failure would be for the GymGoer or the system if the failure occurs.#
 
-[.added]#A higher severity value indicates a greater negative impact on the user experience or system functionality.#
+[.changed]#A higher severity value indicates a greater negative impact on the GymGoer experience or system functionality.#
 
 [width="100%", cols="2*", options="header", frame=all, grid=all, halign=center]
 
 |===
 | [.added]#Severity Value# | [.added]#Description#
 | [.added]#1-3# | [.added]#Minor inconvenience with little impact on functionality#
-| [.added]#4-6# | [.added]#Moderate impact that affects usability or user experience#
+| [.added]#4-6# | [.changed]#Moderate impact that affects usability or GymGoer experience#
 | [.added]#7-8# | [.added]#Major impact that disrupts key system features#
 | [.added]#9-10# | [.added]#Critical failure that causes loss of important data or functionality#
 |===
@@ -41,7 +41,7 @@
 
 ===== Detection
 
-[.added]#Represents the likelihood that the system will detect the failure before it negatively affects the user or system.#
+[.changed]#Represents the likelihood that the system will detect the failure before it negatively affects the GymGoer or system.#
 
 [.added]#A lower score means the system can easily detect the problem, while a higher score indicates the failure may go unnoticed.#
 
@@ -58,13 +58,13 @@
 
 ===== FMEA Case 1 - Workout Data Not Saved
 
-[.added]#*Scenario:*# [.added]#A user completes a workout and logs it using the Quick Entry Workflow. The system attempts to store the session, but due to a network interruption, the request fails silently. The user assumes the workout was saved and later notices that the session is missing from their history.#
+[.added]#*Scenario:*# [.changed]#A GymGoer completes a workout and logs it using the Quick Entry Workflow. The system attempts to store the session, but due to a network interruption, the request fails silently. The GymGoer assumes the workout was saved and later notices that the session is missing from their history.#
 
 [width="100%", cols="7*", options="header", frame=all, grid=all, halign=center]
 |===
 | [.added]#Related Requirement# | [.added]#Failure Mode# | [.added]#Causes# | [.added]#Effects# | [.added]#Severity# | [.added]#Occurrence# | [.added]#Detection#
 
-| [.added]#Persistent Storage and Retrieval# | [.added]#Workout data is not saved to the database due to a network failure during the logging process.# | [.added]#Network interruption, server downtime, or client-side error during data submission.# | [.added]#User loses workout data, leading to frustration and loss of trust in the system.# | [.added]#9# | [.added]#4# | [.added]#6#
+| [.added]#Persistent Storage and Retrieval# | [.added]#Workout data is not saved to the database due to a network failure during the logging process.# | [.added]#Network interruption, server downtime, or client-side error during data submission.# | [.added]#GymGoer loses workout data, leading to frustration and loss of trust in the system.# | [.added]#9# | [.added]#4# | [.added]#6#
 |===
 
 
@@ -76,11 +76,11 @@
 
 * [.added]#Temporarily cache workout sessions locally and synchronize once connectivity is restored.#
 
-* [.added]#Provide explicit success/failure feedback to the user after logging a workout session.#
+* [.changed]#Provide explicit success/failure feedback to the GymGoer after logging a workout session.#
 
 [.added]#Avoidance:#
 
-* [.added]#Do not confirm session creation to the user until the system verifies that the data is successfully persisted.#
+* [.changed]#Do not confirm session creation to the GymGoer until the system verifies that the data is successfully persisted.#
 
 [.added]#Transfer:#
 
@@ -103,22 +103,22 @@
 
 [.added]#Justification:#
 
-* [.added]#This failure results in loss of workout data, which directly affects progress tracking, streak calculations, and user trust in the system.#
+* [.changed]#This failure results in loss of workout data, which directly affects progress tracking, streak calculations, and GymGoer trust in the system.#
 
 [.added]#Discussion:#
 
-* [.added]#This is a high-priority risk because it impacts both data integrity and user confidence. Even with moderate likelihood, the consequences justify mitigation strategies such as retry mechanisms and local caching.#
+* [.changed]#This is a high-priority risk because it impacts both data integrity and GymGoer confidence. Even with moderate likelihood, the consequences justify mitigation strategies such as retry mechanisms and local caching.#
 
 
 ===== FMEA Case 2 - Incorrect Streak Calculation
 
-[.added]#*Scenario:*# [.added]#A user completes workouts on consecutive days. One session is logged late at night and another early the next day. Due to inconsistent time zone handling, the system interprets both sessions as occurring on the same day, breaking the streak unexpectedly.#
+[.added]#*Scenario:*# [.changed]#A GymGoer completes workouts on consecutive days. One session is logged late at night and another early the next day. Due to inconsistent time zone handling, the system interprets both sessions as occurring on the same day, breaking the streak unexpectedly.#
 
 [width="100%", cols="7*", options="header", frame=all, grid=all, halign=center]
 |===
 | [.added]#Related Requirement# | [.added]#Failure Mode# | [.added]#Causes# | [.added]#Effects# | [.added]#Severity# | [.added]#Occurrence# | [.added]#Detection#
 
-| [.added]#Streak Calculation# | [.added]#Streak is incorrectly calculated due to inconsistent handling of workout timestamps across time zones.# | [.added]#Time zone differences, lack of standardized timestamp format, or incorrect date parsing logic.# | [.added]#User sees an unexpected break in their streak, leading to confusion and dissatisfaction with the system.# | [.added]#7# | [.added]#5# | [.added]#5#
+| [.added]#Streak Calculation# | [.added]#Streak is incorrectly calculated due to inconsistent handling of workout timestamps across time zones.# | [.added]#Time zone differences, lack of standardized timestamp format, or incorrect date parsing logic.# | [.added]#GymGoer sees an unexpected break in their streak, leading to confusion and dissatisfaction with the system.# | [.added]#7# | [.added]#5# | [.added]#5#
 |===
 
 
@@ -151,27 +151,27 @@
 
 [.added]#Justification:#
 
-* [.added]#Time and date handling is a common source of defects especially in systems that rely on user-generated timestamps. Edge cases such as late-night workouts and timezone differences increase the probability of incorrect calculations.#
+* [.changed]#Time and date handling is a common source of defects especially in systems that rely on GymGoer-generated timestamps. Edge cases such as late-night workouts and timezone differences increase the probability of incorrect calculations.#
 
 [.added]#Impact: *Medium*#
 
 [.added]#Justification:#
 
-* [.added]#While the system continues to function, incorrect streak calculations affect a key motivational feature potentially reducing user engagement and satisfaction.#
+* [.changed]#While the system continues to function, incorrect streak calculations affect a key motivational feature potentially reducing GymGoer engagement and satisfaction.#
 
 [.added]#Discussion:#
 
-* [.added]#This risk primarily affects user perception rather than system correctness. It is important for user experience but less critical than risks involving data loss.#
+* [.changed]#This risk primarily affects GymGoer perception rather than system correctness. It is important for GymGoer experience but less critical than risks involving data loss.#
 
 
 ===== FMEA Case 3 - Incorrect Goal Evaluation
 
-[.added]#*Scenario:*# [.added]#A user completes multiple workouts on the same day. The system incorrectly counts them as multiple active days instead of one, causing the weekly goal to appear completed earlier than it actually is.#
+[.added]#*Scenario:*# [.changed]#A GymGoer completes multiple workouts on the same day. The system incorrectly counts them as multiple active days instead of one, causing the weekly goal to appear completed earlier than it actually is.#
 
 [width="100%", cols="7*", options="header", frame=all, grid=all, halign=center]
 |===
 | [.added]#Related Requirement# | [.added]#Failure Mode# | [.added]#Causes# | [.added]#Effects# | [.added]#Severity# | [.added]#Occurrence# | [.added]#Detection#
-| [.added]#Goal Evaluation# | [.added]#Weekly goal is incorrectly marked as completed due to multiple workouts on the same day being counted as separate active days.# | [.added]#Lack of logic to aggregate workouts by date, incorrect date handling, or failure to consider multiple sessions in goal evaluation.# | [.added]#User sees their weekly goal as completed prematurely, leading to confusion about their actual progress and can result in potential loss of motivation.# | [.added]#7# | [.added]#5# | [.added]#4#
+| [.added]#Goal Evaluation# | [.added]#Weekly goal is incorrectly marked as completed due to multiple workouts on the same day being counted as separate active days.# | [.added]#Lack of logic to aggregate workouts by date, incorrect date handling, or failure to consider multiple sessions in goal evaluation.# | [.added]#GymGoer sees their weekly goal as completed prematurely, leading to confusion about their actual progress and can result in potential loss of motivation.# | [.added]#7# | [.added]#5# | [.added]#4#
 |===
 
 
@@ -204,13 +204,13 @@
 
 [.added]#Justification:#
 
-* [.added]#The risk arises from aggregation logic errors. Since users may perform multiple workouts per day, incorrect handling is plausible if requirements or implementation logic are not clearly defined.#
+* [.changed]#The risk arises from aggregation logic errors. Since GymGoers may perform multiple workouts per day, incorrect handling is plausible if requirements or implementation logic are not clearly defined.#
 
 [.added]#Impact: *High*#
 
 [.added]#Justification:#
 
-* [.added]#Incorrect goal evaluation misrepresents user progress which undermines the reliability of the system and can mislead users about their achievements.#
+* [.changed]#Incorrect goal evaluation misrepresents GymGoer progress which undermines the reliability of the system and can mislead GymGoers about their achievements.#
 
 [.added]#Discussion:#
 
@@ -236,7 +236,7 @@
 
 [.added]#Justification:#
 
-* [.added]#The project explicitly emphasizes low-effort logging because users often abandon tracking when it feels burdensome. Since logging is still a separate action after performing the workout, missed entries are a realistic and common risk during normal use.#
+* [.changed]#The project explicitly emphasizes low-effort logging because GymGoers often abandon tracking when it feels burdensome. Since logging is still a separate action after performing the workout, missed entries are a realistic and common risk during normal use.#
 
 [.added]#Impact: *High*#
 
@@ -263,7 +263,7 @@
 
 [.added]#Justification:#
 
-* [.added]#The system supports quick logging and editing, which helps usability but also makes accidental duplicate entries plausible, especially when users log in a hurry or are unsure whether a session was already saved.#
+* [.changed]#The system supports quick logging and editing, which helps usability but also makes accidental duplicate entries plausible, especially when GymGoers log in a hurry or are unsure whether a session was already saved.#
 
 [.added]#Impact: *Medium*#
 

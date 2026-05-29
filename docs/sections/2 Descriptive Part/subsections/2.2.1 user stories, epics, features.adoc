@@ -1,12 +1,12 @@
 === *2.2 Requirements*
 
-==== *2.2.1 User Stories, Epics, Features*
+==== [.changed]#*2.2.1 GymGoer Stories, Epics, Features*#
 
-[.changed]#This section uses the structure Epic → Feature → User stories. Epics group related work, features describe smaller pieces of that work, and user stories explain why a GymGoer needs the feature. Persona names refer to the personas described in Section 2.2.2.#
+[.changed]#This section uses the structure Epic → Feature → GymGoer stories. Epics group related work, features describe smaller pieces of that work, and GymGoer stories explain why a GymGoer needs the feature. Persona names refer to the personas described in Section 2.2.2.#
 
 ===== [.added]#Use Case Diagram: GymTracker System Operations#
 
-[.added]#The following use case diagram shows the five core epic areas as system operations, the primary and secondary actors involved, and the extend relationships between key use cases. It enhances this section by providing a system-level view of what the GymTracker system does from the outside, complementing the detailed user stories below and connecting the epics to their supporting actors.#
+[.changed]#The following use case diagram shows the five core epic areas as system operations, the primary and secondary actors involved, and the extend relationships between key use cases. It enhances this section by providing a system-level view of what the GymTracker system does from the outside, complementing the detailed GymGoer stories below and connecting the epics to their supporting actors.#
 
 [plantuml, use-case-diagram, svg]
 ....
@@ -68,7 +68,7 @@ Auth --> UC2
 |[.added]#Actor# |[.added]#Role#
 
 |[.added]#GymGoer#
-|[.added]#The primary user of the system. A college student or beginner-to-intermediate gym-goer building consistent fitness habits. Corresponds to the personas defined in Section 2.2.2 and the GymGoer domain entity in Section 2.1.2.#
+|[.changed]#The primary GymGoer actor of the system. A college student or beginner-to-intermediate GymGoer building consistent fitness habits. Corresponds to the personas defined in Section 2.2.2 and the GymGoer domain entity in Section 2.1.2.#
 
 |[.added]#Supabase Auth (external)#
 |[.added]#The external authentication provider that validates credentials and manages sessions during Register Account and Log In. It is an implementation boundary, not a domain stakeholder.#
@@ -83,10 +83,10 @@ Auth --> UC2
 
 [.changed]#This feature lets a GymGoer record a Workout Session using the smallest useful set of information: Calendar Day, training type, Duration, and optional Workout Notes. This feature supports low-effort logging for GymGoers who stop tracking when the form feels too long.#
 
-User stories::
-* [.changed]#As Alejandro, a busy beginner, I want to log a gym session with Duration and a short list of exercise types so that I can record my workout quickly and still remember what I did.#
-* [.changed]#As Ana, a habit-building GymGoer, I want to record a simple Workout Session even when I do not feel motivated so that tracking does not become another source of pressure.#
-* [.changed]#As Derek, a GymGoer who also runs, I want to log a run with time and distance so that I can track cardio progress alongside my gym routine.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-alejandro,Alejandro>>, a busy beginner, I want to log a gym session with Duration and a short list of exercise types so that I can record my workout quickly and still remember what I did.#
+* [.changed]#As <<persona-ana,Ana>>, a habit-building GymGoer, I want to record a simple Workout Session even when I do not feel motivated so that tracking does not become another source of pressure.#
+* [.changed]#As <<persona-derek,Derek>>, a GymGoer who also runs, I want to log a run with time and distance so that I can track cardio progress alongside my gym routine.#
 
 [.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-ana,Ana>>, <<persona-derek,Derek>>.#
 
@@ -96,10 +96,10 @@ User stories::
 
 [.changed]#This feature lets a GymGoer add more detail when the session needs it. Exercises and Workout Notes are optional because the project should support both quick logging and later review.#
 
-User stories::
-* [.changed]#As Alejandro, I want to add the main Exercises I performed so that I can remember what I did last time without writing a full workout journal.#
-* [.changed]#As Derek, someone who compares repeated sessions, I want to attach an optional note to a session, such as effort level or injury warning, so that I can understand context when comparing sessions later.#
-* [.changed]#As Ana, I want to record an optional “how it felt” note after a session so that I can connect progress with how sustainable the routine feels.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want to add the main Exercises I performed so that I can remember what I did last time without writing a full workout journal.#
+* [.changed]#As <<persona-derek,Derek>>, someone who compares repeated sessions, I want to attach an optional note to a session, such as effort level or injury warning, so that I can understand context when comparing sessions later.#
+* [.changed]#As <<persona-ana,Ana>>, I want to record an optional “how it felt” note after a session so that I can connect progress with how sustainable the routine feels.#
 
 [.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>, <<persona-ana,Ana>>.#
 
@@ -109,10 +109,10 @@ User stories::
 
 [.changed]#This feature lets a GymGoer reuse a recent Workout Session as a starting point. It supports GymGoers who repeat similar routines and do not want to retype the same information every time.#
 
-User stories::
-* [.changed]#As Alejandro, I want to copy a recent workout and adjust it slightly so that I do not have to retype the same routine every time.#
-* [.changed]#As Derek, I want repeated runs or gym sessions to start from a previous entry so that logging does not feel like duplicate work.#
-* [.changed]#As Ana, I want repeated routines to be easy to log so that busy weeks do not make tracking feel harder than exercising.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want to copy a recent workout and adjust it slightly so that I do not have to retype the same routine every time.#
+* [.changed]#As <<persona-derek,Derek>>, I want repeated runs or gym sessions to start from a previous entry so that logging does not feel like duplicate work.#
+* [.changed]#As <<persona-ana,Ana>>, I want repeated routines to be easy to log so that busy weeks do not make tracking feel harder than exercising.#
 
 [.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>, <<persona-ana,Ana>>.#
 
@@ -122,10 +122,10 @@ User stories::
 
 [.changed]#This feature lets a GymGoer correct a Workout Session after it has already been recorded. Corrections matter because Weekly Summaries, Goals, Streaks, and Session Comparisons depend on the Workout History being accurate.#
 
-User stories::
-* [.changed]#As Ana, a GymGoer prone to logging errors, I want to edit a past session entry so that my Weekly Summary reflects what actually happened.#
-* [.changed]#As Alejandro, I want to fix a session date, Duration, or note if I entered it wrong so that my Workout History stays useful.#
-* [.changed]#As Derek, I want edited sessions to affect later comparisons so that an old mistake does not keep showing up in my progress review.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-ana,Ana>>, a GymGoer prone to logging errors, I want to edit a past session entry so that my Weekly Summary reflects what actually happened.#
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want to fix a session date, Duration, or note if I entered it wrong so that my Workout History stays useful.#
+* [.changed]#As <<persona-derek,Derek>>, I want edited sessions to affect later comparisons so that an old mistake does not keep showing up in my progress review.#
 
 [.added]#Related personas: <<persona-ana,Ana>>, <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>.#
 
@@ -139,10 +139,10 @@ User stories::
 
 [.changed]#This feature lets a GymGoer view previously recorded Workout Sessions in chronological order. It supports memory, planning, and progress review.#
 
-User stories::
-* [.changed]#As Alejandro, I want to see my recent Workout Sessions so that I do not have to rely on memory when deciding what to do next.#
-* [.changed]#As Derek, I want to view my full workout and run history so that I can look back and plan future sessions.#
-* [.changed]#As Ana, I want to see past weeks without digging through individual entries one by one so that review feels manageable.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want to see my recent Workout Sessions so that I do not have to rely on memory when deciding what to do next.#
+* [.changed]#As <<persona-derek,Derek>>, I want to view my full workout and run history so that I can look back and plan future sessions.#
+* [.changed]#As <<persona-ana,Ana>>, I want to see past weeks without digging through individual entries one by one so that review feels manageable.#
 
 [.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>, <<persona-ana,Ana>>.#
 
@@ -152,10 +152,10 @@ User stories::
 
 [.changed]#This feature lets a GymGoer filter Workout History by Activity or Exercise. It supports the professor’s concern that the documentation should show how Workout Sessions are retrieved from Workout History, not only say that they belong there.#
 
-User stories::
-* [.changed]#As Alejandro, I want to find the last Workout Session where I did bench press so that I can remember what I did before.#
-* [.changed]#As Derek, I want to filter my history by activity type, such as run versus gym session, so that reviewing progress is fast and meaningful.#
-* [.changed]#As Ana, I want to find sessions with activities I enjoyed so that I can repeat routines that felt sustainable.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want to find the last Workout Session where I did bench press so that I can remember what I did before.#
+* [.changed]#As <<persona-derek,Derek>>, I want to filter my history by activity type, such as run versus gym session, so that reviewing progress is fast and meaningful.#
+* [.changed]#As <<persona-ana,Ana>>, I want to find sessions with activities I enjoyed so that I can repeat routines that felt sustainable.#
 
 [.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>, <<persona-ana,Ana>>.#
 
@@ -165,10 +165,10 @@ User stories::
 
 [.changed]#This feature lets a GymGoer compare two Workout Sessions using Duration, Activity type, Exercises, Calendar Day, and Workout Notes. It supports GymGoers who want simple comparison without advanced analytics.#
 
-User stories::
-* [.changed]#As Derek, I want to compare this week’s sessions to last week’s sessions so that I can notice improvement or decline without digging through individual logs.#
-* [.changed]#As Alejandro, I want to compare my last upper-body session with an earlier one so that I know what to repeat or adjust.#
-* [.changed]#As Ana, I want session comparison to stay simple so that it helps me reflect without turning into a complicated analytics screen.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-derek,Derek>>, I want to compare this week’s sessions to last week’s sessions so that I can notice improvement or decline without digging through individual logs.#
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want to compare my last upper-body session with an earlier one so that I know what to repeat or adjust.#
+* [.changed]#As <<persona-ana,Ana>>, I want session comparison to stay simple so that it helps me reflect without turning into a complicated analytics screen.#
 
 [.added]#Related personas: <<persona-derek,Derek>>, <<persona-alejandro,Alejandro>>, <<persona-ana,Ana>>.#
 
@@ -182,10 +182,10 @@ User stories::
 
 [.changed]#This feature computes a Streak from consecutive Attendance Days in the GymGoer’s Workout History. It should motivate without treating a broken Streak as erased progress.#
 
-User stories::
-* [.changed]#As Alejandro, I want to see my current Streak of active days so that I feel motivated to keep the routine going.#
-* [.changed]#As Derek, I want both runs and gym sessions to count when they qualify as Workout Sessions so that the tracking matches my real routine.#
-* [.changed]#As Ana, I want the app to avoid making one broken Streak feel like all progress is gone.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want to see my current Streak of active days so that I feel motivated to keep the routine going.#
+* [.changed]#As <<persona-derek,Derek>>, I want both runs and gym sessions to count when they qualify as Workout Sessions so that the tracking matches my real routine.#
+* [.changed]#As <<persona-ana,Ana>>, I want the app to avoid making one broken Streak feel like all progress is gone.#
 
 [.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>, <<persona-ana,Ana>>.#
 
@@ -195,10 +195,10 @@ User stories::
 
 [.changed]#This feature shows Attendance Days and Missed Days across a Week. It supports GymGoers who need to see regularity across a Time Frame, not only consecutive days.#
 
-User stories::
-* [.changed]#As Ana, I want to see how many days I was active versus missed in the current Week so that I can notice gaps early and adjust.#
-* [.changed]#As Alejandro, I want weekly progress to remain visible even if my Streak breaks so that one missed day does not erase my sense of progress.#
-* [.changed]#As Derek, I want Consistency to be separate from Streak so that non-consecutive running and gym days still count as regular activity.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-ana,Ana>>, I want to see how many days I was active versus missed in the current Week so that I can notice gaps early and adjust.#
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want weekly progress to remain visible even if my Streak breaks so that one missed day does not erase my sense of progress.#
+* [.changed]#As <<persona-derek,Derek>>, I want Consistency to be separate from Streak so that non-consecutive running and gym days still count as regular activity.#
 
 [.added]#Related personas: <<persona-ana,Ana>>, <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>.#
 
@@ -208,10 +208,10 @@ User stories::
 
 [.changed]#This feature helps a GymGoer restart after a missed day. It treats returning to activity as part of the habit rather than as a complete reset.#
 
-User stories::
-* [.changed]#As Ana, I want the app to show recovery progress after a Streak break so that returning to my routine feels measurable instead of starting from zero.#
-* [.changed]#As Alejandro, I want missed days to be visible without making the Week feel worthless so that I can keep logging after a busy day.#
-* [.changed]#As Derek, I want recovery information to come from my Workout History so that it reflects what I actually did.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-ana,Ana>>, I want the app to show recovery progress after a Streak break so that returning to my routine feels measurable instead of starting from zero.#
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want missed days to be visible without making the Week feel worthless so that I can keep logging after a busy day.#
+* [.changed]#As <<persona-derek,Derek>>, I want recovery information to come from my Workout History so that it reflects what I actually did.#
 
 [.added]#Related personas: <<persona-ana,Ana>>, <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>.#
 
@@ -225,10 +225,10 @@ User stories::
 
 [.changed]#This feature lets a GymGoer define a weekly Goal, such as a target number of Attendance Days. The Goal should be simple enough to understand and flexible enough to support different routines.#
 
-User stories::
-* [.changed]#As Ana, I want to set a weekly goal for number of active days so that I have a clear target to aim for.#
-* [.changed]#As Alejandro, I want the Goal to be simple so that I understand what I am trying to complete.#
-* [.changed]#As Derek, I want the Goal to use activity patterns from my Workout History so that it reflects my actual routine.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-ana,Ana>>, I want to set a weekly goal for number of active days so that I have a clear target to aim for.#
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want the Goal to be simple so that I understand what I am trying to complete.#
+* [.changed]#As <<persona-derek,Derek>>, I want the Goal to use activity patterns from my Workout History so that it reflects my actual routine.#
 
 [.added]#Related personas: <<persona-ana,Ana>>, <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>.#
 
@@ -238,10 +238,10 @@ User stories::
 
 [.changed]#This feature produces a weekly view of activity compared with the GymGoer’s Goal. It should show completed activity, missed days, and Goal Result without making the feedback overly complex.#
 
-User stories::
-* [.changed]#As Alejandro, I want an end-of-week summary table showing what I completed versus my Goal so that I can understand whether I stayed on track.#
-* [.changed]#As Ana, I want a Weekly Summary that shows Attendance Days, Missed Days, and Goal Result so that I can reflect without feeling judged.#
-* [.changed]#As Derek, I want the Weekly Summary to show enough detail to compare one Week with another.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want an end-of-week summary table showing what I completed versus my Goal so that I can understand whether I stayed on track.#
+* [.changed]#As <<persona-ana,Ana>>, I want a Weekly Summary that shows Attendance Days, Missed Days, and Goal Result so that I can reflect without feeling judged.#
+* [.changed]#As <<persona-derek,Derek>>, I want the Weekly Summary to show enough detail to compare one Week with another.#
 
 [.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-ana,Ana>>, <<persona-derek,Derek>>.#
 
@@ -251,10 +251,10 @@ User stories::
 
 [.changed]#This feature lets a GymGoer add a short optional note about what worked or what got in the way during the Week. It supports reflection without making the system a full journal.#
 
-User stories::
-* [.changed]#As Ana, I want to add a quick weekly note about what worked or what got in the way so that I can improve my habits over time.#
-* [.changed]#As Alejandro, I want weekly reflection to be optional so that it does not slow down basic tracking.#
-* [.changed]#As Derek, I want notes to add context to the numbers so that comparisons do not lose important details.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-ana,Ana>>, I want to add a quick weekly note about what worked or what got in the way so that I can improve my habits over time.#
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want weekly reflection to be optional so that it does not slow down basic tracking.#
+* [.changed]#As <<persona-derek,Derek>>, I want notes to add context to the numbers so that comparisons do not lose important details.#
 
 [.added]#Related personas: <<persona-ana,Ana>>, <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>.#
 
@@ -268,10 +268,10 @@ User stories::
 
 [.changed]#This feature lets a GymGoer enable, disable, adjust, or temporarily mute reminders. This matters because reminders can help some GymGoers but discourage others if they feel too aggressive.#
 
-User stories::
-* [.changed]#As Ana, I want to enable reminders on days I usually work out so that I get a helpful nudge when I forget.#
-* [.changed]#As Derek, I want to temporarily mute reminders when I am busy so that I do not disengage from the app due to spam.#
-* [.changed]#As Alejandro, I want reminders around my usual workout days so that I do not forget during busy weeks.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-ana,Ana>>, I want to enable reminders on days I usually work out so that I get a helpful nudge when I forget.#
+* [.changed]#As <<persona-derek,Derek>>, I want to temporarily mute reminders when I am busy so that I do not disengage from the app due to spam.#
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want reminders around my usual workout days so that I do not forget during busy weeks.#
 
 [.added]#Related personas: <<persona-ana,Ana>>, <<persona-derek,Derek>>, <<persona-alejandro,Alejandro>>.#
 
@@ -281,10 +281,10 @@ User stories::
 
 [.changed]#This feature controls the tone of reminders and feedback. Feedback should be short, direct, and supportive, especially after a missed day or broken Streak.#
 
-User stories::
-* [.changed]#As Alejandro, I want reminder messages to feel supportive rather than judgmental so that notifications encourage me instead of discouraging me.#
-* [.changed]#As Ana, I want feedback that helps me restart after a missed day so that I do not stop tracking.#
-* [.changed]#As Derek, I want feedback to be tied to my actual Workout History so that it does not feel random.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want reminder messages to feel supportive rather than judgmental so that notifications encourage me instead of discouraging me.#
+* [.changed]#As <<persona-ana,Ana>>, I want feedback that helps me restart after a missed day so that I do not stop tracking.#
+* [.changed]#As <<persona-derek,Derek>>, I want feedback to be tied to my actual Workout History so that it does not feel random.#
 
 [.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-ana,Ana>>, <<persona-derek,Derek>>.#
 
@@ -296,12 +296,12 @@ User stories::
 
 ====== *Feature 6.1: Account-Based History Storage*
 
-[.changed]#This feature lets a GymGoer keep their Workout History connected to an Account. In requirement-level wording, the person interacting with the system may be called a User, but the domain role remains GymGoer.#
+[.changed]#This feature lets a GymGoer keep their Workout History connected to an Account. Account is the requirement-level system identity; GymGoer remains the role name for the person whose fitness activity is recorded and reviewed.#
 
-User stories::
-* [.changed]#As Alejandro, I want to create an account so that my Workout History is saved and I do not lose progress.#
-* [.changed]#As Derek, I want my full workout and run history stored in one place so that I can look back and plan future sessions.#
-* [.changed]#As Ana, I want my Weekly Summaries to use my saved history so that progress feedback stays consistent over time.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want to create an account so that my Workout History is saved and I do not lose progress.#
+* [.changed]#As <<persona-derek,Derek>>, I want my full workout and run history stored in one place so that I can look back and plan future sessions.#
+* [.changed]#As <<persona-ana,Ana>>, I want my Weekly Summaries to use my saved history so that progress feedback stays consistent over time.#
 
 [.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>, <<persona-ana,Ana>>.#
 
@@ -311,10 +311,10 @@ User stories::
 
 [.changed]#This is a later extension. It would let a GymGoer export or share a simple Weekly Summary without exposing unnecessary personal details.#
 
-User stories::
-* [.changed]#As Ana, I want sharing to be optional so that my fitness data stays private unless I choose otherwise.#
-* [.changed]#As Derek, I want a simple export of weekly activity so that I can keep a separate record if needed.#
-* [.changed]#As Alejandro, I want summaries to stay readable if I share them with a trainer or friend.#
+[.changed]#GymGoer stories#::
+* [.changed]#As <<persona-ana,Ana>>, I want sharing to be optional so that my fitness data stays private unless I choose otherwise.#
+* [.changed]#As <<persona-derek,Derek>>, I want a simple export of weekly activity so that I can keep a separate record if needed.#
+* [.changed]#As <<persona-alejandro,Alejandro>>, I want summaries to stay readable if I share them with a trainer or friend.#
 
 [.added]#Related personas: <<persona-ana,Ana>>, <<persona-derek,Derek>>, <<persona-alejandro,Alejandro>>.#
 

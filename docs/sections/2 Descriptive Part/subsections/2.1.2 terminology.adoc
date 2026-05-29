@@ -29,7 +29,7 @@ GymGoer who performed it.
 [.changed]#*GymGoer* (Domain Concept, Category: Entity)#
 An individual who performs Workout Sessions across time and may be
 associated with one or more Goals related to fitness activity. This term
-is preferred over "User" when describing the person in the fitness
+is preferred over the generic system-actor label when describing the person in the fitness
 domain rather than their interaction with the system.
 
 [.changed]#*Calendar Day* (Domain Concept, Category: Entity)#
@@ -156,10 +156,6 @@ History.
 [.added]#*findSessionsByExercise(history: WorkoutHistory, exercise: Exercise) : List<WorkoutSession>* (Domain Concept, Category: Action)#
 [.added]#An action that returns all Workout Sessions in a WorkoutHistory that included a given Exercise. Used when a GymGoer wants to review past sessions that featured a specific exercise, such as bench press or treadmill.#
 
-[.changed]#*findSessionsByExercise(history: WorkoutHistory, exercise: Exercise) : List<WorkoutSession>* (Domain Concept, Category: Action)#
-An action that returns the Workout Sessions in which a specific Exercise
-was performed.
-
 [.changed]#*compareSessions(a: WorkoutSession, b: WorkoutSession) : SessionComparison* (Domain Concept, Category: Action)#
 An action that determines observable differences between two Workout
 Sessions, such as Duration, Activity type, Calendar Day, Workout Notes,
@@ -206,17 +202,15 @@ Summaries over successive Time Frames.
 
 ===== Requirement-Level Concepts
 
-[.changed]#*User* (Requirement Concept, Category: Entity)#
-A person interacting with the system-to-be. In domain descriptions, the
-preferred term is GymGoer. User is kept for requirements that describe
-system interaction, accounts, interface behavior, or permissions.
+[.changed]#*Generic system actor label* (Requirement Concept, Category: Entity — superseded)#
+[.changed]#The generic label previously used for the person interacting with the system has been replaced by GymGoer throughout the document, including in interface and system requirements. Account remains as the technical term for a GymGoer's persistent system identity (see Account below). Authentication-provider field names may still use their own technical vocabulary, but the submitted domain and requirement prose uses GymGoer as the role name.#
 
 [.changed]#*Account* (Requirement Concept, Category: Entity)#
-A persistent identity that allows a User's Workout History and Goals to
+A persistent identity that allows a [.changed]#GymGoer's# Workout History and Goals to
 be stored and retrieved by the system.
 
 [.changed]#*Notification* (Requirement Concept, Category: Entity)#
-A message delivered by the system to inform a User about reminders,
+A message delivered by the system to inform a [.changed]#GymGoer# about reminders,
 streak status, or goal progress.
 
 [.changed]#*Weekly Summary Table* (Requirement Concept, Category: Entity)#
@@ -271,9 +265,7 @@ GymGoer who performed it.#
 categorized as behaviors because they describe temporal compositions of
 events and actions rather than standalone objects.#
 
-[.changed]#*User* is kept as a requirement-level concept for system interaction.
-*GymGoer* is used as the domain role for the person performing and
-reviewing fitness activity.#
+[.changed]#*GymGoer* is used as the role name for the person performing and reviewing fitness activity, in both domain descriptions and system requirements. The generic system-actor label is no longer used in requirement prose and has been superseded by GymGoer.#
 
 ===== [.changed]#Terminology Completeness Validation#
 

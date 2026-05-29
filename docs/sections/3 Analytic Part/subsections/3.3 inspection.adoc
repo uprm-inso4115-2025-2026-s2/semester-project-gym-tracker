@@ -21,7 +21,7 @@
 |[.added]#Domain requirements (Section 2.2.3) — 8 requirements: Low-Effort Logging, Essential Information Recording, Persistent Storage and Retrieval, Streak Representation, Streak Calculation, Goal Evaluation, Weekly Aggregation, Editing and Correction of Workout Data#
 
 |[.added]#I-3#
-|[.added]#Interface requirements (Section 2.2.4) — 5 requirements: User Initialization, Recording Real-World Workouts, Editing and Correction of Workout Data (interface side), Goal Initialization and Update, Viewing Progress and History#
+|[.changed]#Interface requirements (Section 2.2.4) — 5 requirements: GymGoer Account Setup, Recording Real-World Workouts, Editing and Correction of Workout Data (interface side), Goal Initialization and Update, Viewing Progress and History#
 |===
 
 [.added]#*Inspectors:*#

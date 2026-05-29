@@ -26,15 +26,15 @@
 [.changed]#The team uses the following acquisition activities to gather domain and requirement information from real sources instead of relying only on internal brainstorming:#
 
 * [.changed]#AQ1 - Structured questionnaire for gym-goers and other fitness-oriented UPRM students. This is the primary acquisition instrument in this section because it captures repeatable, comparable answers from real stakeholders.#
-* [.changed]#AQ2 - Targeted stakeholder micro-interviews (15-20 minutes each) with beginner gym-goers, mixed routine users, and habit-focused users to collect examples that need follow-up elicitation.#
+* [.changed]#AQ2 - Targeted stakeholder micro-interviews (15-20 minutes each) with beginner GymGoers, mixed-routine GymGoers, and habit-focused GymGoers to collect examples that need follow-up elicitation.#
 * [.changed]#AQ3 - Competitive review of existing fitness tracking tools to identify common logging fields, progress summaries, and friction patterns that stakeholders already recognize.#
 * [.changed]#AQ4 - Internal artifact review of the A3 problem framing, current personas, and earlier stakeholder notes so later acquisition remains aligned with the problem already documented in Sections 1 and 4.#
 
-[.changed]#Primary acquisition resources are therefore: direct stakeholders (UPRM gym-goers, beginner and intermediate users, casual runners), existing applications such as MyFitnessPal and Strava, and internal project artifacts already produced by the team.#
+[.changed]#Primary acquisition resources are therefore: direct stakeholders (UPRM GymGoers, beginner and intermediate GymGoers, casual runners), existing applications such as MyFitnessPal and Strava, and internal project artifacts already produced by the team.#
 
-==== 4.3.3 Questionnaire AQ1: Gym-User Requirements Acquisition
+==== [.changed]#4.3.3 Questionnaire AQ1: GymGoer Requirements Acquisition#
 
-[.changed]#AQ1 is a structured questionnaire aimed at the stakeholder groups identified in Section 4.1, especially primary users, beginners, and goal-oriented users. It is designed for acquisition, not elicitation: its purpose is to collect stakeholder language, frustrations, priorities, and expectations before the team resolves them into requirement statements.#
+[.changed]#AQ1 is a structured questionnaire aimed at the stakeholder groups identified in Section 4.1, especially primary GymGoers, beginners, and goal-oriented GymGoers. It is designed for acquisition, not elicitation: its purpose is to collect stakeholder language, frustrations, priorities, and expectations before the team resolves them into requirement statements.#
 
 [.changed]#Target respondents:# [.changed]#UPRM students and peers who currently attend a gym, run regularly, or are trying to build a workout habit.#
 
@@ -74,7 +74,7 @@
 
 |[.changed]#AQ1-Q8#
 |[.changed]#What personal account or profile information do you expect to manage in a fitness tracker so that your history, goals, and summaries still feel personal and useful over time?#
-|[.changed]#User account management, Goal Initialization and Update, Viewing Progress and History#
+|[.changed]#GymGoer account management, Goal Initialization and Update, Viewing Progress and History#
 |===
 
 ==== 4.3.4 Elicitation Activities That Follow Acquisition
@@ -83,7 +83,7 @@
 
 [.changed]#This separation matters because the questionnaire answers themselves are not yet requirements. For example, a participant saying "I often log my workout the next morning" is acquisition evidence. The elicitation step is the follow-up decision: should the streak depend on the workout date or the entry timestamp? That engineering resolution appears later as FE-1.#
 
-[.changed]#Similarly, a participant saying "I only want the basics when I am rushing" is acquisition evidence. The elicitation step is translating that into explicit requirements such as Low-Effort Logging and Essential Information Recording, while keeping optional detail fields available for users who want them.#
+[.changed]#Similarly, a participant saying "I only want the basics when I am rushing" is acquisition evidence. The elicitation step is translating that into explicit requirements such as Low-Effort Logging and Essential Information Recording, while keeping optional detail fields available for GymGoers who want them.#
 
 ==== 4.3.5 Requirement Signals Surfaced by Questionnaire AQ1
 
@@ -119,7 +119,7 @@
 
 |[.changed]#AQ1-Q8#
 |[.changed]#Stakeholders expect personal accounts to preserve identity, goals, and history context over time, which supports account-centered data ownership and personalization.#
-|[.changed]#User account management domain acquisition documented in LTT266; Goal Initialization and Update; Viewing Progress and History; Workout Ownership.#
+|[.changed]#GymGoer account management domain acquisition documented in LTT266; Goal Initialization and Update; Viewing Progress and History; Workout Ownership.#
 |===
 
 ==== 4.3.6 Incorporating New Findings
@@ -154,7 +154,7 @@ Logging Model Characteristics
 
 Observations
 
-[.added]#MyFitnessPal emphasizes data completeness and structured input over interaction speed. While this improves analytical richness, it introduces additional friction during data entry, especially when users attempt to log workouts immediately after completion.#
+[.changed]#MyFitnessPal emphasizes data completeness and structured input over interaction speed. While this improves analytical richness, it introduces additional friction during data entry, especially when GymGoers attempt to log workouts immediately after completion.#
 
 [.added]#A key limitation of this model is that it reduces workouts to simple values like time spent, instead of treating them as distinct events with their own structure.
 

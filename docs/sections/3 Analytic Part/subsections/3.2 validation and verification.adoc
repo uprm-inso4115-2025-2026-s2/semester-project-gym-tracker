@@ -8,13 +8,13 @@
 
 [.changed]#The earlier milestone work validated core domain concepts such as Workout Session, Run, Streak, Goal, Consistency, and Progress Feedback by embedding them in concrete scenarios and checking whether those scenarios matched stakeholder understanding. One documented design-time scenario considered a user who completed a 30-minute run in the morning and a 45-minute strength workout in the evening on the same calendar date. The intended interpretation was that the system records two distinct Workout Sessions on the same date and that both contribute to broader weekly tracking.#
 
-[.changed]#The gap identified in that earlier validation was that some users initially assumed that only one Workout Session per day was allowed. The resulting remedy was to clarify the Session Representation requirement so multiple Workout Sessions may exist on the same calendar date while remaining distinct records. We keep this material because it explains why the domain model allows same-day multiplicity.#
+[.changed]#The gap identified in that earlier validation was that some GymGoers initially assumed that only one Workout Session per day was allowed. The resulting remedy was to clarify the Session Representation requirement so multiple Workout Sessions may exist on the same calendar date while remaining distinct records. We keep this material because it explains why the domain model allows same-day multiplicity.#
 
 ===== Scenario Testing with Stakeholders
 
 [.changed]#The earlier section also documented stakeholder walkthroughs around Streak Representation, Streak Calculation, Goal Evaluation, Weekly Aggregation, Weekly Comparison, and Low-Effort Logging. One design-time scenario considered a user who logged workouts on Monday, Tuesday, and Wednesday, skipped Thursday, and logged another workout on Friday. The stakeholder question was whether the streak should continue, reset immediately, or allow a grace period.#
 
-[.changed]#The gap identified in that design discussion was that several participants expected some flexibility if a workout was forgotten but performed. The documented remedy was to refine the Streak Calculation requirement so streaks are defined as sequences of consecutive calendar units and to note a configurable grace-period feature as a possible future extension. We keep this material in the section as design-time validation and requirement rationale, not as evidence that the current implementation was tested with users.#
+[.changed]#The gap identified in that design discussion was that several participants expected some flexibility if a workout was forgotten but performed. The documented remedy was to refine the Streak Calculation requirement so streaks are defined as sequences of consecutive calendar units and to note a configurable grace-period feature as a possible future extension. We keep this material in the section as design-time validation and requirement rationale, not as evidence that the current implementation was tested with GymGoers.#
 
 ===== Surveys and Feedback Mechanisms
 
@@ -77,7 +77,7 @@
 | [.changed]#Section 2.1.6 Function Signatures#
 | [.changed]#Checked whether function inputs and outputs use existing domain types.#
 
-| [.changed]#Section 2.2.1 User Stories, Epics, Features#
+| [.changed]#Section 2.2.1 GymGoer Stories, Epics, Features#
 | [.changed]#Checked whether stories can be traced to needs, personas, and requirements.#
 
 | [.changed]#Section 2.2.3 Domain Requirements#
@@ -108,7 +108,7 @@
 | [.changed]#D1#
 | [.changed]#Are any domain terms used before they are defined?#
 | [.changed]#Found#
-| [.changed]#Some function signatures use terms such as `Notes`, `TimePeriod`, and `StreakLength`, while the terminology section defines `Workout Notes`, `Time Frame`, and `Streak`.#
+| [.changed]#Resolved in this pass: function signatures now use `WorkoutNotes`, `TimeFrame`, and `Streak`, matching the terminology section.#
 
 | [.changed]#D2#
 | [.changed]#Do two sections use different names for the same domain concept?#
@@ -188,7 +188,7 @@
 | [.changed]#Q3#
 | [.changed]#Do the requirements use consistent terminology?#
 | [.changed]#Needs revision#
-| [.changed]#Most terms are consistent, but `Notes` versus `Workout Notes` and `TimePeriod` versus `Time Frame` should be corrected.#
+| [.changed]#Resolved in this pass: the shorter note, period, and streak-length aliases were replaced by the canonical terms `WorkoutNotes`, `TimeFrame`, and `Streak` in Section 2.1.6.#
 
 | [.changed]#Q4#
 | [.changed]#Are requirements written at the right level of abstraction?#
@@ -223,7 +223,7 @@
 | [.changed]#Q10#
 | [.changed]#Are personas connected to the requirement set?#
 | [.changed]#Pass with minor fixes#
-| [.changed]#Personas are used in the user stories. Some requirement tables could add short persona references.#
+| [.changed]#Personas are used in the GymGoer stories. Some requirement tables could add short persona references.#
 
 | [.changed]#Q11#
 | [.changed]#Does the documentation identify known limitations?#
@@ -276,7 +276,7 @@
 
 | [.changed]#QC8#
 | [.changed]#Does each user story support an identified need or persona?#
-| [.changed]#User stories#
+| [.changed]#GymGoer stories#
 
 | [.changed]#QC9#
 | [.changed]#Does each epic have requirements that make it concrete?#
@@ -356,14 +356,14 @@
 | [.changed]#F1#
 | [.changed]#Defect#
 | [.changed]#Section 2.1.6 Function Signatures#
-| [.changed]#The function signatures use `Notes` and `TimePeriod`, but the terminology section defines `Workout Notes` and `Time Frame`.#
-| [.changed]#Rename `Notes` to `WorkoutNotes` and `TimePeriod` to `TimeFrame` in the function signatures, or add those shorter aliases to the terminology section.#
+| [.changed]#Resolved: Section 2.1.6 now uses `WorkoutNotes` and `TimeFrame`, matching Section 2.1.2.#
+| [.changed]#No follow-up action remains for this item.#
 
 | [.changed]#F2#
 | [.changed]#Defect#
 | [.changed]#Section 2.1.2 Terminology and Section 2.1.6 Function Signatures#
-| [.changed]#`computeStreak(history: WorkoutHistory)` returns `Streak` in the terminology section, while the function signature section returns `StreakLength`.#
-| [.changed]#Decide whether the return value is the full `Streak` behavior or only a numeric `StreakLength`. If `StreakLength` is kept, define it in terminology.#
+| [.changed]#Resolved: `computeStreak(history: WorkoutHistory)` now returns `Streak` in Section 2.1.6, matching the terminology section.#
+| [.changed]#No follow-up action remains for this item.#
 
 | [.changed]#F3#
 | [.changed]#Defect#
@@ -403,8 +403,8 @@
 
 | [.changed]#F9#
 | [.changed]#Quality improvement#
-| [.changed]#Section 2.2.1 User Stories and Section 2.2.3 Domain Requirements#
-| [.changed]#User stories are persona-based, but requirement statements do not always show which persona or need they support.#
+| [.changed]#Section 2.2.1 GymGoer Stories and Section 2.2.3 Domain Requirements#
+| [.changed]#GymGoer stories are persona-based, but requirement statements do not always show which persona or need they support.#
 | [.changed]#Add short traceability tags to requirements, such as `Supports: N2, G4, Alejandro`.#
 
 | [.changed]#F10#

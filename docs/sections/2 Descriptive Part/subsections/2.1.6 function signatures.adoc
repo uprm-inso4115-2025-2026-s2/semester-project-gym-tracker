@@ -15,7 +15,7 @@ Where multiple outputs indicate updated state and produced results.
 [.added]#Records a Workout Session for a GymGoer and returns the updated GymGoer together with the newly created WorkoutSession. The GymGoer is in the result because recording a workout modifies the GymGoer's WorkoutHistory; the WorkoutSession exists within that history and is not accessible independently. This signature is consistent with the definition in Section 2.1.2.#
 
 [.added]#updateWorkoutSession :#
-[.added]#    WorkoutHistory >< WorkoutSession >< Activity >< Duration >< CalendarDay >< Notes#
+[.changed]#    WorkoutHistory >< WorkoutSession >< Activity >< Duration >< CalendarDay >< WorkoutNotes#
 [.added]#    -> WorkoutHistory >< WorkoutSession#
 
 [.added]#Modifies an existing recorded Workout Session within the WorkoutHistory.#
@@ -30,19 +30,25 @@ Removes a recorded Workout Session from the WorkoutHistory.
     GymGoer
     -> WorkoutHistory#
 
-#Determines the WorkoutHistory associated with a GymGoer. This is the entry point through which all Workout Session retrieval happens. A Workout Session is only accessible through the GymGoer whose history contains it.#
+[.changed]#Determines the WorkoutHistory associated with a GymGoer. This is the entry point through which all Workout Session retrieval happens. A Workout Session is only accessible through the GymGoer whose history contains it.#
 
-[.added]#getSessionsInRange :#
+[.changed]#findWorkoutSessions :#
 [.added]#    WorkoutHistory >< CalendarDay >< CalendarDay#
 [.added]#    -> [WorkoutSession]#
 
-[.added]#Returns all Workout Sessions in the WorkoutHistory whose Calendar Day falls within the specified range. This function makes explicit how two sessions can be selected for comparison — a caller first retrieves the WorkoutHistory, then selects sessions from it using this function.#
+[.changed]#Returns all Workout Sessions in the WorkoutHistory whose Calendar Day falls within the specified range. This function makes explicit how two sessions can be selected for comparison — a caller first retrieves the WorkoutHistory, then selects sessions from it using this function. The name matches the canonical action in Section 2.1.2.#
 
-[.added]#getLastSessionByActivity :#
-[.added]#    WorkoutHistory >< Activity#
+[.changed]#findLastWorkoutSession :#
+[.changed]#    WorkoutHistory#
 [.added]#    -> WorkoutSession#
 
-[.added]#Returns the most recent Workout Session in the WorkoutHistory for a given Activity type. This expresses a common query (e.g., "last bench press session") that is otherwise implied but not defined.#
+[.changed]#Returns the most recent Workout Session in the WorkoutHistory. The name matches the canonical action in Section 2.1.2.#
+
+[.added]#findSessionsByExercise :#
+[.added]#    WorkoutHistory >< Exercise#
+[.added]#    -> [WorkoutSession]#
+
+[.added]#Returns all Workout Sessions in the WorkoutHistory that included the given Exercise. This explicitly relates WorkoutSession to WorkoutHistory through a frequent domain query, such as finding past sessions that included bench press.#
 
 
 ===== Goal Management Functions
@@ -69,7 +75,7 @@ Deletes a goal from the history.
 
 computeStreak :
     WorkoutHistory
-    -> StreakLength
+    -> Streak
 
 Determines the current number of consecutive attendance days.
 
@@ -89,10 +95,10 @@ compareSessions :
     WorkoutSession >< WorkoutSession
     -> SessionComparison
 
-Evaluates differences between two sessions, such as Duration or activity type. [.added]#To obtain two sessions for comparison, the caller first invokes retrieveWorkoutHistory to obtain the GymGoer's WorkoutHistory, then invokes getSessionsInRange or getLastSessionByActivity to select the two sessions.#
+Evaluates differences between two sessions, such as Duration or activity type. [.changed]#To obtain two sessions for comparison, the caller first invokes retrieveWorkoutHistory to obtain the GymGoer's WorkoutHistory, then invokes findWorkoutSessions, findLastWorkoutSession, or findSessionsByExercise to select the sessions.#
 
 evaluateConsistency :
-    WorkoutHistory >< TimePeriod
+    WorkoutHistory >< TimeFrame
     -> ConsistencyMeasure
 
 Determines the regularity of workouts across a period of time.
