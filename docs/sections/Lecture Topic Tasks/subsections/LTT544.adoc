@@ -1,0 +1,181 @@
+= Analysis on How a Proposed Change affects Workout History Module
+:author: Lorenzo-PT
+
+== Overview
+
+To better understand the workflow that the workout history module goes through, we must analyze the ripple effects that a single proposed change to the system's workout sessions has on domain attributes, requirements and workflow. This change is not to be implemented, simply to provide a concrete change and analyze its impact throughout the Workout history module.
+
+=== Proposed Change: WorkoutRating as a Required Field on Workout Sessions
+
+To observe the changes in the workout history model, we must propose a change that would directly affect the system's domain concepts, domain requirements, interface & machine requirements. The proposed change is to add `WorkoutRating` as a required attribute during every workout session.
+
+The `WorkoutRating` class is a simple rating system that the GymGoer can use to rate their sessions. After the user completes the workout session, they can assign a score based on a fixed scale from 1 to 5. A "1" rating means that the Gymgoer had a very poor or unproductive workout session, while a 5 rating represents that the user had a great workout session.
+
+Under this proposed change, `WorkoutRating` a required attribute, meaning that no workout sessions can be recorded, considered valid or finished without the Gymgoer providing a rating value. A similar attribute is `WorkoutNotes`, which have similar structures but it’s not a required action.
+
+=== Scope
+
+This document is mostly limited to the Workout history module and how the proposed change will interact with requirements, assumptions and domain attributes.
+
+== Domain Assumptions affected by the Proposed change
+
+The Gym Tracker's domain model has several assumptions about the Workout sessions, the WorkoutRating change affects two identified assumptions, being:
+
+=== 1. A Workout session  is fully described by objective and concrete attributes.
+
+The current model for the domain defines `WorkoutSession` as the Gymgoer performing a workout on a random calendar day. They include workout type, duration, the exercises the user did, activities and any optional notes. All of these attributes are either concrete tasks or a factual record, only WorkoutNotes are subjective, but only because they are optional.
+
+*How the Change Impacts this* - As `WorkoutRating` is added, it would add a subjective, user-written attribute to the Workout sessions, meaning that it would not be fully described by concrete attributes, since the rating system would mean that the user's input is required.
+
+=== 2. Low effort Workout logging
+
+For users to log workouts, GymGoers simply need the workout's basic information to finish logging their workout, exercises and notes can be optional. This assumption is basically that the minimum required input is small enough that recording a session never becomes a barrier to consistency.
+
+*How the Change Impacts this* - Adding the WorkoutRating change would make it that for every workout session the gymgoer HAS to rate their performance, weakening this assumption as it would add an extra step.
+
+=== 3. Workout History is a neutral, fact-based record.
+
+The Workout History module is an ordered collection of sessions the Gymgoer has done. This is presented in neutral and fact-based records like the duration of the session and the exercises. 
+
+*How the Change Impacts this* - Instead of the workout history consisting of factual information, now it contains a subjective element being the WorkoutRating. Now they include the GymGoer's opinion about all of their sessions.
+
+== Affected Domain Requirements
+
+=== Session Representation****
+
+"The system must provide means to represent each Workout Session as a distinct entity associated with: Specific Calendar Day, Session type, Duration, Exercises
+performed."
+
+*How the Change Impacts this* - Simply extend the attribute list to include `WorkoutRating` as it would be a required action.
+
+*Change type:* Attribute extension.
+
+=== Information Recording
+
+"The system must provide means to record a Workout Session using only essential information: session type, duration, and optional short notes. 
+
+*How the Change Impacts this* - This requirement now needs to expand, and a conflict is observed as Workout Sessions now need to include the ratings, since the required minimum is now session type, duration, rating. 
+
+*Change type:* Minimum required input set is expanded, increasing constraint.
+
+== Affected Interface Requirements
+
+=== Editing and Correction of Workout Data
+
+"The system shall provide an interface for a User to view and edit previously recorded Workout Sessions in order to correct fields whose stored value does not match the Workout Session that occurred in the real world."
+
+*How the Change Impacts this* - The said editing interface must provide `WorkoutRating` as an editable field. The GymGoer MUST be able to edit the rating section of the session.
+
+*Change type:* Extend Interface and add WorkoutRatings to the editing interface.
+
+=== Viewing Progress and History
+
+"The system shall provide an interface for a User to view the
+Workout History and Progress."
+
+*How the Change Impacts this* - Similarly to the previous requirement, since WorkoutRasting is a mandatory attribute, it means that the history interface must include it.
+
+*Change type:* Extend history display to add WorkoutRatings
+
+== Affected Machine Requirements
+
+=== Interactive Response Time
+
+In this section from the project's documentation: "Server-backed operations (e.g., creating/editing Workout Sessions, updating Goals) shall complete with a server-acknowledged result within ≤ 1.0 second for at least 95% of requests."
+
+*How the Change Impacts this* - Adding WorkoutRating as a required field that persistently causes the Workout Session write operation to add one more Column. If the proposed change is also used for other operations might increase the response time of the system. 
+
+*Change type:* No change but processes expand
+
+=== Data Durability on Failure (Reliability)
+
+"When a write operation (e.g., logging a Workout Session or updating a Goal) returns success to the client, the system shall persist in the change such that it remains retrievable after client refresh or reconnect. The system shall not acknowledge success unless the data is committed to persistent storage."
+
+*How the Change Impacts this* - As WorkoutRating is a required field, if the write succeeds but the rating value isn’t correct, the session remains incomplete and unfinished.
+
+*Change type:* N/A
+
+== Affected Domain Events
+
+The following domain events are affected by the WorkoutRating change being implemented:
+
+*Workout session has just been recorded*- Every time that a workout session is recorded and added to the activity history the WorkoutRating will be included in the activity history where the users can see the rating of all of their workout.
+
+*Workout Session has been Corrected or Removed* - WorkoutRating becomes a correctable field, so that if the GymGoer inputted their session incorrectly, they can edit the fields including WorkoutRating. This also means that when the user wants to remove a session, they also remove their rating along with it.
+
+* Weekly Summary has been Generated* - Included in the summary of the user's activity will incorporate rating data, extending the WeeklySummary entity.
+
+== UML: Domain Model Before and After the proposed Change
+
+To concretely compare the WorkoutSession's domain model currently vs the domain model after WorkoutRating focusing on the history module, two UML models were implemented:
+
+=== Before The Change
+
+[mermaid]
+....
+classDiagram
+    class GymGoer{
+        +id
+    }
+    class WorkoutSession{
+        +sessionType
+        +duration Duration
+        +calendarDay CalendarDay
+        +exercises List 0-n
+        +notes WorkoutNotes 0..1
+    }
+    class WorkoutHistory{
+        +sessions List-sessions-
+    
+    }
+    class SessionComparison{
+        +durationDiff
+        +activityTypeDiff
+        +exerciseDiff
+        +notesDiff
+        +calendarDayDiff 
+    }
+....
+
+=== After the Change
+
+[mermaid]
+....
+classDiagram
+    class GymGoer{
+        +id
+    }
+    class WorkoutSession{
+        +sessionType
+        +duration Duration
+        +calendarDay CalendarDay
+        +rating WorkoutRating
+        +exercises List 0-n
+        +notes WorkoutNotes 0..1
+    }
+    class WorkoutRating {
+        +value Integer
+        +MIN = 1
+        +MAX = 5
+    }
+
+    class WorkoutHistory{
+        +sessions List-sessions-
+    
+    }
+    class SessionComparison{
+        +durationDiff
+        +activityTypeDiff
+        +exerciseDiff
+        +notesDiff
+        +calendarDayDiff 
+        +rating WorkoutRating
+    }
+....
+
+== Summary & Conclusion
+
+Introducing `WorkoutRating` changes the scope of the WorkoutSession process, however it does not alter the project's fundamental structure. But even if it doesn’t, the proposed change does affect the project's assumptions and requirements, as well as disrupt sequences like low-effort ligging. This change is clear proof that any change that the project's structure receives would change multiple requirements that the project has to re-define. 
+
+
+

@@ -1,0 +1,271 @@
+= Temporal Logic Analysis for Workout Session State Transitions
+:author: Lorenzo-PT
+
+== Overview
+
+This document uses dormal temporal logic (specifically Linear Tempocal Logic - LTL) to express and verify components about how the system behaves over time by applying it to Gym Tracker's workout session lifecycle. 
+
+This analysis is focused on the state transitions of the project, analyzing workflows and applying temporal logic and verifying safety and liveness properties.
+
+== Formal Session State Model
+
+=== State Definitions
+
+Before defining the state transitions, we must identify that the workout session lifecycle has the following assumed states:
+
+[cols="1,3", options="header"]
+|===
+| State | Description
+
+| `IDLE`
+| The system has no current active session recording, Gymgoer is on dashboard or another view.
+
+| `RECORDING`
+| The Gymgoer is currently filling in workout data (e.g. session type, exercises, notes) and  has the session recording view open.
+
+| `PENDING`
+| The GymGoer has submitted the workout form, the system sends write request but session has not been confirmed.
+
+| `RECORDED`
+| Server confirms that the session was saved successfully, it is now in `WorkoutHistory`
+
+| `EDITING`
+| The Gymgoer opened a previous workout log to correct what they filled.
+
+| `EDIT_PENDING`
+| The editing form was submitted and it is waiting on the system to confirm.
+
+| `REMOVED`
+| The recorded session was deleted by the user.
+|===
+
+
+=== Transitions
+
+The following transitions between states are designed for the system's workout sessions:
+
+[cols="1,1,2", options="header"]
+|===
+| Transition | Action Trigger | Condition / Guard
+
+| `IDLE` → `RECORDING`
+| `openRecordForm`
+| GymGoer opens session form.
+
+| `RECORDING` → `PENDING`
+| `submitForm`
+| GymGoer submits the workout session log.
+
+| `RECORDING` → `IDLE`
+| `cancelForm`
+| GymGoer cancels or clicks away without submitting.
+
+| `PENDING` → `RECORDED`
+| `serverConfirm`
+| Server successfully registers workout. It is now visible in the history view.
+
+| `PENDING` → `RECORDING`
+| `serverReject`
+| Server returns an error, write fails and user is sent back to form view after clicking submit.
+
+| `RECORDED` → `EDITING`
+| `openEditForm`
+| GymGoer selects an existing session and selects edit session.
+
+| `RECORDED` → `REMOVED`
+| `deleteConfirm`
+| GymGoer confirms deletion of the session in history page.
+
+| `EDITING` → `EDIT_PENDING`
+| `submitEdit`
+| GymGoer submits the edited fields.
+
+| `EDITING` → `RECORDED`
+| `cancelEdit`
+| GymGoer cancels the edit without saving, stays with the same workout data.
+
+| `EDIT_PENDING` → `RECORDED`
+| Saves the edited session.
+
+| `EDIT_PENDING` → `EDITING`
+| `editServerReject`
+| Server returns an error or rejects the update, write fails and user is sent back to edit dashboard.
+|===
+
+
+=== LTL Notation/Operators
+
+This document uses LTL operators, here are what they mean:
+
+[cols="1,2", options="header"]
+|===
+| Operator | Meaning
+
+| `□ P`
+| *Globally* — P holds at every point in time (now and forever).
+
+| `◇ P`
+| *Eventually* — P holds at some point in the future.
+
+| `P U Q`
+| *Until* — P holds continuously until Q becomes true (and Q must eventually hold).
+
+| `○ P`
+| *Next* — P holds in the immediately following state.
+
+| `¬ P`
+| *Negation* — P does not hold.
+
+| `P -> Q`
+| *Implication* — whenever P holds, Q also holds.
+
+| `P ∧ Q`
+| *Conjunction* — both P and Q hold.
+
+| `P ∨ Q`
+| *Disjunction* — at least one of P or Q holds.
+|===
+
+== Safety Properties
+
+A *safety property* ensures that something bad never happens. For Temporal Logic analysis, safety properties are expressed with `□ `, as the properties need to be reachable accross the system properties. 
+
+=== Safety Property 1: No session is Acknowledged before Confirmed by Server
+
+==== Formula (LTL)
+----
+□ (In History → Server Confirmed)
+----
+
+ — nothing bad can enter history:
+
+----
+□ ¬(In History ∧ ¬Server Confirmed)
+----
+
+===== Explanation
+
+Unless the server commited and confirmed a session because the GymGoer previously saved it, a workout session CANNOT appear in the Workout History tab. This means that the session cannot be "saved" or included in any streak, weekly summary or other system calculations for feedback.
+
+This property corresponds to the `data durability on failure` machine requirement, since no system shall not acknowledge success unless the data is committed to persistent storage.
+
+==== Verification against State model
+
+This assumption is *true* under the defined state model:
+
+* While the system is in PENDING state, the session was submitted but the server has still not confirmed it.
+* Only the transition that confirms the session can cause a workout to be recorded.
+* The transition that rejects the session explicitly loops back to `RECORDING`, ensuring that a failed write never produces a RECORDED state.
+
+=== Safety Property 2: Future-Dated Sessions Are Never Accepted
+
+==== Formula (LTL)
+
+----
+□ ¬(recorded ∧ future Date)
+----
+
+Can also be expressed as a submission transition guard as:
+
+----
+□ (Submit workout form → ¬ future Date)
+----
+
+==== Explanation
+
+In no instance should the system contain a recorded workout that was set in a calendar day on a date that has not yet ocurred. Since workout sessions describe events that have already taken place, in no record of the system should there ever be a session dated in the future as it would be invalid in respect to the domain model.
+
+This property corresponds to the *Batch validation* interface requirement that dictates that the validation strategy shall at least reject any future workout dates. A `futureDate` session must never survive past the `RECORDING` → `PENDING` transition.
+
+==== Verification Against State Model
+
+The property does *hold* against the defined model, the relation to the interface requirement as well as the following terms dictate so:
+
+* If any futureDate is true when the user submits the session form, no transition from `RECORDING → PENDING` occurs and the system remains in RECORDING.
+* Since in order for a session to be RECORDED, PENDING serves as a prerequisite, and pending could never be reached if the system detects a future date.
+* The `EDITING` → `EDIT_PENDING` transition carries the same client-validation guard, so a correction can never introduce a future date into an already recorded session either.
+
+
+== Liveness Properties
+
+A *liveness property* shows that something good eventually happens in the system. For LTL terms, liveness properties are represented with `◇`, since a desirable state is always reachable in the future.
+
+=== Liveness Property 1: Every Submitted Session Eventually Reaches a Terminal State
+
+==== Formula (LTL)
+
+----
+□ (pending → ◇(recorded ∨ recording))
+----
+
+This states that whenever the system enters the PENDING state, it will eityher eventually succeed to RECORDED or return to RECORDING(only with a validation error), the system can never be stuck in pending.
+
+==== Explanation
+
+Whenever the Gymgoer submits a workout form, in which case it will be PENDING, the system must always resolve the submission. This can be done either by validating the process and record the meeting or by reverting back to RECORDING in case of an error. 
+
+This property matches the machine requirement for *Interactive Response Time*, which mandates that server-backed operations shall complete with a server-acknowledged result within ≤ 1.0 second for at least 95% of requests.
+
+==== Verification Against State Model
+
+The property *holds* under the model given the *assumption* that the server is responsive. Theoretically, the property may fail but only if the client or servers have any network difficulties.
+
+* From PENDING, there can only be two transitions, to RECORDED or to RECORDING.
+* The machine requirements ensure that these transitions are expected to be under 1.0 second. 
+
+
+=== Liveness Property 2: The System Always Eventually Returns to IDLE After A Operation
+
+==== Formula (LTL)
+
+----
+□ (recording → ◇ idle)
+□ (editing  → ◇ idle)
+----
+
+Combined as a single formula::
+
+----
+□ ((recording ∨ pending ∨ editing ∨ edit_pending) → ◇idle)
+----
+
+
+==== Explanation
+
+No matter the state that the workout session workflow enters, the system must always return back to IDLE until the user interacts with the application again.If the system were to get stuck on something like RECORDING or EDITING indefinitely, it would violate the domain assumption that the recording experience should never be time prolonguing.
+
+==== Verification against State Model
+
+This property remains *true* under the state model as every non-idle state always has an outgoping path that leads to IDLE. As no task in Gym Tracker can be infinite.
+
+* From any state, the user must always be able to go back to IDLE.
+* From PENDING: Eventually resolbves into RECORDED or RECORDING, which then goes back to IDLE. 
+* From EDITING: cancelling the edit leads directly back to `RECORDED`, from which the form is closed, going back to idle. `submitEdit` leads to EDIT_PENDING,  which resolves similarly.
+
+==== Assumptions, Discrepancies and Limitations
+
+=== Assumptions
+
+*Server availability* - Both liveness propertoes assume that the server is going to be responsive, which is an assumption of the system.
+
+*Client clock accuracy* - The client is always expected to be up to date and none other date on his system, especially future dates.
+
+*Cancel is always available for certain processes* - As liveness property 2 stated, cancelling the session form and workout edit form is necessary as without it, the user can never go back to being IDLE, as they are going to be stuck in RECORDING or EDITING
+
+=== Discrepancies
+
+*`PENDING` state visibility* — There is no interface that lets us view a loding bar or symbol when submitting a form that has yet to be processed. 
+
+* *No explicit `ERROR` state* - The current state model only uses `serverReject` and `editServerReject, which may cause discrepancies as a client-sided error might occur.
+
+=== Limitations
+
+*State spike for Concurrent users* - The model is defined for a single gymgoer to record their sessions, when the application extends to cover multiple active users, a larger state space may be created as a result.
+
+*No tool-based model checking performed* — The verification in this document is by manual trace inspection against the defined transitions, a full model-checking exercise using a tool such as SPIN would provide a much more accurate and reachable states.
+
+== Conclusion
+
+Applying linear temporal logic to the workout sessions in the Gym Tracker's lifecycle reveals that the systems current state model satisfies important safety and liveness properties derived from the system's requirements. Safety properties 1 and two both held against the state model as the transitions and states enforce them, and the liveness properties both also held up under the server's eventual response assumption.
+
+This analysis also shows limitations, discrepancies and assumptions, representing areas for future refinement over the project's requirements, but in no way do they invalidate the model. 
