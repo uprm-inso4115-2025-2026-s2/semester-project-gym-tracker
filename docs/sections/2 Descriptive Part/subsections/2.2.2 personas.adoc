@@ -2,6 +2,7 @@
 
 [.changed]#The personas describe GymGoers before they are system users. They include everyday context so developers can picture the person when making design decisions.#
 
+[[persona-alejandro]]
 ===== *Alejandro "The Busy Beginner"*
 
 [.changed]#Background: Alejandro Perales is a 19-year-old college student at the University of Puerto Rico at Mayagüez (UPRM). He started going to the gym this semester because he wants more energy, confidence, and a routine that does not fall apart during exam weeks. He is not training for competition. He wants to stop feeling like every semester resets his habits.#
@@ -44,6 +45,7 @@ Solutions:
 
 [.changed]#Feature - Streaks With Recovery: Track consistency while keeping weekly progress visible after a missed day.#
 
+[[persona-derek]]
 ===== *Derek "The Split-Tracker Runner"*
 
 [.changed]#Background: Derek Vega is a 21-year-old college student who splits his training between running and basic gym sessions. He likes feeling organized, but his fitness tracking is scattered between memory, notes, and whatever app he happened to use last month. He is not looking for a complicated performance lab. He wants one place to track the essentials and quickly compare how he is doing over time.#
@@ -86,6 +88,7 @@ Solutions:
 
 [.changed]#Feature - Low-Friction Defaults: Provide presets or recent-session shortcuts so Derek can log quickly on busy days.#
 
+[[persona-ana]]
 ===== *Ana "The Habit Builder"*
 
 [.changed]#Background: Ana Carolina is a 24-year-old Business Administration student who also works part-time. She is focused on building healthier habits long-term. Her goal is stability, not intensity. She wants an app that feels supportive and realistic: something that helps her keep showing up without turning fitness into guilt.#

@@ -88,7 +88,7 @@ User stories::
 * [.changed]#As Ana, a habit-building GymGoer, I want to record a simple Workout Session even when I do not feel motivated so that tracking does not become another source of pressure.#
 * [.changed]#As Derek, a GymGoer who also runs, I want to log a run with time and distance so that I can track cardio progress alongside my gym routine.#
 
-[.changed]#Related personas: Alejandro, Ana, Derek.#
+[.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-ana,Ana>>, <<persona-derek,Derek>>.#
 
 [.changed]#Related requirements: Session Representation, Low-Effort Logging, Persistent Storage and Retrieval.#
 
@@ -101,7 +101,7 @@ User stories::
 * [.changed]#As Derek, someone who compares repeated sessions, I want to attach an optional note to a session, such as effort level or injury warning, so that I can understand context when comparing sessions later.#
 * [.changed]#As Ana, I want to record an optional “how it felt” note after a session so that I can connect progress with how sustainable the routine feels.#
 
-[.changed]#Related personas: Alejandro, Derek, Ana.#
+[.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>, <<persona-ana,Ana>>.#
 
 [.changed]#Related requirements: Session Representation, Session Comparison, Progress Review.#
 
@@ -114,7 +114,7 @@ User stories::
 * [.changed]#As Derek, I want repeated runs or gym sessions to start from a previous entry so that logging does not feel like duplicate work.#
 * [.changed]#As Ana, I want repeated routines to be easy to log so that busy weeks do not make tracking feel harder than exercising.#
 
-[.changed]#Related personas: Alejandro, Derek, Ana.#
+[.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>, <<persona-ana,Ana>>.#
 
 [.changed]#Related requirements: Low-Effort Logging, Workout History, Session Representation.#
 
@@ -127,7 +127,7 @@ User stories::
 * [.changed]#As Alejandro, I want to fix a session date, Duration, or note if I entered it wrong so that my Workout History stays useful.#
 * [.changed]#As Derek, I want edited sessions to affect later comparisons so that an old mistake does not keep showing up in my progress review.#
 
-[.changed]#Related personas: Ana, Alejandro, Derek.#
+[.added]#Related personas: <<persona-ana,Ana>>, <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>.#
 
 [.changed]#Related requirements: Persistent Storage and Retrieval, Weekly Summary, Goal Evaluation, Session Comparison.#
 
@@ -144,7 +144,7 @@ User stories::
 * [.changed]#As Derek, I want to view my full workout and run history so that I can look back and plan future sessions.#
 * [.changed]#As Ana, I want to see past weeks without digging through individual entries one by one so that review feels manageable.#
 
-[.changed]#Related personas: Alejandro, Derek, Ana.#
+[.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>, <<persona-ana,Ana>>.#
 
 [.changed]#Related requirements: Workout History, Persistent Storage and Retrieval, Session Representation.#
 
@@ -157,7 +157,7 @@ User stories::
 * [.changed]#As Derek, I want to filter my history by activity type, such as run versus gym session, so that reviewing progress is fast and meaningful.#
 * [.changed]#As Ana, I want to find sessions with activities I enjoyed so that I can repeat routines that felt sustainable.#
 
-[.changed]#Related personas: Alejandro, Derek, Ana.#
+[.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>, <<persona-ana,Ana>>.#
 
 [.changed]#Related requirements: Workout History, Session Comparison, Progress Review.#
 
@@ -170,7 +170,7 @@ User stories::
 * [.changed]#As Alejandro, I want to compare my last upper-body session with an earlier one so that I know what to repeat or adjust.#
 * [.changed]#As Ana, I want session comparison to stay simple so that it helps me reflect without turning into a complicated analytics screen.#
 
-[.changed]#Related personas: Derek, Alejandro, Ana.#
+[.added]#Related personas: <<persona-derek,Derek>>, <<persona-alejandro,Alejandro>>, <<persona-ana,Ana>>.#
 
 [.changed]#Related requirements: Session Comparison, Progress Review, Workout History Retrieval.#
 
@@ -187,7 +187,7 @@ User stories::
 * [.changed]#As Derek, I want both runs and gym sessions to count when they qualify as Workout Sessions so that the tracking matches my real routine.#
 * [.changed]#As Ana, I want the app to avoid making one broken Streak feel like all progress is gone.#
 
-[.changed]#Related personas: Alejandro, Derek, Ana.#
+[.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>, <<persona-ana,Ana>>.#
 
 [.changed]#Related requirements: Streak Representation, Streak Calculation, Workout History.#
 
@@ -200,7 +200,7 @@ User stories::
 * [.changed]#As Alejandro, I want weekly progress to remain visible even if my Streak breaks so that one missed day does not erase my sense of progress.#
 * [.changed]#As Derek, I want Consistency to be separate from Streak so that non-consecutive running and gym days still count as regular activity.#
 
-[.changed]#Related personas: Ana, Alejandro, Derek.#
+[.added]#Related personas: <<persona-ana,Ana>>, <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>.#
 
 [.changed]#Related requirements: Consistency Representation, Weekly Summary, Streak Representation.#
 
@@ -213,7 +213,7 @@ User stories::
 * [.changed]#As Alejandro, I want missed days to be visible without making the Week feel worthless so that I can keep logging after a busy day.#
 * [.changed]#As Derek, I want recovery information to come from my Workout History so that it reflects what I actually did.#
 
-[.changed]#Related personas: Ana, Alejandro, Derek.#
+[.added]#Related personas: <<persona-ana,Ana>>, <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>.#
 
 [.changed]#Related requirements: Consistency Measure, Weekly Summary, Supportive Feedback.#
 
@@ -230,7 +230,7 @@ User stories::
 * [.changed]#As Alejandro, I want the Goal to be simple so that I understand what I am trying to complete.#
 * [.changed]#As Derek, I want the Goal to use activity patterns from my Workout History so that it reflects my actual routine.#
 
-[.changed]#Related personas: Ana, Alejandro, Derek.#
+[.added]#Related personas: <<persona-ana,Ana>>, <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>.#
 
 [.changed]#Related requirements: Goal Representation, Goal Evaluation.#
 
@@ -243,7 +243,7 @@ User stories::
 * [.changed]#As Ana, I want a Weekly Summary that shows Attendance Days, Missed Days, and Goal Result so that I can reflect without feeling judged.#
 * [.changed]#As Derek, I want the Weekly Summary to show enough detail to compare one Week with another.#
 
-[.changed]#Related personas: Alejandro, Ana, Derek.#
+[.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-ana,Ana>>, <<persona-derek,Derek>>.#
 
 [.changed]#Related requirements: Weekly Summary, Goal Evaluation, Consistency Measure.#
 
@@ -256,7 +256,7 @@ User stories::
 * [.changed]#As Alejandro, I want weekly reflection to be optional so that it does not slow down basic tracking.#
 * [.changed]#As Derek, I want notes to add context to the numbers so that comparisons do not lose important details.#
 
-[.changed]#Related personas: Ana, Alejandro, Derek.#
+[.added]#Related personas: <<persona-ana,Ana>>, <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>.#
 
 [.changed]#Related requirements: Weekly Summary, Workout Notes, Progress Review.#
 
@@ -273,7 +273,7 @@ User stories::
 * [.changed]#As Derek, I want to temporarily mute reminders when I am busy so that I do not disengage from the app due to spam.#
 * [.changed]#As Alejandro, I want reminders around my usual workout days so that I do not forget during busy weeks.#
 
-[.changed]#Related personas: Ana, Derek, Alejandro.#
+[.added]#Related personas: <<persona-ana,Ana>>, <<persona-derek,Derek>>, <<persona-alejandro,Alejandro>>.#
 
 [.changed]#Related requirements: Reminder Representation, Interface Requirements for Notifications.#
 
@@ -286,7 +286,7 @@ User stories::
 * [.changed]#As Ana, I want feedback that helps me restart after a missed day so that I do not stop tracking.#
 * [.changed]#As Derek, I want feedback to be tied to my actual Workout History so that it does not feel random.#
 
-[.changed]#Related personas: Alejandro, Ana, Derek.#
+[.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-ana,Ana>>, <<persona-derek,Derek>>.#
 
 [.changed]#Related requirements: Supportive Feedback, Weekly Summary, Goal Result, Consistency Measure.#
 
@@ -303,7 +303,7 @@ User stories::
 * [.changed]#As Derek, I want my full workout and run history stored in one place so that I can look back and plan future sessions.#
 * [.changed]#As Ana, I want my Weekly Summaries to use my saved history so that progress feedback stays consistent over time.#
 
-[.changed]#Related personas: Alejandro, Derek, Ana.#
+[.added]#Related personas: <<persona-alejandro,Alejandro>>, <<persona-derek,Derek>>, <<persona-ana,Ana>>.#
 
 [.changed]#Related requirements: Account, Persistent Storage and Retrieval, Workout History.#
 
@@ -316,6 +316,6 @@ User stories::
 * [.changed]#As Derek, I want a simple export of weekly activity so that I can keep a separate record if needed.#
 * [.changed]#As Alejandro, I want summaries to stay readable if I share them with a trainer or friend.#
 
-[.changed]#Related personas: Ana, Derek, Alejandro.#
+[.added]#Related personas: <<persona-ana,Ana>>, <<persona-derek,Derek>>, <<persona-alejandro,Alejandro>>.#
 
 [.changed]#Related requirements: Weekly Summary, Account, Privacy Boundary.#
