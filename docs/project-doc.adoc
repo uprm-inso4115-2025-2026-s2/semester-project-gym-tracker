@@ -1,5 +1,5 @@
 = Gym Tracker
-Second Milestone - Software Requirements - INSO 4115
+Third Milestone - Software Requirements - INSO 4115
 Prof. Marko Schütz-Schmuck
 :doctype: book
 :toc:
