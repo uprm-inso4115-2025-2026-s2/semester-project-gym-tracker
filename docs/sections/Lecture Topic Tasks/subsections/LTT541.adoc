@@ -1,0 +1,285 @@
+= LTT: Testing React Components with Vitest + Testing Library
+Sebastian Santiago <@seba-15>
+
+== 1. Introduction
+
+Testing ensures that components behave correctly as the codebase grows and changes are introduced. For Vite based projects, Vitest is the natural testing framework, it shares Vite's configuration and transformation pipeline, making setup minimal and test runs fast.
+
+This document covers how to set up Vitest and React Testing Library in the Gym Tracker project, the core testing patterns used to assert component behavior, how to mock Supabase calls, and practical examples using existing components.
+
+== 2. Why Vitest Instead of Jest
+
+Jest is the most widely used React testing framework, but it was designed before native ES modules and requires significant configuration to work with Vite projects. Vitest solves this by running inside Vite's dev server.  Vitest is the correct choice with no extra configuration overhead.
+
+== 3. Setup
+
+=== 3.1 Install Dependencies
+
+[source,bash]
+----
+npm install -D vitest @vitest/ui jsdom
+npm install -D @testing-library/react @testing-library/user-event @testing-library/jest-dom
+----
+
+* `vitest` : the test runner
+* `jsdom`: simulates a browser DOM environment for React components
+* `@testing-library/react`: renders components and queries the DOM
+* `@testing-library/user-event` : simulates realistic user interactions
+* `@testing-library/jest-dom` : adds custom matchers like `toBeInTheDocument()`
+
+=== 3.2 Configure vite.config.ts
+
+Add the `test` block to the existing Vite config:
+
+[source,typescript]
+----
+/// <reference types="vitest" />
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './src/test/setup.ts',
+  },
+})
+----
+
+
+=== 3.3 Create Setup File
+
+Create `src/test/setup.ts` to extend Vitest's `expect` with jest-dom matchers:
+
+[source,typescript]
+----
+import '@testing-library/jest-dom'
+----
+
+=== 3.4 Add Test Script to package.json
+
+[source,json]
+----
+{
+  "scripts": {
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run"
+  }
+}
+----
+
+* `vitest` : runs in watch mode (re-runs on file change)
+* `vitest --ui` : opens a visual browser-based test dashboard
+* `vitest run` : single run, useful for CI
+
+== 4. Core React Testing Library API
+
+=== 4.1 `render`
+
+Mounts a component into the jsdom environment and returns query utilities.
+
+[source,typescript]
+----
+import { render } from '@testing-library/react'
+import { ProgressVisual } from '../components/ProgressVisual'
+
+test('renders progress ring', () => {
+  const { container } = render(
+    <ProgressVisual percentage={60} label="Workouts" color="#3b82f6" />
+  )
+  expect(container.querySelector('svg')).toBeInTheDocument()
+})
+----
+
+=== 4.2 `screen`
+
+The recommended way to query rendered output, making tests more resilient to structural changes.
+
+[source,typescript]
+----
+import { render, screen } from '@testing-library/react'
+
+test('displays the label', () => {
+  render(<ProgressVisual percentage={60} label="Workouts" color="#3b82f6" />)
+  expect(screen.getByText('Workouts')).toBeInTheDocument()
+})
+----
+
+Common `screen` queries:
+
+[cols="1,2"]
+|===
+|Query | Use case
+
+|`getByText`
+|Find element by visible text content
+
+|`getByRole`
+|Find element by ARIA role (preferred — most accessible)
+
+|`getByLabelText`
+|Find form input by its label
+
+|`getByTestId`
+|Find element by `data-testid` (last resort)
+
+|`queryByText`
+|Like `getByText` but returns `null` instead of throwing if not found
+
+|`findByText`
+|Async version : waits for element to appear (useful for loading states)
+|===
+
+=== 4.3 `userEvent`
+
+Simulates realistic user interactions. Prefer it over `fireEvent` because it mirrors how a real browser handles events.
+
+[source,typescript]
+----
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
+test('increments set count on button click', async () => {
+  const user = userEvent.setup()
+  render(<SetCounter initialCount={0} />)
+
+  await user.click(screen.getByRole('button', { name: /add set/i }))
+
+  expect(screen.getByText('1 set')).toBeInTheDocument()
+})
+----
+
+
+== 5. Mocking Supabase
+
+Gym Tracker uses Supabase for data persistence. Tests should never hit a real database, mock the Supabase client so tests are fast, isolated, and deterministic.
+
+=== 5.1 Create a Mock File
+
+Create `src/test/mocks/supabase.ts`:
+
+[source,typescript]
+----
+export const mockSupabase = {
+  from: vi.fn().mockReturnThis(),
+  select: vi.fn().mockReturnThis(),
+  insert: vi.fn().mockReturnThis(),
+  update: vi.fn().mockReturnThis(),
+  eq: vi.fn().mockReturnThis(),
+  single: vi.fn().mockResolvedValue({ data: null, error: null }),
+}
+
+vi.mock('../../lib/supabaseClient', () => ({
+  supabase: mockSupabase,
+}))
+----
+
+=== 5.2 Using the Mock in a Test
+
+[source,typescript]
+----
+import { render, screen } from '@testing-library/react'
+import { mockSupabase } from '../test/mocks/supabase'
+import { WorkoutLog } from '../components/WorkoutLog'
+
+test('displays fetched workouts', async () => {
+  mockSupabase.single.mockResolvedValueOnce({
+    data: { id: '1', name: 'Push Day', sets: 4 },
+    error: null,
+  })
+
+  render(<WorkoutLog userId="user-123" />)
+
+  expect(await screen.findByText('Push Day')).toBeInTheDocument()
+})
+----
+
+=== 5.3 Testing Error States
+
+[source,typescript]
+----
+test('shows error message when fetch fails', async () => {
+  mockSupabase.single.mockResolvedValueOnce({
+    data: null,
+    error: { message: 'Network error' },
+  })
+
+  render(<WorkoutLog userId="user-123" />)
+
+  expect(await screen.findByText(/something went wrong/i)).toBeInTheDocument()
+})
+----
+
+== 6. Practical Examples from Gym Tracker
+
+=== 6.1 Testing ProgressVisual.tsx : Correct Render
+
+[source,typescript]
+----
+import { render, screen } from '@testing-library/react'
+import { describe, it, expect } from 'vitest'
+import { ProgressVisual } from '../components/ProgressVisual'
+
+describe('ProgressVisual', () => {
+  it('renders an SVG element', () => {
+    const { container } = render(
+      <ProgressVisual percentage={75} label="Strength" color="#3b82f6" />
+    )
+    expect(container.querySelector('svg')).toBeInTheDocument()
+  })
+
+  it('displays the percentage label', () => {
+    render(<ProgressVisual percentage={75} label="Strength" color="#3b82f6" />)
+    expect(screen.getByText('75%')).toBeInTheDocument()
+  })
+
+  it('renders with accessible role and label', () => {
+    render(<ProgressVisual percentage={75} label="Strength" color="#3b82f6" />)
+    expect(screen.getByRole('img', { name: /strength/i })).toBeInTheDocument()
+  })
+})
+----
+
+=== 6.2 Testing Weekly Streak Bar : Active Days
+
+[source,typescript]
+----
+describe('WeeklyStreakBar', () => {
+  it('marks completed days as active', () => {
+    const days = [
+      { day: 'Mon', completed: true },
+      { day: 'Tue', completed: false },
+      { day: 'Wed', completed: true },
+    ]
+
+    render(<WeeklyStreakBar days={days} />)
+
+    const activeBars = screen.getAllByRole('img', { name: /completed/i })
+    expect(activeBars).toHaveLength(2)
+  })
+})
+----
+
+== 7. Objectives
+
+* Understand how Vitest differs from Jest and why it fits Vite projects.
+* Learn the core React Testing Library API.
+* Document how to mock external dependencies like Supabase in a test environment.
+* Provide a reusable testing reference for the team going forward.
+
+== 8. Acceptance Criteria
+
+* [x] Document includes setup instructions for Vitest + React Testing Library in a Vite + TypeScript project.
+* [x] At least one example test referencing an existing Gym Tracker component.
+* [x] Supabase mocking strategy is documented with a code example.
+
+
+== 9. References
+
+* https://vitest.dev/guide/[Vitest — Getting Started]
+* https://testing-library.com/docs/react-testing-library/intro/[React Testing Library Docs]
+* https://testing-library.com/docs/user-event/intro/[user-event Docs]
+* https://github.com/testing-library/jest-dom[jest-dom Custom Matchers]
+* https://vitest.dev/guide/mocking.html[Vitest — Mocking]

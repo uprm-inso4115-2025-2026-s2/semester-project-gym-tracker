@@ -1,6 +1,6 @@
 === ii. LogBook
 
-#This table records Milestone 2 additions and modifications at section level. Each listed change must also be highlighted in the corresponding document content.#
+[.changed]#This table records Milestone 2 additions, modifications, and removals at section level. Each listed change must also be marked in the corresponding document content with the added, changed, or removed role.#
 
 [.underline]#Milestone 3 additions and modifications are shown as underlined highlighted text in the document content. Each Milestone 3 entry below is also underlined.#
 
@@ -30,7 +30,6 @@
 ==== #Milestone 2 Changes#
 
 [width="100%", cols="4*", options="header", frame=all, grid=all, halign=center]
-
 |===
 | Section Name | Member | Added or Modified | Description
 
@@ -64,21 +63,29 @@
 
 | 2.1.2 Terminology | Wilson A. Morales | Modified | Unified concepts; added signatures; removed duplicates; redefined behaviors.
 
+| 2.1.2 Terminology | Alex Vazquez | Modified |Revised domain terminology for consistency with the narrative and function signatures. Clarified the GymGoer, Workout Session, and Workout History relationship; replaced Minutes with Duration as the main domain concept; added retrieval and comparison actions for Workout History; and kept events, actions, and behaviors in one terminology section to avoid duplicate definitions.
+
 | 2.1.3 Domain Terminology in Relation to Domain Rough Sketch | Wilson A. Morales | Modified | Updated traceability wording to match revised terminology.
 
 | 2.1.4 Narrative | Ariana Rodriguez | Modified | Rewrote the domain narrative so it narrates domain concepts and their relationships.
 
 | 2.1.4 Domain Narrative | Wilson A. Morales | Modified | Synced narrative with revised concepts and actions.
 
+| 2.1.4 Domain Narrative | Alex Vazquez | Modified | Revised the Domain Narrative to tell concrete Gym Tracker scenarios using the defined terminology. Added examples showing how a GymGoer records a Workout Session, how that session becomes part of Workout History, how past sessions can be retrieved or compared, and how Attendance Days, Missed Days, Streak, Consistency Measure, Goal Result, and Weekly Summary are derived from Workout History.
+
 | 2.2.1 User Stories, Epics, Features | Alejandro Lopez | Modified | Rewrote user stories to use roles as the primary actor of the stories with the names referenced parenthetically.
 
 | 2.2.1 User Stories, Epics, Features | Alejandro Lopez | Modified | Replaced 4 instances of 'user' with domain specific language.
+
+| 2.2.1 User Stories, Epics, Features | Alex Vazquez | Modified | Reorganized the user stories section around Epic → Feature → User stories. Added short explanations for each feature, grouped user stories under the features they support, and added related personas and requirements to make the feature-story relationship clearer.
 
 | Title Pages / 2.3 Implementation / 2.3.1 Selected Fragments of the Implementation | Diego Perez | Modified | Removed stale Milestone 1 wording, rewrote and revalidated the implementation sections against the latest Development branch, linked the overview back to the domain definitions and function signatures, updated the testing evidence, added implementation screenshots captured from the running interface, and highlighted the revised text for milestone change visibility.
 
 | 2.3 Implementation / 2.3.1 Selected Fragments of the Implementation / Appendix LogBook | Diego Perez | Modified | For issue #317, replaced illustrative implementation snippets with `include::` directives that pull committed source, test, and Vitest configuration files imported from `Development`; corrected the auth wrapper names to `signInWithEmail`, `signUpWithEmail`, `requestPasswordReset`, and `updatePassword`; revised the workout-logging rollback wording to match the current code path; added focused auth acceptance evidence for Fragment 1; and imported the minimal support files needed to run the cited unit and acceptance tests on this branch.
 
 | 2.2.1 User Stories, Epics, Features | Wilson A. Morales | Modified | Differentiated overlapping streak-related user stories by separating general progress visibility after a streak break from recovery-progress tracking after restart.
+
+| 2.2.2 Personas | Alex Vazquez | Modified | Expanded the personas with more concrete daily context and day-in-the-life details. Revised Alejandro, Derek, and Ana so their routines, goals, frustrations, and design implications are easier to connect to Gym Tracker features and requirements.
 
 | 2.2.3 Domain Requirements | Alex Vazquez | Modified | Added six candidate-resolution cases inside Domain Requirements: three from further elicitation and three from resolution tactics. Each case states the inconsistency, the method used, and the candidate resolution. Linked to issue #342.
 
@@ -116,7 +123,11 @@
 
 | 3.1 Concept Analysis | AlejandroMB05 | Added | Added domain analysis for the notification system, including identification of core concepts such as Notification, User, Notification Trigger, Workout Event, and User Preferences.
 
+| 3.1 Concept Analysis | AlejandroMB05 | Added | Added a risk analysis document identifying possible causes of missed or failed notifications, their impact on user engagement and workout consistency, reliability concerns, and recommendations for improving notification reliability in the gym tracker application.
+
 | 3.1 Concept Analysis | Wilson A. Morales | Modified | Removed conflicting terms and aligned concept analysis with final terminology.
+
+| 3.2 Validation and Verification | Alex Vazquez | Added | Added a Requirements and Domain Model Inspection subsection using a defect-driven checklist and a quality-driven checklist. The subsection lists inspectors, inspected documentation items, inspection questions, findings, and follow-up actions. Traceability-related review items were marked as pending for Julian Vivas instead of being counted as completed in this pass.
 
 | Section 4 (Domain Attributes)  | Hector Rivera | Added | Integrated Lecture Topic "Workout Data Validation and Integrity" into the Domain Attributes section. Refactored documentation structure according to guidelines (Discussions #221 and #277) and defined validation rules for key attributes such as weight, reps, and sets to ensure data integrity.
 
@@ -125,5 +136,13 @@
 | 4.1 Stakeholder Identification | Ivan Morales | Added | Integrated stakeholder perspective analysis (Issue #98) into Section 4.1; added per-group perspective descriptions, comparative summary table, and perspective alignment notes; marked with NOTE admonition change bar for M2 visibility.
 
 | 4.3 Domain and Requirements Acquisition / 4.4 Traceability / Lecture Topic Tasks | Julian Vivas | Modified | Separated requirements acquisition from elicitation in Section 4.3; added AQ1, an 8-question gym-user questionnaire integrated into the section; mapped questionnaire evidence to concrete requirements and elicitation cases; extended traceability to include acquisition artifacts; and moved unrelated lecture topic task writeups out of Section 4.3 into dedicated LTT files.
+
+| 2.3 Implementation | Derek Velez | Added | Added ER diagram to the Related to Domain part of 2.3.
+
+| 2.2.4 Interface Requirements | Derek Velez | Modified | Applied RQA ambiguity review (RE Ch. 5): replaced weak qualifiers and the "shall provide means for" placeholder, unified actor terminology to User per Section 2.1.2, and bound the Streak/Consistency trigger to the events in Section 2.1.5.
+
+| Lecture Topic Tasks / LTT503 | Pedro Cortes | Added | Added a lecture topic task on domain engineering overview and scope boundary refinement, clarifying Gym Tracker's core focus on workout consistency, streaks, goals, and progress summaries while explicitly separating nutrition tracking and broader health-management concerns from the current scope.
+
+| 4.3 Domain and Requirements Acquisition | Derek Velez | Added | Added a new section on domain and requirements acquisition about Domain Analysis through Competitive Analysis. It works for reference for our statements about Strava and MyFitnessPal
 
 |===

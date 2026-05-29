@@ -1,0 +1,57 @@
+==== [LTT] Responsibility View: Agent Model
+:author: Gabriel Visbal
+
+This Lecture Topic Task defines the responsibility view of the Streaks subsystem in the Gym Tracker app by identifying the system agents, assigning explicit responsibility for the leaf goals defined in the intentional view, and documenting their operational capabilities.
+
+Following Chapter 11 of the course material, this model establishes the boundary between human action and automated software processes. An agent is an autonomous system component capable of steering its behavior to fulfill assigned requirements or expectations.
+
+===== System Agents
+
+*1. User (Human Agent)*
+The athlete or individual using the application to track their physical consistency.
+*Definition:* An external, autonomous human agent who interacts with the system physical interface to supply raw data about their real-world activities.
+*Capabilities:* Can physically attend the gym, perform exercises, and manually input data via the mobile/web interface.
+
+*2. StreaksProcessor (Automated Software Agent)*
+The core backend logic of the Gym Tracker application responsible for evaluating consistency metrics.
+*Definition:* An internal, software-driven automated agent that executes computations, runs time-based checks, and updates persistent states.
+*Capabilities:* Can query database records in Supabase, perform date-time arithmetic, and update data attributes without human intervention.
+
+===== Responsibility Assignment
+
+*1. RecordDailyAttendance*
+*Assigned Agent:* User (Human Agent)
+*Type of Responsibility:* Requirement (Expectation on an external agent)
+*Reasoning:* The system cannot automatically guess or know if a user went to the gym in the physical world. The user must manually take the action of logging the session using the "+ Log Workout" interface to provide the entry data.
+
+*2. EvaluateStreakContinuity*
+*Assigned Agent:* StreaksProcessor (Automated Software Agent)
+*Type of Responsibility:* Requirement (Software specification)
+*Reasoning:* This process must be fully automated to ensure accuracy and prevent fraud. The software agent automatically checks if the calendar day consecutive to the last active date has a recorded session.
+
+*3. UpdateStreakCounter*
+*Assigned Agent:* StreaksProcessor (Automated Software Agent)
+*Type of Responsibility:* Requirement (Software specification)
+*Reasoning:* Once continuity or breakage is evaluated, the system updates the `currentCounter` and `highestPeak` attributes in the database. A human agent cannot be trusted or allowed to edit these numbers directly to maintain game-like integrity.
+
+===== Agent Responsibility Summary Table
+
+[cols="2,2,1,2"]
+|===
+| Leaf Goal | Responsible Agent | Agent Type | Assignment Type
+
+| RecordDailyAttendance
+| User
+| Human
+| Expectation (Manual Input)
+
+| EvaluateStreakContinuity
+| StreaksProcessor
+| Automated
+| Requirement (Software Logic)
+
+| UpdateStreakCounter
+| StreaksProcessor
+| Automated
+| Requirement (Software Logic)
+|===

@@ -5,7 +5,7 @@ Alejandro E. López Rodríguez
 Many aspects of the fitness tracking domain are governed by constraints that must
 always hold true regardless of how activities are recorded or analyzed. These constraints,
 commonly referred to as domain invariants, represent rules that reflect real-world fitness
-behavior. It is important to identify and model these invariants to ensure consistency 
+behavior. It is important to identify and model these invariants to ensure consistency
 with how workouts, attendance, and progress naturally occur.
 
 Within the fitness tracking domain, workout sessions represent bounded periods of

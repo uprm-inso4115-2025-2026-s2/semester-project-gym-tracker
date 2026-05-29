@@ -1,0 +1,18 @@
+= Logging Workout Requirements
+
+== Objective
+
+State the workout logging functionality rules for users to record exercises performed during a workout session.
+
+== Logging Workouts Requirements
+
+The Gym Tracker app has the purpose of allowing users to keep track of their exercises across different days. 
+Therefore, Users must be able to create a workout session andselect all the exercises done. Since the idea is to keep 
+track of progress, Users must be allowed to specify details of their exercise, specifically, how many sets, how many 
+repetitions did each set have, the weight used (if applicable), and time (for time-based exercises only). The System 
+must save and store this information. Workout data must be available for Users to see and analyze. Workouts must be 
+editable to allow Users to add or remove exercises, add or remove sets to existing exercises, and fix mistakes, such
+as wrong weight, wrong amount of repetitions on a set or wrong time entry. Users must also be allowed to delete Workouts.
+
+For supplementary flowchart to visualize these requirements, refer to:
+\Lecture Topic Tasks\images\Workout Log Flowchart.jpeg

@@ -26,23 +26,24 @@ deleteWorkoutSession :
 
 Removes a recorded Workout Session from the WorkoutHistory.
 
-#retrieveWorkoutHistory :
+[.added]#retrieveWorkoutHistory :
     GymGoer
     -> WorkoutHistory#
 
 #Determines the WorkoutHistory associated with a GymGoer. This is the entry point through which all Workout Session retrieval happens. A Workout Session is only accessible through the GymGoer whose history contains it.#
 
-[.underline]#getSessionsInRange :#
-[.underline]#    WorkoutHistory >< CalendarDay >< CalendarDay#
-[.underline]#    -> [WorkoutSession]#
+[.added]#getSessionsInRange :#
+[.added]#    WorkoutHistory >< CalendarDay >< CalendarDay#
+[.added]#    -> [WorkoutSession]#
 
-[.underline]#Returns all Workout Sessions in the WorkoutHistory whose Calendar Day falls within the specified range. This function makes explicit how two sessions can be selected for comparison — a caller first retrieves the WorkoutHistory, then selects sessions from it using this function.#
+[.added]#Returns all Workout Sessions in the WorkoutHistory whose Calendar Day falls within the specified range. This function makes explicit how two sessions can be selected for comparison — a caller first retrieves the WorkoutHistory, then selects sessions from it using this function.#
 
-[.underline]#getLastSessionByActivity :#
-[.underline]#    WorkoutHistory >< Activity#
-[.underline]#    -> WorkoutSession#
+[.added]#getLastSessionByActivity :#
+[.added]#    WorkoutHistory >< Activity#
+[.added]#    -> WorkoutSession#
 
-[.underline]#Returns the most recent Workout Session in the WorkoutHistory for a given Activity type. This expresses a common query (e.g., "last bench press session") that is otherwise implied but not defined.#
+[.added]#Returns the most recent Workout Session in the WorkoutHistory for a given Activity type. This expresses a common query (e.g., "last bench press session") that is otherwise implied but not defined.#
+
 
 ===== Goal Management Functions
 
@@ -96,16 +97,16 @@ evaluateConsistency :
 
 Determines the regularity of workouts across a period of time.
 
-===== #Consistency Note#
+===== [.added]#Consistency Note#
 
-#In this section, the history input is intentionally modeled as
+[.added]#In this section, the history input is intentionally modeled as
 WorkoutHistory across the domain functions. Attendance Days and Streak
 are derived from the WorkoutSessions contained in that WorkoutHistory,
 rather than being supplied as a separate primary collection. The
 retrieveWorkoutHistory function makes explicit how the relevant
 WorkoutSessions are obtained for a given GymGoer.#
 
-#GoalTargetCount is the positive integer count carried by Goal
+[.added]#GoalTargetCount is the positive integer count carried by Goal
 management functions, while GoalResult is the value returned by goal
 evaluation functions.#
 

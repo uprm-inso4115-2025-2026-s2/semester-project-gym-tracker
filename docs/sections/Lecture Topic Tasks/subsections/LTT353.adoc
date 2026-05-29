@@ -1,0 +1,63 @@
+= Sequence Diagram for Alert/Notifications for Application
+:author: Lorenzo Perez
+
+This Lecture Topic Task revolves around applying sequence modeling (UML), which will be used to represent how data is being moved around the Gym Tracker Notification and alert functions in a concrete manner. 
+
+This task involves using a UML sequence chart which has information used from the team's documentation and project files to show how the notification sequence would look like for the Gym tracker app.
+
+== UML Diagram
+
+[mermaid]
+....
+Diagram
+
+    participant APP as React App (Frontend)
+    participant WE  as Workout Event
+    participant TN  as TriggerNotification()
+    participant PL  as shouldAllowNotification()
+    participant DB  as Supabase (Database)
+    participant UI  as Notification UI
+    participant US as User
+
+
+    Workout trigger-
+
+    WE->>APP: Workout event occurs
+    APP->>TN: Triggers notification if inactivity or missed workout
+    TN-->>APP: Returns notif string to application
+
+    Notification preferences
+
+    APP->>DB: Fetch user preferences in DB
+    DB-->>APP:Return preference
+    APP-->>PL: Allows or Not allows notification
+
+    alt Notifcation is enabled
+
+        PL-->>APP: true because allows notification
+        APP->>DB: Persist notification
+        APP->>UI: In app notifications enabled
+        UI-->>US: User sees notification in app
+
+        Interaction with notification
+
+        US->>UI:Interact with notification (aknowledge/dismiss)
+    UI->>DB:update notification -> now read
+    DB-->>UI: Confirm status
+    UI-->>APP: Refresh notification count
+
+    else Notification is NOT enabled
+    PL-->>APP: false, no delivery
+
+    APP->>APP: Discard all notifications
+    -end-
+
+    US->>UI: Opens NotificationPreferencesPanel
+    UI->>DB: Save preferences
+    DB-->>UI: Confirm write
+    UI-->>US: Preferences confirmed / updated
+....
+
+== Conclusion
+
+This diagram representation clearly indicates all of the steps the system uses to accomodate the user based on their workout engagement and notification preferences and therefore it helps us understand the delivery pipeline more clearer for alerts and notifications. 

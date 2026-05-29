@@ -57,14 +57,14 @@ Each requirement area is analyzed to detect potential issues.
 Each identified risk is evaluated using two criteria:
 
 - Likelihood:
-  *Low* – unlikely to occur  
-  *Medium* – possible  
-  *High* – very likely  
+  *Low* – unlikely to occur
+  *Medium* – possible
+  *High* – very likely
 
 - Impact:
-  *Low* – minimal effect  
-  *Medium* – moderate system issues  
-  *High* – major system failure or incorrect results  
+  *Low* – minimal effect
+  *Medium* – moderate system issues
+  *High* – major system failure or incorrect results
 
 ---
 

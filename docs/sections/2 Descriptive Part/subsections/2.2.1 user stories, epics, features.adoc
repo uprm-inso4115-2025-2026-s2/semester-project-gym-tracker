@@ -2,9 +2,11 @@
 
 ==== *2.2.1 User Stories, Epics, Features*
 
-===== [.underline]#Use Case Diagram: GymTracker System Operations#
+[.changed]#This section uses the structure Epic → Feature → User stories. Epics group related work, features describe smaller pieces of that work, and user stories explain why a GymGoer needs the feature. Persona names refer to the personas described in Section 2.2.2.#
 
-[.underline]#The following use case diagram shows the five core epic areas as system operations, the primary and secondary actors involved, and the extend relationships between key use cases. It enhances this section by providing a system-level view of what the GymTracker system does from the outside, complementing the detailed user stories below and connecting the epics to their supporting actors.#
+===== [.added]#Use Case Diagram: GymTracker System Operations#
+
+[.added]#The following use case diagram shows the five core epic areas as system operations, the primary and secondary actors involved, and the extend relationships between key use cases. It enhances this section by providing a system-level view of what the GymTracker system does from the outside, complementing the detailed user stories below and connecting the epics to their supporting actors.#
 
 [plantuml, use-case-diagram, svg]
 ....
@@ -59,101 +61,261 @@ Auth --> UC2
 @enduml
 ....
 
-[.underline]#*Actor descriptions*#
+[.added]#*Actor descriptions*#
 
 [cols="1,3", options="header"]
 |===
-|[.underline]#Actor# |[.underline]#Role#
+|[.added]#Actor# |[.added]#Role#
 
-|[.underline]#GymGoer#
-|[.underline]#The primary user of the system. A college student or beginner-to-intermediate gym-goer building consistent fitness habits. Corresponds to the personas defined in Section 2.2.2 and the GymGoer domain entity in Section 2.1.2.#
+|[.added]#GymGoer#
+|[.added]#The primary user of the system. A college student or beginner-to-intermediate gym-goer building consistent fitness habits. Corresponds to the personas defined in Section 2.2.2 and the GymGoer domain entity in Section 2.1.2.#
 
-|[.underline]#Supabase Auth (external)#
-|[.underline]#The external authentication provider that validates credentials and manages sessions during Register Account and Log In. It is an implementation boundary, not a domain stakeholder.#
+|[.added]#Supabase Auth (external)#
+|[.added]#The external authentication provider that validates credentials and manages sessions during Register Account and Log In. It is an implementation boundary, not a domain stakeholder.#
 |===
 
+
 ===== *Epic 1: Workout and Run Logging with Session Details*
-As a busy #gym goer#, I want to log gym sessions and runs with essential details so that I can remember what I did and build a consistent routine over time.
 
-Features::
-* Log gym sessions, runs, and basic cardio
-* Record session duration and estimated calories burned
-* Record exercise types performed
-* Optional notes per session
-* Edit past sessions to correct mistakes
-* Reuse a recent session as a starting point for fast logging
+[.changed]#This epic covers the act of recording completed fitness activity. The main goal is to let a GymGoer record a Workout Session quickly while still keeping enough information to remember what happened later. It includes gym sessions, runs, basic cardio, session duration, exercises, and optional notes.#
+
+====== *Feature 1.1: Quick Session Logging*
+
+[.changed]#This feature lets a GymGoer record a Workout Session using the smallest useful set of information: Calendar Day, training type, Duration, and optional Workout Notes. This feature supports low-effort logging for GymGoers who stop tracking when the form feels too long.#
 
 User stories::
-* As #a busy beginner (e.g. Alejandro)#, I want to log a gym session with duration and a short list of exercise types so that I can record my workout quickly and still remember what I did.
-* As #a gym goer who also runs (e.g. Derek)#, I want to log a run with time and distance so that I can track cardio progress alongside my gym routine.
-* As #a busy gym goer (e.g. Alejandro)#, I want to copy a recent workout and adjust it slightly so that I do not have to retype the same routine every time.
-* As #someone who wants to track specific metrics (e.g. Derek)#, I want to attach an optional note to a session (for example effort level or injury warnings) so that I can understand context when comparing sessions later.
-* As #a gym goer prone to logging errors (e.g. Ana)#, I want to edit a past session entry so that my weekly summary reflects what actually happened if I logged something incorrectly.
-* As #someone looking to build long-term habits(e.g. Ana)#, I want to record an optional “how it felt” note after a session so that I can connect progress with how sustainable the routine feels.
+* [.changed]#As Alejandro, a busy beginner, I want to log a gym session with Duration and a short list of exercise types so that I can record my workout quickly and still remember what I did.#
+* [.changed]#As Ana, a habit-building GymGoer, I want to record a simple Workout Session even when I do not feel motivated so that tracking does not become another source of pressure.#
+* [.changed]#As Derek, a GymGoer who also runs, I want to log a run with time and distance so that I can track cardio progress alongside my gym routine.#
 
-===== *Epic 2: Consistency Tracking and Streaks*
-As someone trying to build a habit, I want the system to track consistency and streaks so that I stay motivated to keep showing up over time.
+[.changed]#Related personas: Alejandro, Ana, Derek.#
 
-Features::
-* Track days attended versus missed
-* Maintain activity streaks based on regular logging
-* Visualize consistency patterns over time
-* #Preserve visible progress even after a streak break#
-* #Track recovery progress after a streak break#
+[.changed]#Related requirements: Session Representation, Low-Effort Logging, Persistent Storage and Retrieval.#
+
+====== *Feature 1.2: Exercise and Note Details*
+
+[.changed]#This feature lets a GymGoer add more detail when the session needs it. Exercises and Workout Notes are optional because the project should support both quick logging and later review.#
 
 User stories::
-* As #a gym goer who is easily discouraged (e.g. Alejandro)#, I want to see my current streak of active days so that I feel motivated to keep the routine going.
-* As #a gym goer looking to build long-term habits (e.g. Ana)#, I want to see how many days I was active versus missed in the current week so that I can notice gaps early and adjust.
-* As #a gym goer and a runner (e.g. Derek)#, I want my streak to count both runs and gym sessions so that the tracking matches my real routine.
-* #As a gym goer who struggles with consistency (e.g. Alejandro), I want weekly progress to remain visible even if my streak breaks so that one missed day does not erase my sense of progress or make me stop tracking.#
-* #As a gym goer who is restarting after a missed day (e.g. Ana), I want the app to show recovery progress after a streak break so that returning to my routine feels measurable and encouraging instead of starting from zero.#
+* [.changed]#As Alejandro, I want to add the main Exercises I performed so that I can remember what I did last time without writing a full workout journal.#
+* [.changed]#As Derek, someone who compares repeated sessions, I want to attach an optional note to a session, such as effort level or injury warning, so that I can understand context when comparing sessions later.#
+* [.changed]#As Ana, I want to record an optional “how it felt” note after a session so that I can connect progress with how sustainable the routine feels.#
 
-===== *Epic 3: Goals and End-of-Week Feedback*
-As a #gym goer# who needs accountability, I want daily and weekly goals with an end-of-week summary so that I can see whether I met my targets and adjust realistically.
+[.changed]#Related personas: Alejandro, Derek, Ana.#
 
-Features::
-* Daily and weekly goal setting
-* End-of-week summary table
-* Progress comparison against goals
-* Session-to-session comparisons over time
-* Weekly reflection note (optional)
+[.changed]#Related requirements: Session Representation, Session Comparison, Progress Review.#
+
+====== *Feature 1.3: Recent Session Reuse*
+
+[.changed]#This feature lets a GymGoer reuse a recent Workout Session as a starting point. It supports GymGoers who repeat similar routines and do not want to retype the same information every time.#
 
 User stories::
-* As #a gym goer that wants to follow a specific routine (e.g. Ana)#, I want to set a weekly goal for number of active days so that I have a clear target to aim for.
-* As #a gym goer who wants an easy-to-understand tracker (e.g. Alejandro)#, I want an end-of-week summary table showing what I completed versus my goal so that I can feel rewarded and know what to improve next week.
-* As #someone who likes to make data-driven decisions (e.g. Derek)#, I want to see how far I am from my weekly goal during the week so that I can decide when to fit in a session.
-* As #a gym goer who wants readily available data (e.g. Derek)#, I want to compare this week’s sessions to last week’s sessions so that I can notice improvement or decline without digging through individual logs.
-* As #a gym goer that prioritizes efficiency and motivation (e.g. Alejandro)#, I want a simple “goal met / not met” result with a short, supportive explanation so that feedback stays clear and not overwhelming.
-* As #a gym goer creating better goals for themselves (e.g. Ana)#, I want to optionally add a quick weekly note about what worked or what got in the way so that I can improve my habits over time.
+* [.changed]#As Alejandro, I want to copy a recent workout and adjust it slightly so that I do not have to retype the same routine every time.#
+* [.changed]#As Derek, I want repeated runs or gym sessions to start from a previous entry so that logging does not feel like duplicate work.#
+* [.changed]#As Ana, I want repeated routines to be easy to log so that busy weeks do not make tracking feel harder than exercising.#
 
-===== *Epic 4: Reminders and Supportive Encouragement*
-As a habit-building #gym goer#, I want reminders and motivational feedback so that I remember to log and stay consistent without feeling pressured.
+[.changed]#Related personas: Alejandro, Derek, Ana.#
 
-Features::
-* Reminder notifications to encourage consistency
-* Supportive tone that avoids judgment
-* Basic reminder preferences (enable/disable and frequency)
-* Weekly encouragement message based on activity summary
-* Temporary mute or quiet mode
+[.changed]#Related requirements: Low-Effort Logging, Workout History, Session Representation.#
+
+====== *Feature 1.4: Edit Past Sessions*
+
+[.changed]#This feature lets a GymGoer correct a Workout Session after it has already been recorded. Corrections matter because Weekly Summaries, Goals, Streaks, and Session Comparisons depend on the Workout History being accurate.#
 
 User stories::
-* As #a gym goer who is easily disengaged by aggressive notifications (e.g. Ana)#, I want to enable reminders on days I usually work out so that I get a helpful nudge when I forget.
-* As #a gym goer who is easily frustrated (e.g. Alejandro)#, I want reminder messages to feel supportive rather than judgmental so that notifications encourage me instead of discouraging me.
-* As #a gym goer looking to simplify their tracking (e.g. Derek)#, I want to temporarily mute reminders when I am busy so that I do not disengage from the app due to spam.
-* As #a gym goer who wants to better their habit tracking (e.g. Ana)#, I want to receive a weekly encouragement message based on my summary so that I stay motivated for the next week.
-* As #a gym goer that has a strict schedule (e.g. Alejandro)#, I want reminders to focus on restarting after missed days so that a busy week does not make me give up.
+* [.changed]#As Ana, a GymGoer prone to logging errors, I want to edit a past session entry so that my Weekly Summary reflects what actually happened.#
+* [.changed]#As Alejandro, I want to fix a session date, Duration, or note if I entered it wrong so that my Workout History stays useful.#
+* [.changed]#As Derek, I want edited sessions to affect later comparisons so that an old mistake does not keep showing up in my progress review.#
 
-===== *Epic 5: User Accounts and Personal History*
-As a regular #gym goer#, I want my activity history stored in an account so that I can review my progress over time and get consistent summaries.
+[.changed]#Related personas: Ana, Alejandro, Derek.#
 
-Features::
-* User account management
-* Personal workout and run history storage
-* Individual progress data accessible for summaries and comparisons
-* Export or share a simple weekly summary (optional, later extension)
+[.changed]#Related requirements: Persistent Storage and Retrieval, Weekly Summary, Goal Evaluation, Session Comparison.#
+
+===== *Epic 2: Workout History and Session Review*
+
+[.changed]#This epic covers retrieval and review of past Workout Sessions. The project should not only let a GymGoer record activity; it should also let them return to their Workout History and answer simple questions such as what they did last time, which sessions included a certain Exercise, or how two sessions compare.#
+
+====== *Feature 2.1: Workout History View*
+
+[.changed]#This feature lets a GymGoer view previously recorded Workout Sessions in chronological order. It supports memory, planning, and progress review.#
 
 User stories::
-* As #a beginner gym goer (e.g. Alejandro)#, I want to create an account so that my workout history is saved and I do not lose progress.
-* As #someone looking for a unified tracker (e.g. Derek)#, I want to view my full workout and run history so that I can look back and plan future sessions.
-* As #a gym goer interested in creating habits (e.g. Ana)#, I want my weekly summaries to use my saved history so that progress feedback stays consistent over time.
-* As #a gym goer and a runner (e.g. Derek)#, I want to filter my history by activity type (run vs gym) so that reviewing progress is fast and meaningful.
+* [.changed]#As Alejandro, I want to see my recent Workout Sessions so that I do not have to rely on memory when deciding what to do next.#
+* [.changed]#As Derek, I want to view my full workout and run history so that I can look back and plan future sessions.#
+* [.changed]#As Ana, I want to see past weeks without digging through individual entries one by one so that review feels manageable.#
+
+[.changed]#Related personas: Alejandro, Derek, Ana.#
+
+[.changed]#Related requirements: Workout History, Persistent Storage and Retrieval, Session Representation.#
+
+====== *Feature 2.2: Activity and Exercise Filtering*
+
+[.changed]#This feature lets a GymGoer filter Workout History by Activity or Exercise. It supports the professor’s concern that the documentation should show how Workout Sessions are retrieved from Workout History, not only say that they belong there.#
+
+User stories::
+* [.changed]#As Alejandro, I want to find the last Workout Session where I did bench press so that I can remember what I did before.#
+* [.changed]#As Derek, I want to filter my history by activity type, such as run versus gym session, so that reviewing progress is fast and meaningful.#
+* [.changed]#As Ana, I want to find sessions with activities I enjoyed so that I can repeat routines that felt sustainable.#
+
+[.changed]#Related personas: Alejandro, Derek, Ana.#
+
+[.changed]#Related requirements: Workout History, Session Comparison, Progress Review.#
+
+====== *Feature 2.3: Session Comparison*
+
+[.changed]#This feature lets a GymGoer compare two Workout Sessions using Duration, Activity type, Exercises, Calendar Day, and Workout Notes. It supports GymGoers who want simple comparison without advanced analytics.#
+
+User stories::
+* [.changed]#As Derek, I want to compare this week’s sessions to last week’s sessions so that I can notice improvement or decline without digging through individual logs.#
+* [.changed]#As Alejandro, I want to compare my last upper-body session with an earlier one so that I know what to repeat or adjust.#
+* [.changed]#As Ana, I want session comparison to stay simple so that it helps me reflect without turning into a complicated analytics screen.#
+
+[.changed]#Related personas: Derek, Alejandro, Ana.#
+
+[.changed]#Related requirements: Session Comparison, Progress Review, Workout History Retrieval.#
+
+===== *Epic 3: Consistency Tracking and Streaks*
+
+[.changed]#This epic covers derived activity patterns. It separates Streak from general Consistency so that the system can show regular effort even when a GymGoer does not have consecutive Attendance Days.#
+
+====== *Feature 3.1: Streak Calculation*
+
+[.changed]#This feature computes a Streak from consecutive Attendance Days in the GymGoer’s Workout History. It should motivate without treating a broken Streak as erased progress.#
+
+User stories::
+* [.changed]#As Alejandro, I want to see my current Streak of active days so that I feel motivated to keep the routine going.#
+* [.changed]#As Derek, I want both runs and gym sessions to count when they qualify as Workout Sessions so that the tracking matches my real routine.#
+* [.changed]#As Ana, I want the app to avoid making one broken Streak feel like all progress is gone.#
+
+[.changed]#Related personas: Alejandro, Derek, Ana.#
+
+[.changed]#Related requirements: Streak Representation, Streak Calculation, Workout History.#
+
+====== *Feature 3.2: Weekly Consistency View*
+
+[.changed]#This feature shows Attendance Days and Missed Days across a Week. It supports GymGoers who need to see regularity across a Time Frame, not only consecutive days.#
+
+User stories::
+* [.changed]#As Ana, I want to see how many days I was active versus missed in the current Week so that I can notice gaps early and adjust.#
+* [.changed]#As Alejandro, I want weekly progress to remain visible even if my Streak breaks so that one missed day does not erase my sense of progress.#
+* [.changed]#As Derek, I want Consistency to be separate from Streak so that non-consecutive running and gym days still count as regular activity.#
+
+[.changed]#Related personas: Ana, Alejandro, Derek.#
+
+[.changed]#Related requirements: Consistency Representation, Weekly Summary, Streak Representation.#
+
+====== *Feature 3.3: Recovery After Missed Days*
+
+[.changed]#This feature helps a GymGoer restart after a missed day. It treats returning to activity as part of the habit rather than as a complete reset.#
+
+User stories::
+* [.changed]#As Ana, I want the app to show recovery progress after a Streak break so that returning to my routine feels measurable instead of starting from zero.#
+* [.changed]#As Alejandro, I want missed days to be visible without making the Week feel worthless so that I can keep logging after a busy day.#
+* [.changed]#As Derek, I want recovery information to come from my Workout History so that it reflects what I actually did.#
+
+[.changed]#Related personas: Ana, Alejandro, Derek.#
+
+[.changed]#Related requirements: Consistency Measure, Weekly Summary, Supportive Feedback.#
+
+===== *Epic 4: Goals and End-of-Week Feedback*
+
+[.changed]#This epic covers weekly Goals, Goal Evaluation, and Weekly Summary. It supports GymGoers who need a clear target and a short review of what happened during the Week.#
+
+====== *Feature 4.1: Weekly Goal Setting*
+
+[.changed]#This feature lets a GymGoer define a weekly Goal, such as a target number of Attendance Days. The Goal should be simple enough to understand and flexible enough to support different routines.#
+
+User stories::
+* [.changed]#As Ana, I want to set a weekly goal for number of active days so that I have a clear target to aim for.#
+* [.changed]#As Alejandro, I want the Goal to be simple so that I understand what I am trying to complete.#
+* [.changed]#As Derek, I want the Goal to use activity patterns from my Workout History so that it reflects my actual routine.#
+
+[.changed]#Related personas: Ana, Alejandro, Derek.#
+
+[.changed]#Related requirements: Goal Representation, Goal Evaluation.#
+
+====== *Feature 4.2: End-of-Week Summary Table*
+
+[.changed]#This feature produces a weekly view of activity compared with the GymGoer’s Goal. It should show completed activity, missed days, and Goal Result without making the feedback overly complex.#
+
+User stories::
+* [.changed]#As Alejandro, I want an end-of-week summary table showing what I completed versus my Goal so that I can understand whether I stayed on track.#
+* [.changed]#As Ana, I want a Weekly Summary that shows Attendance Days, Missed Days, and Goal Result so that I can reflect without feeling judged.#
+* [.changed]#As Derek, I want the Weekly Summary to show enough detail to compare one Week with another.#
+
+[.changed]#Related personas: Alejandro, Ana, Derek.#
+
+[.changed]#Related requirements: Weekly Summary, Goal Evaluation, Consistency Measure.#
+
+====== *Feature 4.3: Weekly Reflection Note*
+
+[.changed]#This feature lets a GymGoer add a short optional note about what worked or what got in the way during the Week. It supports reflection without making the system a full journal.#
+
+User stories::
+* [.changed]#As Ana, I want to add a quick weekly note about what worked or what got in the way so that I can improve my habits over time.#
+* [.changed]#As Alejandro, I want weekly reflection to be optional so that it does not slow down basic tracking.#
+* [.changed]#As Derek, I want notes to add context to the numbers so that comparisons do not lose important details.#
+
+[.changed]#Related personas: Ana, Alejandro, Derek.#
+
+[.changed]#Related requirements: Weekly Summary, Workout Notes, Progress Review.#
+
+===== *Epic 5: Reminders and Supportive Encouragement*
+
+[.changed]#This epic covers reminders and feedback. The goal is to support habit-building without using guilt-based wording or excessive notifications.#
+
+====== *Feature 5.1: Reminder Preferences*
+
+[.changed]#This feature lets a GymGoer enable, disable, adjust, or temporarily mute reminders. This matters because reminders can help some GymGoers but discourage others if they feel too aggressive.#
+
+User stories::
+* [.changed]#As Ana, I want to enable reminders on days I usually work out so that I get a helpful nudge when I forget.#
+* [.changed]#As Derek, I want to temporarily mute reminders when I am busy so that I do not disengage from the app due to spam.#
+* [.changed]#As Alejandro, I want reminders around my usual workout days so that I do not forget during busy weeks.#
+
+[.changed]#Related personas: Ana, Derek, Alejandro.#
+
+[.changed]#Related requirements: Reminder Representation, Interface Requirements for Notifications.#
+
+====== *Feature 5.2: Supportive Feedback Tone*
+
+[.changed]#This feature controls the tone of reminders and feedback. Feedback should be short, direct, and supportive, especially after a missed day or broken Streak.#
+
+User stories::
+* [.changed]#As Alejandro, I want reminder messages to feel supportive rather than judgmental so that notifications encourage me instead of discouraging me.#
+* [.changed]#As Ana, I want feedback that helps me restart after a missed day so that I do not stop tracking.#
+* [.changed]#As Derek, I want feedback to be tied to my actual Workout History so that it does not feel random.#
+
+[.changed]#Related personas: Alejandro, Ana, Derek.#
+
+[.changed]#Related requirements: Supportive Feedback, Weekly Summary, Goal Result, Consistency Measure.#
+
+===== *Epic 6: Accounts and Personal Workout History*
+
+[.changed]#This epic covers saved personal activity data. It exists so the system can preserve Workout History, support comparisons, and produce consistent summaries over time.#
+
+====== *Feature 6.1: Account-Based History Storage*
+
+[.changed]#This feature lets a GymGoer keep their Workout History connected to an Account. In requirement-level wording, the person interacting with the system may be called a User, but the domain role remains GymGoer.#
+
+User stories::
+* [.changed]#As Alejandro, I want to create an account so that my Workout History is saved and I do not lose progress.#
+* [.changed]#As Derek, I want my full workout and run history stored in one place so that I can look back and plan future sessions.#
+* [.changed]#As Ana, I want my Weekly Summaries to use my saved history so that progress feedback stays consistent over time.#
+
+[.changed]#Related personas: Alejandro, Derek, Ana.#
+
+[.changed]#Related requirements: Account, Persistent Storage and Retrieval, Workout History.#
+
+====== *Feature 6.2: Simple Weekly Summary Sharing*
+
+[.changed]#This is a later extension. It would let a GymGoer export or share a simple Weekly Summary without exposing unnecessary personal details.#
+
+User stories::
+* [.changed]#As Ana, I want sharing to be optional so that my fitness data stays private unless I choose otherwise.#
+* [.changed]#As Derek, I want a simple export of weekly activity so that I can keep a separate record if needed.#
+* [.changed]#As Alejandro, I want summaries to stay readable if I share them with a trainer or friend.#
+
+[.changed]#Related personas: Ana, Derek, Alejandro.#
+
+[.changed]#Related requirements: Weekly Summary, Account, Privacy Boundary.#

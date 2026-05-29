@@ -1,132 +1,197 @@
 === 4.3 Domain and Requirements Acquisition
 
-#This section now separates *requirements acquisition* from *requirements elicitation* because they are related but not identical activities. Acquisition is the collection of raw information from stakeholders, existing systems, and other sources. Elicitation is the follow-up work of clarifying, comparing, resolving, and translating that raw information into domain concepts, requirements, and acceptance-relevant decisions.#
+[.changed]#This section now separates *requirements acquisition* from *requirements elicitation* because they are related but not identical activities. Acquisition is the collection of raw information from stakeholders, existing systems, and other sources. Elicitation is the follow-up work of clarifying, comparing, resolving, and translating that raw information into domain concepts, requirements, and acceptance-relevant decisions.#
 
 ==== 4.3.1 Acquisition vs. Elicitation
 
-#For this project, *acquisition* means gathering requirement-relevant material before interpreting it. Examples include questionnaires, interviews, review of existing fitness applications, and collection of stakeholder statements. The output of acquisition is evidence: answers, observations, examples, and domain terminology used by real stakeholders.#
+[.changed]#For this project, *acquisition* means gathering requirement-relevant material before interpreting it. Examples include questionnaires, interviews, review of existing fitness applications, and collection of stakeholder statements. The output of acquisition is evidence: answers, observations, examples, and domain terminology used by real stakeholders.#
 
-#For this project, *elicitation* means taking that acquired material and asking the next engineering questions: what does the stakeholder actually need, where do answers conflict, which concepts belong in the core domain, and how should ambiguous behavior be resolved? The output of elicitation is not raw data; it is clarified requirements, scope decisions, candidate resolutions, and scenarios such as the FE-* and RT-* cases already documented in Section 2.2.3.#
+[.changed]#For this project, *elicitation* means taking that acquired material and asking the next engineering questions: what does the stakeholder actually need, where do answers conflict, which concepts belong in the core domain, and how should ambiguous behavior be resolved? The output of elicitation is not raw data; it is clarified requirements, scope decisions, candidate resolutions, and scenarios such as the FE-* and RT-* cases already documented in Section 2.2.3.#
 
 [cols="1,2,2", options="header"]
 |===
-|#Phase# |#Main purpose# |#Typical output in this document#
+|[.changed]#Phase# |[.changed]#Main purpose# |[.changed]#Typical output in this document#
 
-|#Requirements acquisition#
-|#Collect raw domain and stakeholder information from named sources.#
-|#Questionnaires, interview notes, app-review observations, and source-backed findings.#
+|[.changed]#Requirements acquisition#
+|[.changed]#Collect raw domain and stakeholder information from named sources.#
+|[.changed]#Questionnaires, interview notes, app-review observations, and source-backed findings.#
 
-|#Requirements elicitation#
-|#Interpret and refine acquired information into explicit system decisions.#
-|#Clarified requirements, inconsistency cases, candidate resolutions, and usage scenarios.#
+|[.changed]#Requirements elicitation#
+|[.changed]#Interpret and refine acquired information into explicit system decisions.#
+|[.changed]#Clarified requirements, inconsistency cases, candidate resolutions, and usage scenarios.#
 |===
 
 ==== 4.3.2 Requirements Acquisition Activities
 
-#The team uses the following acquisition activities to gather domain and requirement information from real sources instead of relying only on internal brainstorming:#
+[.changed]#The team uses the following acquisition activities to gather domain and requirement information from real sources instead of relying only on internal brainstorming:#
 
-* #AQ1 - Structured questionnaire for gym-goers and other fitness-oriented UPRM students. This is the primary acquisition instrument in this section because it captures repeatable, comparable answers from real stakeholders.#
-* #AQ2 - Targeted stakeholder micro-interviews (15-20 minutes each) with beginner gym-goers, mixed routine users, and habit-focused users to collect examples that need follow-up elicitation.#
-* #AQ3 - Competitive review of existing fitness tracking tools to identify common logging fields, progress summaries, and friction patterns that stakeholders already recognize.#
-* #AQ4 - Internal artifact review of the A3 problem framing, current personas, and earlier stakeholder notes so later acquisition remains aligned with the problem already documented in Sections 1 and 4.#
+* [.changed]#AQ1 - Structured questionnaire for gym-goers and other fitness-oriented UPRM students. This is the primary acquisition instrument in this section because it captures repeatable, comparable answers from real stakeholders.#
+* [.changed]#AQ2 - Targeted stakeholder micro-interviews (15-20 minutes each) with beginner gym-goers, mixed routine users, and habit-focused users to collect examples that need follow-up elicitation.#
+* [.changed]#AQ3 - Competitive review of existing fitness tracking tools to identify common logging fields, progress summaries, and friction patterns that stakeholders already recognize.#
+* [.changed]#AQ4 - Internal artifact review of the A3 problem framing, current personas, and earlier stakeholder notes so later acquisition remains aligned with the problem already documented in Sections 1 and 4.#
 
-#Primary acquisition resources are therefore: direct stakeholders (UPRM gym-goers, beginner and intermediate users, casual runners), existing applications such as MyFitnessPal and Strava, and internal project artifacts already produced by the team.#
+[.changed]#Primary acquisition resources are therefore: direct stakeholders (UPRM gym-goers, beginner and intermediate users, casual runners), existing applications such as MyFitnessPal and Strava, and internal project artifacts already produced by the team.#
 
 ==== 4.3.3 Questionnaire AQ1: Gym-User Requirements Acquisition
 
-#AQ1 is a structured questionnaire aimed at the stakeholder groups identified in Section 4.1, especially primary users, beginners, and goal-oriented users. It is designed for acquisition, not elicitation: its purpose is to collect stakeholder language, frustrations, priorities, and expectations before the team resolves them into requirement statements.#
+[.changed]#AQ1 is a structured questionnaire aimed at the stakeholder groups identified in Section 4.1, especially primary users, beginners, and goal-oriented users. It is designed for acquisition, not elicitation: its purpose is to collect stakeholder language, frustrations, priorities, and expectations before the team resolves them into requirement statements.#
 
-#Target respondents:# #UPRM students and peers who currently attend a gym, run regularly, or are trying to build a workout habit.#
+[.changed]#Target respondents:# [.changed]#UPRM students and peers who currently attend a gym, run regularly, or are trying to build a workout habit.#
 
-#Questionnaire AQ1 used for acquisition:#
+[.changed]#Questionnaire AQ1 used for acquisition:#
 
 [cols="1,5,3", options="header"]
 |===
-|#ID# |#Question# |#Requirement areas this question helps surface#
+|[.changed]#ID# |[.changed]#Question# |[.changed]#Requirement areas this question helps surface#
 
-|#AQ1-Q1#
-|#When you record a workout, which pieces of information do you always want to save, and which details feel optional or too time-consuming when you are in a hurry?# 
-|#Low-Effort Logging, Essential Information Recording, Recording Real-World Workouts#
+|[.changed]#AQ1-Q1#
+|[.changed]#When you record a workout, which pieces of information do you always want to save, and which details feel optional or too time-consuming when you are in a hurry?#
+|[.changed]#Low-Effort Logging, Essential Information Recording, Recording Real-World Workouts#
 
-|#AQ1-Q2#
-|#Think about the last time you forgot to log a workout immediately. What happened, how much later did you log it, and what should the system preserve or recalculate when you correct a past entry?# 
-|#Persistent Storage and Retrieval, Editing and Correction of Workout Data, Automatic Streak Synchronization#
+|[.changed]#AQ1-Q2#
+|[.changed]#Think about the last time you forgot to log a workout immediately. What happened, how much later did you log it, and what should the system preserve or recalculate when you correct a past entry?#
+|[.changed]#Persistent Storage and Retrieval, Editing and Correction of Workout Data, Automatic Streak Synchronization#
 
-|#AQ1-Q3#
-|#If your weekly goal is "work out 4 times this week", should two sessions on the same day count as one successful day or as two completed workouts? Explain what feels more natural to you and why.# 
-|#Goal Evaluation, Weekly Aggregation, Performance Summary Representation#
+|[.changed]#AQ1-Q3#
+|[.changed]#If your weekly goal is "work out 4 times this week", should two sessions on the same day count as one successful day or as two completed workouts? Explain what feels more natural to you and why.#
+|[.changed]#Goal Evaluation, Weekly Aggregation, Performance Summary Representation#
 
-|#AQ1-Q4#
-|#What kind of weekly or monthly summary actually helps you decide whether you are making progress: attendance days, duration, exercise details, streaks, comparisons to past weeks, or something else?# 
-|#Performance Summary Representation, Weekly Comparison, Viewing Progress and History#
+|[.changed]#AQ1-Q4#
+|[.changed]#What kind of weekly or monthly summary actually helps you decide whether you are making progress: attendance days, duration, exercise details, streaks, comparisons to past weeks, or something else?#
+|[.changed]#Performance Summary Representation, Weekly Comparison, Viewing Progress and History#
 
-|#AQ1-Q5#
-|#What makes workout logging feel frustrating enough that you might skip it entirely: too many required fields, confusing terminology, slow input, needing nutrition data, or another reason? Please describe specific friction points.# 
-|#Low-Effort Logging, Separation of Nutrition Tracking, Recording Real-World Workouts#
+|[.changed]#AQ1-Q5#
+|[.changed]#What makes workout logging feel frustrating enough that you might skip it entirely: too many required fields, confusing terminology, slow input, needing nutrition data, or another reason? Please describe specific friction points.#
+|[.changed]#Low-Effort Logging, Separation of Nutrition Tracking, Recording Real-World Workouts#
 
-|#AQ1-Q6#
-|#If you miss several planned workouts, what kind of feedback from the app would help you restart without feeling punished or discouraged?# 
-|#Consistency Representation, Streak Representation, notification and reminder behavior#
+|[.changed]#AQ1-Q6#
+|[.changed]#If you miss several planned workouts, what kind of feedback from the app would help you restart without feeling punished or discouraged?#
+|[.changed]#Consistency Representation, Streak Representation, notification and reminder behavior#
 
-|#AQ1-Q7#
-|#Which input mistakes should the system block immediately when saving a workout entry? Describe the kinds of dates, values, or missing information you would consider invalid or misleading.# 
-|#Data Validation Rules, Editing and Correction of Workout Data#
+|[.changed]#AQ1-Q7#
+|[.changed]#Which input mistakes should the system block immediately when saving a workout entry? Describe the kinds of dates, values, or missing information you would consider invalid or misleading.#
+|[.changed]#Data Validation Rules, Editing and Correction of Workout Data#
 
-|#AQ1-Q8#
-|#What personal account or profile information do you expect to manage in a fitness tracker so that your history, goals, and summaries still feel personal and useful over time?# 
-|#User account management, Goal Initialization and Update, Viewing Progress and History#
+|[.changed]#AQ1-Q8#
+|[.changed]#What personal account or profile information do you expect to manage in a fitness tracker so that your history, goals, and summaries still feel personal and useful over time?#
+|[.changed]#User account management, Goal Initialization and Update, Viewing Progress and History#
 |===
 
 ==== 4.3.4 Elicitation Activities That Follow Acquisition
 
-#After acquisition collects evidence, elicitation turns that evidence into precise engineering decisions. In this project, elicitation includes scenario walkthroughs, clarification questions, inconsistency analysis, scope narrowing, and candidate resolutions such as the FE-1 to FE-3 and RT-1 to RT-3 cases already documented in Section 2.2.3.#
+[.changed]#After acquisition collects evidence, elicitation turns that evidence into precise engineering decisions. In this project, elicitation includes scenario walkthroughs, clarification questions, inconsistency analysis, scope narrowing, and candidate resolutions such as the FE-1 to FE-3 and RT-1 to RT-3 cases already documented in Section 2.2.3.#
 
-#This separation matters because the questionnaire answers themselves are not yet requirements. For example, a participant saying "I often log my workout the next morning" is acquisition evidence. The elicitation step is the follow-up decision: should the streak depend on the workout date or the entry timestamp? That engineering resolution appears later as FE-1.#
+[.changed]#This separation matters because the questionnaire answers themselves are not yet requirements. For example, a participant saying "I often log my workout the next morning" is acquisition evidence. The elicitation step is the follow-up decision: should the streak depend on the workout date or the entry timestamp? That engineering resolution appears later as FE-1.#
 
-#Similarly, a participant saying "I only want the basics when I am rushing" is acquisition evidence. The elicitation step is translating that into explicit requirements such as Low-Effort Logging and Essential Information Recording, while keeping optional detail fields available for users who want them.#
+[.changed]#Similarly, a participant saying "I only want the basics when I am rushing" is acquisition evidence. The elicitation step is translating that into explicit requirements such as Low-Effort Logging and Essential Information Recording, while keeping optional detail fields available for users who want them.#
 
 ==== 4.3.5 Requirement Signals Surfaced by Questionnaire AQ1
 
-#The questionnaire is tied to concrete requirements because it is designed to surface the exact uncertainties that affect the current requirement set. The initial acquisition focus of AQ1 supports the following requirement-level decisions and refinements:#
+[.changed]#The questionnaire is tied to concrete requirements because it is designed to surface the exact uncertainties that affect the current requirement set. The initial acquisition focus of AQ1 supports the following requirement-level decisions and refinements:#
 
 [cols="2,4,4", options="header"]
 |===
-|#Question(s)# |#Acquisition signal surfaced# |#Requirements refined or supported#
+|[.changed]#Question(s)# |[.changed]#Acquisition signal surfaced# |[.changed]#Requirements refined or supported#
 
-|#AQ1-Q1, AQ1-Q5#
-|#Stakeholders need a quick-entry flow with only the minimum mandatory fields, and they explicitly treat extra detail as optional when speed matters.#
-|#Domain Requirements: Low-Effort Logging; Essential Information Recording; Separation of Nutrition Tracking. Interface Requirement: Recording Real-World Workouts.#
+|[.changed]#AQ1-Q1, AQ1-Q5#
+|[.changed]#Stakeholders need a quick-entry flow with only the minimum mandatory fields, and they explicitly treat extra detail as optional when speed matters.#
+|[.changed]#Domain Requirements: Low-Effort Logging; Essential Information Recording; Separation of Nutrition Tracking. Interface Requirement: Recording Real-World Workouts.#
 
-|#AQ1-Q2#
-|#Stakeholders expect to correct late or inaccurate entries without losing historical accuracy; derived indicators should follow the corrected workout history.#
-|#Domain Requirement: Persistent Storage and Retrieval. Interface Requirements: Editing and Correction of Workout Data; Automatic Streak Synchronization. Elicitation cases: FE-1 and FE-3.#
+|[.changed]#AQ1-Q2#
+|[.changed]#Stakeholders expect to correct late or inaccurate entries without losing historical accuracy; derived indicators should follow the corrected workout history.#
+|[.changed]#Domain Requirement: Persistent Storage and Retrieval. Interface Requirements: Editing and Correction of Workout Data; Automatic Streak Synchronization. Elicitation cases: FE-1 and FE-3.#
 
-|#AQ1-Q3#
-|#Stakeholder answers are used to clarify whether weekly success is understood as active days or raw session count.#
-|#Domain Requirements: Goal Evaluation; Weekly Aggregation; Weekly Comparison. Elicitation case: FE-2.#
+|[.changed]#AQ1-Q3#
+|[.changed]#Stakeholder answers are used to clarify whether weekly success is understood as active days or raw session count.#
+|[.changed]#Domain Requirements: Goal Evaluation; Weekly Aggregation; Weekly Comparison. Elicitation case: FE-2.#
 
-|#AQ1-Q4#
-|#Stakeholders care about summaries that help interpretation, not just raw logs; history, comparisons, and progress visibility therefore need explicit requirement coverage.#
-|#Domain Requirement: Performance Summary Representation. Interface Requirement: Viewing Progress and History.#
+|[.changed]#AQ1-Q4#
+|[.changed]#Stakeholders care about summaries that help interpretation, not just raw logs; history, comparisons, and progress visibility therefore need explicit requirement coverage.#
+|[.changed]#Domain Requirement: Performance Summary Representation. Interface Requirement: Viewing Progress and History.#
 
-|#AQ1-Q6#
-|#Stakeholders need supportive recovery-oriented feedback after missed workouts rather than only break/fail signals.#
-|#Domain Requirements: Consistency Representation; Streak Representation; related notification-domain attributes documented in LTT158.#
+|[.changed]#AQ1-Q6#
+|[.changed]#Stakeholders need supportive recovery-oriented feedback after missed workouts rather than only break/fail signals.#
+|[.changed]#Domain Requirements: Consistency Representation; Streak Representation; related notification-domain attributes documented in LTT158.#
 
-|#AQ1-Q7#
-|#Stakeholders expect obviously wrong data such as future dates or incomplete required input to be rejected before it distorts their history.#
-|#Domain Requirement: Data Validation Rules. Interface Requirement: Editing and Correction of Workout Data.#
+|[.changed]#AQ1-Q7#
+|[.changed]#Stakeholders expect obviously wrong data such as future dates or incomplete required input to be rejected before it distorts their history.#
+|[.changed]#Domain Requirement: Data Validation Rules. Interface Requirement: Editing and Correction of Workout Data.#
 
-|#AQ1-Q8#
-|#Stakeholders expect personal accounts to preserve identity, goals, and history context over time, which supports account-centered data ownership and personalization.#
-|#User account management domain acquisition documented in LTT266; Goal Initialization and Update; Viewing Progress and History; Workout Ownership.#
+|[.changed]#AQ1-Q8#
+|[.changed]#Stakeholders expect personal accounts to preserve identity, goals, and history context over time, which supports account-centered data ownership and personalization.#
+|[.changed]#User account management domain acquisition documented in LTT266; Goal Initialization and Update; Viewing Progress and History; Workout Ownership.#
 |===
 
 ==== 4.3.6 Incorporating New Findings
 
-#When new acquisition findings affect the domain model or requirements, the team updates the document in the following order so acquisition and elicitation remain distinct:#
+[.changed]#When new acquisition findings affect the domain model or requirements, the team updates the document in the following order so acquisition and elicitation remain distinct:#
 
-* #First, the new source is recorded as acquisition evidence (for example AQ1 questionnaire answers, interview notes, or app-review observations).#
-* #Second, elicitation is performed on that evidence to clarify terminology, expose conflicts, and decide whether the finding changes the requirement set.#
-* #Third, the affected domain, interface, or machine requirements are updated and the rationale is captured in the logbook and linked GitHub issue.#
-* #Fourth, Section 4.4 traceability links are updated so the path from acquisition evidence to elicited requirement decisions remains visible.#
+* [.changed]#First, the new source is recorded as acquisition evidence (for example AQ1 questionnaire answers, interview notes, or app-review observations).#
+* [.changed]#Second, elicitation is performed on that evidence to clarify terminology, expose conflicts, and decide whether the finding changes the requirement set.#
+* [.changed]#Third, the affected domain, interface, or machine requirements are updated and the rationale is captured in the logbook and linked GitHub issue.#
+* [.changed]#Fourth, Section 4.4 traceability links are updated so the path from acquisition evidence to elicited requirement decisions remains visible.#
+
+==== [.added]4.3.7 Domain Analysis Through Competitive Review
+
+[.added]#To strengthen requirements acquisition and reduce abstraction in stakeholder statements, a competitive analysis was conducted using existing fitness tracking systems. The purpose of this analysis is not replication, but rather domain grounding: identifying how real systems model workout logging, represent history, and reduce or increase friction in user interaction.# 
+
+[.added]#Two systems were selected due to their usage and distinct approaches: a structured logging system (MyFitnessPal) and an event-based activity tracking system (Strava). These systems were analyzed in terms of logging workflow, data representation, and historical navigation.#
+
+==== 4.3.7.1 MyFitnessPal — Structured Logging Model
+
+[.added]#MyFitnessPal represents a structured, form-driven approach to fitness tracking in which workouts are recorded through explicit user input across multiple fields. While primarily nutrition-focused, its workout logging system reflects a pattern of structured data entry for health-related activities.#
+
+Logging Model Characteristics
+
+[.added]#Workout entries are typically composed of:#
+
+[.added]#Activity type selection (running, strength training)#
+[.added]#Duration expressed in minutes#
+[.added]#Optional estimated metrics such as calories burned#
+[.added]#Additional notes or context fields#
+
+[.added]#This results in a multi-step input process where the user is required to explicitly define each attribute of the workout session before submission.#
+
+Observations
+
+[.added]#MyFitnessPal emphasizes data completeness and structured input over interaction speed. While this improves analytical richness, it introduces additional friction during data entry, especially when users attempt to log workouts immediately after completion.#
+
+[.added]#A key limitation of this model is that it reduces workouts to simple values like time spent, instead of treating them as distinct events with their own structure.
+
+
+Design Implications for This Project
+
+[.added]#This system provides evidence supporting the following design constraints in this project:#
+
+[.added]#Reduction of mandatory input fields in workout logging flows (supports Low-Effort Logging requirement DR-L1).#
+[.added]#Avoidance of excessive abstraction (calorie estimation as a required field).#
+[.added]#Preference for session-based modeling rather than form-based logging.#
+
+==== [.added]4.3.7.2 Strava — Event-Based Activity Model
+
+[.added]#Strava represents an event-centric fitness tracking model in which workouts are treated as continuous, time-bounded activities. Unlike structured form-based systems, Strava emphasizes the capture of real-world activity as a single coherent event.#
+
+Logging Model Characteristics
+
+[.added]#Workout sessions are typically recorded via:#
+
+[.added]#Automatic activity tracking (GPS-based session recording)#
+[.added]#Manual activity entry with minimal required fields#
+[.added]#Optional enrichment data (distance, elevation, heart rate, notes)#
+
+[.added]#In this model, a workout is treated as a single event object representing a completed physical activity over a time interval.#
+
+Observations
+
+[.added]#Strava’s model strongly aligns with a temporal event representation of fitness behavior. Each workout is part of a chronological sequence, enabling natural support for history reconstruction and performance comparison over time.#
+
+[.added]#This design reduces friction during logging when automatic tracking is available, but still requires structured decisions when manual entry is used. Additionally, its design is optimized for endurance-based activities, which may not fully generalize to mixed gym environments.#
+
+Design Implications for This Project
+
+[.added]#This system provides direct support for the following decisions:#
+
+[.added]#WorkoutSession should be treated as a first-class domain event.#
+[.added]#WorkoutHistory should be modeled as an ordered sequence of WorkoutSession entities.#
+[.added]#Comparison functions (session-to-session analysis) are justified as core domain operations.#
+[.added]#Navigation functions are required to retrieve historical sessions (last session, sessions by type or time window).#

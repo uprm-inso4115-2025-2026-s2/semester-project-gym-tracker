@@ -2,188 +2,241 @@
 
 ===== Domain Concepts
 
-#*Activity* (Domain Concept, Category: Entity)#
+[.changed]#*Activity* (Domain Concept, Category: Entity)#
 A physical action performed for fitness purposes, such as running,
-lifting weights, or performing cardio.
+lifting weights, cycling, rowing, or performing cardio.
 
-#*Exercise* (Domain Concept, Category: Entity)#
-A structured unit of activity performed within a workout, typically
-characterized by repetitions, duration, or intensity.
+[.changed]#*Exercise* (Domain Concept, Category: Entity)#
+A structured Activity performed within a Workout. Examples include
+bench press, squats, pull-ups, treadmill running, or jump rope. An
+Exercise may be described by repetitions, sets, distance, Duration, or
+intensity depending on the Activity.
 
-#*Workout* (Domain Concept, Category: Entity)#
+[.changed]#*Workout* (Domain Concept, Category: Entity)#
 A bounded period of physical training during which one or more
 Exercises or Activities are performed.
 
-#*Workout Session* (Domain Concept, Category: Entity)#
-A specific occurrence of a Workout performed by a GymGoer at a
-particular time and on a particular Calendar Day.
+[.changed]#*Workout Session* (Domain Concept, Category: Entity)#
+A specific occurrence of a Workout performed by a GymGoer on a
+particular Calendar Day. A Workout Session may include a workout type,
+Duration, Exercises, Activities, and optional Workout Notes.
 
-#*Workout History* (Domain Concept, Category: Entity)#
-An ordered collection of Workout Sessions associated with a GymGoer
-across time.
+[.changed]#*Workout History* (Domain Concept, Category: Entity)#
+An ordered collection of Workout Sessions associated with one GymGoer
+across time. A Workout Session belongs to the Workout History of the
+GymGoer who performed it.
 
-#*GymGoer* (Domain Concept, Category: Entity)#
+[.changed]#*GymGoer* (Domain Concept, Category: Entity)#
 An individual who performs Workout Sessions across time and may be
-associated with one or more Goals related to fitness activity.
+associated with one or more Goals related to fitness activity. This term
+is preferred over "User" when describing the person in the fitness
+domain rather than their interaction with the system.
 
-#*Calendar Day* (Domain Concept, Category: Entity)#
+[.changed]#*Calendar Day* (Domain Concept, Category: Entity)#
 A single day used to locate Workout Sessions in time and to determine
 whether activity occurred on that day.
 
-#*Attendance Day* (Domain Concept, Category: Entity)#
+[.changed]#*Attendance Day* (Domain Concept, Category: Entity)#
 A Calendar Day on which at least one Workout Session has occurred.
 
-#*Missed Day* (Domain Concept, Category: Entity)#
+[.changed]#*Missed Day* (Domain Concept, Category: Entity)#
 A Calendar Day on which no Workout Session has occurred despite an
 intended or expected workout pattern.
 
-#*Time Frame* (Domain Concept, Category: Entity)#
+[.changed]#*Time Frame* (Domain Concept, Category: Entity)#
 A bounded temporal interval within which activity or a Goal is
 evaluated, such as a day or a week.
 
-#*Week* (Domain Concept, Category: Entity)#
+[.changed]#*Week* (Domain Concept, Category: Entity)#
 A seven-day Time Frame composed of named Weekday values and used for
-weekly aggregation, Goal evaluation, and summary generation.
+weekly aggregation, Goal Evaluation, and Weekly Summary generation.
 
-#*Goal* (Domain Concept, Category: Entity)#
+[.changed]#*Goal* (Domain Concept, Category: Entity)#
 A desired level of activity or performance defined within a Time Frame,
 such as completing a certain Goal Target Count of Attendance Days in a
 Week.
 
-#*Goal Target Count* (Domain Concept, Category: Entity)#
-A positive integer count of Attendance Days required for a Goal within
-its Time Frame.
+[.changed]#*Goal Target Count* (Domain Concept, Category: Entity)#
+A positive integer count of Attendance Days or Workout Sessions required
+for a Goal within its Time Frame, depending on how the Goal is defined.
 
-[.underline]#*Duration* (Domain Concept, Category: Entity)#
-[.underline]#A positive quantity expressing how long a Workout Session lasted, measured in minutes. Duration is an attribute of a Workout Session, not a standalone entity — it is the domain-level name for the elapsed time of a session.#
+[.changed]#*Duration* (Domain Concept, Category: Entity)#
+The amount of time spent in a Workout Session or Exercise. Duration is
+the domain concept. Minutes may be used as the measurement unit for
+Duration, but Minutes is not the main domain term.
 
-#*Weekday* (Domain Concept, Category: Entity)#
+
+[.changed]#*Weekday* (Domain Concept, Category: Entity)#
 One of the seven named days of the week used when a requirement needs a
 day-of-week value separate from a full Calendar Day.
 
-#*Workout Notes* (Domain Concept, Category: Entity)#
-Short written annotations describing what occurred during a Workout
-Session or how it felt.
+[.changed]#*Workout Notes* (Domain Concept, Category: Entity)#
+Short written annotations attached to a Workout Session. Notes may
+describe what occurred during the session, what felt difficult, what was
+changed, or what should be remembered later.
 
-#*Reminder* (Domain Concept, Category: Entity)#
+[.changed]#*Reminder* (Domain Concept, Category: Entity)#
 A prompt or cue intended to encourage activity when no recent Workout
 Session has occurred. It is a domain entity because it can exist
 independently of software, for example as an alarm, calendar note,
 sticky note, or verbal reminder.
 
-#*Weekly Summary* (Domain Concept, Category: Entity)#
-An overview of Workout Sessions, Attendance Days, Missed Days, and Goal
-evaluation within a Week.
+[.changed]#*Weekly Summary* (Domain Concept, Category: Entity)#
+An overview of a GymGoer’s Workout Sessions, Attendance Days, Missed
+Days, Goal Result, and relevant comparison information for one Week.
 
-#*Session Comparison* (Domain Concept, Category: Entity)#
+[.changed]#*Session Comparison* (Domain Concept, Category: Entity)#
 A representation of observable differences between two Workout
-Sessions, such as duration, activity type, or exercise composition.
+Sessions, such as Duration, Activity type, Exercise composition, Calendar
+Day, or Workout Notes.
 
-#*Consistency Measure* (Domain Concept, Category: Entity)#
-A representation of how regularly Workout Sessions occur across a Time
-Frame.
+[.changed]#*Consistency Measure* (Domain Concept, Category: Entity)#
+A representation of how regularly a GymGoer performs Workout Sessions
+across a Time Frame.
 
-#*Goal Evaluation* (Domain Concept, Category: Action)#
+[.changed]#*Goal Evaluation* (Domain Concept, Category: Action)#
 The act of determining whether a Goal has been achieved within its Time
 Frame.
 
-#*Goal Result* (Domain Concept, Category: Entity)#
+[.changed]#*Goal Result* (Domain Concept, Category: Entity)#
 The evaluated outcome of a Goal Evaluation, including whether the Goal
-was achieved and how many target days remain.
+was achieved and what activity count was reached.
 
-#*Workout Session has just been performed* (Domain Concept, Category: Event)#
-An event in which a Workout Session has occurred at a specific time on
-a specific Calendar Day.
+[.changed]#*Workout Session has just been performed* (Domain Concept, Category: Event)#
+An event in which a GymGoer finishes a Workout Session on a specific
+Calendar Day.
 
-#*Workout Session has just been skipped* (Domain Concept, Category: Event)#
-An event in which an expected opportunity for workout activity has
-passed without a Workout Session occurring.
+[.changed]#*Workout Session has just been recorded* (Domain Concept, Category: Event)#
+An event in which a performed Workout Session is added to the GymGoer’s
+Workout History.
 
-#*Goal period has just ended* (Domain Concept, Category: Event)#
-An event in which the Time Frame associated with a Goal has completed.
+[.changed]#*Workout Session has just been corrected* (Domain Concept, Category: Event)#
+An event in which an existing Workout Session is changed because the
+GymGoer recorded incorrect or incomplete information.
 
-#*Streak has just been extended* (Domain Concept, Category: Event)#
-An event in which a Workout Session has occurred on the Calendar Day
+[.changed]#*Workout Session has just been removed* (Domain Concept, Category: Event)#
+An event in which a Workout Session is removed from a GymGoer’s Workout
+History.
+
+[.changed]#*Workout day has just been missed* (Domain Concept, Category: Event)#
+An event in which a Calendar Day passes without a Workout Session even
+though the GymGoer intended or expected activity on that day.
+
+[.changed]#*Goal period has just ended* (Domain Concept, Category: Event)#
+An event in which the Time Frame associated with a Goal has completed
+and the Goal can be evaluated.
+
+[.changed]#*Streak has just been extended* (Domain Concept, Category: Event)#
+An event in which a Workout Session occurs on the Calendar Day
 immediately following an Attendance Day, preserving consecutiveness.
 
-#*Streak has just been broken* (Domain Concept, Category: Event)#
-An event in which a Missed Day has occurred after one or more
+[.changed]#*Streak has just been broken* (Domain Concept, Category: Event)#
+An event in which a Missed Day occurs after one or more consecutive
 Attendance Days, ending consecutiveness.
 
-[.underline]#*recordWorkout(gymGoer: GymGoer, workout: Workout, date: CalendarDay, notes: WorkoutNotes) : GymGoer >< WorkoutSession* (Domain Concept, Category: Action)#
-[.underline]#An action that creates a Workout Session for a GymGoer on a given Calendar Day and returns both the updated GymGoer (whose Workout History now contains the new session) and the newly created WorkoutSession. The GymGoer is included in the result because recording a workout modifies the GymGoer's Workout History — the WorkoutSession exists within that history and cannot be observed independently of it.#
+[.changed]#*Weekly Summary has just been generated* (Domain Concept, Category: Event)#
+An event in which the GymGoer’s activity for a Week has been summarized.
 
-#*compareSessions(a: WorkoutSession, b: WorkoutSession) : SessionComparison* (Domain Concept, Category: Action)#
+
+[.added]#*recordWorkout(gymGoer: GymGoer, workout: Workout, date: CalendarDay, notes: WorkoutNotes) : GymGoer >< WorkoutSession* (Domain Concept, Category: Action)#
+[.added]#An action that creates a Workout Session for a GymGoer on a given Calendar Day and returns both the updated GymGoer (whose Workout History now contains the new session) and the newly created WorkoutSession. The GymGoer is included in the result because recording a workout modifies the GymGoer's Workout History — the WorkoutSession exists within that history and cannot be observed independently of it.#
+
+
+[.changed]#*recordWorkout(gymGoer: GymGoer, workout: Workout, date: CalendarDay, duration: Duration, notes: WorkoutNotes) : GymGoer* (Domain Concept, Category: Action)#
+An action that records a Workout Session for a GymGoer. The result is
+the updated GymGoer, whose Workout History now contains the new Workout
+Session.
+
+[.changed]#*retrieveWorkoutHistory(gymGoer: GymGoer) : WorkoutHistory* (Domain Concept, Category: Action)#
+An action that returns the Workout History associated with a given
+GymGoer.
+
+[.changed]#*findWorkoutSessions(history: WorkoutHistory, timeFrame: TimeFrame) : List<WorkoutSession>* (Domain Concept, Category: Action)#
+An action that returns the Workout Sessions in a Workout History that
+occurred within a Time Frame.
+
+[.changed]#*findLastWorkoutSession(history: WorkoutHistory) : WorkoutSession* (Domain Concept, Category: Action)#
+An action that returns the most recent Workout Session in a Workout
+History.
+
+[.changed]#*findSessionsByExercise(history: WorkoutHistory, exercise: Exercise) : List<WorkoutSession>* (Domain Concept, Category: Action)#
+An action that returns the Workout Sessions in which a specific Exercise
+was performed.
+
+[.changed]#*compareSessions(a: WorkoutSession, b: WorkoutSession) : SessionComparison* (Domain Concept, Category: Action)#
 An action that determines observable differences between two Workout
-Sessions, such as duration, activity type, or exercise composition.
+Sessions, such as Duration, Activity type, Calendar Day, Workout Notes,
+or Exercise composition.
 
-#*evaluateConsistency(history: WorkoutHistory, timeFrame: TimeFrame) : ConsistencyMeasure* (Domain Concept, Category: Action)#
+[.changed]#*evaluateConsistency(history: WorkoutHistory, timeFrame: TimeFrame) : ConsistencyMeasure* (Domain Concept, Category: Action)#
 An action that determines how regularly Workout Sessions occur across a
 specified Time Frame.
 
-#*computeStreak(history: WorkoutHistory) : Streak* (Domain Concept, Category: Action)#
+[.changed]#*computeStreak(history: WorkoutHistory) : Streak* (Domain Concept, Category: Action)#
 An action that determines the current Streak from the ordered
 distribution of Attendance Days and Missed Days in a Workout History.
 
-#*retrieveWorkoutHistory(gymGoer: GymGoer) : WorkoutHistory* (Domain Concept, Category: Action)#
-An action that determines the Workout History associated with a given
-GymGoer.
-
-#*evaluateGoal(goal: Goal, history: WorkoutHistory) : GoalResult* (Domain Concept, Category: Action)#
+[.changed]#*evaluateGoal(goal: Goal, history: WorkoutHistory) : GoalResult* (Domain Concept, Category: Action)#
 An action that determines whether a Goal has been achieved within its
 Time Frame based on the relevant Workout History.
 
-#*summarizeWeek(history: WorkoutHistory, goal: Goal, week: Week) : WeeklySummary* (Domain Concept, Category: Action)#
-An action that produces an overview of activity, missed days, and Goal
-evaluation for a completed Week.
+[.changed]#*summarizeWeek(history: WorkoutHistory, goal: Goal, week: Week) : WeeklySummary* (Domain Concept, Category: Action)#
+An action that produces an overview of Workout Sessions, Attendance
+Days, Missed Days, and Goal Evaluation for a completed Week.
 
-#*Weekly Activity Pattern* (Domain Concept, Category: Behavior)#
-A behavior composed of Workout Session has just been performed and
-Workout Session has just been skipped events across the Calendar Days of
-a Week, together with the resulting distribution of Attendance Days and
-Missed Days.
+[.changed]#*Weekly Activity Pattern* (Domain Concept, Category: Behavior)#
+A behavior composed of Workout Session has just been performed,
+Workout Session has just been recorded, and Workout day has just been
+missed events across the Calendar Days of a Week, together with the
+resulting distribution of Attendance Days and Missed Days.
 
-#*Consistency* (Domain Concept, Category: Behavior) A behavior describing how regularly Workout Sessions occur across a Time Frame, based on the distribution of Attendance Days and Missed Days in the relevant Workout History and interpreted through evaluateConsistency(…).#
+[.changed]#*Consistency* (Domain Concept, Category: Behavior)#
+A behavior describing how regularly Workout Sessions occur across a Time
+Frame, based on the distribution of Attendance Days and Missed Days in
+the relevant Workout History and interpreted through
+evaluateConsistency(...).
 
-#*Streak* (Domain Concept, Category: Behavior)#
+[.changed]#*Streak* (Domain Concept, Category: Behavior)#
 A behavior composed of consecutive Attendance Days produced by repeated
 Workout Session has just been performed events with no intervening
 Missed Day. This behavior is extended by Streak has just been extended
 and terminated by Streak has just been broken.
 
-#*Progress* (Domain Concept, Category: Behavior)#
+[.changed]#*Progress* (Domain Concept, Category: Behavior)#
 A behavior composed of changes observed across Workout Sessions,
-Consistency Measures, Session Comparisons, and Goal Evaluations over
-successive Time Frames.
+Consistency Measures, Session Comparisons, Goal Evaluations, and Weekly
+Summaries over successive Time Frames.
 
 ===== Requirement-Level Concepts
 
-#*User* (Requirement Concept, Category: Entity)#
-A person whose activities and goals are tracked by the system.
+[.changed]#*User* (Requirement Concept, Category: Entity)#
+A person interacting with the system-to-be. In domain descriptions, the
+preferred term is GymGoer. User is kept for requirements that describe
+system interaction, accounts, interface behavior, or permissions.
 
-#*Account* (Requirement Concept, Category: Entity)#
-A persistent identity that allows a User's workout history and goals to
-be stored.
+[.changed]#*Account* (Requirement Concept, Category: Entity)#
+A persistent identity that allows a User's Workout History and Goals to
+be stored and retrieved by the system.
 
-#*Notification* (Requirement Concept, Category: Entity)#
+[.changed]#*Notification* (Requirement Concept, Category: Entity)#
 A message delivered by the system to inform a User about reminders,
 streak status, or goal progress.
 
-#*Weekly Summary Table* (Requirement Concept, Category: Entity)#
-A structured representation of weekly activity and goal evaluation
-produced for review.
+[.changed]#*Weekly Summary Table* (Requirement Concept, Category: Entity)#
+A structured system representation of a Weekly Summary produced for
+review.
 
 ===== Implementation-Level Terms
 
-#*Preset Entry* (Implementation Term, Category: Entity)#
+[.changed]#*Preset Entry* (Implementation Term, Category: Entity)#
 A predefined workout or activity configuration used to speed up
 logging.
 
-#*Quick Entry Workflow* (Implementation Term, Category: Behavior)#
+[.changed]#*Quick Entry Workflow* (Implementation Term, Category: Behavior)#
 A sequence of interface steps designed to minimize the effort required
 to record a workout.
 
-#*Motivational Message* (Implementation Term, Category: Entity)#
+[.changed]#*Motivational Message* (Implementation Term, Category: Entity)#
 Text produced by the system to reinforce consistency or progress. It is
 kept as an implementation term rather than a domain concept because the
 domain-level phenomenon is motivation or encouragement, while a
@@ -191,59 +244,72 @@ motivational message is a specific system-produced textual artifact.
 
 ===== Categorization Notes
 
-#*Reminder* is categorized as an entity because this section refers to
+[.changed]#*Reminder* is categorized as an entity because this section refers to
 the prompt or cue itself, which can exist independently of software. If
 the focus were on the act of reminding, it could instead be modeled as
 an action or event.#
 
-#*Notification* is categorized as an entity because this section refers
+[.changed]#*Notification* is categorized as an entity because this section refers
 to the delivered message itself. If the focus were on delivery, it
 could instead be modeled as an event.#
 
-#*Weekly Summary* is categorized as an entity, while summarizeWeek(...)
+[.changed]#*Weekly Summary* is categorized as an entity, while summarizeWeek(...)
 is categorized as an action. This distinguishes the produced artifact
 from the domain action that produces it.#
 
-#*Goal Evaluation* names the action of assessing whether a Goal was
+[.changed]#*Goal Evaluation* names the action of assessing whether a Goal was
 achieved. *Goal Result* names the evaluated outcome produced by that
 action.#
 
-[.underline]#*Duration*, *Weekday*, and *Goal Target Count* are design-side constrained value types in this notation. They describe the required shape of values in the domain model, not the current TypeScript field names in the implementation section. Duration replaces the earlier term Minutes throughout all signatures and definitions to use the domain-appropriate name for elapsed session time.#
+[.changed]#*Duration* is the domain concept. Minutes may still be used as a unit
+for measuring Duration, but Minutes is not modeled as the main domain
+concept.#
 
-#*Streak*, *Consistency*, *Progress*, and *Weekly Activity Pattern* are
+
+[.changed]#*Workout Session* and *Workout History* are related through the
+GymGoer. A Workout Session belongs to the Workout History of the
+GymGoer who performed it.#
+
+[.changed]#*Streak*, *Consistency*, *Progress*, and *Weekly Activity Pattern* are
 categorized as behaviors because they describe temporal compositions of
 events and actions rather than standalone objects.#
 
-===== #Terminology Completeness Validation#
+[.changed]#*User* is kept as a requirement-level concept for system interaction.
+*GymGoer* is used as the domain role for the person performing and
+reviewing fitness activity.#
 
-#A terminology walkthrough was used to test whether the domain story
+===== [.changed]#Terminology Completeness Validation#
+
+[.changed]#A terminology walkthrough was used to test whether the domain story
 could be told using domain terms only.#
 
-#Scenario used for validation: A Goal requires three Attendance Days
+[.changed]#Scenario used for validation: A Goal requires three Attendance Days
 within one Week. In that Week, a Workout Session has just been
 performed on Monday and Tuesday. These Workout Sessions belong to the
-same Workout History and produce two Attendance Days. On Wednesday, a
-Workout Session is skipped, so a Missed Day occurs and the emerging
-Streak is broken. On Thursday, another Workout Session has just been
-performed. The Workout History for that Week now contains three Workout
-Sessions distributed across one Week, with three Attendance Days and one
-Missed Day. From this Workout History, the domain can compute a Streak,
-evaluate Consistency, evaluate the Goal within its Time Frame, and
-produce a Weekly Summary.#
+same GymGoer’s Workout History and produce two Attendance Days. On
+Wednesday, a Workout day has just been missed, so a Missed Day occurs
+and the emerging Streak is broken. On Thursday, another Workout Session
+has just been performed. The Workout History for that Week now contains
+three Workout Sessions distributed across one Week, with three Attendance
+Days and one Missed Day. From this Workout History, the domain can
+compute a Streak, evaluate Consistency, evaluate the Goal within its Time
+Frame, and produce a Weekly Summary.#
 
-#Gap discovered during walkthrough: the scenario required the terms
+[.changed]#Gap discovered during walkthrough: the scenario required the terms
 Workout History, Calendar Day, Time Frame, Week, Goal Evaluation,
-Goal Result, Weekly Summary, and the distinction between events,
-actions, and behaviors within the same concept space. These concepts
-were already used implicitly by the domain model, but they were not
-previously defined in a unified and consistent way.#
+Goal Result, Weekly Summary, Duration, Session Comparison, and the
+relationship between GymGoer and Workout History. These concepts were
+already used implicitly by the domain model, but they were not previously
+defined in a way that made the full scenario easy to tell using only
+domain terminology.#
 
-#Resolution: the terminology was restructured so that entities, events,
-actions, and behaviors all appear together under Domain Concepts. In
-this structure, Workout History contains Workout Sessions; Attendance
-Days and Missed Days are derived from the distribution of Workout
-Sessions across Calendar Days; a Week is a Time Frame; Goal evaluation
-is performed over a Time Frame; and behaviors such as Streak,
-Consistency, Progress, and Weekly Activity Pattern are defined as
-compositions of domain events and actions rather than as isolated
-descriptions.#
+[.changed]#Resolution: the terminology was restructured so that entities, events,
+actions, and behaviors all appear together under Domain Concepts. In this
+structure, Workout History contains the Workout Sessions associated with
+one GymGoer; Attendance Days and Missed Days are derived from the
+distribution of Workout Sessions across Calendar Days; a Week is a Time
+Frame; Goal Evaluation is performed over a Time Frame; Duration replaces
+Minutes as the main domain concept for time spent exercising; and
+behaviors such as Streak, Consistency, Progress, and Weekly Activity
+Pattern are defined as compositions of domain events and actions rather
+than as isolated descriptions.#

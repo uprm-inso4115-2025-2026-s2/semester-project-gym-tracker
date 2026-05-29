@@ -3,9 +3,13 @@ name: Convert AsciiDoc to PDF
 on:
   push:
     branches: [Documentation]
-    paths: ['docs/**/*.adoc']
+    paths:
+      - 'docs/**/*.adoc'
+      #- 'docs/themes/**/*.yml'
   pull_request:
-    paths: ['docs/**/*.adoc']
+    paths:
+      - 'docs/**/*.adoc'
+      #- 'docs/themes/**/*.yml'
   workflow_dispatch:
 
 jobs:

@@ -10,62 +10,62 @@ These requirements are still under development. Some thresholds will be refined 
 
 ====== Interactive Response Time (Performance)
 
-#For authenticated Users, the system shall meet the following response-time targets under normal load:#
+[.changed]#For authenticated Users, the system shall meet the following response-time targets under normal load:#
 
-* #In-application interactions (navigating dashboard views, updating UI state after data fetch) shall be complete within ≤ 500 ms for at least 95% of requests.#
+* [.changed]#In-application interactions (navigating dashboard views, updating UI state after data fetch) shall be complete within ≤ 500 ms for at least 95% of requests.#
 
-* #Server-backed operations (e.g., creating/editing Workout Sessions, updating Goals) shall complete with a server-acknowledged result within ≤ 1.0 second for at least 95% of requests.#
+* [.changed]#Server-backed operations (e.g., creating/editing Workout Sessions, updating Goals) shall complete with a server-acknowledged result within ≤ 1.0 second for at least 95% of requests.#
 
-* #Initial page load or heavy operations (first dashboard load after login) shall be complete within ≤ 2.0 seconds for at least 95% of requests.#
+* [.changed]#Initial page load or heavy operations (first dashboard load after login) shall be complete within ≤ 2.0 seconds for at least 95% of requests.#
 
-“Server-acknowledged result” means the data is successfully written #to or# read from persistent storage and #confirmation is returned to# the client.
+“Server-acknowledged result” means the data is successfully written [.changed]#to or# read from persistent storage and [.changed]#confirmation is returned to# the client.
 
 ====== Concurrent Usage Target (Scalability)
 
-#The system shall support at least 100 concurrent active sessions performing typical actions (viewing dashboard, logging workouts, editing workouts, updating goals) without violating Initial Page Load Time response-time targets.#
+[.changed]#The system shall support at least 100 concurrent active sessions performing typical actions (viewing dashboard, logging workouts, editing workouts, updating goals) without violating Initial Page Load Time response-time targets.#
 
-* #“Concurrent” refers to overlapping user activity within a time window.#
+* [.changed]#“Concurrent” refers to overlapping user activity within a time window.#
 
-#Under load exceeding 100 concurrent active sessions:#
+[.changed]#Under load exceeding 100 concurrent active sessions:#
 
-* #The system shall continue operating without data loss or service unavailability.#
+* [.changed]#The system shall continue operating without data loss or service unavailability.#
 
-* #The system may degrade gracefully as follows:#
+* [.changed]#The system may degrade gracefully as follows:#
 
-** #Response times may increase but shall remain ≤ 2.5 seconds for at least 90% of requests.# 
+** [.changed]#Response times may increase but shall remain ≤ 2.5 seconds for at least 90% of requests.#
 
-** #The system shall not allow indefinite delays or request starvation for any active user.# 
+** [.changed]#The system shall not allow indefinite delays or request starvation for any active user.#
 
-** #The system shall provide user-facing feedback (“High system load—responses may be slower than usual”) when performance degradation is detected.#
+** [.changed]#The system shall provide user-facing feedback (“High system load—responses may be slower than usual”) when performance degradation is detected.#
 
 ====== Availability (Reliability/Availability)
 
-#The system shall achieve at least 99.9% monthly availability for core features:#
+[.changed]#The system shall achieve at least 99.9% monthly availability for core features:#
 
-* #authentication#
+* [.changed]#authentication#
 
-* #viewing dashboard#
+* [.changed]#viewing dashboard#
 
-* #creating/editing workouts#
+* [.changed]#creating/editing workouts#
 
-* #creating/updating goals#.
+* [.changed]#creating/updating goals#.
 
-#The system shall be designed to minimize or eliminate downtime during updates through techniques such as:# 
+[.changed]#The system shall be designed to minimize or eliminate downtime during updates through techniques such as:#
 
-* #Rolling deployments#
+* [.changed]#Rolling deployments#
 
-* #Hot standby#
+* [.changed]#Hot standby#
 
-#If schedule maintenance is unavoidable, it shall be rare, justified and communicated to users at least 24 hours in advance.#
+[.changed]#If schedule maintenance is unavoidable, it shall be rare, justified and communicated to users at least 24 hours in advance.#
 
 ====== Data Durability on Failure (Reliability)
 
 When a write operation (e.g., logging a Workout Session or updating a Goal) returns success to the client, the system shall persist the change such that it remains retrievable after client refresh or reconnect. The system shall not acknowledge success unless the data is committed to persistent storage.
 
-#Satisfiability and Feasibility Discussion#
-#Satisfiability:# This requirement is satisfiable within the current design because the machine requirements already define success in terms of committed persistent storage rather than temporary UI acknowledgment, and the interface requirements now state that the system must not report success before backend confirmation. The risk assessment further supports this requirement by identifying failed workout persistence as a concrete failure mode and proposing countermeasures such as retry logic, temporary local caching, and explicit success/failure feedback. Together, these sections provide a coherent basis for satisfying durability expectations.#
+[.added]#Satisfiability and Feasibility Discussion#
+[.added]#Satisfiability: This requirement is satisfiable within the current design because the machine requirements already define success in terms of committed persistent storage rather than temporary UI acknowledgment, and the interface requirements now state that the system must not report success before backend confirmation. The risk assessment further supports this requirement by identifying failed workout persistence as a concrete failure mode and proposing countermeasures such as retry logic, temporary local caching, and explicit success/failure feedback. Together, these sections provide a coherent basis for satisfying durability expectations.#
 
-#Feasibility:# This requirement is feasible within project constraints because the selected backend platform is a managed persistence service and the document does not require custom distributed-storage research or unusually strict fault-tolerance guarantees beyond normal web reliability practice. The requirement is stronger than simple best-effort saving, but it remains realistic: the team can implement it through confirmed writes, controlled user feedback, and retry-oriented resilience behavior already described elsewhere in the document.#
+[.added]#Feasibility: This requirement is feasible within project constraints because the selected backend platform is a managed persistence service and the document does not require custom distributed-storage research or unusually strict fault-tolerance guarantees beyond normal web reliability practice. The requirement is stronger than simple best-effort saving, but it remains realistic: the team can implement it through confirmed writes, controlled user feedback, and retry-oriented resilience behavior already described elsewhere in the document.#
 
 ====== Authentication and Session Security (Security)
 

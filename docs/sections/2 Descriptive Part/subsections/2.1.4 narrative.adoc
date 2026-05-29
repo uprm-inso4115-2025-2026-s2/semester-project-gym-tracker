@@ -1,13 +1,34 @@
 ==== *2.1.4 Domain Narrative*
 
-#A GymGoer performs Workout Sessions over time. A Workout Session is a specific occurrence of a Workout performed by a GymGoer on a particular Calendar Day. A Workout is a bounded period of physical training during which one or more Exercises or Activities are performed. An Exercise is a structured unit of activity characterized by repetitions, duration, or intensity, while an Activity is a physical action performed for fitness purposes.#
+[.changed]#A GymGoer performs Workout Sessions over time. A Workout Session is one completed occurrence of a Workout on a Calendar Day. The session may include a training type, Duration, Exercises, Activities, and optional Workout Notes. When the GymGoer records the session, that Workout Session becomes part of the GymGoer’s Workout History.#
 
-#Workout Sessions are accumulated in a Workout History, which is an ordered collection of Workout Sessions associated with a GymGoer across time. From this Workout History, the domain can retrieveWorkoutHistory(...), evaluateConsistency(...), computeStreak(...), evaluateGoal(...), and summarizeWeek(...).#
+[.changed]#Workout History is the ordered collection of Workout Sessions associated with one GymGoer. It is the main place where past activity can be observed. From a Workout History, the domain can retrieve past sessions, find sessions within a Time Frame, find sessions that included a specific Exercise, compare two sessions, compute a Streak, evaluate Consistency, evaluate a Goal, and produce a Weekly Summary.#
 
-#A Workout Session occurs on a Calendar Day; when at least one Workout Session occurs on a given Calendar Day, that day is considered an Attendance Day. When no Workout Session occurs on a given Calendar Day despite an intended or expected workout pattern, that day is considered a Missed Day. Attendance Days and Missed Days are therefore derived from the distribution of Workout Sessions across Calendar Days within a Workout History.#
+[.changed]#For example, Alejandro performs a Workout Session on Monday. The Workout includes bench press, squats, and treadmill walking. The session has a Duration of 55 minutes and a Workout Note saying that bench press felt heavier than last week. When Alejandro records the Workout Session, recordWorkout(...) updates Alejandro as a GymGoer by adding the new Workout Session to his Workout History.#
 
-#As Workout Sessions are performed or skipped, the Workout History gives rise to domain behaviors. Consistency is the behavior formed by repeated Workout Session has just been performed and Workout Session has just been skipped events across a Time Frame. A Streak is the behavior formed by consecutive Attendance Days with no intervening Missed Day. A Streak is extended when a Workout Session has just been performed on the Calendar Day immediately following an Attendance Day, and it is broken when a Missed Day occurs after one or more Attendance Days. Progress is observed through changes across Workout Sessions, Session Comparisons, Consistency Measures, and Goal Evaluations over successive Time Frames.#
+[.changed]#A few days later, Alejandro wants to remember what he did the last time he trained chest. The domain can use retrieveWorkoutHistory(...) to obtain Alejandro’s Workout History and then use findSessionsByExercise(...) to find Workout Sessions that included bench press. Alejandro can then use compareSessions(...) to compare the Monday session with an earlier session. The Session Comparison may show that the Duration was similar but the Exercises or Workout Notes changed.#
 
-#Workout Sessions are further evaluated within a Time Frame, such as a Week, where activity is aggregated and compared against defined Goals. A Goal specifies a desired level of activity within a Time Frame. At the completion of a Time Frame, the relevant portion of the Workout History can be used to evaluateGoal(...) and produce a Weekly Summary through summarizeWeek(...). These evaluations rely on the distribution of Attendance Days and Missed Days within the Time Frame and contribute to the assessment of Consistency and Progress.#
+[.changed]#A Workout Session occurs on a Calendar Day. When at least one Workout Session occurs on a Calendar Day, that day becomes an Attendance Day. When no Workout Session occurs on a Calendar Day despite an intended or expected workout pattern, that day becomes a Missed Day. Attendance Days and Missed Days are derived from the distribution of Workout Sessions across Calendar Days in the GymGoer’s Workout History.#
 
-#A Workout Session may consist of strength training, cardio, or a combination of both, and may be described by observable attributes such as duration, training type, Exercises performed, and Workout Notes. These attributes allow Workout Sessions to be compared through compareSessions(...) and distinguished from one another across the Workout History.#
+[.changed]#A Streak is based on consecutive Attendance Days. If Alejandro performs Workout Sessions on Monday, Tuesday, and Wednesday, the Streak is extended across those Calendar Days. If Thursday passes as a Missed Day, the Streak is broken. The broken Streak does not remove the Monday, Tuesday, or Wednesday Workout Sessions from the Workout History. It only changes the derived Streak behavior.#
+
+[.changed]#Consistency is different from Streak. A GymGoer may show Consistency across a Week without having consecutive Attendance Days. For example, Ana performs Workout Sessions on Monday, Wednesday, and Friday. Those days do not form a three-day Streak because they are not consecutive. They still show regular activity across the Week, so evaluateConsistency(...) can produce a Consistency Measure from that Workout History and Time Frame.#
+
+[.changed]#Goals are evaluated within a Time Frame. If Ana sets a Goal of three Attendance Days in one Week, the domain evaluates that Goal using the Attendance Days derived from her Workout History. Since Ana recorded Workout Sessions on Monday, Wednesday, and Friday, evaluateGoal(...) produces a Goal Result showing that the Goal was met.#
+
+[.changed]#At the end of the Week, summarizeWeek(...) produces a Weekly Summary. The Weekly Summary includes the Workout Sessions in that Week, Attendance Days, Missed Days, the Goal Result, and any comparison information useful for review. This allows Ana to see what happened during the Week without reducing the review to only whether a Streak was maintained.#
+
+[.changed]#Derek uses the same domain with a different routine. He records both runs and gym sessions as Workout Sessions. When he reviews progress, he may compare two running sessions by Duration or compare two gym sessions by Exercises. The domain does not need separate histories for running and gym activity. Both are Workout Sessions in the GymGoer’s Workout History, but they can be filtered, retrieved, or compared by Activity or Exercise.#
+
+[.changed]#In this narrative, the main domain path is:#
+
+----
+GymGoer performs Workout Session
+Workout Session is recorded
+GymGoer’s Workout History changes
+Workout History supports retrieval and comparison
+Attendance Days and Missed Days are derived
+Streak, Consistency Measure, Goal Result, and Weekly Summary are computed
+----
+
+[.changed]#This keeps the domain model centered on the relationship between GymGoer, Workout Session, and Workout History. Streak, Consistency, Goal Evaluation, Progress, and Weekly Summary are derived from that relationship instead of being treated as unrelated features.#

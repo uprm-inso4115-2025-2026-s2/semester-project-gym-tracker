@@ -1,6 +1,6 @@
 = Gym Tracker
 Second Milestone - Software Requirements - INSO 4115
-Prof. Marko Schütz-Schmuck 
+Prof. Marko Schütz-Schmuck
 :doctype: book
 :toc:
 :sectnums!:
@@ -16,5 +16,3 @@ include::sections/3 Analytic Part/section.adoc[]
 include::sections/4 Specific Class Topics/section.adoc[]
 
 include::sections/Appendix/section.adoc[]
-
-include::sections/Lecture Topic Tasks/section.adoc[]

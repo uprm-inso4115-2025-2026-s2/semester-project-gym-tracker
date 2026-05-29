@@ -1,0 +1,92 @@
+= [Domain Attributes LTT] Analyze Continuous, Discrete, and Hybrid Data in Workout Tracking Systems
+:author: Jerac Duran
+
+== Objective
+
+Classify and analyze workout tracking data as continuous, discrete, or hybrid domain phenomena within a gym tracker application.
+
+== Description
+
+This lecture examines how workout tracking systems model different types of domain data discussed in the "Domain Attributes" lecture.
+This presentation focuses on workout-related information stored in the gym tracker database, including workout sessions, sets, reps, calories burned, duration tracking, and progress monitoring.
+
+The lecture explains how workout data can behave as continuous phenomena, discrete phenomena, or hybrid systems depending on how information is collected, updated, and modeled over time.
+The topic also explores temporal behavior in workout history and discusses how fitness applications combine manually entered data with continuously changing metrics.
+
+== Database Entities Used
+
+* `workout_sessions`
+* `workout_exercises`
+* `exercises`
+* `goals_feedback`
+* `session_comparison`
+
+== Continuous Data in the Gym Tracker
+
+Continuous phenomena represent values that change over time and can be measured or estimated along a continuous scale.
+
+In this system, the closest examples of continuous-natured data are:
+
+* `duration_minutes` — represents elapsed time, a quantity that is continuous in the real world; in the schema it is stored as a `bigint` snapshot recorded at session end
+* `calories_burned` — represents an estimated expenditure value that accumulates continuously during physical activity; also stored as a `bigint` snapshot in `workout_sessions`
+* Progress metrics in `goals_feedback` such as `target_value` and `recorded_value`, which represent measurable quantities that change across time periods
+
+It is important to note that while these phenomena are continuous in the physical domain, the schema stores them as whole-number snapshots rather than streaming values.
+This is a deliberate modeling decision: the system captures a final recorded value rather than tracking continuous change in real time.
+The continuous nature exists in the underlying domain; the database representation is a discrete approximation of it.
+
+== Discrete Data in the Gym Tracker
+
+Discrete phenomena represent countable, finite values or isolated events that do not vary continuously between states.
+
+Examples from the system include:
+
+* `sets` — a whole-number count of how many sets were performed
+* `reps` — a whole-number count of repetitions within each set
+* Completed workout sessions — each session is a distinct, bounded event
+* Exercise records — each exercise entry is a separate, identifiable record
+
+The `workout_exercises` table stores discrete values because sets and reps are countable integers; there is no meaningful value between 3 reps and 4 reps.
+Workout sessions themselves are also discrete events because each session is recorded separately using start and end timestamps, making every session a distinct unit of data.
+
+== Hybrid Behavior in Workout Tracking Systems
+
+Hybrid systems combine both continuous and discrete behavior within the same domain model.
+
+The gym tracker demonstrates hybrid behavior because:
+
+* Users manually enter discrete values (sets and reps) as countable integers
+* The system records continuous metrics such as duration and estimated calories burned
+* Progress metrics such as weight lifted or endurance evolve continuously over time across sessions
+* Individual workouts are stored as separate discrete session records, while the progression across those sessions forms a continuous trend
+
+A fitness tracking environment may also combine smartwatch sensor data — which samples heart rate and movement continuously — with manually entered workout data stored in `workout_exercises`.
+In such a system, the sensor stream is continuous while the logged exercise records remain discrete, making the overall system hybrid by design.
+
+== Temporal Modeling
+
+Workout history demonstrates temporal behavior because workout sessions and progress records are stored chronologically using timestamps, allowing the system to represent how data changes over time.
+
+Examples include:
+
+* `created_at` in `workout_sessions` — marks when each session was recorded, enabling chronological ordering
+* `period_date` in `goals_feedback` — anchors goal and feedback records to specific time periods
+
+It is important to note that `goals_feedback` is scoped to `user_id` only and has no foreign key to `workout_sessions`.
+This means goal and feedback records track user-level progress over time, but are not directly linked to individual sessions.
+Temporal analysis of goals must therefore be done at the user level rather than the session level.
+
+Session-to-session performance comparisons are handled separately by the `session_comparison` entity, which holds two foreign keys both pointing to `workout_sessions`.
+
+== Relationship to Domain Attributes Lecture
+
+This topic directly applies the following concepts discussed in the lecture:
+
+* *Continuity* — duration and calories burned change along a continuous scale
+* *Discreteness* — sets, reps, and individual sessions are countable and distinct
+* *Hybridicity* — the gym tracker combines both continuous and discrete phenomena
+* *Temporal behavior* — timestamps enable chronological modeling of workout history
+* *Dynamic systems* — user progress and performance metrics change over time
+
+The gym tracker database models both continuous and discrete phenomena simultaneously, making it a hybrid domain system.
+

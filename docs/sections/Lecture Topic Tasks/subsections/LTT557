@@ -1,0 +1,52 @@
+= Gym Tracker — Goal Types
+:doctype: article
+:toc:
+:icons: font
+
+== Goal types for the Gym Tracker system
+
+=== Behavioral goals (hard goals)
+
+*BG-01 — Workout session is logged*
+
+The system must allow a user to create a session, add exercises with sets and reps, and save it. This goal is either satisfied or not satisfied — there is no middle ground.
+
+*BG-02 — User account is authenticated*
+
+The system must verify user identity before granting access to any personal workout data. Authentication must succeed for every protected request, with no partial state permitted.
+
+'''
+
+=== Quality-related goals (non-functional goals)
+
+*QG-01 — Session logging is performant*
+
+The system must save a workout session and confirm to the user within 2 seconds under normal load. This is a non-functional constraint that applies to every invocation of BG-01, not just typical cases.
+
+*QG-02 — App is available offline*
+
+The system must allow users to log workouts without internet access and sync when reconnected. Overall availability must remain at or above 99.5%, including degraded-mode operation.
+
+'''
+
+=== Optimization goals (soft goals)
+
+*OG-01 — Minimize steps to log a session*
+
+The number of taps required to complete a full workout log should be reduced as much as possible. Unlike behavioral goals, this has no fixed satisfaction point — every design iteration should drive the tap count lower.
+
+*OG-02 — Maximize user retention*
+
+The system should maximize the proportion of users who return and log a session within 7 days of their previous one. This goal is never fully met; it improves continuously through feature and UX decisions.
+
+'''
+
+=== Anti-goals (obstacles)
+
+*AG-01 — Session data is lost on save failure*
+
+A network or storage error causes an in-progress session to be lost before it is persisted. This directly obstructs BG-01 and is resolved by implementing an offline-first save with background sync.
+
+*AG-02 — Unauthorised access to user data*
+
+A malicious actor gains access to a user's workout or personal data. This directly obstructs BG-02 and is resolved by enforcing authentication on all protected endpoints combined with AES-256 encryption at rest and TLS in transit.

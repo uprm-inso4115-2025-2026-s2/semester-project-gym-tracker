@@ -1,0 +1,157 @@
+==== [LTT] Intentional View: Goal Model
+:author: EnriqueVilela2714
+This Lecture Topic Task defines the intentional view of the Membership subsystem in the Gym Tracker app by identifying the goals the system must achieve, classifying them, decomposing them into leaf goals, and documenting the obstacles that could obstruct them.
+
+The intentional view serves as the foundation for all other views. Every operation, agent responsibility, and system state must trace back to a goal defined here.
+
+===== Goals
+
+*1. ValidateActiveMembership (Maintain)*
+
+The system must continuously verify that users accessing premium features hold a valid, active membership plan at the time of access.
+
+*Priority:* High
+
+*Definition:* A membership is considered active when the user's subscription plan is within its valid date range and all associated payments have been successfully processed.
+
+Leaf goals:
+- `RetrieveMembershipStatus` — query the database to obtain the current membership record for the authenticated user.
+- `CheckExpirationDate` — compare the membership end date against the current system date.
+- `VerifyPaymentStatus` — confirm that no payment is overdue or flagged as failed.
+- `GrantOrRestrictAccess` — allow or block access to premium features based on validation result.
+
+*2. HandleMembershipRenewal (Achieve)*
+
+The system must process membership renewals automatically or upon user request, ensuring continuous service without interruption.
+
+*Priority:* High
+
+*Definition:* A renewal is successful when the user's membership end date is extended and a new payment cycle is initiated and confirmed before the previous plan expires.
+
+Leaf goals:
+- `DetectUpcomingExpiration` — identify memberships expiring within a configurable threshold (e.g., 7 days).
+- `TriggerRenewalProcess` — initiate automatic or manual renewal flow.
+- `ProcessPayment` — execute the payment transaction through the payment gateway.
+- `UpdateMembershipRecord` — persist the new membership dates in the database upon successful payment.
+
+*3. TrackExpirationStatus (Achieve)*
+
+The system must monitor and expose the expiration status of each membership so users and administrators can take timely action.
+
+*Priority:* Medium
+
+*Definition:* Expiration status includes active, expiring soon, expired, and suspended states, each with defined business rules and user-facing messages.
+
+Leaf goals:
+- `ClassifyMembershipState` — assign one of the defined status categories to each membership record.
+- `NotifyExpirationApproaching` — trigger a notification when a membership enters the expiring soon state.
+- `DisplayStatusToUser` — present the current membership status clearly in the user profile view.
+
+*4. PreventUnauthorizedAccess (Avoid)*
+
+The system must prevent users with expired or inactive memberships from accessing features reserved for active members.
+
+*Priority:* High
+
+*Definition:* Unauthorized access occurs when a user with a non-active membership successfully reaches a premium feature without a valid plan. This must be detected and blocked at every entry point.
+
+===== Obstacles
+
+*1. Payment fails during renewal*
+
+Obstructs `HandleMembershipRenewal`. If the payment gateway rejects the transaction, the membership cannot be renewed and the user loses access upon expiration.
+
+*Likelihood:* Medium
+
+*Criticality:* High
+
+*Mitigation:* Retry payment automatically after 24 hours; notify the user immediately and offer alternative payment methods.
+
+*2. Membership record not updated after successful payment*
+
+Obstructs `ValidateActiveMembership`. If the payment succeeds but the database write fails, the system may incorrectly treat an active member as expired.
+
+*Likelihood:* Low
+
+*Criticality:* High
+
+*Mitigation:* Use transactional writes with rollback support; implement reconciliation jobs to detect payment/membership mismatches.
+
+*3. User accesses app during grace period with expired membership*
+
+Obstructs `PreventUnauthorizedAccess`. Depending on business rules, users may retain partial access during a grace period, creating ambiguity in access control logic.
+
+*Likelihood:* High
+
+*Criticality:* Medium
+
+*Mitigation:* Clearly define grace period rules in business logic; communicate restrictions transparently to the user.
+
+*4. Expiration date miscalculation due to timezone differences*
+
+Obstructs `TrackExpirationStatus`. If the server and client use different timezones, a membership might appear expired to the user before the actual UTC expiration time.
+
+*Likelihood:* Medium
+
+*Criticality:* Medium
+
+*Mitigation:* Standardize all date calculations to UTC; convert to local time only for display purposes.
+
+===== Goal Summary Table
+
+[cols="2,2,1,1"]
+|===
+| Name | Definition | Category | Priority
+
+| ValidateActiveMembership
+| Continuously verify that users hold a valid active membership
+| Maintain
+| High
+
+| HandleMembershipRenewal
+| Process renewals automatically or on demand without service interruption
+| Achieve
+| High
+
+| TrackExpirationStatus
+| Monitor and expose membership expiration states
+| Achieve
+| Medium
+
+| PreventUnauthorizedAccess
+| Block expired or inactive users from premium features
+| Avoid
+| High
+
+|===
+
+===== Goal Decomposition Diagram
+
+[source]
+----
+ValidateActiveMembership (Maintain)
+├── RetrieveMembershipStatus
+├── CheckExpirationDate
+├── VerifyPaymentStatus
+└── GrantOrRestrictAccess
+
+HandleMembershipRenewal (Achieve)
+├── DetectUpcomingExpiration
+├── TriggerRenewalProcess
+├── ProcessPayment
+└── UpdateMembershipRecord
+
+TrackExpirationStatus (Achieve)
+├── ClassifyMembershipState
+├── NotifyExpirationApproaching
+└── DisplayStatusToUser
+
+PreventUnauthorizedAccess (Avoid)
+[enforced through ValidateActiveMembership at all premium feature entry points]
+----
+
+===== Next Steps
+
+- Define agent responsibilities for each leaf goal (e.g., MembershipService, PaymentGateway, AccessControlGuard).
+- Create the Strategic Dependency (SD) view to map dependencies between actors.
+- Implement the Strategic Rationale (SR) view to detail how each goal is operationalized.

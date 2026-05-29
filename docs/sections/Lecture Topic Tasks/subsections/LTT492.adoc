@@ -1,0 +1,46 @@
+=== Modeling Concurrent Fitness Behaviors
+
+Alejandro E. López Rodríguez
+
+Workout-related activities within the fitness tracking domain may occur simultaneously or overlap in time. Multiple workout sessions, goal evaluations, and progress updates may affect the same workout history at nearly the same moment. Modeling these concurrent fitness behaviors helps explain how the domain should behave when several operations interact with shared workout information.
+
+Within the fitness tracking domain, workout information is represented through structures such as WorkoutHistory, WorkoutSession, Goal, and Streak. Several domain operations already defined in the system operate over these shared structures.
+
+computeStreak : WorkoutHistory → StreakLength
+
+evaluateWeeklyGoal : WorkoutHistory >< Goal >< Week → GoalResult
+
+generateWeeklySummary : WorkoutHistory >< Goal >< Week → WeeklySummary
+
+These operations depend on the consistency of the underlying workout history. However, concurrent behaviors may introduce situations where multiple activities attempt to affect the same domain state at the same time. One concurrent scenario involves overlapping workout session creation. A gym goer may attempt to log two workout sessions simultaneously from different devices or browser tabs. Both operations attempt to insert new workout records into the same workout history.
+
+recordWorkout : WorkoutHistory >< WorkoutSession -> WorkoutHistory >< Option WorkoutRecord
+
+If both operations modify the same history concurrently without coordination, inconsistencies may arise.
+
+* Duplicate workout sessions may accidentally be created.
+* Workout ordering may become inconsistent.
+* Weekly summaries may temporarily evaluate incomplete information.
+
+This behavior directly affects requirements already defined within the domain. The system requires workout histories to remain stored and retrieved chronologically. Concurrent insertion operations therefore influence how workout histories preserve ordering and consistency. Another concurrent behavior involves simultaneous streak evaluation and workout modification. Streaks are derived from workout activity over time and depend on accurate historical information.
+
+computeStreak : WorkoutHistory -> StreakLength
+
+At the same moment that a streak is being evaluated, another operation may modify the workout history by editing or adding a workout session.
+
+updateWorkout : WorkoutHistory >< WorkoutSession -> WorkoutHistory >< Option WorkoutSession
+
+If the streak evaluation reads workout information while another operation changes the history, the resulting streak calculation may not reflect a stable domain state. A streak may temporarily appear longer or shorter depending on which operation completes first. Concurrent behavior also appears during weekly goal evaluation. The domain requirements specify that weekly goals are evaluated using attendance days rather than raw workout session count. Multiple workout sessions occurring on the same day count as one attendance day toward the weekly goal.
+
+evaluateWeeklyGoal : WorkoutHistory >< Goal >< Week -> GoalResult
+
+Suppose two workout sessions are logged simultaneously for the same calendar day while the weekly goal evaluation is executing. If the evaluation operation processes incomplete information, the system may temporarily calculate the wrong number of attendance days.
+
+Possible incorrect outcomes include:
+
+* Goal met
+* Goal not met
+
+before all concurrent operations finish processing.
+
+Concurrent behaviors may also occur between reminder generation and workout updates. Reminder operations depend on current workout activity and streak information. If a reminder evaluates the workout history before a newly logged session is fully processed, the system could incorrectly generate reminder notifications for a user who already completed a workout session. These examples demonstrate that workout-related operations cannot always be treated as isolated activities. Several operations may depend on the same shared domain information simultaneously. Because of this, the domain model must acknowledge that workout histories, streaks, summaries, and goals may all be affected by overlapping activities. Modeling concurrent fitness behaviors helps preserve valid domain states by identifying situations where simultaneous operations interact with shared information. It also clarifies that workout consistency depends not only on individual operations, but also on the ordering and coordination between operations that occur concurrently.

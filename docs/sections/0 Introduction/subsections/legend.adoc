@@ -1,15 +1,28 @@
-== Legend
+== Notation for Changes
 
-#Milestone 2 additions or modifications must be recorded in the LogBook and shown as highlighted text. In the AsciiDoc source, highlighted passages are wrapped in `#...#`.#
+Milestone 2 change markers compare the current documentation against the attached First Milestone PDF.
 
-* #A highlighted word, phrase, or clause means only that fragment changed.#
-* #A fully highlighted paragraph, heading, list item, or table cell means the whole visible unit changed.#
-* #Each addition or modification should have a corresponding LogBook entry that identifies the affected section and the change made.#
-* #Unhighlighted text is unchanged carryover text or supporting context.#
+[cols="1,1,1,2", options="header", width="100%"]
+|===
+| Notation | Purpose | Color | Example
 
-[.underline]#Milestone 3 additions or modifications are recorded in the LogBook and shown as underlined highlighted text. In the AsciiDoc source, Milestone 3 passages are wrapped in `[.underline]#...#`.#
+| `[.added]#<text>#`
+| Added
+| Green
+| [.added]#This text is new.#
 
-* [.underline]#An underlined highlighted word, phrase, or clause means only that fragment was added or changed in Milestone 3.#
-* [.underline]#A fully underlined highlighted paragraph or block means the entire unit was added or changed in Milestone 3.#
-* [.underline]#Each Milestone 3 addition or modification has a corresponding LogBook entry in the Milestone 3 section of the LogBook.#
-* [.underline]#Text carrying both plain highlight and underline was changed in both milestones.#
+| `[.changed]#<text>#`
+| Paraphrased
+| Orange
+| [.changed]#This text has been modified.#
+
+| `[.removed]#<text>#`
+| Removed
+| Red
+| [.removed]#This text is no longer relevant.#
+|===
+
+Each added, changed, or removed item should have a corresponding LogBook entry that identifies the affected section and the change made.
+Unmarked text is unchanged carryover text or supporting context.
+
+[.added]#Milestone 3 additions use the same `[.added]#<text>#` notation. Each Milestone 3 change is recorded in the Milestone 3 section of the LogBook with the member responsible and a description of what changed.#

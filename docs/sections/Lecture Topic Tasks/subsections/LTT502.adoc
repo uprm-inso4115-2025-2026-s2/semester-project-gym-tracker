@@ -1,0 +1,327 @@
+= Lecture Topic Task: Requirements Acquisition for Daily Login Streak & Achievement Engine
+
+== 🎯 Objective
+
+Apply Requirements Acquisition techniques to the *Daily Login Streak & Basic Achievement Engine* in order to:
+
+- Identify requirements prescription units from stakeholder expectations
+- Classify domain, interface, and machine requirements
+- Analyze stakeholder interactions and requirement acquisition processes
+- Improve requirement clarity, organization, and completeness
+- Structure requirement acquisition using stakeholder-oriented elicitation methods
+
+
+---
+
+== 📄 Description
+
+The feature introduces:
+- daily login streak tracking
+- next-day workout commitments 
+- achievement unlocking
+- badge systems
+- burnout-aware streak preservation
+
+Using lecture concepts, the task analyzes how stakeholder expectations can be transformed into structured requirement prescription units through elicitation, indexing, classification, and acquisition processes.
+
+The task particularly focuses on:
+- stakeholder-oriented acquisition
+- requirement prescription units
+- indexing and classification
+- elicitation techniques
+- domain, interface, and machine requirements
+
+
+---
+
+== ✅ Acceptance Criteria
+
+- The Lecture Topic Task clearly applies requirements acquisition concepts to the selected system (Daily Login Streak & Achievement Engine)
+
+- Requirement prescription units are identified and structured
+
+- Stakeholders and stakeholder perspectives are identified
+
+- Requirements are classified into:
+  * domain requirements
+  * interface requirements
+  * machine requirements
+
+- Requirement acquisition processes are analyzed, including:
+  * stakeholder interviews
+  * elicitation
+  * indexing
+  * classification
+
+- Workflow diagrams and classification structures are included
+
+- The task demonstrates alignment with lecture concepts such as:
+  * requirements acquisition
+  * elicitation
+  * prescription units
+  * indexing
+  * stakeholder liaison
+
+- The analysis improves requirement clarity and organization
+
+---
+
+== 1. Stakeholder Identification
+
+According to the lecture, requirements acquisition depends heavily on stakeholder interaction and liaison. :contentReference[oaicite:3]{index=3}
+
+=== Primary Stakeholders
+
+|===
+| Stakeholder Group | Interest in System
+
+| Gym Tracker Users
+| Maintain motivation and track consistency
+
+| Product Owners
+| Improve retention and engagement metrics
+
+| Developers
+| Implement streak and achievement logic correctly
+
+| QA Engineers
+| Validate unlocking rules and streak behavior
+
+| Fitness-Oriented Users
+| Use reminders and streaks to maintain habits
+|===
+
+---
+
+== 2. Requirement Prescription Units
+
+
+The following requirement prescription units are extracted from the proposed feature:
+
+- The system shall store login dates persistently
+- The streak shall increment only once per calendar day
+- The streak shall reset if a login day is missed
+- Users may create next-day workout commitments
+- Achievements shall unlock automatically
+- Rest Day Tokens shall preserve streaks under defined conditions
+- Duplicate achievements shall not be possible
+- Backend logic shall validate unlocking rules
+
+These units are classified and analyzed in later sections.
+
+---
+
+== 3. Requirements Classification
+
+The lecture classifies requirements into:
+- domain requirements
+- interface requirements
+- machine requirements 
+=== Domain Requirements
+
+|===
+| Requirement | Classification
+
+| Daily login streak tracking
+| Behaviour / Determination
+
+| Achievement unlocking
+| Function / Extension
+
+| Workout commitments
+| Behaviour / Projection
+
+| Rest Day preservation logic
+| Behaviour / Fitting
+|===
+
+---
+
+=== Interface Requirements
+
+|===
+| Requirement | Classification
+
+| UI displays remaining Rest Day Tokens
+| Man-machine dialogue
+
+| User creates commitments
+| Computational data and control
+
+| Achievement badges are displayed
+| Shared data refreshment
+
+| Login tracking updates streak count
+| Shared data initialization
+|===
+
+---
+
+=== Machine Requirements
+
+|===
+| Requirement | Classification
+
+| Backend validates achievement rules
+| Dependability requirement
+
+| Prevent duplicate achievements
+| Integrity requirement
+
+| Persistent login storage
+| Storage / Performance requirement
+
+| Support long-term user tracking
+| Maintenance requirement
+|===
+
+---
+
+== 4. Requirements Acquisition Workflow
+
+----
+[Identify Stakeholders]
+           |
+           v
+[Conduct Requirement Elicitation]
+           |
+           v
+[Record Prescription Units]
+           |
+           v
+[Index & Classify Requirements]
+           |
+           v
+[Review Completeness]
+           |
+           v
+[Refine Requirements]
+----
+
+---
+
+== 5. Elicitation Process
+
+According to the lecture, elicitation includes:
+- stakeholder interviews
+- questionnaires
+- exploratory discussions
+- recording requirements 
+
+=== Example Elicitation Questions
+
+==== Entity Questions
+
+- What user data should be tracked for streaks?
+- Should Rest Day Tokens be visible to users?
+- What achievement types should exist?
+
+==== Function Questions
+
+- How should streak increments behave?
+- How should missed days affect streaks?
+- How should achievements unlock?
+
+==== Behaviour Questions
+
+- What sequence occurs after login?
+- How should the system react when a streak would reset?
+- How should commitment completion affect achievements?
+
+
+
+---
+
+== 6. Requirement Indexing
+
+The lecture defines indexing as classifying requirements according to:
+- stakeholder
+- concept type
+- requirement facet
+- concept names 
+=== Example Indexed Requirement
+
+Requirement:
+"The streak shall increment only once per calendar day."
+
+Initial Classification:
+- Stakeholder: Product Owner
+- Concept Type: Behaviour
+- Facet: Determination
+- Concept Names:
+  * streak
+  * login
+  * calendar day
+
+---
+
+== 7. Potential Requirement Issues
+
+=== Incompleteness
+
+Possible missing requirements:
+- No timezone handling defined
+- No offline login behavior specified
+- No limit defined for achievement quantity
+
+---
+
+=== Conflicts
+
+Potential stakeholder conflict:
+- Competitive users may want harsher streak penalties
+- Casual users may prefer flexible streak systems
+
+Possible solution:
+- Allow configurable streak preferences
+
+---
+
+=== Ambiguity
+
+Example:
+- "Daily login" may be interpreted differently across timezones
+
+Possible improvement:
+- Define login-day boundaries explicitly
+
+---
+
+== 8. Requirement Quality Improvements
+
+Recommended improvements include:
+
+- Define timezone policies
+- Clarify streak reset conditions
+- Specify token expiration rules
+- Add validation constraints
+- Define achievement threshold values explicitly
+
+---
+
+== 9. Concept Relationship Model
+
+----
+[User]
+   |
+   v
+[Login System]
+   |
+   +--> [Streak Engine]
+   |
+   +--> [Achievement Engine]
+   |
+   +--> [Commitment System]
+   |
+   +--> [Rest Day Token System]
+----
+
+---
+
+== 🧠 Conclusion
+
+This task demonstrates how Requirements Acquisition techniques can structure and improve the definition of a gamified fitness feature before implementation begins.
+
+By identifying stakeholders, eliciting prescription units, classifying requirements, and indexing requirement concepts, the *Daily Login Streak & Basic Achievement Engine* becomes more organized, analyzable, and maintainable.
+
+The lecture concepts provide a systematic approach for transforming stakeholder expectations into structured software requirements.

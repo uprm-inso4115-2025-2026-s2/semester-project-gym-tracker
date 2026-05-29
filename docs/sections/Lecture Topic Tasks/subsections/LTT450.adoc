@@ -1,0 +1,87 @@
+==== [LTT] Domain Analysis and Concept Formation for Boundary Concepts
+:author: Pedro Cortes
+
+This Lecture Topic Task applies domain analysis and concept formation to the Gym Tracker project by focusing on *boundary concepts*: concepts that are closely related, easy to confuse, and important for keeping the domain model precise. The purpose is not to introduce many new concepts, but to make existing ones more stable by clarifying where one concept ends and another begins.
+
+Boundary concepts matter because ambiguity at the domain level eventually causes ambiguity in requirements, interface expectations, and implementation logic. In Gym Tracker, several important concepts are related strongly enough that they can appear interchangeable unless their distinctions are stated explicitly.
+
+===== 1. Attendance Day vs Workout Session
+
+At first glance, these concepts can sound almost identical because both refer to workout activity happening on a particular date. However, they operate at different levels of abstraction.
+
+* *Attendance Day* refers to a calendar day on which workout activity occurred.
+* *Workout Session* refers to a specific occurrence of workout activity with its own duration, training type, and optional exercises or notes.
+
+The distinction matters because one Attendance Day may contain more than one Workout Session. For example, a GymGoer might complete a morning run and an evening strength workout on the same date. The system should treat that as *one attendance day* but *two workout sessions*.
+
+Their relationship can therefore be stated as:
+
+* One Attendance Day may correspond to one or more Workout Sessions.
+* A Workout Session contributes to an Attendance Day, but it is not equivalent to the day itself.
+
+This boundary is important for streak and weekly aggregation logic, because counting sessions and counting active days are not the same operation.
+
+===== 2. Consistency vs Streak
+
+These concepts are both concerned with continuity over time, which makes them easy to confuse. However, they represent different kinds of temporal patterns.
+
+* *Consistency* is the broader idea of regular workout participation across a time frame.
+* *Streak* is a narrower idea: a sequence of consecutive active days with no qualifying gap.
+
+A GymGoer can be consistent without maintaining a perfect streak. For example, someone who works out four times in a week on non-consecutive days may still be highly consistent even though their streak is short or already broken.
+
+Their relationship can be stated as:
+
+* A Streak is a specialized form of Consistency.
+* Consistency evaluates regularity more broadly than Streak.
+
+This distinction matters because the project is intended to support habit formation without turning one missed day into total failure. If consistency and streak are treated as identical, the system would overemphasize uninterrupted performance and underrepresent broader progress.
+
+===== 3. Daily Goal vs Weekly Goal
+
+Both concepts are goal-oriented and both measure planned activity against actual activity. The difference lies in the *time frame* used for evaluation.
+
+* *Daily Goal* evaluates activity against a one-day interval.
+* *Weekly Goal* evaluates activity against a seven-day interval.
+
+The project discussion already showed uncertainty about whether daily or weekly goals are more appropriate for users. Rather than treating them as unrelated concepts, they can be understood as two instances of a broader structure:
+
+* *Goal* + *Time Frame*
+
+This means Daily Goal and Weekly Goal should be distinguished at the level of temporal granularity, while still being related through the higher-level concept of Goal Evaluation.
+
+Their relationship can be stated as:
+
+* Both are forms of Goal.
+* They differ mainly in the evaluation boundary and motivational rhythm they create.
+
+This distinction matters because daily goals emphasize immediate discipline, while weekly goals better reflect realistic schedules and support less fragile accountability.
+
+===== 4. Workout Tracking vs Nutrition Tracking
+
+This is the most important *scope-boundary* concept pair in the project because both are related to fitness, but they do not belong equally to the current domain focus.
+
+* *Workout Tracking* is part of the core domain because the project centers on workout logging, streaks, consistency, weekly summaries, and goal progress.
+* *Nutrition Tracking* is related to fitness, but it introduces a different problem space with additional concepts, behaviors, and effort expectations.
+
+The reason Nutrition Tracking remains out of scope is not that it is unimportant. Rather, including it would broaden the domain beyond the project's current central problem: helping users maintain workout consistency through simple logging and meaningful feedback.
+
+Their relationship can be stated as:
+
+* Nutrition Tracking is domain-adjacent, not domain-central, for the current Gym Tracker scope.
+* Workout Tracking is the concept that anchors the rest of the domain model.
+
+This boundary is valuable because it protects conceptual cohesion. It keeps the project focused on habit continuity and avoids turning Gym Tracker into a general health-management platform.
+
+===== Conclusion
+
+The analysis of these boundary concepts strengthens the Gym Tracker domain model in two ways. First, it reduces ambiguity between concepts that might otherwise be treated as interchangeable. Second, it makes scope decisions more explicit, especially where a related concept is relevant but intentionally excluded.
+
+The most important result is that the domain becomes easier to reason about:
+
+* Attendance is not the same as a session.
+* Consistency is not the same as a streak.
+* Daily and weekly goals are related through time-frame variation.
+* Nutrition is related to the fitness context but remains outside the current project focus.
+
+By clarifying these boundaries, the project documentation becomes more precise and better aligned with domain analysis and concept formation principles.

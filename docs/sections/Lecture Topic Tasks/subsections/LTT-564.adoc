@@ -1,0 +1,324 @@
+= Requirements Evolution Log — Documenting Requirement Changes
+:toc:
+:toclevels: 2
+
+== Overview
+
+This document presents a formal Requirements Evolution Log for the Gym Tracker application,
+covering the full project lifecycle from Milestone 1 through Milestone 3. It traces how key
+requirements across the system's major subsystems were added, modified, deleted, or replaced
+as the project progressed. For each change, the triggering cause and downstream impact are
+documented. This serves as a post-project traceability and retrospective artifact applying
+Requirements Evolution techniques (Lecture 15, RE Chapter 6).
+
+---
+
+== Requirements Evolution Process
+
+----
++-------------------------+
+|   Milestone 1           |
+|   Initial Requirements  |
+|   Domain Exploration    |
++-------------------------+
+           |
+           v
++-------------------------+
+|   Change Detection      |
+|   - Domain Refinements  |
+|   - Stakeholder Input   |
+|   - Implementation      |
+|     Constraints         |
++-------------------------+
+           |
+           v
++-------------------------+
+|   Milestone 2           |
+|   Evolved Requirements  |
+|   Feature Development   |
++-------------------------+
+           |
+           v
++-------------------------+
+|   Change Detection      |
+|   - Conflict Resolution |
+|   - Scope Adjustments   |
+|   - New Discoveries     |
++-------------------------+
+           |
+           v
++-------------------------+
+|   Milestone 3           |
+|   Finalized Requirements|
+|   Project Closure       |
++-------------------------+
+           |
+           v
++-------------------------+
+|   Evolution Log         |
+|   - Change Type         |
+|   - Trigger             |
+|   - Impact Assessment   |
++-------------------------+
+----
+
+=== Description
+
+The evolution process followed a natural lifecycle across the three milestones:
+
+- *Milestone 1*: Initial domain exploration established the first set of requirements
+  through stakeholder identification, domain acquisition, and concept formation.
+- *Milestone 2*: Feature development surfaced implementation constraints, inconsistencies,
+  and new stakeholder perspectives that drove requirement modifications.
+- *Milestone 3*: Finalization led to scope adjustments, deprecation of infeasible requirements,
+  and replacement of under-specified ones with refined versions.
+
+---
+
+== Change Type Classification
+
+[cols="1,3", options="header"]
+|===
+| Change Type | Definition
+
+| Addition
+| A new requirement was introduced that did not exist in the prior milestone.
+
+| Modification
+| An existing requirement was altered in scope, detail, priority, or phrasing.
+
+| Deletion
+| A requirement was dropped or permanently deferred from the system scope.
+
+| Replacement
+| A requirement was superseded by a more refined or restructured version.
+|===
+
+---
+
+== Evolution Trigger Classification
+
+[cols="1,3", options="header"]
+|===
+| Trigger Category | Description
+
+| Domain Refinement
+| A change in the domain model, domain attributes, or concept formation revealed that the requirement needed updating.
+
+| Stakeholder Input
+| New or revised stakeholder perspectives (personas, agents, goals) caused a requirement to be added or changed.
+
+| Implementation Constraint
+| A technical or architectural limitation discovered during development forced a requirement change.
+
+| Inconsistency Resolution
+| A conflict or contradiction between requirements or domain artifacts was resolved by updating one or more requirements.
+
+| Scope Adjustment
+| A deliberate decision to expand or narrow the system scope across milestones affected one or more requirements.
+|===
+
+---
+
+== Requirements Evolution Log
+
+[cols="1,1,2,2,1,2,1,2", options="header"]
+|===
+| Req ID / Issue | Subsystem | Original Statement (Summary) | Evolved Statement (Summary) | Change Type | Trigger | Milestone of Change | Downstream Impact
+
+| #75
+| Goals
+| Define a general project scope and system boundary for the Gym Tracker.
+| Scope refined to explicitly exclude third-party integrations and AI-generated plans from MVP.
+| Modification
+| Scope Adjustment
+| M1 → M2
+| Deferred FR-N-05 (inactivity AI suggestions); constrained Goal module feature set.
+
+| #83
+| Accounts
+| Identify domain facets for the Gym Tracker without specifying attribute detail.
+| Domain facets expanded with explicit attribute definitions per subsystem in subsequent domain tasks.
+| Modification
+| Domain Refinement
+| M1 → M2
+| Triggered domain attribute tasks (#158, #188) across Notifications and Streaks.
+
+| #158
+| Notifications
+| Identify domain attributes for the Notification system at a high level.
+| Attributes formalized with types, constraints, and relationships to the Feedback model.
+| Modification
+| Domain Refinement
+| M1 → M2
+| Grounded FR-D-02 (delivery state tracking) and NFR-05 (data integrity for notifications).
+
+| #164
+| Notifications
+| Domain acquisition for Notification and Feedback behaviors — initial concept formation.
+| Acquisition output expanded to include delivery state lifecycle and frequency control as explicit domain concepts.
+| Modification
+| Stakeholder Input
+| M1 → M2
+| Directly drove FR-D-01, FR-D-02, FR-F-01, FR-P-01, FR-P-02.
+
+| #188
+| Streaks
+| Define domain attributes for the Streak Calculation System at a conceptual level.
+| Attributes refined to include streak continuity rules, break conditions, and edge case handling.
+| Modification
+| Domain Refinement
+| M1 → M2
+| Informed FR-N-02 and FR-N-03; affected temporal analysis task (#512).
+
+| #209
+| Workouts
+| Model domain constraints and invariants in the fitness tracking domain generally.
+| Invariants scoped specifically to workout session creation and validation operations.
+| Modification
+| Scope Adjustment
+| M2 → M3
+| Narrowed workout logging FR scope; removed ambiguous cross-module invariants.
+
+| #271
+| Workouts
+| Implement entities and data relationships in workout tables — general relational model.
+| Requirement split: data model separated from validation logic requirements.
+| Replacement
+| Inconsistency Resolution
+| M2 → M3
+| Produced cleaner FR separation between data persistence and business rule enforcement.
+
+| #299
+| Notifications
+| Domain validation and verification for workout and notification systems combined.
+| Verification scope split: workout domain and notification domain verified independently.
+| Replacement
+| Inconsistency Resolution
+| M2 → M3
+| Enabled independent traceability for each subsystem's verification results.
+
+| #424
+| Notifications
+| Define requirements for notification frequency control — initial draft.
+| Frequency control requirement refined to include per-type limits and immediate persistence behavior.
+| Modification
+| Implementation Constraint
+| M2 → M3
+| Directly produced FR-P-02 and FR-P-03; affected NFR-03 (usability of settings).
+
+| #434
+| Goals
+| Define intentional view covering goals and associated risks at a general level.
+| Risk and obstacle analysis scoped specifically to workout scheduling and goal achievement flows.
+| Modification
+| Domain Refinement
+| M2 → M3
+| Grounded risk analysis tasks; informed goal state transition requirements.
+
+| #440
+| Workouts
+| Add filters to workout history — feature requirement with broad scope.
+| Requirement narrowed to filtering by date range and exercise type only; advanced filters deferred.
+| Modification
+| Scope Adjustment
+| M2 → M3
+| Advanced filter requirement marked as Won't Have for MVP; deferred to post-project backlog.
+
+| #451
+| Accounts
+| Define intentional view for membership subsystem.
+| Membership intentional view deprecated; membership model absorbed into the Accounts domain model.
+| Deletion
+| Scope Adjustment
+| M2 → M3
+| Membership as standalone subsystem removed; features folded into Accounts module requirements.
+
+| #497
+| Notifications
+| Apply architectural refinement patterns to notification quality goals.
+| Quality goals formalized as measurable NFRs (delivery rate, latency, maintainability).
+| Replacement
+| Domain Refinement
+| M2 → M3
+| Produced NFR-01, NFR-02, NFR-04 in the final SRS; replaced vague quality statements.
+
+| #512
+| Notifications
+| Identify temporal constraints in workout reminder and feedback systems.
+| Temporal constraints formalized into delivery timing NFR and inactivity trigger FR.
+| Modification
+| Implementation Constraint
+| M2 → M3
+| Produced NFR-01 and FR-N-05; resolved ambiguity in reminder scheduling behavior.
+|===
+
+---
+
+== Evolution Summary by Subsystem
+
+[cols="1,1,1,1,1,1", options="header"]
+|===
+| Subsystem | Additions | Modifications | Deletions | Replacements | Total Changes
+
+| Notifications
+| 0
+| 5
+| 0
+| 2
+| 7
+
+| Workouts
+| 0
+| 2
+| 0
+| 1
+| 3
+
+| Streaks
+| 0
+| 1
+| 0
+| 0
+| 1
+
+| Goals
+| 0
+| 2
+| 0
+| 0
+| 2
+
+| Accounts
+| 0
+| 1
+| 1
+| 0
+| 2
+
+| *Total*
+| *0*
+| *11*
+| *1*
+| *3*
+| *15*
+|===
+
+---
+
+== Key Observations
+
+- *Modifications* were the dominant change type (11 of 15), reflecting a project that
+  iteratively refined requirements rather than radically restructuring them.
+
+- *The Notification subsystem* had the highest requirement volatility (7 changes),
+  consistent with its role as a cross-cutting concern dependent on multiple other modules.
+
+- *The single Deletion* (Issue #451 — Membership subsystem) represents a deliberate
+  scope consolidation decision made during Milestone 3 closure.
+
+- *Implementation Constraints* were a notable trigger in Milestone 2 → 3 transitions,
+  particularly for notification timing and frequency behaviors discovered during development.
+
+- *No requirements were added after Milestone 2*, confirming that the project entered
+  a stabilization and formalization phase during Milestone 3.

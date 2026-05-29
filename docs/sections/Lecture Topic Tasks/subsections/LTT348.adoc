@@ -1,0 +1,96 @@
+=== Goal Obstruction Analysis for Streak Reliability
+:author: Ariana Rodriguez
+
+The streak system within the fitness tracking domain depends on the accurate
+classification of attendance, reliable workout history management, and consistent evaluation of
+activity over time. Because streaks are derived concepts rather than directly recorded values,
+their correctness depends on several underlying domain conditions remaining valid. Identifying
+potential obstacles that may interfere with these conditions is necessary to preserve reliability
+within the system.
+
+One important obstacle involves invalid or null workout timestamps. Workout sessions
+must always occur at identifiable points in time, since streak calculations rely on determining the
+chronological order of attendance. If workout timestamps are missing or malformed, the system
+cannot correctly evaluate continuity between workout days.
+
+∃ session ∈ WorkoutHistory : session.timestamp = null
+
+This obstacle may cause incorrect attendance classification, invalid streak calculations,
+or failures when displaying historical workout data. To mitigate this issue, workout sessions
+must be validated before being included in streak computations, and timestamps should always
+follow a consistent format.
+
+Another obstacle emerges when duplicate workout sessions are recorded for the same
+calendar day. Since streaks are based on attendance rather than the number of workouts
+performed, multiple sessions within the same day should not artificially extend streak values.
+
+∃ s₁, s₂ ∈ WorkoutHistory :
+s₁.day = s₂.day ∧ s₁ ≠ s₂
+
+If this obstacle is not controlled, streak counts and consistency metrics may become
+inflated beyond what actually occurred. Mitigation requires defining aggregation rules so that
+multiple sessions within the same day contribute to only one Attendance Day.
+
+Chronological ordering also represents a critical reliability requirement. Streaks are
+defined through uninterrupted sequences of consecutive attendance days, workout
+sessions must always be evaluated in temporal order.
+
+¬orderedChronologically(WorkoutHistory)
+
+If workout sessions are processed out of order, streak calculations may incorrectly reset
+or continue despite gaps in attendance. To reduce this risk, all streak-related operations should
+enforce chronological sorting before evaluating attendance continuity.
+
+Timezone inconsistencies create another significant obstacle. Workout timestamps may
+be interpreted differently across systems, devices, or locations, causing sessions to appear under
+incorrect calendar days.
+
+∃ session ∈ WorkoutHistory :
+interpretedDay(session, timezone₁) ≠ interpretedDay(session, timezone₂)
+
+This obstacle may unexpectedly break streaks even when workouts were completed on
+consecutive real-world days. Mitigation requires defining standardized timezone handling and
+consistent date conversion rules throughout the system.
+
+Missing workout data also threatens streak reliability. Workout sessions may fail to save,
+synchronize, or persist correctly due to storage or communication issues.
+
+∃ session ∈ WorkoutHistory : ¬persisted(session)
+
+If workout records are missing, streak calculations may incorrectly classify attended days
+as missed days. This may result in unexpected streak loss and inaccurate consistency summaries.
+To mitigate this obstacle, persistence validation and synchronization verification should occur
+before streak updates are finalized.
+
+Another obstacle concerns inconsistent attendance classification rules across different
+system components. If attendance evaluation logic differs between services or views, the same
+user activity may produce contradictory streak results.
+
+∃ component₁, component₂ :
+attendanceResult(component₁) ≠ attendanceResult(component₂)
+
+This inconsistency may cause users to observe different streak values across the system,
+reducing trust in the reliability of the application. Mitigation requires centralized attendance
+classification rules and shared validation constraints across all streak-related operations.
+
+Streaks themselves are governed by strict domain constraints. A streak only exists when
+attendance occurs on consecutive days without interruption. A missed day immediately breaks
+the streak under the current domain rules.
+
+∀ d₁, d₂ ∈ AttendanceDays :
+consecutive(d₁, d₂) ⇒ noMissedDaysBetween(d₁, d₂)
+
+This constraint means that even small inconsistencies in workout history or attendance
+classification may significantly affect streak calculations. Reliable streak evaluation therefore
+depends on preserving accurate and complete attendance data over time.
+
+Consistency within the domain is also an emergent property rather than an isolated event.
+A single workout session does not establish meaningful consistency or streak behavior.
+
+consistency = f(WorkoutHistory, AttendanceDays, TimePeriod)
+
+As a result, the reliability of the streak system depends on maintaining valid historical
+data and correctly evaluating activity patterns across multiple days rather than individual events.
+Together, these obstacles demonstrate that streak reliability depends not only on streak
+calculation logic itself, but also on the correctness of workout timestamps, attendance
+classification, persistence behavior, and chronological consistency. 
