@@ -40,7 +40,7 @@ export default function SignupPage() {
 
     try {
       // Future improvement: save username to auth metadata or a profiles table
-      await signUpWithEmail(email, password);
+      await signUpWithEmail(email, password, username);
       // Depending on Supabase settings, this might log them in directly
       // or require email confirmation.
       navigate("/", { replace: true });

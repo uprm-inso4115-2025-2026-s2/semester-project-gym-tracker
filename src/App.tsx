@@ -23,8 +23,7 @@ import BottomNav from "./features/ui/BottomNav";
 import {
   computeLongestStreakFromWorkoutSessions,
   countWorkoutDaysInRange,
-  getEndOfWeekDateKey,
-  getStartOfWeekDateKey,
+  formatDateKey,
   getTimestampDateKey,
 } from "./lib/workouts";
 import type { WorkoutSession } from "./types";
@@ -150,11 +149,9 @@ function HomePage() {
   }, [user]);
 
   const weeklyCompletedDays = useMemo(() => {
-    return countWorkoutDaysInRange(
-      sessions,
-      getStartOfWeekDateKey(),
-      getEndOfWeekDateKey()
-    );
+    const weekEnd = formatDateKey(new Date());
+    const weekStart = formatDateKey(new Date(Date.now() - 6 * 86_400_000));
+    return countWorkoutDaysInRange(sessions, weekStart, weekEnd);
   }, [sessions]);
 
   return (

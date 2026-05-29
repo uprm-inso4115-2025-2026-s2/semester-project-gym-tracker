@@ -391,7 +391,7 @@ export function computeStreakFromSessions(sessions: WorkoutSession[], today = ne
 
   // A streak requires at least 2 consecutive days — a single attendance day
   // is not a streak per the domain definition ("consecutive" implies ≥2).
-  if (uniqueDates.length < 2) return 0;
+  if (uniqueDates.length < 1) return 0;
 
   let streak = 1;
   for (let i = uniqueDates.length - 1; i > 0; i--) {
@@ -406,7 +406,7 @@ export function computeStreakFromSessions(sessions: WorkoutSession[], today = ne
   }
 
   // Only a streak if we found consecutive days (streak > 1 means at least 2 were consecutive).
-  return streak > 1 ? streak : 0;
+  return streak;
 }
 
 export function updateStreakWithWorkout(

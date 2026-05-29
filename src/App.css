@@ -10,14 +10,25 @@
    ══════════════════════════════════════════ */
 
 .home-main {
-  /* Same pattern as all other pages — escapes #root cleanly */
   position: fixed;
   inset: 0;
   overflow-y: auto;
-  background: linear-gradient(160deg, #dce6f8 0%, var(--surface) 60%);
+  background-color: #ffffff;
   font-family: var(--font-family-body);
   padding: var(--space-3) var(--space-2) calc(60px + env(safe-area-inset-bottom, 0px) + var(--space-3));
   box-sizing: border-box;
+}
+
+.home-main::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('/Dark-Logo.svg');
+  background-repeat: repeat;
+  background-size: 150px 150px;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ── Header row: logo left, greeting right ── */
@@ -27,6 +38,8 @@
   gap: var(--space-2);
   max-width: 720px;
   margin: 0 auto var(--space-3);
+  position: relative;
+  z-index: 1;
 }
 
 .home-logo {
@@ -66,6 +79,8 @@
   gap: var(--space-2);
   max-width: 720px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 
   /* Mobile default: single column */
   grid-template-columns: 1fr;

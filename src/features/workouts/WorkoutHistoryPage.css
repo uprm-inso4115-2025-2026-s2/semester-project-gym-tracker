@@ -3,16 +3,30 @@
   position: fixed;
   inset: 0;
   overflow-y: auto;
-  background: linear-gradient(160deg, #dce6f8 0%, var(--surface) 60%);
+  background-color: #ffffff;
   font-family: var(--font-family-body);
   padding: var(--space-4) var(--space-3) calc(var(--space-8) + 60px + env(safe-area-inset-bottom, 0px));
   box-sizing: border-box;
+}
+
+.history-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('/Dark-Logo.svg');
+  background-repeat: repeat;
+  background-size: 150px 150px;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .history-inner {
   width: 100%;
   max-width: 680px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Header ── */

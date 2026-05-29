@@ -46,7 +46,7 @@ export default function StreakDisplay({
 }: StreakDisplayProps) {
   const currentStreak = sessions.length > 0 ? computeStreakFromSessions(sessions) : 0;
   const hadStreak = (longestStreak ?? 0) > 0;
-  const isStreakBroken = isBroken || (currentStreak === 0 && hadStreak);
+  const isStreakBroken = currentStreak === 0 && (isBroken || hadStreak);
 
   if (currentStreak === 0 && !hadStreak && !isBroken) {
     const hasWorkouts = sessions.length > 0;

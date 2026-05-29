@@ -3,8 +3,7 @@ import { supabase } from "../../lib/supabaseClient";
 import {
   DEFAULT_WEEKLY_WORKOUT_GOAL,
   countWorkoutDaysInRange,
-  getEndOfWeekDateKey,
-  getStartOfWeekDateKey,
+  formatDateKey,
   getTimestampDateKey,
 } from "../../lib/workouts";
 import type { WorkoutSession } from "../../types";
@@ -30,8 +29,8 @@ export default function WeeklyProgressSummary() {
     if (!user) return;
 
     try {
-      const weekStart = getStartOfWeekDateKey(new Date());
-      const weekEnd = getEndOfWeekDateKey(new Date());
+      const weekEnd = formatDateKey(new Date());
+      const weekStart = formatDateKey(new Date(Date.now() - 6 * 86_400_000));
       const [sessions, weeklyGoalResult] = await Promise.all([
         getUserWorkoutSessions(user.id),
         supabase
