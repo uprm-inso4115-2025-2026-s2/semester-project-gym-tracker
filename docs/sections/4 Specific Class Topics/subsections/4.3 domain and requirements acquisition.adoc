@@ -130,3 +130,68 @@
 * [.changed]#Second, elicitation is performed on that evidence to clarify terminology, expose conflicts, and decide whether the finding changes the requirement set.#
 * [.changed]#Third, the affected domain, interface, or machine requirements are updated and the rationale is captured in the logbook and linked GitHub issue.#
 * [.changed]#Fourth, Section 4.4 traceability links are updated so the path from acquisition evidence to elicited requirement decisions remains visible.#
+
+==== [.added]4.3.7 Domain Analysis Through Competitive Review
+
+[.added]#To strengthen requirements acquisition and reduce abstraction in stakeholder statements, a competitive analysis was conducted using existing fitness tracking systems. The purpose of this analysis is not replication, but rather domain grounding: identifying how real systems model workout logging, represent history, and reduce or increase friction in user interaction.# 
+
+[.added]#Two systems were selected due to their usage and distinct approaches: a structured logging system (MyFitnessPal) and an event-based activity tracking system (Strava). These systems were analyzed in terms of logging workflow, data representation, and historical navigation.#
+
+==== 4.3.7.1 MyFitnessPal — Structured Logging Model
+
+[.added]#MyFitnessPal represents a structured, form-driven approach to fitness tracking in which workouts are recorded through explicit user input across multiple fields. While primarily nutrition-focused, its workout logging system reflects a pattern of structured data entry for health-related activities.#
+
+Logging Model Characteristics
+
+[.added]#Workout entries are typically composed of:#
+
+[.added]#Activity type selection (running, strength training)#
+[.added]#Duration expressed in minutes#
+[.added]#Optional estimated metrics such as calories burned#
+[.added]#Additional notes or context fields#
+
+[.added]#This results in a multi-step input process where the user is required to explicitly define each attribute of the workout session before submission.#
+
+Observations
+
+[.added]#MyFitnessPal emphasizes data completeness and structured input over interaction speed. While this improves analytical richness, it introduces additional friction during data entry, especially when users attempt to log workouts immediately after completion.#
+
+[.added]#A key limitation of this model is that it reduces workouts to simple values like time spent, instead of treating them as distinct events with their own structure.
+
+
+Design Implications for This Project
+
+[.added]#This system provides evidence supporting the following design constraints in this project:#
+
+[.added]#Reduction of mandatory input fields in workout logging flows (supports Low-Effort Logging requirement DR-L1).#
+[.added]#Avoidance of excessive abstraction (calorie estimation as a required field).#
+[.added]#Preference for session-based modeling rather than form-based logging.#
+
+==== [.added]4.3.7.2 Strava — Event-Based Activity Model
+
+[.added]#Strava represents an event-centric fitness tracking model in which workouts are treated as continuous, time-bounded activities. Unlike structured form-based systems, Strava emphasizes the capture of real-world activity as a single coherent event.#
+
+Logging Model Characteristics
+
+[.added]#Workout sessions are typically recorded via:#
+
+[.added]#Automatic activity tracking (GPS-based session recording)#
+[.added]#Manual activity entry with minimal required fields#
+[.added]#Optional enrichment data (distance, elevation, heart rate, notes)#
+
+[.added]#In this model, a workout is treated as a single event object representing a completed physical activity over a time interval.#
+
+Observations
+
+[.added]#Strava’s model strongly aligns with a temporal event representation of fitness behavior. Each workout is part of a chronological sequence, enabling natural support for history reconstruction and performance comparison over time.#
+
+[.added]#This design reduces friction during logging when automatic tracking is available, but still requires structured decisions when manual entry is used. Additionally, its design is optimized for endurance-based activities, which may not fully generalize to mixed gym environments.#
+
+Design Implications for This Project
+
+[.added]#This system provides direct support for the following decisions:#
+
+[.added]#WorkoutSession should be treated as a first-class domain event.#
+[.added]#WorkoutHistory should be modeled as an ordered sequence of WorkoutSession entities.#
+[.added]#Comparison functions (session-to-session analysis) are justified as core domain operations.#
+[.added]#Navigation functions are required to retrieve historical sessions (last session, sessions by type or time window).#
