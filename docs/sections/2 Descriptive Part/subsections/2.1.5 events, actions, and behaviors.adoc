@@ -2,29 +2,22 @@
 
 ===== Domain Events
 
-The following events are observable from the stakeholder perspective
-and occur at specific moments in time.
+[.underline]#The events listed here use the exact names and definitions established in Section 2.1.2. Each entry below is a reference to the corresponding concept in the terminology, not a separate definition. The purpose of this subsection is to show how these events appear in the context of the behaviors described below, not to restate or redefine them.#
 
-*Workout session has just been completed*  
-A person has finished performing one or more activities intended for fitness.
+*Workout Session has just been performed*
+[.underline]#An event in which a Workout Session has occurred at a specific time on a specific Calendar Day. (Defined in Section 2.1.2.)#
 
-*Workout session has just been recorded*  
-A completed workout has been added to the activity history.
+*Workout Session has just been skipped*
+[.underline]#An event in which an expected opportunity for workout activity has passed without a Workout Session occurring. (Defined in Section 2.1.2.)#
 
-*Workout day has just been missed*  
-A day expected to include activity has passed without a workout session.
+*Goal period has just ended*
+[.underline]#An event in which the Time Frame associated with a Goal has completed. (Defined in Section 2.1.2.)#
 
-*Streak has just been extended*  
-A workout has occurred on a day immediately following another attendance day.
+*Streak has just been extended*
+[.underline]#An event in which a Workout Session has occurred on the Calendar Day immediately following an Attendance Day, preserving consecutiveness. (Defined in Section 2.1.2.)#
 
-*Streak has just been broken*  
-A missed day has occurred following one or more consecutive attendance days.
-
-*Weekly goal period has just ended*  
-The time interval associated with a weekly goal has completed.
-
-*Weekly activity summary has just been evaluated*  
-The completed week’s activity has been compared against its goal.
+*Streak has just been broken*
+[.underline]#An event in which a Missed Day has occurred after one or more Attendance Days, ending consecutiveness. (Defined in Section 2.1.2.)#
 
 ===== Actions
 

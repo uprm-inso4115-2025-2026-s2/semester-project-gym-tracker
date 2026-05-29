@@ -54,8 +54,8 @@ Week.
 A positive integer count of Attendance Days required for a Goal within
 its Time Frame.
 
-#*Minutes* (Domain Concept, Category: Entity)#
-A positive integer count of minutes used to express workout duration.
+[.underline]#*Duration* (Domain Concept, Category: Entity)#
+[.underline]#A positive quantity expressing how long a Workout Session lasted, measured in minutes. Duration is an attribute of a Workout Session, not a standalone entity — it is the domain-level name for the elapsed time of a session.#
 
 #*Weekday* (Domain Concept, Category: Entity)#
 One of the seven named days of the week used when a requirement needs a
@@ -110,9 +110,8 @@ immediately following an Attendance Day, preserving consecutiveness.
 An event in which a Missed Day has occurred after one or more
 Attendance Days, ending consecutiveness.
 
-#*recordWorkout(gymGoer: GymGoer, workout: Workout, date: CalendarDay, notes: WorkoutNotes) : WorkoutSession* (Domain Concept, Category: Action)#
-An action that creates a Workout Session representing a Workout that
-has just occurred for a GymGoer on a given Calendar Day.
+[.underline]#*recordWorkout(gymGoer: GymGoer, workout: Workout, date: CalendarDay, notes: WorkoutNotes) : GymGoer >< WorkoutSession* (Domain Concept, Category: Action)#
+[.underline]#An action that creates a Workout Session for a GymGoer on a given Calendar Day and returns both the updated GymGoer (whose Workout History now contains the new session) and the newly created WorkoutSession. The GymGoer is included in the result because recording a workout modifies the GymGoer's Workout History — the WorkoutSession exists within that history and cannot be observed independently of it.#
 
 #*compareSessions(a: WorkoutSession, b: WorkoutSession) : SessionComparison* (Domain Concept, Category: Action)#
 An action that determines observable differences between two Workout
@@ -209,10 +208,7 @@ from the domain action that produces it.#
 achieved. *Goal Result* names the evaluated outcome produced by that
 action.#
 
-#*Minutes*, *Weekday*, and *Goal Target Count* are design-side
-constrained values in this notation. They describe the required shape
-of values in the design, not the current TypeScript field names in the
-implementation section.#
+[.underline]#*Duration*, *Weekday*, and *Goal Target Count* are design-side constrained value types in this notation. They describe the required shape of values in the domain model, not the current TypeScript field names in the implementation section. Duration replaces the earlier term Minutes throughout all signatures and definitions to use the domain-appropriate name for elapsed session time.#
 
 #*Streak*, *Consistency*, *Progress*, and *Weekly Activity Pattern* are
 categorized as behaviors because they describe temporal compositions of

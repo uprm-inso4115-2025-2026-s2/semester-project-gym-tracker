@@ -8,30 +8,41 @@ Where multiple outputs indicate updated state and produced results.
 
 ===== Core Recording Functions
 
-recordWorkout :
-    WorkoutHistory >< Activity >< Minutes >< CalendarDay >< Notes
-    -> WorkoutHistory >< WorkoutSession
+[.underline]#recordWorkout :#
+[.underline]#    WorkoutHistory >< Activity >< Duration >< CalendarDay >< Notes#
+[.underline]#    -> WorkoutHistory >< WorkoutSession#
 
-Adds a completed workout session to the history and returns the updated
-history together with the created session.
+[.underline]#Adds a completed Workout Session to the WorkoutHistory and returns the updated history together with the created session. Duration replaces the earlier type name Minutes throughout all signatures to align with the domain terminology in Section 2.1.2.#
 
-updateWorkoutSession :
-    WorkoutHistory >< WorkoutSession >< Activity >< Minutes >< CalendarDay >< Notes
-    -> WorkoutHistory >< WorkoutSession
+[.underline]#updateWorkoutSession :#
+[.underline]#    WorkoutHistory >< WorkoutSession >< Activity >< Duration >< CalendarDay >< Notes#
+[.underline]#    -> WorkoutHistory >< WorkoutSession#
 
-Modifies an existing recorded workout session.
+[.underline]#Modifies an existing recorded Workout Session within the WorkoutHistory.#
 
 deleteWorkoutSession :
     WorkoutHistory >< WorkoutSession
     -> WorkoutHistory
 
-Removes a recorded workout session from the history.
+Removes a recorded Workout Session from the WorkoutHistory.
 
 #retrieveWorkoutHistory :
     GymGoer
     -> WorkoutHistory#
 
-#Determines the WorkoutHistory associated with a GymGoer.#
+#Determines the WorkoutHistory associated with a GymGoer. This is the entry point through which all Workout Session retrieval happens. A Workout Session is only accessible through the GymGoer whose history contains it.#
+
+[.underline]#getSessionsInRange :#
+[.underline]#    WorkoutHistory >< CalendarDay >< CalendarDay#
+[.underline]#    -> [WorkoutSession]#
+
+[.underline]#Returns all Workout Sessions in the WorkoutHistory whose Calendar Day falls within the specified range. This function makes explicit how two sessions can be selected for comparison — a caller first retrieves the WorkoutHistory, then selects sessions from it using this function.#
+
+[.underline]#getLastSessionByActivity :#
+[.underline]#    WorkoutHistory >< Activity#
+[.underline]#    -> WorkoutSession#
+
+[.underline]#Returns the most recent Workout Session in the WorkoutHistory for a given Activity type. This expresses a common query (e.g., "last bench press session") that is otherwise implied but not defined.#
 
 ===== Goal Management Functions
 
@@ -77,7 +88,7 @@ compareSessions :
     WorkoutSession >< WorkoutSession
     -> SessionComparison
 
-Evaluates differences between two sessions, such as duration or activity type.
+Evaluates differences between two sessions, such as Duration or activity type. [.underline]#To obtain two sessions for comparison, the caller first invokes retrieveWorkoutHistory to obtain the GymGoer's WorkoutHistory, then invokes getSessionsInRange or getLastSessionByActivity to select the two sessions.#
 
 evaluateConsistency :
     WorkoutHistory >< TimePeriod
@@ -97,3 +108,5 @@ WorkoutSessions are obtained for a given GymGoer.#
 #GoalTargetCount is the positive integer count carried by Goal
 management functions, while GoalResult is the value returned by goal
 evaluation functions.#
+
+[.underline]#The type name Duration is used throughout all function signatures in place of the earlier Minutes. Duration is defined in Section 2.1.2 as the domain-level name for elapsed session time, expressed in minutes. The rename ensures that the function signature language matches the domain terminology rather than an implementation unit.#
