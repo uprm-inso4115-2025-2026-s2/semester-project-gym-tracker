@@ -501,3 +501,11 @@
 [.changed]#At this stage, the repository does not contain an automated workflow that runs `npm test`, `npm run test:acceptance`, or `npm run build` for application changes. The observed GitHub Actions workflows generate documentation PDFs and weekly project reports. They do not provide evidence of automated application verification on each update.#
 
 [.changed]#Several verification claims from the previous version of this section are not fully supported by the current tests. No observed test directly verifies persistence against a real database, weekly goal evaluation by active days, weekly comparison across multiple weeks, invalid-input rejection before persistence, or recalculation after editing past workout data. We therefore leave those checks in the planned or incomplete category for now.#
+
+==== [.added]#System Scope: UML Use Case Diagram#
+
+[.added]#The following use case diagram provides a system-scope overview of the GymTracker application. It shows all system operations available to the GymGoer and identifies three external service actors: Authentication Service, Data Storage Service, and Notification Service. The diagram complements the verification evidence above by making explicit which operations are in scope, which have acceptance test coverage, and which are still planned. Operations with current test evidence include Record Workout Session, View Workout History, and Log In. Operations without current automated test coverage — such as Compare Workout Sessions, Set Weekly Goal, Filter History by Activity/Exercise, and Send Reminder Notification — correspond to the planned or incomplete verification items noted in the section above.#
+
+[.added]#Figure 3.2.a — GymTracker UML Use Case Diagram.#
+
+image::sections/Lecture Topic Tasks/images/UML diagram.png[GymTracker UML Use Case Diagram, align="center", width=80%]

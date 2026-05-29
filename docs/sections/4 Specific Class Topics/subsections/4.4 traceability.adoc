@@ -78,246 +78,246 @@ We will label artifacts with short IDs and reference them inline:
 
 This scheme supports quick impact analysis when requirements evolve during later milestones.
 
-==== [.underline]#4.4.5 Traceability Policy#
+==== [.added]#4.4.5 Traceability Policy#
 
-[.underline]#This subsection defines the traceability policy for the GymTracker project: what should be traceable, what should not, at what level of granularity, what alternatives were considered, and why this approach was chosen.#
+[.added]#This subsection defines the traceability policy for the GymTracker project: what should be traceable, what should not, at what level of granularity, what alternatives were considered, and why this approach was chosen.#
 
-===== [.underline]#What should be traceable#
+===== [.added]#What should be traceable#
 
-[.underline]#The following artifact relationships are required to be traceable in this project:#
+[.added]#The following artifact relationships are required to be traceable in this project:#
 
-* [.underline]#Stakeholder needs (N*) to derived project goals (G*)#
-* [.underline]#Goals (G*) to epics (E*) and from epics to domain requirements (DR*), interface requirements (IR*), and machine requirements (MR*)#
-* [.underline]#Acquisition artifacts (AQ*) to the requirements they informed and the elicitation decisions (FE*, RT*) they produced#
-* [.underline]#Domain requirements and interface requirements to the implementation features that realize them (identified in Section 2.3)#
-* [.underline]#Requirements to the verification checks or acceptance tests that confirm them (V*, test file + test name)#
-* [.underline]#GitHub issues (GH-###) to the requirements they address, so task work remains linked to stakeholder value#
+* [.added]#Stakeholder needs (N*) to derived project goals (G*)#
+* [.added]#Goals (G*) to epics (E*) and from epics to domain requirements (DR*), interface requirements (IR*), and machine requirements (MR*)#
+* [.added]#Acquisition artifacts (AQ*) to the requirements they informed and the elicitation decisions (FE*, RT*) they produced#
+* [.added]#Domain requirements and interface requirements to the implementation features that realize them (identified in Section 2.3)#
+* [.added]#Requirements to the verification checks or acceptance tests that confirm them (V*, test file + test name)#
+* [.added]#GitHub issues (GH-###) to the requirements they address, so task work remains linked to stakeholder value#
 
-===== [.underline]#What should NOT be traced at this level#
+===== [.added]#What should NOT be traced at this level#
 
-[.underline]#The following are explicitly excluded from this traceability scheme to keep maintenance effort proportionate:#
+[.added]#The following are explicitly excluded from this traceability scheme to keep maintenance effort proportionate:#
 
-* [.underline]#Inline source code comments pointing to requirement IDs — rejected because they become stale on refactoring and create a false sense of completeness#
-* [.underline]#CSS and styling decisions — these are presentation choices that do not correspond to domain requirements or stakeholder needs#
-* [.underline]#Third-party library selection (Supabase, React, Vite) — implementation choices traceable to machine requirements at most, not to domain requirements or user stories#
-* [.underline]#Build configuration and CI pipeline details — infrastructure, not domain behavior#
-* [.underline]#Internal refactors where no behavior visible to a GymGoer changes#
+* [.added]#Inline source code comments pointing to requirement IDs — rejected because they become stale on refactoring and create a false sense of completeness#
+* [.added]#CSS and styling decisions — these are presentation choices that do not correspond to domain requirements or stakeholder needs#
+* [.added]#Third-party library selection (Supabase, React, Vite) — implementation choices traceable to machine requirements at most, not to domain requirements or user stories#
+* [.added]#Build configuration and CI pipeline details — infrastructure, not domain behavior#
+* [.added]#Internal refactors where no behavior visible to a GymGoer changes#
 
-===== [.underline]#Granularity#
+===== [.added]#Granularity#
 
-[.underline]#Traceability is maintained at the *requirement level*, not at the sub-clause level. A link from N2 to "Low-Effort Logging" is sufficient; the link does not need to reference individual bullet points within the requirement. For implementation, traceability is maintained at the *feature / component level* (e.g., `LogWorkoutModal.tsx` realizes "Recording Real-World Workouts"), not at the function or line level. For verification, traceability is maintained at the *test file and test name level*.#
+[.added]#Traceability is maintained at the *requirement level*, not at the sub-clause level. A link from N2 to "Low-Effort Logging" is sufficient; the link does not need to reference individual bullet points within the requirement. For implementation, traceability is maintained at the *feature / component level* (e.g., `LogWorkoutModal.tsx` realizes "Recording Real-World Workouts"), not at the function or line level. For verification, traceability is maintained at the *test file and test name level*.#
 
-===== [.underline]#Alternatives considered#
+===== [.added]#Alternatives considered#
 
 [cols="1,3,2", options="header"]
 |===
-|[.underline]#Alternative# |[.underline]#Description# |[.underline]#Reason for rejection#
+|[.added]#Alternative# |[.added]#Description# |[.added]#Reason for rejection#
 
-|[.underline]#Issue-only traceability#
-|[.underline]#Track only GitHub issue → requirement. No need-to-goal or requirement-to-test links.#
-|[.underline]#Too shallow. Does not support impact analysis when a stakeholder need changes, because the need-to-requirement path is missing.#
+|[.added]#Issue-only traceability#
+|[.added]#Track only GitHub issue → requirement. No need-to-goal or requirement-to-test links.#
+|[.added]#Too shallow. Does not support impact analysis when a stakeholder need changes, because the need-to-requirement path is missing.#
 
-|[.underline]#Fine-grained sub-requirement traceability#
-|[.underline]#Decompose each requirement into sub-clauses and trace each individually.#
-|[.underline]#Too high maintenance for a course project. Sub-clause IDs go stale on every requirement edit.#
+|[.added]#Fine-grained sub-requirement traceability#
+|[.added]#Decompose each requirement into sub-clauses and trace each individually.#
+|[.added]#Too high maintenance for a course project. Sub-clause IDs go stale on every requirement edit.#
 
-|[.underline]#Code-level traceability (inline comments)#
-|[.underline]#Embed requirement IDs in source code comments at the function level.#
-|[.underline]#Brittle. Silently breaks on refactoring. Creates a misleading audit trail.#
+|[.added]#Code-level traceability (inline comments)#
+|[.added]#Embed requirement IDs in source code comments at the function level.#
+|[.added]#Brittle. Silently breaks on refactoring. Creates a misleading audit trail.#
 
-|[.underline]#Tool-assisted traceability (dedicated traceability tool)#
-|[.underline]#Use a requirements management tool (e.g., JIRA, Doorstop) to maintain a live traceability graph.#
-|[.underline]#Not available within the course tooling. GitHub Issues approximate this at reduced fidelity.#
+|[.added]#Tool-assisted traceability (dedicated traceability tool)#
+|[.added]#Use a requirements management tool (e.g., JIRA, Doorstop) to maintain a live traceability graph.#
+|[.added]#Not available within the course tooling. GitHub Issues approximate this at reduced fidelity.#
 |===
 
-===== [.underline]#Why this approach was chosen#
+===== [.added]#Why this approach was chosen#
 
-[.underline]#Requirement-level traceability with stable IDs (N*, G*, E*, DR*, IR*, MR*) balances impact-analysis capability against maintenance cost. When a requirement changes, the ID stays the same and the links to needs, goals, and tests remain valid even if the text is rewritten. This is the minimum granularity needed to answer the core impact question: "if we change requirement X, what else must change?" The GitHub issue linkage adds a lightweight development workflow integration that does not require an external tool.#
+[.added]#Requirement-level traceability with stable IDs (N*, G*, E*, DR*, IR*, MR*) balances impact-analysis capability against maintenance cost. When a requirement changes, the ID stays the same and the links to needs, goals, and tests remain valid even if the text is rewritten. This is the minimum granularity needed to answer the core impact question: "if we change requirement X, what else must change?" The GitHub issue linkage adds a lightweight development workflow integration that does not require an external tool.#
 
-==== [.underline]#4.4.6 Extended Traceability Matrix#
+==== [.added]#4.4.6 Extended Traceability Matrix#
 
-[.underline]#This table extends the minimal matrix from Section 4.4.2 to include the fifth identified stakeholder need and to add implementation component and verification links for each requirement area.#
+[.added]#This table extends the minimal matrix from Section 4.4.2 to include the fifth identified stakeholder need and to add implementation component and verification links for each requirement area.#
 
 [cols="1,3,2,2,3,2", options="header"]
 |===
-|[.underline]#Need (N*)# |[.underline]#Need statement# |[.underline]#Goals (G*)# |[.underline]#Epics (E*)# |[.underline]#Key requirements (DR*/IR*)# |[.underline]#Verification evidence#
+|[.added]#Need (N*)# |[.added]#Need statement# |[.added]#Goals (G*)# |[.added]#Epics (E*)# |[.added]#Key requirements (DR*/IR*)# |[.added]#Verification evidence#
 
 |N1
 |Unified visibility of activity patterns over time
 |G2, G3
 |E1, E5
 |DR: Persistent Storage and Retrieval; IR: Viewing Progress and History
-|[.underline]#`tests/acceptance/app.acceptance.test.tsx` (history view test); `src/features/workouts/WorkoutHistoryPage.tsx`#
+|[.added]#`tests/acceptance/app.acceptance.test.tsx` (history view test); `src/features/workouts/WorkoutHistoryPage.tsx`#
 
 |N2
 |Low-effort structured workout logging
 |G4
 |E1
 |DR: Low-Effort Logging; IR: Recording Real-World Workouts
-|[.underline]#`tests/acceptance/app.acceptance.test.tsx` (log workout updates goal); `src/features/workouts/LogWorkoutModal.tsx`#
+|[.added]#`tests/acceptance/app.acceptance.test.tsx` (log workout updates goal); `src/features/workouts/LogWorkoutModal.tsx`#
 
 |N3
 |Measurable feedback for goal adherence and summaries
 |G2, G5
 |E3
 |DR: Goal Evaluation; DR: Performance Summary Representation; IR: Goal Initialization and Update
-|[.underline]#`src/lib/workouts.test.ts` (day counting, week bounds); `src/features/feedback/DailyGoalProgress.tsx`; `src/features/feedback/WeeklyProgressSummary.tsx`#
+|[.added]#`src/lib/workouts.test.ts` (day counting, week bounds); `src/features/feedback/DailyGoalProgress.tsx`; `src/features/feedback/WeeklyProgressSummary.tsx`#
 
 |N4
 |Reinforcement to support habit formation (streaks + feedback)
 |G1, G4
 |E2, E4
 |DR: Streak Representation; DR: Streak Calculation; IR: Automatic Streak Synchronization
-|[.underline]#`src/features/streaks/streakcalc.test.ts` (streak growth, grace period, reset); `src/features/streaks/StreakDisplay.tsx`#
+|[.added]#`src/features/streaks/streakcalc.test.ts` (streak growth, grace period, reset); `src/features/streaks/StreakDisplay.tsx`#
 
-|[.underline]#N5#
-|[.underline]#Clarity and simplicity for beginner and intermediate users#
-|[.underline]#G4, G5#
-|[.underline]#E1, E3, E5#
-|[.underline]#DR: Low-Effort Logging; IR: User Initialization; IR: Recording Real-World Workouts; MR: Interactive Response Time#
-|[.underline]#`tests/acceptance/auth-flow.acceptance.test.tsx` (login, signup flows); UI design system review#
+|[.added]#N5#
+|[.added]#Clarity and simplicity for beginner and intermediate users#
+|[.added]#G4, G5#
+|[.added]#E1, E3, E5#
+|[.added]#DR: Low-Effort Logging; IR: User Initialization; IR: Recording Real-World Workouts; MR: Interactive Response Time#
+|[.added]#`tests/acceptance/auth-flow.acceptance.test.tsx` (login, signup flows); UI design system review#
 |===
 
-==== [.underline]#4.4.7 Traceability Change Scenarios#
+==== [.added]#4.4.7 Traceability Change Scenarios#
 
-[.underline]#This section exploits the traceability graph to show the impact of three plausible change scenarios. For each scenario, the full chain of affected artifacts is traced from stakeholder needs through requirements, implementation components, tests, and documentation sections.#
+[.added]#This section exploits the traceability graph to show the impact of three plausible change scenarios. For each scenario, the full chain of affected artifacts is traced from stakeholder needs through requirements, implementation components, tests, and documentation sections.#
 
-===== [.underline]#Scenario 1: Streak grace period is removed#
+===== [.added]#Scenario 1: Streak grace period is removed#
 
-[.underline]#*Change description:* The product owner decides that streaks should count only strictly consecutive calendar days. The two-day grace period currently documented in Section 2.2.8 (WI-3) and implemented in `src/features/streaks/streakcalc.ts` is removed.#
+[.added]#*Change description:* The product owner decides that streaks should count only strictly consecutive calendar days. The two-day grace period currently documented in Section 2.2.8 (WI-3) and implemented in `src/features/streaks/streakcalc.ts` is removed.#
 
 [cols="1,4", options="header"]
 |===
-|[.underline]#Artifact# |[.underline]#Impact#
+|[.added]#Artifact# |[.added]#Impact#
 
-|[.underline]#N4 → G1 (Strengthen Habits)#
-|[.underline]#Goal rationale must be revisited. G1 justified the grace period as a habit-support mechanism. Removing it changes how the system reinforces consistency.#
+|[.added]#N4 → G1 (Strengthen Habits)#
+|[.added]#Goal rationale must be revisited. G1 justified the grace period as a habit-support mechanism. Removing it changes how the system reinforces consistency.#
 
-|[.underline]#DR: Streak Calculation#
-|[.underline]#Primary requirement change. The grace-period clause must be removed and the consecutive-day rule made strict.#
+|[.added]#DR: Streak Calculation#
+|[.added]#Primary requirement change. The grace-period clause must be removed and the consecutive-day rule made strict.#
 
-|[.underline]#DR: Streak Representation#
-|[.underline]#Secondary update required: the representation of GRACE state (shown in Section 2.1.5 state machine) must be removed.#
+|[.added]#DR: Streak Representation#
+|[.added]#Secondary update required: the representation of GRACE state (shown in Section 2.1.5 state machine) must be removed.#
 
-|[.underline]#Section 2.1.5 (State Machine Diagram)#
-|[.underline]#The GRACE state and its transitions must be removed from the state machine diagram.#
+|[.added]#Section 2.1.5 (State Machine Diagram)#
+|[.added]#The GRACE state and its transitions must be removed from the state machine diagram.#
 
-|[.underline]#Section 2.2.8 (Weak Inconsistencies, WI-3)#
-|[.underline]#The grace-period inconsistency entry becomes irrelevant and should be removed or marked resolved.#
+|[.added]#Section 2.2.8 (Weak Inconsistencies, WI-3)#
+|[.added]#The grace-period inconsistency entry becomes irrelevant and should be removed or marked resolved.#
 
-|[.underline]#`src/features/streaks/streakcalc.ts`#
-|[.underline]#Grace-period logic must be removed. The `EXPIRED` state and related conditions are affected.#
+|[.added]#`src/features/streaks/streakcalc.ts`#
+|[.added]#Grace-period logic must be removed. The `EXPIRED` state and related conditions are affected.#
 
-|[.underline]#`src/features/streaks/streakcalc.test.ts`#
-|[.underline]#Grace-period test cases (grace activation, grace-to-active recovery, grace expiration) would fail and must be removed or converted to strict-consecutive cases.#
+|[.added]#`src/features/streaks/streakcalc.test.ts`#
+|[.added]#Grace-period test cases (grace activation, grace-to-active recovery, grace expiration) would fail and must be removed or converted to strict-consecutive cases.#
 
-|[.underline]#`src/features/feedback/WeeklyProgressSummary.tsx`#
-|[.underline]#Calls `computeStreakFromSessions`. Behavior changes but no code change is required if the function interface is unchanged.#
+|[.added]#`src/features/feedback/WeeklyProgressSummary.tsx`#
+|[.added]#Calls `computeStreakFromSessions`. Behavior changes but no code change is required if the function interface is unchanged.#
 
-|[.underline]#Section 3.2 (Verification)#
-|[.underline]#Test result summary must be updated to reflect the new test set.#
+|[.added]#Section 3.2 (Verification)#
+|[.added]#Test result summary must be updated to reflect the new test set.#
 |===
 
-===== [.underline]#Scenario 2: Goal evaluation changes from active days to total session count#
+===== [.added]#Scenario 2: Goal evaluation changes from active days to total session count#
 
-[.underline]#*Change description:* The product owner decides that two sessions on the same calendar day should each count toward the weekly goal (total session count) rather than the active-day interpretation currently implemented.#
+[.added]#*Change description:* The product owner decides that two sessions on the same calendar day should each count toward the weekly goal (total session count) rather than the active-day interpretation currently implemented.#
 
 [cols="1,4", options="header"]
 |===
-|[.underline]#Artifact# |[.underline]#Impact#
+|[.added]#Artifact# |[.added]#Impact#
 
-|[.underline]#N3 → G2 (Encourage Reflection)#
-|[.underline]#The goal rationale changes: counting sessions favors high-frequency users over consistent-attendance users.#
+|[.added]#N3 → G2 (Encourage Reflection)#
+|[.added]#The goal rationale changes: counting sessions favors high-frequency users over consistent-attendance users.#
 
-|[.underline]#AQ1-Q3 (Acquisition evidence)#
-|[.underline]#The questionnaire asked stakeholders this exact question. The FE-2 elicitation resolution chose active days because stakeholders found day-counting more natural. This stakeholder evidence now conflicts with the proposed change; it should be revisited before implementing.#
+|[.added]#AQ1-Q3 (Acquisition evidence)#
+|[.added]#The questionnaire asked stakeholders this exact question. The FE-2 elicitation resolution chose active days because stakeholders found day-counting more natural. This stakeholder evidence now conflicts with the proposed change; it should be revisited before implementing.#
 
-|[.underline]#DR: Goal Evaluation#
-|[.underline]#Primary requirement change. The definition of "meeting a goal" must change from active Attendance Days to raw Workout Session count.#
+|[.added]#DR: Goal Evaluation#
+|[.added]#Primary requirement change. The definition of "meeting a goal" must change from active Attendance Days to raw Workout Session count.#
 
-|[.underline]#DR: Weekly Aggregation#
-|[.underline]#The aggregation function changes from `countWorkoutDaysInRange(...)` to `countWorkoutSessionsInRange(...)`.#
+|[.added]#DR: Weekly Aggregation#
+|[.added]#The aggregation function changes from `countWorkoutDaysInRange(...)` to `countWorkoutSessionsInRange(...)`.#
 
-|[.underline]#`src/lib/workouts.ts`#
-|[.underline]#`countWorkoutDaysInRange` function would need to be replaced or supplemented with a session-count variant.#
+|[.added]#`src/lib/workouts.ts`#
+|[.added]#`countWorkoutDaysInRange` function would need to be replaced or supplemented with a session-count variant.#
 
-|[.underline]#`src/features/feedback/WeeklyProgressSummary.tsx` and `DailyGoalProgress.tsx`#
-|[.underline]#Both components call the workouts utility. Both require logic updates.#
+|[.added]#`src/features/feedback/WeeklyProgressSummary.tsx` and `DailyGoalProgress.tsx`#
+|[.added]#Both components call the workouts utility. Both require logic updates.#
 
-|[.underline]#`src/lib/workouts.test.ts`#
-|[.underline]#Tests covering day-counting behavior would need revision. Same-day duplicate session tests would change expected outcomes.#
+|[.added]#`src/lib/workouts.test.ts`#
+|[.added]#Tests covering day-counting behavior would need revision. Same-day duplicate session tests would change expected outcomes.#
 
-|[.underline]#`tests/acceptance/app.acceptance.test.tsx`#
-|[.underline]#The acceptance test that verifies logging a workout updates the daily goal display may need to be updated if the count semantics change.#
+|[.added]#`tests/acceptance/app.acceptance.test.tsx`#
+|[.added]#The acceptance test that verifies logging a workout updates the daily goal display may need to be updated if the count semantics change.#
 
-|[.underline]#Section 3.2 (Verification), Section 2.3.1 (Implementation Fragments)#
-|[.underline]#Both sections reference `countWorkoutDaysInRange` by name. They must be updated to reflect the new function.#
+|[.added]#Section 3.2 (Verification), Section 2.3.1 (Implementation Fragments)#
+|[.added]#Both sections reference `countWorkoutDaysInRange` by name. They must be updated to reflect the new function.#
 |===
 
-===== [.underline]#Scenario 3: Email/password authentication replaced by Google-only sign-in#
+===== [.added]#Scenario 3: Email/password authentication replaced by Google-only sign-in#
 
-[.underline]#*Change description:* The team decides to remove email and password authentication entirely and require all users to authenticate through the Google OAuth IDP.#
+[.added]#*Change description:* The team decides to remove email and password authentication entirely and require all users to authenticate through the Google OAuth IDP.#
 
 [cols="1,4", options="header"]
 |===
-|[.underline]#Artifact# |[.underline]#Impact#
+|[.added]#Artifact# |[.added]#Impact#
 
-|[.underline]#IR: User Initialization#
-|[.underline]#Primary requirement change. The interface requirement for creating an account via email/password is no longer valid. It must be replaced with an OAuth-based user initialization requirement.#
+|[.added]#IR: User Initialization#
+|[.added]#Primary requirement change. The interface requirement for creating an account via email/password is no longer valid. It must be replaced with an OAuth-based user initialization requirement.#
 
-|[.underline]#IR: Login Flow (implicit, Section 2.2.4)#
-|[.underline]#The scenario and interface description for logging in with email/password must be replaced.#
+|[.added]#IR: Login Flow (implicit, Section 2.2.4)#
+|[.added]#The scenario and interface description for logging in with email/password must be replaced.#
 
-|[.underline]#N5 → G4 (Reduce Friction)#
-|[.underline]#Google sign-in could reduce friction for users with Google accounts, but creates a dependency on a third-party provider. The need rationale is partially preserved.#
+|[.added]#N5 → G4 (Reduce Friction)#
+|[.added]#Google sign-in could reduce friction for users with Google accounts, but creates a dependency on a third-party provider. The need rationale is partially preserved.#
 
-|[.underline]#MR: Authentication (Section 2.2.5)#
-|[.underline]#Machine requirements referencing password-based authentication must be updated.#
+|[.added]#MR: Authentication (Section 2.2.5)#
+|[.added]#Machine requirements referencing password-based authentication must be updated.#
 
-|[.underline]#`src/features/auth/api.ts`#
-|[.underline]#`signInWithEmail`, `signUpWithEmail`, `requestPasswordReset`, `updatePassword` are removed. `signInWithGoogle` becomes the sole auth path.#
+|[.added]#`src/features/auth/api.ts`#
+|[.added]#`signInWithEmail`, `signUpWithEmail`, `requestPasswordReset`, `updatePassword` are removed. `signInWithGoogle` becomes the sole auth path.#
 
-|[.underline]#`src/features/auth/LoginPage.tsx`, `SignupPage.tsx`, `ForgotPasswordPage.tsx`, `ResetPasswordPage.tsx`#
-|[.underline]#Three of these four pages are removed entirely. LoginPage is simplified to a single Google sign-in button.#
+|[.added]#`src/features/auth/LoginPage.tsx`, `SignupPage.tsx`, `ForgotPasswordPage.tsx`, `ResetPasswordPage.tsx`#
+|[.added]#Three of these four pages are removed entirely. LoginPage is simplified to a single Google sign-in button.#
 
-|[.underline]#`tests/acceptance/auth-flow.acceptance.test.tsx`#
-|[.underline]#All four email-based acceptance tests (login, signup, forgot-password, reset-password) break and must be replaced with OAuth flow tests.#
+|[.added]#`tests/acceptance/auth-flow.acceptance.test.tsx`#
+|[.added]#All four email-based acceptance tests (login, signup, forgot-password, reset-password) break and must be replaced with OAuth flow tests.#
 
-|[.underline]#`src/features/auth/AuthCallbackPage.tsx`#
-|[.underline]#This component becomes the primary post-auth landing page and its coverage becomes critical.#
+|[.added]#`src/features/auth/AuthCallbackPage.tsx`#
+|[.added]#This component becomes the primary post-auth landing page and its coverage becomes critical.#
 
-|[.underline]#Section 2.3.1 (Fragment 1: Protected routing and authentication flow)#
-|[.underline]#The code fragment showing `signInWithEmail` and `signUpWithEmail` becomes stale and must be replaced.#
+|[.added]#Section 2.3.1 (Fragment 1: Protected routing and authentication flow)#
+|[.added]#The code fragment showing `signInWithEmail` and `signUpWithEmail` becomes stale and must be replaced.#
 
-|[.underline]#Section 3.2 (Verification, auth test results)#
-|[.underline]#The observed test results for auth-flow acceptance tests would change.#
+|[.added]#Section 3.2 (Verification, auth test results)#
+|[.added]#The observed test results for auth-flow acceptance tests would change.#
 
-|[.underline]#Supabase Auth configuration (external)#
-|[.underline]#Google OAuth credentials must be configured in the Supabase dashboard. This is an external system change outside the codebase traceability scope.#
+|[.added]#Supabase Auth configuration (external)#
+|[.added]#Google OAuth credentials must be configured in the Supabase dashboard. This is an external system change outside the codebase traceability scope.#
 |===
 
-==== [.underline]#4.4.8 Effort Assessment for Traceability Maintenance#
+==== [.added]#4.4.8 Effort Assessment for Traceability Maintenance#
 
-[.underline]#This subsection assesses the effort required to maintain traceability information through each of the three change scenarios above, and draws a general conclusion about the cost-benefit relationship of the chosen traceability scheme.#
+[.added]#This subsection assesses the effort required to maintain traceability information through each of the three change scenarios above, and draws a general conclusion about the cost-benefit relationship of the chosen traceability scheme.#
 
 [cols="1,2,2,2", options="header"]
 |===
-|[.underline]#Scenario# |[.underline]#Implementation effort (estimated)# |[.underline]#Traceability maintenance effort (estimated)# |[.underline]#Key traceability value delivered#
+|[.added]#Scenario# |[.added]#Implementation effort (estimated)# |[.added]#Traceability maintenance effort (estimated)# |[.added]#Key traceability value delivered#
 
-|[.underline]#Scenario 1 (grace period removed)#
-|[.underline]#2–4 hours: modify `streakcalc.ts`, update test suite, verify build#
-|[.underline]#~1 hour: update DR text, remove WI-3, update state machine diagram, update Section 3.2 summary#
-|[.underline]#Prevented a stale weak inconsistency entry (WI-3) and a stale diagram from persisting after the change#
+|[.added]#Scenario 1 (grace period removed)#
+|[.added]#2–4 hours: modify `streakcalc.ts`, update test suite, verify build#
+|[.added]#~1 hour: update DR text, remove WI-3, update state machine diagram, update Section 3.2 summary#
+|[.added]#Prevented a stale weak inconsistency entry (WI-3) and a stale diagram from persisting after the change#
 
-|[.underline]#Scenario 2 (goal counting semantics)#
-|[.underline]#4–6 hours: modify `workouts.ts`, update two feedback components, update tests#
-|[.underline]#~2 hours: update DR text, revisit AQ1-Q3 evidence, update implementation fragment in 2.3.1, update Section 3.2#
-|[.underline]#Identified that AQ1-Q3 acquisition evidence conflicts with the proposed change — traceability surfaced a stakeholder alignment risk that would otherwise have been missed#
+|[.added]#Scenario 2 (goal counting semantics)#
+|[.added]#4–6 hours: modify `workouts.ts`, update two feedback components, update tests#
+|[.added]#~2 hours: update DR text, revisit AQ1-Q3 evidence, update implementation fragment in 2.3.1, update Section 3.2#
+|[.added]#Identified that AQ1-Q3 acquisition evidence conflicts with the proposed change — traceability surfaced a stakeholder alignment risk that would otherwise have been missed#
 
-|[.underline]#Scenario 3 (Google-only auth)#
-|[.underline]#6–10 hours: remove 3 pages, simplify LoginPage, update acceptance tests, configure Supabase#
-|[.underline]#~3 hours: update IR, MR, implementation fragment 1, Section 3.2 test results summary, and external Supabase note#
-|[.underline]#Prevented the acceptance test suite from being silently broken; traceability from IR → auth tests made the test update scope explicit#
+|[.added]#Scenario 3 (Google-only auth)#
+|[.added]#6–10 hours: remove 3 pages, simplify LoginPage, update acceptance tests, configure Supabase#
+|[.added]#~3 hours: update IR, MR, implementation fragment 1, Section 3.2 test results summary, and external Supabase note#
+|[.added]#Prevented the acceptance test suite from being silently broken; traceability from IR → auth tests made the test update scope explicit#
 |===
 
-[.underline]#*General conclusion:* Across all three scenarios, maintaining the traceability information added between 1 and 3 hours of documentation overhead per change, compared to an implementation effort of 2 to 10 hours. The overhead ratio is approximately 20–30% of implementation time. The primary value of the scheme was not in the matrix itself but in the structured question it forces: "which requirements, tests, and documentation sections reference the artifact being changed?" In two of the three scenarios (Scenario 2 and Scenario 3), traceability surfaced a non-obvious artifact that would likely have been missed without it: an acquisition evidence conflict in Scenario 2 and a stale implementation fragment in Scenario 3.#
+[.added]#*General conclusion:* Across all three scenarios, maintaining the traceability information added between 1 and 3 hours of documentation overhead per change, compared to an implementation effort of 2 to 10 hours. The overhead ratio is approximately 20–30% of implementation time. The primary value of the scheme was not in the matrix itself but in the structured question it forces: "which requirements, tests, and documentation sections reference the artifact being changed?" In two of the three scenarios (Scenario 2 and Scenario 3), traceability surfaced a non-obvious artifact that would likely have been missed without it: an acquisition evidence conflict in Scenario 2 and a stale implementation fragment in Scenario 3.#

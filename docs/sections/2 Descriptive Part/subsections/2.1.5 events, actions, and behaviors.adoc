@@ -2,7 +2,7 @@
 
 ===== Domain Events
 
-[.underline]#The events listed here use the exact names and definitions established in Section 2.1.2. Each entry below is a reference to the corresponding concept in the terminology, not a separate definition. The purpose of this subsection is to show how these events appear in the context of the behaviors described below, not to restate or redefine them.#
+[.added]#The events listed here use the exact names and definitions established in Section 2.1.2. Each entry below is a reference to the corresponding concept in the terminology, not a separate definition. The purpose of this subsection is to show how these events appear in the context of the behaviors described below, not to restate or redefine them.#
 
 [.added]#The events listed here should align with those defined in Section 2.1.2. Where a name in this section differs from the terminology section, the terminology section definition takes precedence.#
 
