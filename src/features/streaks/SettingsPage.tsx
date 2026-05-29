@@ -19,9 +19,16 @@ export default function SettingsPage() {
       reminderTime: "18:00",
     });
 
-    const [darkMode, setDarkMode] = useState<boolean>(
-      () => localStorage.getItem("theme") === "dark"
-    );  
+  const [darkMode, setDarkMode] = useState<boolean>(
+  () => localStorage.getItem("theme") === "dark"
+);
+
+function handleDarkModeToggle() {
+  const newMode = !darkMode;
+  setDarkMode(newMode);
+  localStorage.setItem("theme", newMode ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", newMode ? "dark" : "light");
+}
 
   useEffect(() => {
     const meta = user?.user_metadata;
@@ -51,13 +58,6 @@ export default function SettingsPage() {
   function handleNotificationPreferencesChange(updated: NotificationPreferences) {
     setNotificationPreferences(updated);
     localStorage.setItem("notificationPreferences", JSON.stringify(updated));
-  }
-
-  function handleDarkModeToggle() {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
-    localStorage.setItem("theme", newMode ? "dark" : "light");
-    document.documentElement.setAttribute("data-theme", newMode ? "dark" : "light");
   }
 
   return (
@@ -131,8 +131,7 @@ export default function SettingsPage() {
             onChange={handleNotificationPreferencesChange}
           />
         </div>
-
-{/* Appearance */}
+        {/* Appearance */}
 <div className="settings-card">
   <h2 className="settings-section-title">Appearance</h2>
   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>

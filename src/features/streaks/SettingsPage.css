@@ -1,34 +1,9 @@
 /* ── Page shell ── */
-.settings-page {
-  position: fixed;
-  inset: 0;
-  overflow-y: auto;
-  background-color: #ffffff;
-  font-family: var(--font-family-body);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: var(--space-4) var(--space-3) calc(var(--space-8) + 120px + env(safe-area-inset-bottom, 0px));
-  box-sizing: border-box;
-}
 
-.settings-page::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url('/Dark-Logo.svg');
-  background-repeat: repeat;
-  background-size: 150px 150px;
-  opacity: 0.06;
-  pointer-events: none;
-  z-index: 0;
-}
 
 .settings-inner {
   width: 100%;
   max-width: 450px;
-  position: relative;
-  z-index: 1;
 }
 
 /* ── Back link ── */
@@ -118,6 +93,38 @@
   cursor: pointer;
 }
 
+.settings-page {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  background-color: #ffffff;
+  font-family: var(--font-family-body);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--space-4) var(--space-3) calc(var(--space-8) + 120px + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+}
+
+.settings-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('/Dark-Logo.svg');
+  background-repeat: repeat;
+  background-size: 150px 150px;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.settings-inner {
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  z-index: 1;
+}
+
 [data-theme="dark"] .settings-page {
   background-color: #121416;
 }
@@ -138,4 +145,27 @@
   color: #e2e5e8;
 }
 
+[data-theme="dark"] .settings-card [style*="color: rgba(25,28,30,0.5)"] {
+  color: rgba(226, 229, 232, 0.6) !important;
+}
 
+[data-theme="dark"] .settings-card [style*="color: rgba(25,28,30,0.45)"] {
+  color: rgba(226, 229, 232, 0.6) !important;
+}
+
+[data-theme="dark"] .settings-card [style*="color: rgba(25,28,30,0.4)"] {
+  color: rgba(226, 229, 232, 0.6) !important;
+}
+
+[data-theme="dark"] .settings-card [style*="color: rgba(25,28,30,0.35)"] {
+  color: rgba(226, 229, 232, 0.6) !important;
+}
+
+[data-theme="dark"] .settings-card [style*="letterSpacing"] {
+  color: rgba(226, 229, 232, 0.6) !important;
+}
+
+[data-theme="dark"] .settings-card button[style*="transparent"] {
+  color: rgba(226, 229, 232, 0.5) !important;
+  border-color: rgba(226, 229, 232, 0.2) !important;
+}
