@@ -1,6 +1,5 @@
 === ii. LogBook
 
-[.changed]#This table records Milestone 2 additions, modifications, and removals at section level. Each listed change must also be marked in the corresponding document content with the added, changed, or removed role.#
 
 [.added]#Milestone 3 additions and modifications are shown as underlined highlighted text in the document content. Each Milestone 3 entry below is also underlined.#
 
@@ -21,13 +20,15 @@
 
 | [.added]#3.3 Inspection (new section)# | [.added]#Diego Perez# | [.added]#Added# | [.added]#Added a new Section 3.3 documenting a formal requirements and domain model inspection with named inspectors (Diego Perez, Julian Vivas, Wilson Morales, Alex Vazquez), a 10-item defect-driven checklist, a 10-item quality-driven checklist, three inspected items (terminology, domain requirements, interface requirements), and eight findings with severity ratings and dispositions.#
 
-| [.added]#4.4 Traceability# | [.added]#Diego Perez# | [.added]#Added# | [.added]#Added Sections 4.4.5 through 4.4.8: traceability policy (what to trace, what not to, granularity, alternatives, rationale); extended traceability matrix adding N5 and implementation/verification links for all five needs; three change scenarios (grace period removal, goal counting semantics change, Google-only auth) fully traced across requirements, source files, tests, and documentation; and effort assessment comparing traceability maintenance overhead to implementation effort across the three scenarios.#
+| [.added]#4.4 Traceability# | [.added]#Diego Perez# | [.added]#Added# | [.added]#Added the initial Milestone 3 traceability expansion: traceability policy (what to trace, what not to, granularity, alternatives, rationale); extended traceability matrix adding N5 and implementation/verification links for all five needs; three change scenarios (grace period removal, goal counting semantics change, Google-only auth) fully traced across requirements, source files, tests, and documentation; and effort assessment comparing traceability maintenance overhead to implementation effort across the three scenarios.#
 
-| [.added]#Lecture Topic Tasks — LTT575# | [.added]#Diego Perez# | [.added]#Added# | [.added]#Applied the four-step concept formation process (Schütz-Schmuck, 2024) to four raw domain description units about the GymGoer–WorkoutHistory–WorkoutSession relationship. Established that GymGoer is the aggregate root; revised `recordWorkout` to return `GymGoer >< WorkoutSession`; added `getSessionsInRange` and `getLastSessionByActivity` to close the retrieval gap exposed by DDU-D; rewrote the affected domain narrative fragment using only defined terminology. GH-575.#
+| [.added]#4.4 Traceability Management Cycle# | [.added]#Julian Vivas# | [.added]#Modified# | [.added]#Expanded the Milestone 3 traceability section into a complete management cycle: added DD*/IC*/TC* artifact IDs, explicit link types and bidirectional-link rules, link creation and maintenance timing, a requirement-to-design-code-test traceability matrix, change scenarios classified by requirement/design/implementation impact, a maintenance plan with roles and review frequency, and Jira/GitHub tool-configuration guidance for traceability metadata and reports.#
 
 |===
 
-==== #Milestone 2 Changes#
+[.changed]#This table records Milestone 2 additions, modifications, and removals at section level. Each listed change must also be marked in the corresponding document content with the added, changed, or removed role.#
+
+==== [.added]#Milestone 2 Changes#
 
 [width="100%", cols="4*", options="header", frame=all, grid=all, halign=center]
 |===
