@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { FaDumbbell, FaFire, FaPencilAlt } from "react-icons/fa";

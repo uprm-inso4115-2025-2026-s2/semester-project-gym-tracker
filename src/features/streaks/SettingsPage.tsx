@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../auth";
 import { NotificationPreferencesPanel } from "../notifications";

@@ -1,0 +1,40 @@
+export const feedbackMockData = [
+  {
+    id: 1,
+    type: "success",
+    title: "Goal completed",
+    message: "You reached your weekly workout goal. Great job staying consistent!",
+    progress: "4 / 4 workouts completed",
+    actionLabel: "View Progress",
+  },
+  {
+    id: 2,
+    type: "progress",
+    title: "You're getting closer",
+    message: "You've completed 3 out of 5 workouts this week. Keep going!",
+    progress: "3 / 5 workouts completed",
+    actionLabel: "Log Workout",
+  },
+  {
+    id: 3,
+    type: "streak",
+    title: "Streak maintained",
+    message: "You've stayed active for 6 days in a row. Keep the streak alive!",
+    actionLabel: "Continue",
+  },
+  {
+    id: 4,
+    type: "summary",
+    title: "Weekly summary",
+    message: "You completed 4 workouts this week and made progress toward your strength goal.",
+    actionLabel: "View Summary",
+  },
+  {
+    id: 5,
+    type: "reminder",
+    title: "Time to move",
+    message: "You're one workout away from reaching this week's goal.",
+    progress: "2 / 3 workouts completed",
+    actionLabel: "Start Workout",
+  },
+];

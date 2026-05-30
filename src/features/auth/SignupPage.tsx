@@ -1,5 +1,3 @@
-import React from "react";
-import React from "react";
 import { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";

@@ -1,4 +1,3 @@
-import React from "react";
 import "./StreakDisplay.css";
 
 export type StreakMilestoneBadgeProps = {

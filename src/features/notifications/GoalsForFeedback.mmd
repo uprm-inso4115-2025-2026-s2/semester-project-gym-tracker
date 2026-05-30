@@ -1,0 +1,36 @@
+classDiagram
+  class auth_users {
+    <<External>>
+    +UUID id
+    +TEXT email
+  }
+
+  class goals {
+    +UUID id
+    +UUID user_id
+    +TEXT title
+    +TEXT description
+    +INTEGER target_value
+    +INTEGER recorded_value
+    +DATE period_date
+    +TIMESTAMPTZ created_at
+    +TIMESTAMPTZ updated_at
+  }
+
+  class GoalType {
+    <<enumeration>>
+    daily
+    weekly
+  }
+
+  class GoalStatus {
+    <<enumeration>>
+    pending
+    completed
+    failed
+  }
+
+  auth_users "1" --> "many" goals : owns
+  goals --> GoalType : type
+  goals --> GoalStatus : status
+  
