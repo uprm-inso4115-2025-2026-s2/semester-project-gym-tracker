@@ -1,0 +1,92 @@
+:root {
+  /* ─── Surface Architecture ─── */
+  --surface: #f7f9fb;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f2f4f6;
+  --surface-container: #eceef0;
+  --surface-container-high: #e8eaec;
+  --surface-container-highest: #e0e3e5;
+
+  /* ─── Brand Colors ─── */
+  --primary: #004bca;
+  --primary-container: #0061ff;
+  --primary-fixed: #e0ecff;
+  --on-primary-fixed: #001a4d;
+
+  --secondary: #00b33c;
+  --secondary-fixed: #70ff76;
+  --on-secondary-fixed: #002204;
+
+  /* ─── Semantic Colors ─── */
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+
+  /* ─── Neutral / Outline ─── */
+  --outline-variant: #c2c6d9;
+  --on-surface: #191c1e;
+
+  /* ─── Typography Scale ─── */
+  --font-display-lg: 3.5rem;
+  --font-headline-md: 1.75rem;
+  --font-title-md: 1.125rem;
+  --font-body-md: 0.875rem;
+  --font-label-sm: 0.6875rem;
+
+  --font-family-display: 'Plus Jakarta Sans', sans-serif;
+  --font-family-body: 'Manrope', sans-serif;
+
+  /* ─── Spacing (8pt grid) ─── */
+  --space-1: 0.5rem;   /*  8px */
+  --space-2: 1rem;     /* 16px */
+  --space-3: 1.5rem;   /* 24px */
+  --space-4: 2rem;     /* 32px */
+  --space-5: 2.5rem;   /* 40px */
+  --space-6: 3rem;     /* 48px */
+  --space-7: 3.5rem;   /* 56px */
+  --space-8: 4rem;     /* 64px */
+
+  /* ─── Elevation ─── */
+  --ambient-shadow: 0 8px 24px rgba(25, 28, 30, 0.06);
+  --ghost-border: 1px solid rgba(194, 198, 217, 0.15);
+
+  /* ─── Radii ─── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ─── Gradients ─── */
+  --power-gradient: linear-gradient(135deg, var(--primary), var(--primary-container));
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-body);
+  background-color: var(--surface);
+  color: var(--on-surface);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Utilities */
+.glass-panel {
+  background-color: rgba(242, 244, 246, 0.75); /* var(--surface-container-low) */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.power-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--primary-container));
+}
+
+.ambient-shadow {
+  box-shadow: var(--ambient-shadow);
+}
+
+.ghost-border {
+  border: var(--ghost-border);
+}
