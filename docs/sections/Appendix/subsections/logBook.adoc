@@ -188,4 +188,6 @@
 
 | 4.3 Domain and Requirements Acquisition | Derek Velez | Added | Added a new section on domain and requirements acquisition about Domain Analysis through Competitive Analysis. It works for reference for our statements about Strava and MyFitnessPal
 
+| Presentation Page | Wilson A. Morales | Modified | Corrected the documentation cover milestone label to represent Milestone 3.
+
 |===
