@@ -1,0 +1,377 @@
+= Requirements Documentation — IEEE-Style SRS for Notifications
+:toc:
+:toclevels: 2
+
+== Overview
+
+This document presents a formal Software Requirements Specification (SRS) for the
+Notification & Feedback subsystem of the Gym Tracker application, structured following
+the IEEE 830 standard. It consolidates all requirements elicited, analyzed, and implemented
+across the three project milestones into a single traceable, standardized artifact.
+This document serves as a post-implementation formalization of what was specified and built.
+
+---
+
+== SRS Document Structure
+
+----
++------------------------------------------+
+|         IEEE 830 SRS Structure           |
++------------------------------------------+
+|  1. Introduction                         |
+|     - Purpose                            |
+|     - Scope                              |
+|     - Definitions & Acronyms            |
+|     - Overview                           |
++------------------------------------------+
+              |
+              v
++------------------------------------------+
+|  2. Overall Description                  |
+|     - Product Perspective                |
+|     - Product Functions                  |
+|     - User Characteristics              |
+|     - Constraints                        |
++------------------------------------------+
+              |
+              v
++------------------------------------------+
+|  3. Specific Requirements                |
+|     - Functional Requirements           |
+|     - Non-Functional Requirements       |
+|     - Interface Requirements            |
++------------------------------------------+
+              |
+              v
++------------------------------------------+
+|  4. Verification & Traceability          |
+|     - Cross-reference to prior issues   |
+|     - Consistency check                 |
++------------------------------------------+
+----
+
+=== Description
+
+This structure follows the IEEE 830 standard organization:
+
+- *Introduction*: Establishes the purpose, scope, and terminology of the document.
+- *Overall Description*: Provides context about the subsystem's role within the larger Gym Tracker system.
+- *Specific Requirements*: The core section — enumerates all functional, non-functional, and interface requirements.
+- *Verification & Traceability*: Cross-references requirements to prior project issues and domain artifacts.
+
+---
+
+== 1. Introduction
+
+=== 1.1 Purpose
+
+This SRS defines the requirements for the Notification & Feedback subsystem of the
+Gym Tracker application. It is intended for use as a post-project formalization artifact
+and reference document.
+
+=== 1.2 Scope
+
+The Notification & Feedback subsystem is responsible for:
+
+- Delivering in-app and push notifications to users based on configurable triggers
+- Collecting and displaying feedback related to workout sessions and streak events
+- Providing user-facing controls for notification preferences and frequency
+
+This subsystem interacts with the Workout, Streak, and Accounts modules but does not
+handle authentication or core workout data storage.
+
+=== 1.3 Definitions and Acronyms
+
+[cols="1,3", options="header"]
+|===
+| Term | Definition
+
+| SRS
+| Software Requirements Specification
+
+| NFR
+| Non-Functional Requirement
+
+| FR
+| Functional Requirement
+
+| Notification Trigger
+| A system event that causes a notification to be generated and dispatched
+
+| Feedback
+| User-facing message or prompt displayed after a system event (e.g., workout completion)
+
+| Delivery State
+| The lifecycle status of a notification: Pending, Sent, Delivered, Failed
+
+| Frequency Control
+| User setting that limits how often notifications of a given type are received
+|===
+
+=== 1.4 Overview
+
+Section 2 provides the overall system context. Section 3 enumerates all specific
+requirements. Section 4 provides traceability to prior project artifacts.
+
+---
+
+== 2. Overall Description
+
+=== 2.1 Product Perspective
+
+The Notification & Feedback subsystem is a component of the larger Gym Tracker
+web application. It operates as a semi-independent module that subscribes to events
+emitted by other subsystems and acts upon them by generating user-facing notifications
+or feedback prompts.
+
+----
++----------------+     events      +---------------------------+
+|   Workout      | --------------> |                           |
+|   Module       |                 |  Notification & Feedback  |
++----------------+                 |       Subsystem           |
+                                   |                           |
++----------------+     events      |  - Trigger Evaluation     |
+|   Streak       | --------------> |  - Notification Dispatch  |
+|   Module       |                 |  - Feedback Display       |
++----------------+                 |  - Preference Management  |
+                                   |                           |
++----------------+     prefs       +---------------------------+
+|   Accounts     | --------------> |
+|   Module       |                 |
++----------------+
+----
+
+=== 2.2 Product Functions
+
+The subsystem provides the following high-level functions:
+
+- Evaluate incoming system events against notification rules
+- Generate and dispatch notifications (in-app)
+- Display contextual feedback messages to the user
+- Allow users to configure notification type preferences
+- Allow users to configure notification frequency limits
+- Track notification delivery state and handle failures
+
+=== 2.3 User Characteristics
+
+The primary users of this subsystem are:
+
+- *End Users*: Gym Tracker registered users who receive notifications and feedback
+  during normal app usage. No technical knowledge is assumed.
+- *System*: Other subsystems (Workout, Streak, Accounts) that emit events consumed
+  by this subsystem. No human interaction required.
+
+=== 2.4 Constraints
+
+- The subsystem must operate within the Supabase backend infrastructure used by the project.
+- Notification dispatch must not introduce perceptible latency to the user's primary interaction flow.
+- User preference changes must be persisted and respected immediately upon saving.
+- The subsystem must not generate duplicate notifications for the same triggering event.
+
+---
+
+== 3. Specific Requirements
+
+=== 3.1 Functional Requirements
+
+==== Notification Trigger Evaluation
+
+[cols="1,1,3,1", options="header"]
+|===
+| ID | Name | Description | Priority
+
+| FR-N-01
+| Workout Completion Trigger
+| The system shall generate a notification when a user successfully logs a completed workout session.
+| Must Have
+
+| FR-N-02
+| Streak Achievement Trigger
+| The system shall generate a notification when a user reaches a new streak milestone (e.g., 7-day, 30-day streak).
+| Must Have
+
+| FR-N-03
+| Streak Break Trigger
+| The system shall generate a notification when a user's active streak is broken due to inactivity.
+| Must Have
+
+| FR-N-04
+| Goal Progress Trigger
+| The system shall generate a notification when a user reaches 50% and 100% of a defined workout goal.
+| Should Have
+
+| FR-N-05
+| Inactivity Reminder Trigger
+| The system shall generate a reminder notification when a user has been inactive for a configurable number of days.
+| Should Have
+|===
+
+==== Notification Dispatch
+
+[cols="1,1,3,1", options="header"]
+|===
+| ID | Name | Description | Priority
+
+| FR-D-01
+| In-App Notification Delivery
+| The system shall deliver notifications as in-app messages visible in the notification center.
+| Must Have
+
+| FR-D-02
+| Delivery State Tracking
+| The system shall track the delivery state of each notification: Pending, Sent, Delivered, Failed.
+| Must Have
+
+| FR-D-03
+| Failure Handling
+| The system shall retry dispatch up to 3 times for notifications in a Failed state before marking them as undeliverable.
+| Should Have
+
+| FR-D-04
+| Duplicate Prevention
+| The system shall not dispatch more than one notification per unique triggering event instance.
+| Must Have
+|===
+
+==== Feedback Display
+
+[cols="1,1,3,1", options="header"]
+|===
+| ID | Name | Description | Priority
+
+| FR-F-01
+| Workout Completion Feedback
+| The system shall display a contextual feedback message immediately after a workout session is logged.
+| Must Have
+
+| FR-F-02
+| Streak Feedback Message
+| The system shall display a congratulatory or motivational feedback message upon streak events.
+| Should Have
+
+| FR-F-03
+| Feedback Dismissal
+| The user shall be able to dismiss any feedback message manually.
+| Must Have
+|===
+
+==== User Preference Management
+
+[cols="1,1,3,1", options="header"]
+|===
+| ID | Name | Description | Priority
+
+| FR-P-01
+| Notification Type Toggle
+| The user shall be able to enable or disable each notification type independently via the settings page.
+| Must Have
+
+| FR-P-02
+| Frequency Control
+| The user shall be able to set a maximum frequency limit for reminder-type notifications (e.g., at most once per day).
+| Must Have
+
+| FR-P-03
+| Preference Persistence
+| Notification preferences shall be persisted to the user's profile and applied immediately upon saving.
+| Must Have
+|===
+
+=== 3.2 Non-Functional Requirements
+
+[cols="1,1,3", options="header"]
+|===
+| ID | Quality Attribute | Requirement
+
+| NFR-01
+| Performance
+| Notification dispatch shall be initiated within 2 seconds of the triggering event occurring.
+
+| NFR-02
+| Reliability
+| The subsystem shall achieve a notification delivery success rate of at least 95% under normal operating conditions.
+
+| NFR-03
+| Usability
+| All user-facing notification controls shall be accessible within 2 navigation steps from the main screen.
+
+| NFR-04
+| Maintainability
+| Notification trigger rules shall be defined in a centralized configuration structure to allow modification without changes to dispatch logic.
+
+| NFR-05
+| Data Integrity
+| No notification record shall be permanently deleted; failed or dismissed notifications shall be archived with their final delivery state.
+|===
+
+=== 3.3 Interface Requirements
+
+[cols="1,1,3", options="header"]
+|===
+| ID | Interface Type | Description
+
+| IR-01
+| Internal — Workout Module
+| The subsystem shall consume workout completion events emitted by the Workout module via the shared event bus.
+
+| IR-02
+| Internal — Streak Module
+| The subsystem shall consume streak milestone and streak break events emitted by the Streak module.
+
+| IR-03
+| Internal — Accounts Module
+| The subsystem shall read user notification preferences stored in the Accounts module's user profile data.
+
+| IR-04
+| UI — Notification Center
+| The subsystem shall expose a notification list component accessible from the main application navigation bar.
+
+| IR-05
+| UI — Settings Page
+| The subsystem shall expose preference management controls on the user settings page.
+|===
+
+---
+
+== 4. Verification and Traceability
+
+=== 4.1 Consistency Check Summary
+
+The requirements in this SRS were cross-checked against the following prior project artifacts:
+
+- Domain acquisition and analysis tasks for the Notification subsystem (Issues #164, #165, #299, #511)
+- Notification type and delivery state definitions (Issue #511)
+- Frequency control requirements (Issue #424)
+- Architectural refinement tasks for notification quality goals (Issue #497)
+- Temporal constraints analysis (Issue #512)
+
+No contradictions were identified between this SRS and prior artifacts. All domain
+constraints previously identified are reflected in the Non-Functional Requirements section.
+
+=== 4.2 Requirements Traceability Matrix
+
+[cols="1,1,2", options="header"]
+|===
+| Requirement ID | Type | Related Prior Issue(s)
+
+| FR-N-01 | Functional | #164, #299
+| FR-N-02 | Functional | #164, #531
+| FR-N-03 | Functional | #512
+| FR-N-04 | Functional | #299
+| FR-N-05 | Functional | #424, #512
+| FR-D-01 | Functional | #511
+| FR-D-02 | Functional | #511
+| FR-D-03 | Functional | #497
+| FR-D-04 | Functional | #511
+| FR-F-01 | Functional | #164
+| FR-F-02 | Functional | #442
+| FR-F-03 | Functional | #164
+| FR-P-01 | Functional | #424
+| FR-P-02 | Functional | #424
+| FR-P-03 | Functional | #299
+| NFR-01  | Non-Functional | #497, #512
+| NFR-02  | Non-Functional | #497
+| NFR-03  | Non-Functional | #424
+| NFR-04  | Non-Functional | #497
+| NFR-05  | Non-Functional | #511
+|===

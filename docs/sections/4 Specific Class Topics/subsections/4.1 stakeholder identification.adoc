@@ -11,11 +11,32 @@ According to the Domain Stakeholders lecture, stakeholders are individuals or gr
 
 The following stakeholder identification applies this definition to the fitness tracking system domain.
 
+==== [.added]#Stakeholders vs. Personas — Clarification#
+
+[.added]#Stakeholders and personas are related but serve distinct purposes in requirements engineering:#
+
+* [.added]#A *stakeholder* is any individual or group with an interest in or dependency on the system. Stakeholders define _who the system must serve or affect_. They may be domain actors, indirect beneficiaries, or technical operators.#
+* [.added]#A *persona* is a specific, named fictional representative of a stakeholder group, constructed with detailed behavioral and motivational attributes to drive concrete requirements decisions.#
+
+[.changed]#Every persona represents a stakeholder group, but not every stakeholder group has a persona. In this project, personas are developed only for primary GymGoer-facing stakeholder groups (see Section 4.2). Infrastructure and indirect stakeholders are documented here as stakeholders only, without corresponding personas, because their needs inform system constraints rather than GymGoer-facing feature design.#
+
 ==== Initial Stakeholders
 
-The following stakeholder groups were identifiable in the initial project phase based on domain analysis, requirements discussion, and usage scenarios.
+The following stakeholder groups were identifiable in the initial project phase based on domain analysis, requirements discussion, and usage scenarios. During evaluation, overlaps and classification boundaries were analyzed to ensure correctness and consistency with lecture-defined stakeholder concepts.
+
+[.changed]#Each stakeholder entry is structured as follows:#
+
+* [.changed]#*Who:* A description of who this stakeholder is.#
+* [.changed]#*Why:* The reason they qualify as a stakeholder — what interest or dependency they have.#
+* [.changed]#*Relation to the project:* How they connect to the system's domain model, requirements, or implementation.#
 
 ===== 1. Primary Users – Gym-Goers / Fitness Enthusiasts
+
+[.added]#*Who:* Individuals who regularly attend a gym or follow a structured fitness routine and intend to use the application to log and monitor their activity. This group includes adults of varying fitness levels who have already established some consistency, or who are actively trying to.#
+
+[.added]#*Why:* They are the central domain stakeholders. The system exists to serve their fitness behavior — tracking workouts, monitoring progress, maintaining streaks, and achieving goals. Without this group, there is no problem domain to model.#
+
+[.added]#*Relation to the project:* They interact directly with all core domain concepts: Workout Session, Goal, Streak, Progress, and Weekly Summary. Their goals and frustrations drove the problem framing in Section 1.2 and motivate the epics in Section 2.2.1. They are represented by all three personas (Alejandro, Derek, Ana) in Section 4.2.#
 
 *Interest:*
 They seek to log workouts, monitor progress, maintain streaks, and improve consistency.
@@ -23,9 +44,15 @@ They seek to log workouts, monitor progress, maintain streaks, and improve consi
 *Dependency:*
 They depend on accurate tracking of Workout Sessions, Goal evaluation, and clear visibility of Progress and Streak status.
 
-These users are directly affected by the system’s ability to represent and evaluate their fitness behavior.
+These [.changed]#GymGoers# are directly affected by the system's ability to represent and evaluate their fitness behavior.
 
 ===== 2. Beginner / First-Time Gym Users
+
+[.added]#*Who:* Individuals who are new to structured fitness activity. They may have limited knowledge of training terminology, exercise programming, or how to interpret progress data. They are typically starting from no established habit and are at highest risk of early dropout.#
+
+[.changed]#*Why:* Their experience of the consistency problem differs fundamentally from experienced GymGoers. They are stakeholders because the system's usability and motivational design directly affect whether they adopt or abandon the platform. Poor design choices for this group cause harm (discouragement, dropout) that would not affect experienced GymGoers in the same way.#
+
+[.added]#*Relation to the project:* They place requirements on the simplicity of logging flows, the clarity of feedback, and the tone of streak and goal messaging. Their perspective is a primary driver for low-friction session logging requirements (Epic 1) and non-punitive streak behavior (Epic 2). Persona: Alejandro in Section 4.2.#
 
 *Interest:*
 They want structure, clarity, and motivational reinforcement to build consistent habits.
@@ -33,9 +60,15 @@ They want structure, clarity, and motivational reinforcement to build consistent
 *Dependency:*
 They depend on simple tracking mechanisms, understandable feedback, and consistent progress summaries to avoid discouragement.
 
-Their perspective strongly influences scope decisions related to simplicity and usability.
+This stakeholder represents a specialization of Primary Users rather than a completely separate category. The distinction is maintained to reflect differences in usability needs and domain expectations.
 
 ===== 3. Goal-Oriented / Experienced Users
+
+[.added]#*Who:* Individuals who have established fitness habits and now pursue specific, measurable targets — such as increasing workout frequency, improving strength across sessions, or hitting weekly activity thresholds. They are comfortable with training concepts and expect the system to reflect performance trends with accuracy.#
+
+[.added]#*Why:* They are stakeholders because their goals extend beyond simple logging. They depend on the system to function as a performance record and accountability tool. If the system fails to produce reliable historical data or meaningful comparisons, it loses value for this group specifically.#
+
+[.added]#*Relation to the project:* They place requirements on data integrity, session comparison functions (`compareSessions`), goal evaluation logic, and the accuracy of progress representations. Their needs motivate requirements in Epics 3 and 5. Persona: Derek in Section 4.2.#
 
 *Interest:*
 They aim to achieve measurable targets and evaluate improvement over time.
@@ -47,6 +80,12 @@ They require that the system preserve data integrity and reflect performance tre
 
 ===== 4. System Administrators / Development Team
 
+[.added]#*Who:* The software developers, architects, and maintainers responsible for building, testing, deploying, and operating the gym tracker system. In the current project context, this is the student development team. In a production context, this group would include backend engineers, DevOps personnel, and any parties responsible for data migrations or system updates.#
+
+[.added]#*Why:* They are implementation stakeholders because they depend on a well-specified, internally consistent domain model and requirements set to make correct technical decisions. Ambiguous or contradictory requirements impose direct costs on this group in the form of rework, defects, or unverifiable acceptance criteria.#
+
+[.added]#*Relation to the project:* They are the consumers of Section 2 (domain model, requirements, function signatures) and Section 3 (verification and validation). Their needs drive requirements for operational reliability, data validation rules (Section 2.2.5–2.2.6), and testability. They do not have a persona in Section 4.2 because their requirements relate to system construction rather than domain-level behavior.#
+
 *Interest:*
 They are responsible for maintaining system integrity, reliability, and alignment with requirements.
 
@@ -57,6 +96,12 @@ This group influences architectural and technical decisions.
 
 ===== 5. Platform Providers (e.g., Hosting / Backend Services)
 
+[.changed]#*Who:* External infrastructure providers whose services the system depends on for operation. This includes authentication providers (e.g., OAuth services), cloud hosting platforms, and database providers. They are not GymGoers and do not interact with the application's domain directly.#
+
+[.changed]#*Why:* They are indirect implementation stakeholders. The system's operational availability, data persistence, and GymGoer identity management are contingent on correct and compliant use of their APIs and services. Their terms of service and technical constraints impose requirements on how the system is built.#
+
+[.changed]#*Relation to the project:* They constrain machine requirements (Section 2.2.5) and influence interface requirements at the system boundary (Section 2.2.4). They are not represented by a persona. Their stakeholder status is primarily expressed through machine and interface requirements rather than domain or GymGoer-story requirements.#
+
 *Interest:*
 They require correct integration, API usage, and adherence to platform policies.
 
@@ -65,27 +110,62 @@ The system depends on them for authentication, persistent storage, and uptime.
 
 Though indirect, they are critical external stakeholders due to infrastructure reliance.
 
-===== 6. Future Trainers / Coaches (Potential Expansion Stakeholders)
+===== [.changed]#6. Gym Staff / Fitness Facility Personnel#
+
+[.changed]#*Who:* Staff members at physical gym facilities — including front desk personnel, personal trainers employed by gyms, and facility managers. They interact with gym-goers daily and observe fitness behavior patterns at scale.#
+
+[.changed]#*Why:* They are indirect domain stakeholders. Although they do not use the system directly in its current scope, they observe the behaviors the system is designed to support (attendance consistency, habit formation, goal pursuit). Their domain knowledge was a legitimate source during elicitation. In a future scope expansion, they could become direct GymGoers or trainer stakeholders with permission to view client activity summaries.#
+
+[.changed]#*Relation to the project:* They informed the problem framing in Section 1.2.1 through informal elicitation — their observed patterns of member dropout and consistency failure corroborate the problem statement. They are potential expansion stakeholders if coaching or staff-facing features are introduced. No persona is assigned at this time.#
+
+[.changed]#*Interest:*
+They are interested in member attendance patterns, habit formation, and consistency trends observed across the facility. In a future scope expansion, they would have an interest in accessing structured summaries of client activity to better support member engagement and reduce dropout.#
+
+[.changed]#*Dependency:*
+Currently, they depend only on direct observation of member behavior rather than any system output. If staff-facing features are introduced, they would depend on accurate attendance records, consistency summaries, and goal progress data to inform how they guide and support members.#
+
+[.changed]#This stakeholder is currently indirect and observational, but their domain proximity makes them candidates for active stakeholder status in future feature expansions.#
+
+===== 7. Future Trainers / Coaches (Potential Expansion Stakeholders)
+
+[.changed]#*Who:* Independent personal trainers or coaches who work with clients outside of a formal gym employment relationship. They may use multiple tools to monitor client progress and would potentially benefit from a structured, logged record of client workout behavior.#
+
+[.changed]#*Why:* They are potential domain stakeholders. Their interest — access to structured fitness behavior data for coaching decisions — overlaps with the system's core domain. However, their role is not currently within scope, and no requirements have been derived from their needs.#
+
+[.changed]#*Relation to the project:* Their inclusion reflects domain awareness rather than active requirements. If the system were to introduce a coaching or multi-user visibility feature, this group would become primary stakeholders with significant requirements impact. They are documented now to ensure future scope decisions are made consciously rather than discovered late.#
 
 *Interest:*
-They may want insight into user consistency and performance trends.
+They may want insight into [.changed]#GymGoer# consistency and performance trends.
 
 *Dependency:*
 They would depend on structured historical data and accurate summaries if future features allow coaching or review.
 
-While not in initial scope, recognizing them supports long-term domain awareness.
+This stakeholder is not currently active within the system scope but is included to reflect potential domain expansion. Their inclusion supports domain awareness without introducing immediate requirements.
 
 ==== Domain vs. Implementation Stakeholders
 
-Primary Users, Beginners, and Goal-Oriented Users are *domain stakeholders* because their interest lies in fitness behavior and outcomes.
+Primary Users (including Beginners and Goal-Oriented Users) are *domain stakeholders* because their interest lies in fitness behavior, motivation, and observable outcomes such as consistency, streaks, and progress.
 
-System Administrators and Platform Providers are *implementation stakeholders* because their interest centers on system operation and technical realization.
+[.changed]#Gym Staff are *indirect domain stakeholders* because they observe and are affected by the same fitness behavior domain the system addresses, even though they do not directly use the system.#
 
-Distinguishing these groups helps ensure that domain modeling remains focused on real-world fitness phenomena rather than purely technical concerns.
+System Administrators and Platform Providers are *implementation stakeholders* because their concerns relate to system realization, infrastructure, and operational reliability rather than domain phenomena.
+
+[.changed]#Future Trainers / Coaches are *potential domain stakeholders* — their interest is domain-level, but they are not currently in scope.#
+
+To strengthen traceability with domain terminology (Section 2.1.2), stakeholder dependencies can be mapped as follows:
+
+* Primary Users → Workout Session, Streak, Progress, Goal
+* Beginners → Workout Session, Weekly Activity Pattern, Consistency
+* Goal-Oriented Users → Goal, Progress, compareSessions(...)
+* System Administrators → Domain model consistency and system behavior
+* Platform Providers → Account, persistence, and availability
+* [.changed]#Gym Staff → Consistency, habit formation (observation only, no direct system dependency currently)#
+
+This mapping ensures consistency between stakeholder needs and domain concepts while maintaining a clear separation between domain and implementation concerns.
 
 ==== Alignment with A3 and Project Scope
 
-The identified stakeholders reinforce the project’s emphasis on:
+The identified stakeholders reinforce the project's emphasis on:
 
 * Workout logging as the core domain activity
 * Progress and streak tracking as motivational mechanisms
@@ -97,7 +177,7 @@ Nutrition tracking was intentionally limited in scope based on stakeholder tensi
 
 It is likely that additional stakeholders exist beyond those initially identified. To discover them, the team will:
 
-* Conduct informal interviews or surveys with additional gym users.
+* Conduct informal interviews or surveys with additional [.changed]#GymGoers#.
 * Review online fitness communities to identify overlooked needs.
 * Revisit domain assumptions during each milestone.
 * Analyze feature requests or feedback emerging during development.
@@ -105,3 +185,69 @@ It is likely that additional stakeholders exist beyond those initially identifie
 When new stakeholders are identified, their interests and dependencies will be documented, and any resulting requirement changes will be reviewed for scope alignment before incorporation.
 
 This iterative identification process ensures that stakeholder analysis evolves alongside the system while maintaining domain focus.
+
+==== [.added]#4.1.1 Stakeholder Perspectives on the Fitness Consistency Problem#
+
+[.changed]#The fitness consistency problem is not experienced uniformly across stakeholder groups. The same gap between intention and behavior is interpreted differently depending on a GymGoer's experience level and motivation structure. The following perspective analysis maps each primary GymGoer stakeholder to their distinct view of the problem and the modeling implication that follows.#
+
+[discrete]
+===== [.changed]#Beginner / First-Time GymGoer Perspective#
+
+[.added]#For the beginner, fitness inconsistency is fundamentally a problem of overwhelming complexity and lack of direction. The barrier is not laziness, it is not knowing where to start. Without a structured plan, sessions are skipped because deciding what to do feels harder than the workout itself. Each missed session reinforces the belief that fitness is not for them, creating a cycle of low confidence and avoidance. There is no visible progress to anchor to because they do not yet know how to measure small wins.#
+
+[.added]#_Core perception: "I don't know what to do or if I'm doing it right, so I stop showing up."_#
+
+[.added]#The system must prioritize simplicity and clear structure for this group. Onboarding flows, preset routines, and low effort logging paths directly address this stakeholder's barrier.#
+
+[discrete]
+===== [.added]#Intermediate / Experienced Fitness Enthusiast Perspective#
+
+[.added]#For the experienced enthusiast, inconsistency is a problem of stagnation and diminishing motivation over time. They are not confused about what to do, they have done it before. When the body adapts and results slow down, the emotional reward of working out diminishes. Skipped sessions happen not from confusion but from a quiet feeling that it is not working anymore.#
+
+[.added]#_Core perception: "I know what to do, but I've stopped seeing results, so it's hard to stay motivated to keep going."_#
+
+[.added]#The system must surface measurable progress and historical trends for this group. Data that proves effort is still producing results, even when results are less dramatic, is what sustains their engagement.#
+
+[discrete]
+===== [.changed]#Goal-Oriented GymGoer Perspective#
+
+[.changed]#For the goal-oriented GymGoer, inconsistency is a problem of disconnection between daily effort and long term outcomes. They have clear motivation and know what they want to achieve, but they struggle to maintain consistency when individual sessions feel arbitrary. Missing a session is not just a lost workout, it is a deviation from a plan, and without a system to log, review, and recalibrate, small disruptions cascade into abandoned goals.#
+
+[.added]#_Core perception: "I know what I want to achieve, but I lose consistency when I can't see whether I'm actually on track to get there."_#
+
+[.added]#The system must function as an accountability and progress record for this group. Goal tracking, session logging tied to targets, and deviation visibility are the critical features.#
+
+[discrete]
+===== [.added]#Comparative Perspective Summary#
+
+[cols="1,1,1,1", options="header"]
+|===
+| | [.added]#Beginner# | [.added]#Experienced Enthusiast# | [.changed]#Goal-Oriented GymGoer#
+
+| [.added]#Root of inconsistency#
+| [.added]#Confusion and lack of direction#
+| [.added]#Stagnation#
+| [.added]#Disconnect from long-term goals#
+
+| [.added]#Relationship to motivation#
+| [.added]#Never fully established#
+| [.added]#Was present, now fading#
+| [.added]#Present but fragile without data#
+
+| [.added]#Primary need of the tracker#
+| [.added]#Simplicity and clear structure#
+| [.added]#Progress visibility and variety#
+| [.added]#Accountability and goal tracking#
+
+| [.added]#How they interpret a skipped session#
+| [.added]#"I don't belong here"#
+| [.added]#"This isn't working anymore"#
+| [.added]#"I'm falling behind on my goal"#
+|===
+
+[discrete]
+===== [.added]#Notes on Perspective Alignment#
+
+* [.changed]#The Beginner and Goal-Oriented GymGoer perspectives are complementary — both require structured guidance, but for different reasons.#
+* [.changed]#The Experienced Enthusiast and Goal-Oriented GymGoer are partially aligned — both care about measurable progress, but one is motivated by seeing past results while the other is driven by future targets.#
+* [.added]#The Beginner and Experienced Enthusiast represent opposing ends of a spectrum — one lacks confidence and knowledge, the other has knowledge but lacks continued motivation.#

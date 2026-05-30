@@ -2,41 +2,40 @@
 
 === 1.1 *Team*
 
-The project for Milestone 1 is organized into 5 functional teams: 
+The project for Milestone 1 is organized into 5 functional teams:
 Accounts and Design, Workout Data and Logging, Streaks,Notifications and Feedback, and Documentation; plus 2 Managers.
 
-Each team is responsible for a specific dimension of the domain problem. 
-The structure reflects the need to address workout data management, habit consistency, motivational feedback, 
+Each team is responsible for a specific dimension of the domain problem.
+The structure reflects the need to address workout data management, habit consistency, motivational feedback,
 user engagement, and interface coherence in a coordinated and well-defined manner.
 
-The teams operate under a shared objective: to reduce friction in fitness habit tracking and to support long-term consistency 
+The teams operate under a shared objective: to reduce friction in fitness habit tracking and to support long-term consistency
 through clarity, structure, and meaningful feedback.
 
-In this context, all team members are considered partners. 
-At this stage of the milestone, no external partners (such as domain experts or external stakeholders) 
-have been formally integrated into the project. If external partners are identified in later phases, 
+In this context, all team members are considered partners.
+At this stage of the milestone, no external partners (such as domain experts or external stakeholders)
+have been formally integrated into the project. If external partners are identified in later phases,
 their roles and responsibilities will be explicitly documented.
 
-The lists below indicate each group’s Team Leader. 
-The Tasks column is reserved for recording completed issues as required by the task tracking policy.
+The lists below indicate each group’s Team Leader.
 
 ==== *Managers:*
 
-The Managers are responsible for coordination, milestone alignment, task validation, 
-and ensuring coherence across all functional teams. They oversee task readiness, scoring, 
+The Managers are responsible for coordination, milestone alignment, task validation,
+and ensuring coherence across all functional teams. They oversee task readiness, scoring,
 and milestone consistency as defined in the course specification.
 
-[cols="2,1,1", options="header"]
+[cols="2,1", options="header"]
 |===
-| Student | GitHub username | Tasks
+| Student | GitHub username
 
 | Diego A. Perez Gandarillas
 | https://github.com/diegoperez16[@diegoperez16]
-| 
+
 
 | Pedro A. Morales Cosme
 | https://github.com/pedroamorales[@pedroamorales]
-| 
+
 |===
 
 
@@ -45,45 +44,38 @@ and milestone consistency as defined in the course specification.
 The Accounts and Design Team is responsible for user identity management and conceptual interface coherence.
 
 Their responsibility includes reasoning about:
-- User accounts and authentication concepts
+- [.changed]#Account and authentication concepts#
 - Personal workout history storage
 - Data continuity and ownership
 - Structural clarity and usability principles
 
-This team ensures that the project maintains simplicity and coherence in how user-related information is structured 
+This team ensures that the project maintains simplicity and coherence in how user-related information is structured
 within the domain.
 
-[cols="2,1,1", options="header"]
+[cols="2,1", options="header"]
 |===
-| Student | GitHub username | Tasks
+| Student | GitHub username
 
 | Emmanuel Guadalupe Rodríguez (Team Leader)
 | https://github.com/Mannyrodd[@Mannyrodd]
-|
 
 | Alex M. Vazquez Galiano
 | https://github.com/AlexitoUpr[@AlexitoUpr]
-|
 
 | Ingrid Caraballo
 | https://github.com/Ingrid1089[@Ingrid1089]
-|
 
 | Carlos A. Ferrer Hayes
 | https://github.com/CarlosxFerrer[@CarlosxFerrer]
-|
 
 | Ian G. Ramos Villafañe
 | https://github.com/igrv2003[@igrv2003]
-|
 
 | Juan R. Rivera Rodríguez
 | https://github.com/JRRR0912[@JRRR0912]
-|
 
 | Wilson Morales
 | https://github.com/WilsonMorales8[@WilsonMorales8]
-|
 |===
 
 
@@ -91,39 +83,33 @@ within the domain.
 
 The Workout Data and Logging Team is responsible for the domain dimension related to physical activity recording.
 
-Their responsibility is to define how gym sessions, runs, cardio efforts, and workout attributes 
+Their responsibility is to define how gym sessions, runs, cardio efforts, and workout attributes
 (duration, calories, exercise type, notes) are conceptually structured and represented.
 
-This team ensures that workout tracking is treated as a domain concept grounded in observable fitness activity, 
+This team ensures that workout tracking is treated as a domain concept grounded in observable fitness activity,
 not merely as stored data.
 
-[cols="2,1,1", options="header"]
+[cols="2,1", options="header"]
 |===
-| Student | GitHub username | Tasks
+| Student | GitHub username
 
 | Jerac Duran (Team Leader)
 | https://github.com/jeracduran1[@jeracduran1]
-|
 
 | Yandiel Hernandez Otero
 | https://github.com/yandielhernandez[@yandielhernandez]
-|
 
 | Hector L. Rivera Betances
 | https://github.com/hector-rivera15[@hector-rivera15]
-|
 
 | Massini
 | https://github.com/Massinl[@Massinl]
-|
 
 | Lorenzo
 | https://github.com/Lorenzo-PT[@Lorenzo-PT]
-|
 
 | Joaquin E. Arraiza Morales
 | https://github.com/joaquin787[@joaquin787]
-|
 |===
 
 
@@ -139,37 +125,30 @@ Their responsibility includes reasoning about:
 
 This team ensures that consistency is treated as a behavioral phenomenon rather than merely a numeric counter.
 
-[cols="2,1,1", options="header"]
+[cols="2,1", options="header"]
 |===
-| Student | GitHub username | Tasks
+| Student | GitHub username
 
 | Ariana P. Rodríguez Méndez (Team Leader)
 | https://github.com/arianrodz21[@arianrodz21]
-|
 
 | Gabriel O. Visbal Rodríguez
 | https://github.com/Gabriel-Visbal[@Gabriel-Visbal]
-|
 
 | Jan Morales Vazquez
 | https://github.com/JanDavey[@JanDavey]
-|
 
 | Bruno Vergara
 | https://github.com/Brzno[@Brzno]
-|
 
 | Oscar A. Santana Colón
 | https://github.com/OSCAR-A-SANTANA[@OSCAR-A-SANTANA]
-|
 
 | Angel L. Ramos Rodríguez
 | https://github.com/angelramos1[@angelramos1]
-|
 
 | Enrique Vilela
 | https://github.com/EnriqueVilela2714[@EnriqueVilela2714]
-|
 |===
 
 
@@ -185,41 +164,33 @@ Their responsibility includes:
 
 This team ensures that feedback mechanisms are aligned with habit formation principles and do not become feature overload.
 
-[cols="2,1,1", options="header"]
+[cols="2,1", options="header"]
 |===
-| Student | GitHub username | Tasks
+| Student | GitHub username
 
 | Ivan O. Morales Martorell (Team Leader)
 | https://github.com/ivxnmorxles[@ivxnmorxles]
-|
 
 | Pedro M. Cortes Ramos
 | https://github.com/pedrocortess[@pedrocortess]
-|
 
 | Alejandro Mercado
 | https://github.com/AlejandroMB05[@AlejandroMB05]
-|
 
 | Luis X. Sorrentini Renta
 | https://github.com/luissorrentini[@luissorrentini]
-|
 
 | Sebastian A. Santiago Perez
 | https://github.com/seba-15[@seba-15]
-|
 
 | Gerald L. Rodríguez Rodríguez
 | https://github.com/geraldrodriguez1[@geraldrodriguez1]
-|
 
 | Derek Velez Quiñones
 | https://github.com/DerekUnii[@DerekUnii]
-|
 
 | Edgar J. Gonzalez Vargas
 | https://github.com/Edgar-glz[@Edgar-glz]
-|
 |===
 
 ==== *Documentation Team:*
@@ -241,27 +212,22 @@ writing documentation. Instead, it acts as a coordination and quality
 assurance layer to ensure that the project deliverables remain coherent,
 traceable, and aligned with the course specification.
 
-[cols="2,1,1", options="header"]
+[cols="2,1", options="header"]
 |===
-| Student | GitHub username | Tasks
+| Student | GitHub username
 
 | Julian Vivas (Team Leader)
 | https://github.com/julivivas[@julivivas]
-| 
 
 | Alejandro Lopez
 | https://github.com/alejandro-lopez24[@alejandro-lopez24]
-| 
 
 | Wilson A. Morales
 | https://github.com/WilsonMorales8[@WilsonMorales8]
-| 
 
 | Alex Vazquez
 | https://github.com/AlexitoUpr[@AlexitoUpr]
-| 
 
 | Derek Vélez
 | https://github.com/DerekUnii[@DerekUnii]
-| 
 |===

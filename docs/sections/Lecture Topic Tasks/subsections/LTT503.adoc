@@ -1,0 +1,128 @@
+==== [LTT] Domain Engineering Overview and Scope Boundary Refinement
+:author: Pedro Cortes
+
+This Lecture Topic Task applies domain engineering concepts to Gym Tracker by
+clarifying the project's core domain focus and refining its scope boundaries.
+Rather than analyzing one narrow feature, this task looks at the domain as a
+whole and asks what the project is fundamentally designed to support, which
+concepts are central to that purpose, and which related areas are intentionally
+left outside the current scope.
+
+Domain engineering benefits from a clear boundary because ambiguous scope tends
+to spread into requirements, UI expectations, and future feature decisions. In
+Gym Tracker, several elicitation statements already point toward a focused
+domain centered on workout continuity, lightweight tracking, and progress
+interpretation over time. The purpose of this LTT is to make that focus more
+explicit and easier to defend.
+
+===== 1. Core Domain Focus
+
+Gym Tracker is fundamentally designed to support *workout consistency over
+time*. The project is not simply about storing isolated exercise records. Its
+main value comes from helping a GymGoer understand whether they are continuing
+to show up, maintain habits, and make progress across days and weeks.
+
+The most central question in the domain is therefore:
+
+*How can a GymGoer track workout activity in a lightweight way that still
+supports reflection, accountability, and progress awareness?*
+
+This framing keeps the domain centered on behavior over time rather than on
+maximizing detail for every possible fitness-related activity.
+
+===== 2. In-Scope Concepts
+
+The following concepts are central to the current Gym Tracker domain:
+
+* *Workout Session* as the core recorded activity occurrence
+* *Workout History* as the accumulated record of sessions across time
+* *Attendance Day* and *Missed Day* as derived day-level participation concepts
+* *Consistency* as the broader pattern of regular workout participation
+* *Streak* as the narrower pattern of consecutive active days
+* *Goal* and *Time Frame* as the basis for evaluating planned activity
+* *Weekly Summary* and *Progress* as structured feedback over time
+
+These concepts belong together because they all contribute to the same domain
+purpose: helping a GymGoer log activity and interpret continuity, discipline,
+and improvement.
+
+===== 3. Scope Boundary Refinement
+
+To keep the domain precise, it is necessary to distinguish *domain-central*
+concepts from *domain-adjacent* concepts.
+
+Domain-central concepts are those required to support workout logging,
+consistency tracking, streak interpretation, and goal-based progress feedback.
+Domain-adjacent concepts are related to fitness, but they introduce a broader
+problem space than the current project is intended to address.
+
+This refinement matters because relatedness alone is not enough to justify
+inclusion in the current scope.
+
+===== 4. Explicitly Out-of-Scope Areas
+
+The following areas are related to fitness but intentionally outside the
+current scope of Gym Tracker:
+
+* *Nutrition tracking*
+* *Full health monitoring*
+* *Comprehensive wellness-platform behavior*
+* *Detailed biometric analysis beyond workout-centered progress support*
+
+These areas are excluded because they shift the project away from workout
+consistency and toward a much broader health-management platform.
+
+For example:
+
+* *Nutrition tracking* introduces meals, calorie accounting, nutrient goals,
+  and food logging workflows.
+* *Full health monitoring* introduces sleep, recovery, body composition,
+  medical indicators, and broader physiological metrics.
+* *All-in-one wellness functionality* expands the project into a generalized
+  lifestyle-management product rather than a focused workout tracker.
+
+These concepts may be valid future extensions, but they are not necessary for
+the present domain identity.
+
+===== 5. Why These Boundaries Improve the Domain
+
+Keeping the scope centered on workout consistency improves the documentation in
+several ways:
+
+* It preserves conceptual cohesion across the domain model.
+* It prevents unrelated fitness concerns from distorting requirements.
+* It makes feature decisions easier to justify.
+* It keeps the system aligned with the lightweight logging motivation that came
+  out of elicitation.
+
+Without this boundary, Gym Tracker could drift toward trying to solve too many
+problems at once, which would weaken both the domain description and the
+project's practical focus.
+
+===== 6. Alignment with Existing Domain Material
+
+This refined scope aligns with the current project documentation in several
+important ways:
+
+* The rough sketch emphasizes friction reduction, workout logging, and habit
+  continuity rather than broad health analytics.
+* The narrative centers on Workout Sessions, Workout History, Consistency,
+  Streak, Goal evaluation, and Weekly Summary.
+* The concept analysis already treats consistency, streaks, goals, and
+  summaries as core abstractions derived from stakeholder input.
+
+This means the refinement does not introduce a new direction; it makes the
+existing domain direction more explicit.
+
+===== Conclusion
+
+Gym Tracker's domain is best understood as a workout-consistency and
+progress-interpretation system. Its core purpose is to help GymGoers record
+Workout Sessions, interpret patterns across time, and stay oriented around
+streaks, goals, and summaries. Related areas such as nutrition tracking and
+full health monitoring remain relevant to the broader fitness context, but they
+are intentionally outside the current scope.
+
+By clarifying this overview and refining the domain boundary, the project
+documentation gains stronger focus and is less vulnerable to future scope
+drift.

@@ -1,0 +1,63 @@
+=== Domain Constraints and Invariants for Streaks
+:author: Ariana Rodriguez
+
+The streak system depends on a collection of domain constraints and
+invariants that preserve consistency within the User Activity Log and streak
+evaluation process. Active Streaks do not exist independently. Instead, they
+emerge from the ordered sequence of Workout Completions, Consecutive
+Workouts, and Missed Days recorded over time. Because streak continuity
+depends on these relationships remaining valid, identifying the rules
+governing streak behavior is necessary to preserve reliability within the
+domain.
+
+Workout qualification forms the foundation of streak evaluation. A Workout
+Session only contributes to streak progression when it satisfies the criteria
+required for Workout Completion. Workout Sessions that do not satisfy these
+requirements cannot contribute to an Active Streak. This rule ensures that
+streak progression is based on validated activity rather than the existence 
+of a recorded session.
+
+Workout Completion and Missed Days establish a fundamental invariant within
+the domain. For streak evaluation, a calendar day must have a single
+participation outcome. A day may contribute to streak progression through a
+valid Workout Completion, or it may be considered a Missed Day. A day cannot
+simultaneously represent both outcomes. This invariant preserves consistency by
+ensuring that every day contributes a single state to streak evaluation.
+
+Active Streaks emerge from Consecutive Workouts performed on sequential
+eligible days. Individual Workout Completions do not create meaningful streak
+behavior on their own. Instead, streaks develop through repeated workout
+participation across uninterrupted calendar-day sequences. This rule ensures
+that Active Streak values accurately represent consistency over time rather
+than isolated workout activity.
+
+As workout activity continues across consecutive days, each additional
+Consecutive Workout may extend an existing Active Streak. Streak progression
+therefore depends on maintaining uninterrupted workout participation across
+time. The absence of continuity prevents further streak growth.
+
+Missed Days directly affect this progression. A Missed Day represents a day
+in which the required activity criteria were not satisfied. Because an Active
+Streak represents uninterrupted participation, a Missed Day interrupts the
+sequence of Consecutive Workouts from which the Active Streak is derived. Once
+continuity is interrupted, streak progression can no longer continue as part
+of the same sequence.
+
+The relationship between Missed Days and Active Streaks must also remain
+consistent. A Missed Day can never belong to an Active Streak. If a Missed Day
+occurs between two periods of workout participation, the workout activity
+before and after the interruption belongs to different streak sequence. This
+preserves the meaning of continuity throughout the domain.
+
+Streak evaluation also depends on the temporal ordering of information within
+the User Activity Log. Workout Completions, Consecutive Workouts, and Missed
+Days must always be interpreted in chronological order. Evaluating activity
+records out of sequence may produce continuity results that do not accurately
+reflect actual workout behavior.
+
+Workout quantity introduces an additional invariant. Multiple Workout
+Sessions may occur during a single calendar day. However, regardless of the
+number of sessions performed, the day contributes only one valid Workout
+Completion toward Active Streak evaluation. This prevents artificial inflation
+of streak progression and preserves consistent interpretation of workout
+participation.

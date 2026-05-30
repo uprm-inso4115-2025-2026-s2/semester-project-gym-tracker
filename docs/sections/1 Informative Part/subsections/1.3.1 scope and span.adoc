@@ -64,7 +64,7 @@ To clearly define project boundaries, the following aspects are excluded:
 
 - Detailed software architecture design
 - Database schema design
-- User interface layout specifications
+- [.changed]#Interface layout specifications#
 - Technology stack decisions
 - Wearable hardware integration
 - Medical diagnostics or injury tracking

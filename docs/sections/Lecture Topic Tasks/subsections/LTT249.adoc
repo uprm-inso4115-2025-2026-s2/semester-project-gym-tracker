@@ -1,0 +1,44 @@
+=== Workout Data Validation and Integrity - Domain Attributes
+:author: Héctor L. Rivera Betances
+
+===== 1. Introduction
+
+[.added]#Workout tracking apps depend a lot on the data users enter, such as weight, reps, sets, and exercise type. If this data isn’t properly validated, it can become inconsistent or incorrect, which affects features like progress tracking and performance analysis. That’s why data validation is important—it helps keep the information logical and reliable.#
+
+===== 2. Importance of Data Integrity
+
+[.added]#Data integrity is essential in fitness apps because training decisions are often based on this information. If users enter incorrect values, like negative weights or zero reps, the system can produce misleading results. Keeping data accurate builds user trust, improves analysis, and helps prevent system errors.#
+
+===== 3. Common Data Validation Issues
+
+[.added]#Some common problems include negative or zero values, missing fields, wrong data types, or unrealistic numbers. For example, entering an extremely high weight or using an invalid format can break calculations like training volume or progress tracking.#
+
+===== 4. Validation Strategies
+
+[.added]#Validation can happen at different levels. Frontend validation gives users immediate feedback, while backend validation ensures the data is correct no matter how it’s submitted. Using both together makes the system more reliable.#
+
+===== 5. Technical Considerations
+
+[.added]#From a technical perspective, it’s important to define clear and reusable validation rules. For example, functions can check that weight, reps, and sets are greater than zero. Database constraints and proper data types also help maintain data integrity.#
+
+===== 6. Example Validation Logic
+
+[.added]#A good validation system checks that each workout entry meets basic requirements before being stored. This includes making sure numeric values are positive and that all required fields are filled.#
+
+===== 7. Benefits and Limitations
+
+[.added]#The main benefit is more accurate and reliable data. However, if validation rules are too strict, they might limit flexibility for advanced users. It’s important to find a balance between control and usability.#
+
+===== 8. Conclusion
+
+[.added]#Validating workout data is essential for building a reliable and scalable fitness app. By ensuring consistency and accuracy, the system can provide meaningful insights and support long-term progress.#
+
+===== 9. Validation Rules Table
+
+[cols="1,1,1", options="header"]
+|===
+| Field | Validation Rule | Example
+| Weight | >= 0 | 135 lbs
+| Reps | > 1 | 8
+| Sets | > 1 | 3
+|===

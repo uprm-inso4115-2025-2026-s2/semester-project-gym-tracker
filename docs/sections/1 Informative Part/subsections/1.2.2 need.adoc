@@ -2,7 +2,6 @@
 
 From this situation, several needs emerge within the personal fitness domain. Individuals need a clear and unified understanding of their physical activity patterns over time. Without consolidated visibility, it is difficult to evaluate improvement or identify inconsistency.
 Individuals need a low-effort and structured method for recording workouts and related activities. If tracking requires excessive time or cognitive effort, it becomes unsustainable.
-Individuals need measurable feedback regarding adherence to their goals. Without structured reflection, missed sessions and incomplete objectives remain abstract rather than concrete.
-Individuals need reinforcement mechanisms that support habit formation. Since physical results develop gradually, behavioral consistency must be supported independently of visible body changes.
+[.changed]#Individuals need visible accountability and reinforcement for maintaining consistency over time. Because fitness improvements develop gradually, gym goers require mechanisms such as streak indicators, progress summaries, and goal-adherence feedback that make their habits observable and help prevent missed sessions from becoming invisible. This need is distinct from low-effort logging: it concerns sustaining continued engagement over time, not simply reducing the effort required to record a session.#
 Beginner and intermediate gym participants need clarity rather than complexity in their tracking environment. Overwhelming tools discourage sustained engagement.
 Overall, there is a need for greater structure, visibility, and accountability in maintaining personal fitness routines.

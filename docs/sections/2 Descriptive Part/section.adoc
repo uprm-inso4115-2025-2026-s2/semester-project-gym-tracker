@@ -22,7 +22,14 @@ include::subsections/2.2.4 interface requirements.adoc[]
 
 include::subsections/2.2.5 machine requirements.adoc[]
 
+include::subsections/2.2.6 Risk Assessment.adoc[]
+
+include::subsections/2.2.7 requirements clash analysis.adoc[]
+
+include::subsections/2.2.8 weak inconsistencies.adoc[]
+
+include::subsections/2.2.9 AHP Prioritization of Criteria and Requirements.adoc[]
+
 include::subsections/2.3 implementation.adoc[]
 
 include::subsections/2.3.1 selected fragments of the implementation.adoc[]
-

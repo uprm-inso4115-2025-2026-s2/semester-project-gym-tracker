@@ -1,48 +1,197 @@
 ==== 2.2.4 Interface Requirements
+
+===== [.added]#Event Trace Diagram: Workout Session Logging Flow#
+
+[.added]#The following event trace diagram shows the sequence of interactions between the GymGoer and the system components during the primary workout logging scenario. It enhances this section by making the ordering and responsibilities of each interface interaction explicit, supplementing the scenario narratives below with a precise interaction model that connects the interface requirements to their underlying system operations.#
+
+[plantuml, event-trace-logging, svg]
+....
+@startuml
+skinparam sequence {
+  ActorBorderColor #4a9eca
+  ActorFontColor white
+  ParticipantBackgroundColor #1e3a5f
+  ParticipantBorderColor #4a9eca
+  ParticipantFontColor white
+  ArrowColor #4a9eca
+  LifeLineBorderColor #4a9eca
+}
+skinparam backgroundColor #0d2137
+skinparam noteBorderColor #4a9eca
+skinparam noteBackgroundColor #1e3a5f
+skinparam noteFontColor white
+
+actor "GymGoer" as GG
+participant "DailyGoalProgress" as DGP
+participant "LogWorkoutModal" as LWM
+participant "workoutSessionsApi" as API
+database "Supabase" as DB
+
+GG -> DGP : tap "+ Log Workout"
+DGP -> LWM : open modal
+activate LWM
+
+GG -> LWM : select workout type
+GG -> LWM : enter duration (minutes)
+GG -> LWM : enter calories (optional)
+GG -> LWM : enter notes (optional)
+GG -> LWM : add exercise rows (optional)
+GG -> LWM : submit
+
+LWM -> LWM : validate(duration, calories)
+note right : Rejects if duration ≤ 0\nor calories < 0
+
+LWM -> API : createWorkoutSession(type, duration, calories, notes, userId)
+activate API
+API -> DB : INSERT workout_sessions
+DB --> API : { workout_id }
+deactivate API
+
+alt exercises provided
+  LWM -> API : saveExercisesForSession(workout_id, exercises)
+  activate API
+  API -> DB : INSERT workout_exercises
+  DB --> API : success
+  deactivate API
+else no exercises
+  note over LWM : session saved without exercise rows
+end
+
+LWM -> DGP : onWorkoutLogged()
+deactivate LWM
+DGP -> DGP : refresh daily goal count
+DGP -> DGP : dispatch("progress-updated")
+
+note over DGP : Dashboard components\n(WeeklyProgressSummary,\nStreakDisplay) react to\nprogress-updated event
+@enduml
+....
+
+[.added]#*Rollback behavior (not shown above for clarity)*: If `saveExercisesForSession` fails after the session was already created, the modal attempts `deleteWorkoutSession(workout_id)`. If the rollback also fails, the GymGoer is informed that the session may exist without its exercise details. This behavior corresponds to the resilience requirement stated in the scenarios below.#
+
+
 ===== Definition
 
-In this project, _interface requirements_ describe how observable phenomena and concepts from the fitness-tracking domain are introduced into the system-to-be, kept up to date, corrected when entered incorrectly, and constrained by validation rules. They focus on the boundary between the outside world (users performing workouts and setting goals) and the system’s internal representations stored and managed by the web application (React + Supabase). These requirements capture how domain concepts become internal data, how changes in the domain are reflected inside the system, and what kinds of edits are allowed.
+In this project, _interface requirements_ describe how [.changed]#GymGoers#
+interact with the system to [.changed]#record Workout Sessions, edit
+previously recorded Workout Sessions, set Goals, and review their Workout
+History and Progress#. These focus on the boundary between the
+[.changed]#GymGoer# and the system, specifying [.changed]#the Actions a GymGoer
+can invoke (as defined in Section 2.1.5) and the information the system
+presents in response#.
 
-Interface requirements do not specify UI pixel-level details or implementation-specific database schemas. Instead, they specify the mechanisms and constraints by which domain information is captured, updated, and verified.
-
-===== Domain Concepts Represented in the System
-
-The system must internally represent the following domain concepts, since they are relevant for simulating and tracking user behavior over time:
-
-* User
-* Workout Session
-* Goal (e.g., weekly workout frequency)
-* Streak / Consistency Indicator
-* Personal Progress History
+Interface requirements define the available [.changed]#GymGoer# interactions
+without specifying implementation details or internal data structures.
 
 ===== Interface Requirements
 
-====== User Initialization
+====== [.changed]#GymGoer# Account Setup
 
-The system shall provide means for a real-world individual to create a user account, thereby initializing a persistent internal representation of a User. The system shall prevent duplicate accounts using the same email address and shall store the User record in persistent storage upon successful registration.
+The system shall provide [.changed]#an interface for a prospective GymGoer# to
+create [.changed]#an Account# by entering [.changed]#the registration
+fields enumerated in Section 2.2.3 (Domain Requirements)#.
 
 ====== Recording Real-World Workouts
 
-The system shall provide means for a User to record a Workout Session that occurred in the real world. At minimum, the system shall require a workout date and workout type and shall associate each recorded Workout Session with exactly one User before persisting it.
+The system shall provide an interface for a [.changed]#GymGoer# to
+[.changed]#record a Workout Session# that [.changed]#has just been
+completed (Section 2.1.5)#.
 
 ====== Editing and Correction of Workout Data
 
-The system shall provide means for a User to edit previously recorded Workout Sessions in order to correct incorrect or incomplete entries. The system shall allow modification of workout attributes (e.g., date and type), and the system shall not allow reassignment of an existing Workout Session to a different User.
+The system shall provide [.changed]#an interface for a GymGoer# to view and
+edit previously recorded Workout Sessions [.changed]#in order to correct
+fields whose stored value does not match the Workout Session that occurred
+in the real world#.
+
+*Satisfiability and Feasibility Discussion*
+
+*Satisfiability:* This requirement is satisfiable within the current design
+because the interface section already defines workflows in which
+[.changed]#a GymGoer# reopens a previously recorded Workout Session, edits
+[.changed]#one or more of its stored fields#, submits the correction, and
+triggers recalculation of dependent indicators. The interaction
+requirements also now specify validation on submit and resilience behavior
+for backend persistence failures, which means correction is not treated as
+an informal idea but as a supported interaction path with defined system
+behavior.
+
+*Feasibility:* This requirement is feasible within project constraints
+because editing previously stored records is a common web-application
+interaction supported by the selected React + Supabase stack. The
+implementation complexity is moderate rather than exceptional: the system
+must retrieve the existing record, allow authorized modification, validate
+the updated values, persist the correction, and refresh derived
+indicators. Those steps fit the current project architecture and do not
+require specialized external systems beyond the backend and interface
+mechanisms already documented.
 
 ====== Goal Initialization and Update
 
-The system shall provide means for a User to define and update measurable fitness Goals. The system shall validate that goal values are positive and shall prevent modification of completed historical goal records once they are marked complete.
+The system shall provide [.changed]#an interface for a GymGoer# to create,
+view and update [.changed]#Goals as defined in Section 2.1.2#.
+
+====== Viewing Progress and History
+
+The system shall provide [.changed]#an interface for a GymGoer# to view
+[.changed]#their Workout History and Progress (Section 2.1.2)#.
 
 ====== Automatic Streak Synchronization
 
-The system shall automatically update the Streak (or Consistency Indicator) whenever a Workout Session is added, modified, or removed. The streak value shall always be derived from stored Workout Session data and shall reset when the defined streak conditions are not met.
+The system shall display the [.changed]#GymGoer's current Streak and
+Consistency Measure (Section 2.1.2)#. The system shall update the
+displayed [.changed]#Streak and Consistency Measure# in response to
+[.changed]#the domain events defined in Section 2.1.5: _Workout session
+has just been recorded_, _Streak has just been extended_, and _Streak has
+just been broken_#.
 
-====== Interface-Level Validation Constraints
+===== Validation Strategy
 
-The system shall enforce interface-level validation constraints on domain data entry. Workout dates shall not be in the future, required fields shall not be empty, and goal values shall be positive integers. The system shall reject invalid input prior to persistence.
+For [.changed]#the interaction flows that create or edit a Workout Session
+(Recording Real-World Workouts and Editing and Correction of Workout
+Data)#, the interface shall apply batch validation on submit before
+persistence. [.changed]#The fields enumerated as required in Section 2.2.3
+shall be checked# when the [.changed]#GymGoer# attempts to save, and the
+system shall reject the submission if [.changed]#any required field is
+missing or any submitted value fails the validation rules defined in
+Section 2.2.3#. Validation feedback shall [.changed]#name each rejected
+field and state the rule it violated, so the GymGoer can correct the entry
+without re-opening the form#.
 
-===== Example Usage Scenario
+The validation strategy for Workout Session entry shall, at minimum,
+reject:
 
-A user completes a gym workout on Monday evening, which occurs in the real world (domain). Later, the user logs into the web application and records a Workout Session by entering the date and workout type. Upon submission, the system creates a persistent internal representation of that Workout Session and recalculates progress and streak values derived from the updated workout history.
+- missing required fields,
+- workout dates in the future, and
+- malformed or contradictory values that violate defined data validation
+rules.
 
-If the user entered the wrong date, the system provides means to edit the recorded Workout Session. After the correction is saved, the system updates the stored representation and recalculates dependent indicators (such as the streak) so that the internal representation remains consistent with the user’s real-world activity.
+===== Resilience Behavior for Backend Failures
+
+For [.changed]#the interaction flows that create or edit a Workout Session
+(Recording Real-World Workouts and Editing and Correction of Workout
+Data)#, the interface shall not present the operation as successful until
+the backend confirms persistence. If a backend write fails, the system
+shall present explicit failure feedback to the [.changed]#GymGoer# and shall
+retain the entered data locally [.changed]#until the GymGoer either retries
+the submission successfully or discards the entry#, rather than forcing
+complete re-entry.
+
+If the failure is caused by a transient connectivity or service issue, the
+interface shall allow the [.changed]#GymGoer# to retry submission. If local
+retention is used while the write remains unconfirmed, the interface shall
+[.changed]#display the unconfirmed Workout Session with an explicit
+"not yet saved" status label so the GymGoer can distinguish it from Workout
+Sessions that are part of the persistent Workout History#. Once
+persistence succeeds, [.changed]#the following derived values shall be
+recomputed from the stored Workout History: Streak, Consistency Measure,
+and Weekly Summary#.
+
+===== Preconditions and Assumptions for [.changed]#Workout Session and Goal Interaction Flows#
+
+Unless explicitly stated otherwise, the [.changed]#interaction flows
+defined above# assume that the [.changed]#GymGoer# is authenticated, has an
+active session, and is interacting with their own Account data. Flows that
+create or edit Workout Sessions also assume that the [.changed]#GymGoer# has
+reached the relevant page or form and that [.changed]#the interface# can
+attempt communication with backend services, even if that attempt later
+fails.

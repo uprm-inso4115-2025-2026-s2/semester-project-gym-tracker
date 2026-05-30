@@ -1,0 +1,70 @@
+=== [LTT] Apply Architectural Refinement Patterns to Notification Quality Goals
+
+Author: Luis Sorrentini
+
+The Architectural Refinement Patterns lecture establishes that non-functional quality goals can be operationalized by selecting a formal architectural pattern that restructures component relationships to guarantee a given quality property. A refinement pattern specifies a before-state in which two or more components interact directly, an introduced structural element that mediates that interaction, and a post-condition asserting that the quality goal is now maintained by construction rather than by convention.
+
+Non-functional goals of this kind are called quality goals because they constrain the manner in which the system achieves its functional goals, not just whether it achieves them. Selecting the right pattern therefore requires first identifying which quality property is most at risk given the current architecture, and then choosing the pattern from Figure 16.15 whose structural guarantee directly addresses that risk.
+
+The notification and feedback module of the Gym Tracker app presents a clear and concrete candidate for this operationalization. Its functional purpose is to deliver timely and accurate messages to users about their goal progress, reminders, and workout history. Its correctness depends entirely on keeping those notification outputs consistent with the current state of goal data stored in the database, making data accuracy the primary quality risk and the Observer-Controller the appropriate refinement pattern.
+
+==== Quality Goal
+
+The selected quality goal is `Maintain [AccurateData (GoalStore, NotificationModule)]`.
+
+The notification module derives all of its outputs from goal state. The status field of a goal record, which holds one of pending, completed, or failed, is the direct input to the notification dispatch logic implemented in `noti_trigger_function.ts`. The recorded_value and target_value fields determine whether a goal has been met. The period_date field determines whether a goal period has ended and a terminal evaluation is due.
+
+If the NotificationModule reads stale or incorrect data from the GoalStore, the consequences are observable to the user and undermine the core value of the feature. A completion message dispatched before a goal is actually met creates false feedback. A missed-workout alert that never arrives because the module evaluated an outdated status silently fails the user. A reminder dispatched twice because the evaluation ran against an uncommitted write wastes user attention and erodes trust in the system.
+
+This makes data accuracy the central non-functional risk for this subsystem. The quality goal is therefore not merely desirable but necessary for the module to function correctly at all. No amount of performance optimization or fault tolerance addresses the fundamental problem of a notification that does not correspond to the actual state of the user's progress.
+
+==== Chapter 16 Pattern
+
+The selected pattern is the Observer-Controller, drawn from the `Maintain [AccurateData (C1, C2)]` entry in Figure 16.15 of the course slides.
+
+This pattern applies when a consumer component must always reflect the current state of a source component, and direct coupling between the two creates a risk of the consumer acting on outdated information. The structural solution is to introduce a ConsistencyMaintainer between the two components. The ConsistencyMaintainer observes state changes in C1 and pushes synchronized updates to C2, ensuring the consumer never independently queries the source and never acts on a snapshot that may have been superseded.
+
+The pattern was selected over the other options in Figure 16.15 for specific reasons. The Monitor pattern is designed for `Maintain [Availability (C1, C2, C3)]` and introduces a watchdog that detects component failure and redirects traffic to a backup. This addresses service continuity, not data fidelity, and is not the primary concern for this module. The Proxy pattern is designed for `Maintain [Interoperability (C1, C2)]` and introduces translation layers so that components speaking different protocols can communicate. The notification module does not face an interoperability problem. The FaultTolerantCommunication pattern ensures that messages between components survive delivery failures, which is a relevant concern for a production notification system but is secondary to the correctness of the data the messages carry. Ensuring reliable delivery of an incorrect notification is not an improvement.
+
+The Observer-Controller pattern directly eliminates the structural condition that allows stale data to reach the NotificationModule, which is the core of the quality goal as stated.
+
+===== Architectural Transformation
+[horizontal]
+Before-State:: The `noti_trigger_function.ts` and `notification_preferences_logic.ts` utilities operate without a formal mediator, forcing presentation or triggering hooks to interface with raw, volatile database transitions directly. This direct coupling introduces severe vulnerabilities to race conditions, partial reads, and dual-evaluation anomalies.
+After-State:: The introduced `ConsistencyMaintainer` establishes a strict structural firewall. It completely encapsulates data verification, environment states, and user preferences, making it structurally impossible for the rendering layers to act on uncommitted or outdated database frames.
+
+==== Component Definitions
+
+Three components participate in the refined architecture, each with a clearly bounded role and a defined interface to the others.
+
+[horizontal]
+`GoalStore` (Subject - C1):: The authoritative source of goal data, backed by the goals table as defined in `goals_preliminary.sql`. It holds the full lifecycle record of each user goal, including type, title, target_value, recorded_value, status, and period_date. Its responsibility is exclusively data storage and consistency. It does not evaluate notification conditions, does not invoke any notification logic, and does not communicate with the NotificationModule directly. When any relevant field changes as a result of a confirmed write, it emits a state-change event that the ConsistencyMaintainer is subscribed to. The `GoalsFeedback` interface defined in `goals_feedback_types.ts` represents the shape of the data this component exposes.
+`ConsistencyMaintainer` (Observer-Controller):: The central new structural element introduced by this pattern and the only component permitted to invoke `TriggerNotification`. It subscribes to GoalStore state-change events and, upon receiving one, retrieves the current confirmed goal record and evaluates the business conditions that determine which notification type applies: a transition to completed warrants a COMPLETION dispatch, a period ending with status failed warrants a MISSED_WORKOUT dispatch, and an approaching reminder time warrants a REMINDER dispatch. Before any dispatch, it calls `shouldAllowNotification` to confirm that the user's preferences permit the notification at that moment. The ConsistencyMaintainer formalizes the coordination currently implied between `noti_trigger_function.ts` and `notification_preferences_logic.ts`, which at present operate as independent utilities without a mediating component that owns the dispatch decision.
+`NotificationModule` (Consumer - C2):: The controlled consumer that receives pre-validated, preference-checked notification instructions from the ConsistencyMaintainer and renders them to the user through the `NotificationPreferencesPanel` and `ProgressVisual` components exported from the feature index. It holds no goal state of its own and does not query the GoalStore directly at any point. To ensure absolute architectural isolation, its input interface is strictly passive and closed to external state-pull methods, guaranteeing by compile-time layout that whatever it displays corresponds exclusively to an instruction payload that has already been confirmed and validated by the mediator.
+
+==== Operational Constraints for ConsistencyMaintainer
+
+The following semi-formal operational constraints define the strict execution boundaries for the `ConsistencyMaintainer` upon receiving a state-change confirmation event.
+
+[horizontal]
+ReqTrig for NotifyUser:: A confirmed database write event is emitted by the `GoalStore` indicating that a transaction has successfully committed modifications to either `goals.status` or `goals.recorded_value` (ensuring no evaluation runs against an in-flight or rolled-back transaction).
+ReqPre for NotifyUser:: 
+* `goal.id != null`
+* `goal.status ∈ {pending, completed, failed}`
+* `goal.recorded_value >= 0` AND `goal.target_value > 0`, matching the database check constraints defined in `goals_preliminary.sql`.
+* The user's `NotificationPreferences` record has been fully retrieved and made available to `shouldAllowNotification`.
+* No prior dispatch record exists for the same `goal.id` matching the exact same status transition within the current evaluation cycle.
+ReqPost for NotifyUser:: 
+* `goal.status = completed` -> A `COMPLETION` notification payload is safely dispatched to the `NotificationModule`, and the transaction is recorded to prevent duplicate delivery.
+* `goal.status = failed` AND `period_date` confirms the goal period has ended -> A `MISSED_WORKOUT` notification payload is safely dispatched to the `NotificationModule`.
+* The current time matches the user's `reminderTime` preference -> A `REMINDER` notification payload is safely dispatched to the `NotificationModule`.
+* `preferences.enabled = false` -> The notification dispatch is completely suppressed, and no consumer module state is mutated.
+* The operational rendering state of the `NotificationModule` matches the active transactional state of the `GoalStore`, with zero stale reads or uncommitted views persisting post-evaluation.
+
+==== Summary
+
+- The selected quality goal is AccurateData for the GoalStore and NotificationModule pair, chosen because the notification module's outputs are entirely derived from goal state and incorrect state produces directly observable, user-facing failures.
+- The Observer-Controller pattern from Figure 16.15 is the appropriate refinement because it structurally prevents the consumer from acting on unmediated or stale reads of the source, which is precisely the failure mode the quality goal targets.
+- GoalStore is the observed subject and sole source of goal truth, ConsistencyMaintainer is the introduced mediator that owns the dispatch decision, and NotificationModule is the controlled consumer that renders only what the mediator instructs.
+- The pattern consolidates the currently informal, direct coordination between `noti_trigger_function.ts` and `notification_preferences_logic.ts` into a single, cohesive component with a clear and protected responsibility boundary.
+- Trigger and pre-conditions ensure the ConsistencyMaintainer runs exclusively against validated, committed data changes, while semi-formal post-conditions guarantee that the resulting user-facing layout matches the system's core data values by construction.

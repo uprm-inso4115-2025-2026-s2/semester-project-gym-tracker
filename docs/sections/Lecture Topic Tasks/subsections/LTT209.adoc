@@ -1,0 +1,86 @@
+=== Modeling Domain Constraints and Invariants in the Fitness Tracking Domain
+
+Alejandro E. López Rodríguez
+
+Many aspects of the fitness tracking domain are governed by constraints that must
+always hold true regardless of how activities are recorded or analyzed. These constraints,
+commonly referred to as domain invariants, represent rules that reflect real-world fitness
+behavior. It is important to identify and model these invariants to ensure consistency
+with how workouts, attendance, and progress naturally occur.
+
+Within the fitness tracking domain, workout sessions represent bounded periods of
+physical activity. A fundamental constraint is that every workout session must have a positive
+duration. A session with zero or negative duration does not correspond to any meaningful real-
+world activity. This invariant ensures that only valid workout sessions can exist within the
+domain.
+
+∀ session ∈ WorkoutHistory : session.duration > 0
+
+This constraint directly influences domain operations such as recording or updating a
+workout session. Any operation that attempts to create or modify a session must verify that the
+duration is strictly positive. If this condition is not satisfied, the operation cannot produce a
+valid domain state.
+
+Another essential constraint is that every workout session must be associated with a
+specific point in time. Workouts occur at identifiable moments, and without temporal
+information, it is not possible to reason about order, frequency, or patterns of activity.
+
+∀ session ∈ WorkoutHistory : ∃ day ∈ Day : session.day = day
+
+This invariant ensures that sessions can be grouped into periods such as days or weeks,
+which is necessary for evaluating consistency and generating summaries. As a result, all domain
+operations must include temporal information when creating or modifying workout sessions.
+
+Workout sessions are also inherently individual activities. Each session belongs to exactly
+one person and cannot be shared across multiple individuals. This reflects the fact that fitness
+progress and consistency are personal phenomena.
+
+∀ session ∈ WorkoutHistory : ∃! person ∈ Person : owns(person, session)
+
+This constraint enforces clear ownership of workout data and prevents ambiguity when
+analyzing progress. It influences the design of the domain model by requiring that workout
+histories are maintained per individual rather than globally.
+
+Streaks represent another important domain concept and are governed by strict
+constraints. A streak exists only when workout sessions occur on consecutive days without
+interruption. The presence of a missed day breaks the streak.
+
+∀ d₁, d₂ ∈ AttendanceDays : consecutive(d₁, d₂) ⇒ noMissedDaysBetween(d₁, d₂)
+
+This invariant reflects the real-world interpretation of streaks as uninterrupted sequences.
+It directly impacts operations that compute or update streak values, requiring them to detect
+gaps in attendance and reset the streak accordingly.
+
+In contrast, the absence of activity is also meaningful. A missed day represents a break in
+an otherwise continuous pattern of attendance. This constraint ensures that inactivity is treated
+as a significant domain phenomenon rather than being ignored.
+
+∀ day ∈ Calendar : ¬∃ session ∈ WorkoutHistory : session.day = day ⇒ missed(day)
+
+This invariant influences how consistency is evaluated, as both presence and absence of
+activity contribute to understanding behavioral patterns over time.
+
+Goals within the fitness tracking domain are defined over bounded time periods. A goal
+must always be associated with a specific interval, such as a day or a week, and its evaluation is
+only meaningful within that interval.
+
+∀ goal ∈ Goals : ∃ period ∈ TimePeriod : definedOver(goal, period)
+
+This constraint ensures that goal evaluation is context-specific and prevents ambiguous
+interpretations of success. Domain operations that evaluate goals must therefore consider both.
+
+Finally, consistency itself is not an isolated event but an emergent property derived from
+repeated activity over time. A single workout session does not establish consistency.
+
+consistency = f(WorkoutHistory, TimePeriod)
+
+This reflects the domain understanding that consistency must be evaluated across multiple
+sessions rather than inferred from individual events. As a result, domain operations must support
+aggregation and analysis over historical data.
+
+Together, these invariants define the boundaries within which valid domain states can
+exist. They guide the design of domain operations by enforcing validation rules, shaping how
+data is structured, and ensuring that derived concepts such as streaks and consistency are
+computed correctly. By explicitly modeling these constraints, the domain description remains
+faithful to real-world fitness behavior while providing a solid foundation for subsequent system
+design and implementation.

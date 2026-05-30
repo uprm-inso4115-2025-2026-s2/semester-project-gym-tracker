@@ -8,35 +8,59 @@ Where multiple outputs indicate updated state and produced results.
 
 ===== Core Recording Functions
 
-recordWorkout :
-    WorkoutHistory >< Activity >< Duration >< Day >< Notes
-    -> WorkoutHistory >< WorkoutSession
+[.added]#recordWorkout :#
+[.added]#    GymGoer >< Workout >< CalendarDay >< Duration >< WorkoutNotes#
+[.added]#    -> GymGoer >< WorkoutSession#
 
-Adds a completed workout session to the history and returns the updated
-history together with the created session.
+[.added]#Records a Workout Session for a GymGoer and returns the updated GymGoer together with the newly created WorkoutSession. The GymGoer is in the result because recording a workout modifies the GymGoer's WorkoutHistory; the WorkoutSession exists within that history and is not accessible independently. This signature is consistent with the definition in Section 2.1.2.#
 
-updateWorkoutSession :
-    WorkoutHistory >< WorkoutSession >< Activity >< Duration >< Notes
-    -> WorkoutHistory >< WorkoutSession
+[.added]#updateWorkoutSession :#
+[.changed]#    WorkoutHistory >< WorkoutSession >< Activity >< Duration >< CalendarDay >< WorkoutNotes#
+[.added]#    -> WorkoutHistory >< WorkoutSession#
 
-Modifies an existing recorded workout session.
+[.added]#Modifies an existing recorded Workout Session within the WorkoutHistory.#
 
 deleteWorkoutSession :
     WorkoutHistory >< WorkoutSession
     -> WorkoutHistory
 
-Removes a recorded workout session from the history.
+Removes a recorded Workout Session from the WorkoutHistory.
+
+[.added]#retrieveWorkoutHistory :
+    GymGoer
+    -> WorkoutHistory#
+
+[.changed]#Determines the WorkoutHistory associated with a GymGoer. This is the entry point through which all Workout Session retrieval happens. A Workout Session is only accessible through the GymGoer whose history contains it.#
+
+[.changed]#findWorkoutSessions :#
+[.added]#    WorkoutHistory >< CalendarDay >< CalendarDay#
+[.added]#    -> [WorkoutSession]#
+
+[.changed]#Returns all Workout Sessions in the WorkoutHistory whose Calendar Day falls within the specified range. This function makes explicit how two sessions can be selected for comparison — a caller first retrieves the WorkoutHistory, then selects sessions from it using this function. The name matches the canonical action in Section 2.1.2.#
+
+[.changed]#findLastWorkoutSession :#
+[.changed]#    WorkoutHistory#
+[.added]#    -> WorkoutSession#
+
+[.changed]#Returns the most recent Workout Session in the WorkoutHistory. The name matches the canonical action in Section 2.1.2.#
+
+[.added]#findSessionsByExercise :#
+[.added]#    WorkoutHistory >< Exercise#
+[.added]#    -> [WorkoutSession]#
+
+[.added]#Returns all Workout Sessions in the WorkoutHistory that included the given Exercise. This explicitly relates WorkoutSession to WorkoutHistory through a frequent domain query, such as finding past sessions that included bench press.#
+
 
 ===== Goal Management Functions
 
 setWeeklyGoal :
-    WorkoutHistory >< GoalDefinition
+    WorkoutHistory >< GoalTargetCount
     -> WorkoutHistory >< Goal
 
 Creates a new weekly goal and stores it in the history.
 
 updateGoal :
-    WorkoutHistory >< Goal >< GoalDefinition
+    WorkoutHistory >< Goal >< GoalTargetCount
     -> WorkoutHistory >< Goal
 
 Modifies an existing goal.
@@ -51,7 +75,7 @@ Deletes a goal from the history.
 
 computeStreak :
     WorkoutHistory
-    -> StreakLength
+    -> Streak
 
 Determines the current number of consecutive attendance days.
 
@@ -71,10 +95,25 @@ compareSessions :
     WorkoutSession >< WorkoutSession
     -> SessionComparison
 
-Evaluates differences between two sessions, such as duration or activity type.
+Evaluates differences between two sessions, such as Duration or activity type. [.changed]#To obtain two sessions for comparison, the caller first invokes retrieveWorkoutHistory to obtain the GymGoer's WorkoutHistory, then invokes findWorkoutSessions, findLastWorkoutSession, or findSessionsByExercise to select the sessions.#
 
 evaluateConsistency :
-    WorkoutHistory >< TimePeriod
+    WorkoutHistory >< TimeFrame
     -> ConsistencyMeasure
 
 Determines the regularity of workouts across a period of time.
+
+===== [.added]#Consistency Note#
+
+[.added]#In this section, the history input is intentionally modeled as
+WorkoutHistory across the domain functions. Attendance Days and Streak
+are derived from the WorkoutSessions contained in that WorkoutHistory,
+rather than being supplied as a separate primary collection. The
+retrieveWorkoutHistory function makes explicit how the relevant
+WorkoutSessions are obtained for a given GymGoer.#
+
+[.added]#GoalTargetCount is the positive integer count carried by Goal
+management functions, while GoalResult is the value returned by goal
+evaluation functions.#
+
+[.added]#The type name Duration is used throughout all function signatures in place of the earlier Minutes. Duration is defined in Section 2.1.2 as the domain-level name for elapsed session time, expressed in minutes. The rename ensures that the function signature language matches the domain terminology rather than an implementation unit.#

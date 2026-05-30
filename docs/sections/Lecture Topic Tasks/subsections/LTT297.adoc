@@ -1,0 +1,195 @@
+= Lecture Topic Task: Risk Analysis in Requirements Engineering for Gym Tracker
+
+== 🎯 Objective
+
+Apply risk analysis techniques to the *Calorie Management System* in order to:
+
+- Identify requirement-related risks such as ambiguity, incompleteness, conflicts, and scope creep
+- Evaluate the likelihood and impact of each risk
+- Propose mitigation strategies
+- Improve the overall robustness and quality of the requirements process
+
+---
+
+== 📄 Description
+
+This Lecture Topic Task focuses on analyzing risks that may arise during the requirements definition of the *Calorie Management System*.
+
+The system estimates daily caloric needs and tracks calories burned based on user data such as weight, age, activity level, and workout information.
+
+Using concepts from Requirements Engineering, particularly domain analysis, this task aims to identify potential weaknesses in how requirements are defined, interpreted, and expanded during development.
+
+The analysis is centered on answering:
+- What can go wrong in the requirements?
+- Why can it go wrong?
+- How can it be prevented?
+
+---
+
+== 1. Requirements Context
+
+The system includes the following main components:
+
+- User profile data (weight, height, age, gender, activity level)
+- Daily calorie estimation (BMR, TEE, TEF)
+- Workout tracking (type, duration, calories burned)
+- Energy balance calculation
+
+These components depend heavily on correct and complete requirement definitions.
+
+---
+
+== 2. Risk Identification Process
+
+The following types of risks are considered:
+
+- Ambiguity: unclear or vague requirement definitions
+- Incompleteness: missing functionality or edge cases
+- Conflicts: incompatible or contradictory requirements
+- Scope creep: uncontrolled expansion of features
+
+Each requirement area is analyzed to detect potential issues.
+
+---
+
+== 3. Risk Evaluation Model
+
+Each identified risk is evaluated using two criteria:
+
+- Likelihood:
+  *Low* – unlikely to occur
+  *Medium* – possible
+  *High* – very likely
+
+- Impact:
+  *Low* – minimal effect
+  *Medium* – moderate system issues
+  *High* – major system failure or incorrect results
+
+---
+
+== 4. Risk Analysis Workflow
+
+----
+[Start]
+   |
+   v
+[Analyze Requirements]
+   |
+   v
+[Detect Issues]
+   |
+   v
+[Classify Risk Type]
+   |
+   v
+[Evaluate Likelihood & Impact]
+   |
+   v
+[Define Mitigation Strategy]
+   |
+   v
+[Document Risk]
+   |
+   v
+[End]
+----
+
+---
+
+== 5. Risk Prioritization Logic
+
+----
+          +----------------------+
+          |     Identified Risk  |
+          +----------+-----------+
+                     |
+         +-----------+-----------+
+         |                       |
+         v                       v
+   High Impact?           Low Impact?
+         |                       |
+        YES                     YES
+         |                       |
+         v                       v
+ High Likelihood?           Monitor
+         |
+    +----+----------+
+    |               |
+   YES              NO
+    |               |
+    v               v
+ Immediate       Plan Mitigation
+ Action
+----
+
+---
+
+== 6. Risk Analysis Table
+
+[cols="2,2,2,3", options="header"]
+|===
+| Risk | Cause | Impact | Mitigation Strategy
+
+| Ambiguous activity level definitions
+| Lack of precise categories
+| Incorrect calorie estimations
+| Define clear activity levels with examples
+
+| Missing calorie intake tracking
+| Partial system scope definition
+| Incomplete energy balance calculation
+| Clarify system scope or extend functionality
+
+| Conflicting calculation methods
+| Multiple possible formulas (BMR variations)
+| Inconsistent outputs
+| Select and standardize one formula
+
+| Lack of input validation
+| Missing constraints in requirements
+| Invalid or unrealistic results
+| Define strict input validation rules
+
+| Scope creep (future features expanding system)
+| Undefined system boundaries
+| Delays and complexity increase
+| Define MVP and limit feature expansion
+
+| Undefined edge cases
+| Requirements do not consider extremes
+| System instability
+| Add edge case handling requirements
+|===
+
+---
+
+== 7. Mitigation Strategy Approach
+
+To reduce risks, the following practices are recommended:
+
+- Use structured requirement templates
+- Validate requirements with stakeholders early
+- Define clear system boundaries (MVP)
+- Include validation rules and constraints
+- Perform iterative requirement reviews
+
+---
+
+== 8. Key Insight
+
+Risk analysis in requirements engineering is essential because most system failures originate from poorly defined requirements rather than implementation errors.
+
+By identifying risks early, the system design becomes more reliable and easier to maintain.
+
+---
+
+== ✅ Conclusion
+
+This task demonstrates that:
+
+- Requirements are a major source of system risk
+- Ambiguity, incompleteness, and scope creep can significantly affect system quality
+- Structured risk analysis helps detect and prevent these issues early
+
+Applying these techniques improves both requirement clarity and system reliability.

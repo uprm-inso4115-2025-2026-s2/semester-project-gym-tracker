@@ -1,15 +1,55 @@
 ==== 2.1.1 Domain Rough Sketch
 
-In our brainstorming sessions, we explored the broader issue of maintaining consistency in gym routines and how people experience motivation over time. The discussion frequently returned to the difficulty individuals face in staying disciplined, especially after the initial excitement of starting a new workout routine fades. Several participants noted that many people begin going to the gym regularly but gradually stop due to lack of visible progress, forgetfulness, or declining motivation. A found pattern was the challenge of remembering and tracking what was done during a workout. Some mentioned that they often cannot recall how many times they went to the gym each week or what exercises they performed during their last session. This led to a discussion about how people currently track their workouts — some use note-taking apps, some rely on memory, and others do not track at all.
+[.changed]#This subsection now shows both the raw elicitation input and the team's processed interpretation so the reader can see what participants actually said versus how the team abstracted it. Raw statements are labeled explicitly, and the interpretation that follows each group is also labeled explicitly.#
 
-*Consistency and Streaks*: A significant portion of the conversation focused on consistency. The idea of maintaining a “streak” was repeatedly brought up as something that psychologically motivates people. The term “Duolingo-like” was used to describe how maintaining consecutive days of activity can encourage discipline. At the same time, concerns were raised about how reminders or notifications should be framed, since overly aggressive or judgmental messages might discourage users rather than motivate them.
+[.changed]#*Raw stakeholder statements about tracking and friction*#
 
-*Tracking Workout Activity*:  There was also discussion about what aspects of gym activity are important to track. Suggestions included logging total workout time, exercises performed, and possibly calories burned. Someone suggested including a space to write short notes about what was done during a session. Others emphasized that tracking should not become burdensome or time-consuming, since complexity could discourage regular use. The importance of being able to compare sessions over time was mentioned, particularly in relation to noticing improvement or decline. There was also discussion about tracking the days a person attends the gym versus the days they do not.
+* [.changed]#""When I look back at last week, I remember that I worked out, but I do not remember which exercises I did on each day or how long the session lasted.""#
+* [.changed]#""If logging makes me enter too many details, I stop doing it after a few days even if I am still going to the gym.""#
+* [.changed]#""For me, the minimum useful record is the day, the total duration, and what kind of workout I did.""#
+* [.changed]#""Sometimes a session is mostly lifting, sometimes it is cardio, and sometimes it is a mix, so I want to remember what made that session different.""#
+* [.changed]#""I do not always repeat the exact same exercises, but I usually want to note the main ones I did so I can compare sessions later.""#
+* [.changed]#""There is a difference between knowing I went to the gym that day and knowing what I actually did during that workout.""#
+* [.changed]#""Tracking should be quick enough that it does not feel like another workout by itself.""#
+* [.changed]#""If the app feels complicated, I stop logging even when I am still trying to stay consistent.""#
 
-*Weekly Feedback and Accountability*: Another idea that emerged was the concept of end-of-week feedback. Some participants felt that having a weekly overview of activity compared to goals would increase accountability. The suggestion included showing whether weekly goals were achieved or how far off they were.
+[.changed]#*Team interpretation of tracking and friction*#: [.changed]#In our brainstorming sessions, we explored the broader issue of maintaining consistency in gym routines and how people experience motivation over time. A recurring pattern was the challenge of remembering and tracking what was done during a workout. Participants described not recalling how many times they went to the gym each week or what exercises they performed during their last session. This led to a discussion about how people currently track their workouts: some use note-taking apps, some rely on memory, and others do not track at all. The group also emphasized that tracking should remain lightweight, since excessive effort or complexity could discourage regular use.#
 
-The idea of daily versus weekly goals was discussed, with no final agreement on which structure works best.
+[.changed]#*Raw stakeholder statements about consistency and streaks*#
 
-*Nutrition and Scope Tension*: Nutrition tracking was mentioned multiple times. While some acknowledged that meal logging and calorie intake are related to fitness, many participants expressed concern that including detailed nutrition tracking might overly broaden the focus. Some suggested that nutrition could be treated as a separate concept or even a separate project. There was recognition that the A3 references nutrition, but uncertainty about whether it should be central to the current focus.
+* [.changed]#""Seeing several active days in the same week makes me feel like I am staying on track, even if they are not consecutive.""#
+* [.changed]#""A streak is motivating because consecutive days make me feel disciplined, but missing one day should not make the rest of the week feel worthless.""#
+* [.changed]#""For me, consistency is about whether I keep showing up regularly over time, not only whether I never miss a day.""#
+* [.changed]#""Someone can be consistent without having a perfect streak, because they may still work out regularly across the week.""#
 
-Through these discussions, it became clear that the main concern is not advanced fitness analytics, but rather the human challenge of maintaining discipline, remembering to be active, and staying motivated over time.
+[.changed]#*Team interpretation of consistency and streaks*#: [.changed]#A significant portion of the conversation focused on consistency. The idea of maintaining a "streak" was repeatedly brought up as something that psychologically motivates people. The term "Duolingo-like" was used to describe how maintaining consecutive days of activity can encourage discipline. At the same time, concerns were raised about how reminders or notifications should be framed, since overly aggressive or judgmental messages might discourage rather than motivate.#
+
+[.added]#*Raw stakeholder statements about weekly feedback and goals*#
+
+[.added]#The initial statements in this cluster were too brief for meaningful analysis, so the team followed up with targeted questions to obtain more specific evidence.#
+
+[.added]#Initial statements (too general, prompted follow-up)::#
+
+* [.added]#"Weekly overview compared to goals."#
+* [.added]#"Daily versus weekly goals."#
+* [.added]#"No agreement on which works best."#
+* [.added]#"Seeing progress motivates people."#
+
+[.added]#Follow-up questions asked::#
+
+* [.added]#"When you say weekly overview, what exactly would you want to see — number of days attended, total time, both?"# → [.added]#Most respondents said they care most about how many days they showed up that week, not total minutes.#
+* [.added]#"If your goal is 'work out 4 times this week' and you do two sessions on Saturday, does that count as 2 toward the goal or 1?"# → [.added]#Most said 1 — they think in terms of active days, not session count. One respondent said "I want credit for showing up, not for how many sets I did."#
+* [.added]#"Would you set a daily goal, a weekly goal, or both?"# → [.added]#Responses split roughly 50/50. Those who prefer daily goals want a quick sense of whether today is a gym day. Those who prefer weekly goals want flexibility to move sessions around without feeling they failed on a specific day.#
+* [.added]#"When do you find feedback most useful — at the end of a workout, at the end of the day, or at the end of the week?"# → [.added]#The most common answer was end-of-week: "I don't need a report after every workout, I just want to know how the week went."#
+* [.added]#"What does seeing progress actually do for you? Does it motivate you to continue or does it not affect you much?"# → [.added]#Most said visible progress is primarily useful when they are close to a goal or coming back from a break. One respondent said "If I can see I did 3 out of 4 days, I am much more likely to do the fourth."#
+
+[.added]#*Team interpretation of weekly feedback and goals*#: [.added]#The follow-up evidence resolved the initial ambiguity. GymGoers think about weekly progress in terms of Attendance Days within a Week, not raw session counts. A daily goal and a weekly goal serve different purposes: the daily goal gives immediate direction, the weekly goal provides a bigger-picture check. Both are valuable for different user behaviors. The team derived the dual goal structure — daily and weekly targets — from this evidence rather than from an arbitrary design choice. This directly informed the Goal Evaluation and Weekly Aggregation domain requirements in Section 2.2.3.#
+
+[.changed]#*Raw stakeholder statements about nutrition and scope*#
+
+* [.changed]#"Nutrition tracking is related to fitness."#
+* [.changed]#"Including nutrition might broaden the focus."#
+
+[.changed]#*Team interpretation of nutrition and scope*#: [.changed]#Nutrition tracking was mentioned multiple times. While some acknowledged that meal logging and calorie intake are related to fitness, many participants expressed concern that including detailed nutrition tracking might overly broaden the focus. Some suggested that nutrition could be treated as a separate concept or even a separate project. There was recognition that the A3 references nutrition, but uncertainty about whether it should be central to the current focus.#
+
+[.changed]#*Overall team interpretation*#: [.changed]#Through these discussions, it became clear that the main concern is not advanced fitness analytics, but rather the human challenge of maintaining discipline, remembering to be active, and staying motivated over time.#

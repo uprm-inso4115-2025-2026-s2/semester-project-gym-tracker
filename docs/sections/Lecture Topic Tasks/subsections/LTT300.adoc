@@ -1,0 +1,65 @@
+==== [LTT] Modeling Static and Dynamic Domain Behavior in the Gym Tracker System
+:author: Gerald Rodríguez
+
+This Lecture Topic Task analyzes the Gym Tracker system by identifying and classifying domain elements as *static* or *dynamic* based on how they behave over time. This classification improves understanding of how the system evolves through user interaction and internal processes.
+
+Static elements represent stable structures that define the system, while dynamic elements capture behaviors, events, and state changes that occur during system execution.
+
+===== Conceptual Distinction
+
+*Static domain elements* are entities or structures whose core definition remains constant over time. They represent the foundational data and relationships of the system.
+
+*Dynamic domain elements* are entities, events, or behaviors that change over time due to user actions or system processes. These elements reflect system evolution and interaction.
+
+===== Static Domain Elements
+
+The following elements are considered static because their structure and purpose remain consistent, even if their data values may change.
+
+*1. User Profile (Entity)*
+Represents the identity of a user within the system, including attributes such as email, account ID, and preferences.
+*Reasoning:* The structure of a user profile does not change over time, even though specific values (e.g., email or preferences) may be updated.
+
+*2. Notification Type (Entity)*
+Defines categories of notifications such as workout reminders, motivational messages, and weekly summaries.
+*Reasoning:* These categories are predefined and remain stable as part of the system design.
+
+*3. Workout Session Schema (Entity)*
+Represents the structure used to store workout data (e.g., date, duration, activity type).
+*Reasoning:* The schema defines how workout data is organized and does not change dynamically during runtime.
+
+===== Dynamic Domain Elements
+
+The following elements are dynamic because they evolve over time due to user interaction or system-triggered behavior.
+
+*1. Workout Logging (Event / Behavior)*
+Occurs when a user logs a workout using the "+ Log Workout" functionality.
+*Reasoning:* This action creates new data and updates system state (daily and weekly progress).
+
+*2. Daily Goal Progress (State / Behavior)*
+Represents the user’s progress toward completing their daily workout goal.
+*Reasoning:* This value changes throughout the day depending on user activity.
+
+*3. Weekly Progress Summary (State / Behavior)*
+Tracks the number of completed workouts within a given week and calculates completion percentage.
+*Reasoning:* This evolves continuously as workouts are logged over time.
+
+*4. Notification Delivery State (State)*
+Represents whether a notification is pending, sent, failed, or dismissed.
+*Reasoning:* The status transitions over time as the system processes and delivers notifications.
+
+===== Interaction Between Static and Dynamic Elements
+
+Static and dynamic elements are closely related within the system:
+
+- Static structures (e.g., user profiles and notification types) define the framework of the system
+- Dynamic elements operate within that framework, producing changes over time
+- For example, a *user profile (static)* interacts with *workout logging (dynamic)* to update *daily progress (dynamic)*
+- Similarly, *notification types (static)* are used to generate *notifications (dynamic)* with changing delivery states
+
+This interaction ensures that the system remains structurally consistent while allowing flexible and evolving behavior.
+
+===== Conclusion
+
+By distinguishing between static and dynamic domain elements, the Gym Tracker system can be better understood in terms of both structure and behavior.
+
+Static elements provide a stable foundation for the system, while dynamic elements capture real-time interactions and state changes. This classification supports clearer system modeling, improves requirement analysis, and facilitates future design and implementation decisions.

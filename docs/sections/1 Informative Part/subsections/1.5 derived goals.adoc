@@ -1,55 +1,78 @@
 === *1.5 Derived Goals*
 
-The primary objective of the project is to design a centralized system 
-that reduces friction in fitness tracking and supports consistency. 
-However, beyond this objective, several secondary goals naturally arise 
-from addressing the identified domain problems. These derived goals are 
-not functional requirements, but broader outcomes that the project aims 
-to support.
+The primary objective of the project is to design a centralized system
+that reduces friction in fitness tracking and supports consistency. [.changed]#This
+need is plausible in the current tool landscape: some tools offer many
+features but can feel excessive for a gym goer who mainly wants to record
+workouts and review progress. For example, platforms such as MyFitnessPal
+or Garmin Connect combine multiple dashboards, metrics, and tracking areas
+that may be useful for advanced [.changed]#GymGoers# but also increase interaction
+overhead. Other tools focus strongly on only one dimension of fitness, such
+as Strava on endurance activity tracking or Strong on strength-training log
+detail. These examples do not make such tools bad; they illustrate that the
+project addresses a gap for [.changed]#GymGoers# who want a simpler and more balanced view
+of attendance, progress, and routine.#
+
+[.changed]#Beyond this primary objective, several secondary goals naturally arise from
+addressing the identified domain problems. These derived goals are not
+functional requirements, but broader outcomes that the project aims to
+support.#
 
 ==== *Strengthening Long-Term Habit Formation*
 
-A derived goal of the project is to strengthen long-term habit formation. 
-If users consistently log workouts and observe their progress over time, 
-they are more likely to internalize exercise as part of their identity 
+A derived goal of the project is to strengthen long-term habit formation.
+If [.changed]#GymGoers# consistently log workouts and observe their progress over time,
+they are more likely to internalize exercise as part of their identity
 rather than as a temporary activity.
 
-This goal is distinct from merely “tracking workouts.” It focuses on 
-behavioral reinforcement and sustainability beyond short-term motivation.
+[.changed]#This goal is distinct from merely recording workouts. It focuses on the
+longer-term stabilization of exercise as part of a routine, rather than on
+the immediate act of logging a session with low friction.#
 
 ==== *Encouraging Self-Reflection*
 
-Another derived goal is to promote self-reflection regarding physical 
-effort, consistency, and improvement patterns. When individuals become 
-aware of their routines and gaps, they are better positioned to make 
+Another derived goal is to promote self-reflection regarding physical
+effort, consistency, and improvement patterns. When individuals become
+aware of their routines and gaps, they are better positioned to make
 intentional decisions about their health and performance.
 
-This goal extends beyond logging data. It supports awareness and 
-intentional evaluation of personal habits.
+[.changed]#This goal extends beyond storing workout data. It supports awareness and
+intentional evaluation of personal habits, for example by noticing whether
+missed days cluster on certain weekdays or whether some workout types are
+being neglected over time.#
 
 ==== *Supporting Personal Accountability*
 
-The project also aims to support a culture of personal accountability. 
-By maintaining a visible history of actions over time, individuals 
+The project also aims to support a culture of personal accountability.
+By maintaining a visible history of actions over time, individuals
 confront objective records of their consistency.
 
-This is not a system feature, but a behavioral outcome: encouraging users 
-to take responsibility for their commitments.
+[.changed]#This is not a system feature, but a behavioral outcome: encouraging GymGoers
+to take responsibility for their commitments by making their own patterns
+harder to ignore.#
 
-==== *Reducing Psychological Friction Around Tracking*
+==== [.changed]#*Making Tracking Feel Sustainable Rather Than Punitive*#
 
-Beyond reducing technical friction, a derived goal is to reduce 
-psychological resistance associated with tracking behavior. Many users 
-abandon tracking because it feels burdensome or discouraging.
+[.changed]#Related to the primary goal of reducing friction, a secondary goal is to
+make tracking feel sustainable over time rather than punitive after missed
+days or imperfect weeks. Many [.changed]#GymGoers# do not stop tracking only because the
+steps are inconvenient, but also because the experience can amplify guilt
+or make lapses feel like failure.#
 
-By reframing tracking as a supportive and motivating process, the project 
-seeks to shift the emotional relationship users have with habit monitoring.
+[.changed]#This goal is therefore narrower than the primary goal. The primary goal is
+to reduce the overall effort of tracking; this secondary goal concerns the
+kind of experience created around that tracking, especially after breaks,
+mistakes, or inconsistent periods.#
 
 ==== *Promoting a Growth-Oriented Mindset*
 
-A final derived goal is to promote a growth-oriented mindset in which 
-progress is evaluated over time rather than judged in isolated sessions. 
-This encourages users to value gradual improvement instead of perfection.
+A final derived goal is to promote a growth-oriented mindset in which
+progress is evaluated over time rather than judged in isolated sessions.
+This encourages [.changed]#GymGoers# to value gradual improvement instead of perfection.
 
-This outcome is distinct from the core objective of centralization and 
-focuses instead on long-term perspective and resilience.
+[.changed]#This partly complements the goal of supporting consistency, but it is not
+identical to it. Consistency is about whether activity is maintained; a
+growth-oriented mindset is about how that activity is interpreted. A person
+may remain consistent yet still evaluate themselves harshly, or may break a
+streak and still continue constructively if progress is framed over a
+longer horizon.#

@@ -1,0 +1,12 @@
+= Lecture Topic Task: Domain Attributes Model
+
+== Domain Entities
+
+1.	User – Everyone that creates an account to use the Gym Tracker App. They serve as our stakeholders and our clients.
+2.	Workout – The Gym Tracker App tracks an user’s physical activity through workouts logged by them. Every workout contains one or more exercises, and each exercise has one or more sets. Two or more workout logs done consecutively across different adjacent dates begin a streak. Each set is determined by weight (which can be zero) and an amount of repetitions or a timeframe.
+3.	Exercise – Every exercise has a type that refers to a kind, muscle or muscle group. These types are Cardio, Biceps, Triceps, Shoulders, Core, Back, Legs, Chest, Calisthenics. One exercise can belong to more than one type and they are recorded in sets which use repetitions or time as limits. Some exercises contain weight and can be specified when logged. 
+4.	Statistics – Every user has access to their own statistics. An user’s statistics contains: First Workout Date, Amount of Workouts, Most Done Exercise, Personal Record for Highest Weight, Personal Record Longest Time, Longest Streak and Current Streak.
+
+== Domain Model
+
+Can be seen on \Lecture Topic Tasks\images\Domain Model.png

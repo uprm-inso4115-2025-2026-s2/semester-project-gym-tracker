@@ -1,0 +1,131 @@
+= Risk Analysis for Requirements Prioritization
+:toc:
+:toclevels: 2
+
+== Overview
+
+This document presents workflow diagrams for identifying, analyzing, and mitigating risks associated with system requirements. The objective is to improve requirement quality and reduce potential development issues.
+
+---
+
+== Workflow Diagram
+
+----
++------------------------------+
+|      Review Requirements     |
+|------------------------------|
+|    Features, Stakeholders    |
++-------------+----------------+
+              |
+              v
++------------------------------+
+|       Identify Risks         |
+|------------------------------|
+|  Ambiguity, Conflicts, Scope |
++-------------+----------------+
+              |
+              v
++------------------------------+
+|        Classify Risks        |
+|------------------------------|
+|      Likelihood + Impact     |
++-------------+----------------+
+              |
+              v
++------------------------------+
+|     Evaluate Risk Level      |
+|------------------------------|
+|     Determine Priority       |
++-------------+----------------+
+              |
+              v
++------------------------------+
+|    Mitigation Strategies     |
+|------------------------------|
+|  Clarify, Validate, Review   |
++-------------+----------------+
+              |
+              v
++------------------------------+
+|      Risk Table Output       |
++------------------------------+
+----
+
+=== Explanation
+
+- *Review Requirements*: Analyze all defined system features and requirements.
+- *Identify Risks*: Detect issues such as ambiguity or missing requirements.
+- *Classify Risks*: Assign likelihood and impact levels.
+- *Evaluate Risk*: Determine which risks require immediate attention.
+- *Mitigation Strategies*: Define actions to reduce or eliminate risks.
+- *Output*: Produce a structured risk analysis table.
+
+---
+
+== Risk Decision Flow
+
+----
+        +----------------------+
+        |   Identified Risk    |
+        +----------+-----------+
+                   |
+        +----------+-----------+
+        |                      |
+        v                      v
+   High Impact?           Low Impact?
+        |                      |
+       YES                    YES
+        |                      |
+        v                      v
+ High Likelihood?         Monitor Only
+        |
+   +----+-----------------+
+   |                      |
+  YES                     NO
+   |                      |
+   v                      v
+Immediate Action     Mitigation Plan
+
+----
+
+=== Explanation
+
+- High impact + high likelihood → *Immediate action required*
+- High impact + low likelihood → *Mitigation planning*
+- Low impact risks → *Monitoring*
+
+This ensures efficient allocation of effort.
+
+---
+
+== Risk Analysis Example Matrix
+
+[cols="2,2,2,3", options="header"]
+|===
+| Risk | Likelihood | Impact | Mitigation Strategy
+
+| Ambiguous requirements
+| High
+| High
+| Refine definitions and add examples
+
+| Incomplete requirements
+| Medium
+| High
+| Conduct stakeholder validation sessions
+
+| Conflicting requirements
+| Medium
+| Medium
+| Apply prioritization and stakeholder alignment
+
+| Scope creep
+| High
+| Medium
+| Define strict MVP boundaries
+
+| Lack of clarity
+| Medium
+| High
+| Use structured requirement templates
+|===

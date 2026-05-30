@@ -1,0 +1,299 @@
+= LTT: SVG in React - Beyond Basic Icons
+Notifications & Feedback Team
+
+== 1. Objective
+
+Research and document practical uses of SVG in React beyond simple icons, covering progress rings, charts, animations, responsiveness, and accessibility with direct connection to the `ProgressVisual.tsx` component built for Gym Tracker.
+
+---
+
+== 2. What is SVG and Why Use It in React?
+
+SVG (Scalable Vector Graphics) is an XML-based image format. Unlike PNG or JPEG, SVGs are vector-based, meaning they scale to any resolution without losing quality and have a lightweight footprint that keeps load times fast.
+
+In React, SVGs are parsed as live DOM nodes, which means you can:
+
+* Manipulate them with props
+* Style them with CSS
+* Attach event handlers
+* Animate individual paths or shapes
+
+This is what separates SVG from a static image. It behaves like any other element in the component tree.
+
+---
+
+== 3. 3 Ways to Implement It
+
+There are three main approaches:
+
+[cols="1,2,2", options="header"]
+|===
+| Method | How | Best For
+
+| Image tag
+| `<img src={logo} alt="..." />`
+| Static logos, no interactivity needed
+
+| Inline JSX
+| Paste SVG markup directly into the component
+| Interactive/animated components like progress rings
+
+| SVG Sprites
+| `<use href="/sprite.svg#icon-name" />`
+| Large icon sets, performance optimization
+|===
+
+For components like `ProgressVisual`, inline JSX is the right choice since it gives you full access to all SVG attributes for animation and dynamic styling.
+
+---
+
+== 4. Core Technique: `stroke-dasharray` & `stroke-dashoffset`
+
+This is the foundation of circular progress indicators.
+
+A progress ring is built from two stacked `<circle>` elements:
+
+* A track circle that acts as the background ring
+* An indicator circle that fills up based on progress
+
+The two key SVG properties that make this work:
+
+`stroke-dasharray`:: Defines the length of dashes in the stroke. Set this to the full circumference to get one continuous dash.
+`stroke-dashoffset`:: Offsets where the dash starts. Increasing this value hides part of the stroke, simulating progress.
+
+The math behind it:
+
+[source]
+----
+radius        = center - strokeWidth
+circumference = 2 * π * radius
+dashOffset    = circumference * ((100 - progress) / 100)
+----
+
+Example with 25% progress, size 100, strokeWidth 10:
+
+[source]
+----
+center        = 50
+radius        = 50 - 10 = 40
+circumference = 2 * 3.14 * 40 ≈ 251.2
+dashOffset    = 251.2 * ((100 - 25) / 100) ≈ 188.4
+----
+
+=== TypeScript Example
+
+[source,tsx]
+----
+interface ProgressRingProps {
+  progress: number; // 0 to 100
+  size?: number;
+  strokeWidth?: number;
+  color?: string;
+}
+
+const ProgressRing: React.FC<ProgressRingProps> = ({
+  progress,
+  size = 100,
+  strokeWidth = 10,
+  color = "#22c55e",
+}) => {
+  const center = size / 2;
+  const radius = center - strokeWidth;
+  const circumference = 2 * Math.PI * radius;
+  const dashOffset = circumference * ((100 - progress) / 100);
+
+  return (
+    <svg width={size} height={size} role="img" aria-label={`Progress: ${progress}%`}>
+      {/* Track */}
+      <circle
+        cx={center} cy={center} r={radius}
+        fill="transparent"
+        stroke="#e5e7eb"
+        strokeWidth={strokeWidth}
+      />
+      {/* Indicator */}
+      <circle
+        cx={center} cy={center} r={radius}
+        fill="transparent"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeDasharray={circumference}
+        strokeDashoffset={dashOffset}
+        strokeLinecap="round"
+        transform={`rotate(-90 ${center} ${center})`}
+      />
+    </svg>
+  );
+};
+----
+
+The `transform="rotate(-90 ...)"` is needed to start the progress at 12 o'clock instead of 3 o'clock.
+
+---
+
+== 5. Animating SVG in React
+
+=== Option A - CSS Transition
+
+The simplest approach, no dependencies needed. Just add a transition on `stroke-dashoffset`:
+
+[source,css]
+----
+circle {
+  transition: stroke-dashoffset 0.6s ease;
+}
+----
+
+=== Option B — Framer Motion
+
+Framer Motion lets you animate SVG properties declaratively. It handles the offset math internally and uses hardware acceleration for smooth results:
+
+[source,tsx]
+----
+import { motion } from "framer-motion";
+
+<motion.circle
+  strokeDasharray={circumference}
+  initial={{ strokeDashoffset: circumference }}
+  animate={{ strokeDashoffset: dashOffset }}
+  transition={{ duration: 1, ease: "easeOut" }}
+/>
+----
+
+You can also animate `pathLength` directly on `<motion.path>`:
+
+[source,tsx]
+----
+<motion.path
+  initial={{ pathLength: 0 }}
+  animate={{ pathLength: 1 }}
+  transition={{ duration: 1.5 }}
+/>
+----
+
+=== Option C — React Spring
+
+React Spring is a physics-based animation library that pairs well with SVG and TypeScript.
+
+[source,tsx]
+----
+import { useSpring, animated } from "@react-spring/web";
+
+const styles = useSpring({
+  from: { strokeDashoffset: circumference },
+  to: { strokeDashoffset: dashOffset },
+  config: { tension: 200, friction: 20 },
+});
+
+<animated.circle style={styles} ... />
+----
+
+=== Cleanup Warning
+
+Animations running in detached DOM nodes after a route change can cause memory leaks. Always clean up in `useEffect`:
+
+[source,tsx]
+----
+useEffect(() => {
+  const animation = startAnimation();
+  return () => animation.stop();
+}, []);
+----
+
+---
+
+== 6. Responsiveness with `viewBox`
+
+The `viewBox` attribute defines the SVG's internal coordinate system, independent of its rendered size. This is what makes SVGs truly responsive.
+
+[source,tsx]
+----
+<svg
+  viewBox="0 0 100 100"
+  preserveAspectRatio="xMidYMid meet"
+  width="100%"
+  height="auto"
+>
+  <circle cx="50" cy="50" r="40" />
+</svg>
+----
+
+* `viewBox="0 0 100 100"` — internal canvas is 100x100 units
+* `preserveAspectRatio="xMidYMid meet"` — centers and scales without distortion
+* `width="100%" height="auto"` — fills the container at any screen size
+
+One thing to keep in mind: SVG coordinate space has (0, 0) at the top-left corner, not the center like in standard math.
+
+---
+
+== 7. Accessibility
+
+SVGs are not automatically accessible. Two rules cover most cases:
+
+For decorative SVGs like icons or backgrounds, add `aria-hidden="true"` to remove them from the accessibility tree:
+
+[source,tsx]
+----
+<svg aria-hidden="true" viewBox="0 0 24 24">
+  <path d="..." />
+</svg>
+----
+
+For meaningful SVGs like progress rings or charts, add `role="img"` and a `<title>` element:
+
+[source,tsx]
+----
+<svg role="img" aria-labelledby="progress-title">
+  <title id="progress-title">Workout progress: 75%</title>
+  <circle ... />
+</svg>
+----
+
+---
+
+== 8. Connection to Gym Tracker — `ProgressVisual.tsx`
+
+The `ProgressVisual` component built for Gym Tracker is a direct real-world application of all the above concepts:
+
+* Uses inline SVG with two stacked `<circle>` elements
+* Calculates `strokeDasharray` and `strokeDashoffset` from a `progress` prop
+* Written in TypeScript with typed props
+* Placed in `src/features/notifications/` following the feature-based folder structure
+
+This component can serve as the live code demo for the lecture.
+
+---
+
+== 9. Summary
+
+[cols="1,2", options="header"]
+|===
+| Concept | Key Takeaway
+
+| SVG in React
+| Inline SVG is parsed as a live DOM node, fully controllable via props, CSS, and JS
+
+| Progress Rings
+| Built with two circles; `stroke-dasharray` + `stroke-dashoffset` control the fill
+
+| Animation
+| CSS for simple cases; Framer Motion or React Spring for more complex motion
+
+| Responsiveness
+| `viewBox` + `preserveAspectRatio` + `width="100%"` makes any SVG scale cleanly
+
+| Accessibility
+| `aria-hidden` for decorative, `role="img"` + `<title>` for meaningful SVGs
+|===
+
+---
+
+== References
+
+* https://blog.logrocket.com/build-svg-circular-progress-component-react-hooks/[LogRocket — Build SVG Circular Progress Component]
+* https://dev.to/wellallytech/activity-rings-build-your-own-health-dashboard-with-react-and-svg-49og[DEV Community — Activity Rings with React & SVG]
+* https://strapi.io/blog/mastering-react-svg-integration-animation-optimization[Strapi — Mastering React SVG Integration]
+* https://motion.dev/docs/react-svg-animation[Motion.dev — SVG Animation in React]
+* https://www.sanity.io/guides/import-svg-files-in-react[Sanity.io — How to Use SVGs in React]
+* https://hugeicons.com/blog/reactjs/how-to-use-svg-in-react[HugeIcons — How to Use SVG in React (2026)]
+* https://blog.logrocket.com/make-any-svg-responsive-with-this-react-component/[LogRocket — Make Any SVG Responsive]

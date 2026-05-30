@@ -1,128 +1,511 @@
 === 3.2 Validation and Verification
 
-To ensure that our fitness tracking system accurately reflects the domain and meets user needs, we have established a structured plan for validation and verification.
+[.changed]#This section retains the earlier Milestone 1 validation material and combines it with the current implementation evidence. The two kinds of material are not the same. Validation records how the team checked whether domain concepts and scenarios matched stakeholder understanding during design. Verification records what the current implementation demonstrably does. Using the course workflow, raw stakeholder facts are acquired first and later analyzed into concepts, scenarios, and inconsistency resolutions (Domain Acquisition lecture, Schütz-Schmuck, 2021; Domain Analysis and Concept Formation lecture, Schütz-Schmuck, 2024).#
 
-==== Validation Activities
-Validation ensures that our interpretation of the domain, concepts, and user workflows is accurate.
+==== Validation Carried from Milestone 1 Design Work
 
 ===== Terminology and Concept Validation
-We validate core domain concepts such as Workout Session, Run, Streak, Goal, Consistency, and Progress Feedback by embedding them into concrete scenarios and presenting those scenarios to prospective users.
 
-For example, stakeholders were presented with the following scenario:
+[.changed]#The earlier milestone work validated core domain concepts such as Workout Session, Run, Streak, Goal, Consistency, and Progress Feedback by embedding them in concrete scenarios and checking whether those scenarios matched stakeholder understanding. One documented design-time scenario considered a user who completed a 30-minute run in the morning and a 45-minute strength workout in the evening on the same calendar date. The intended interpretation was that the system records two distinct Workout Sessions on the same date and that both contribute to broader weekly tracking.#
 
-“A user completes a 30-minute run in the morning and a 45-minute strength workout in the evening. The system records these as two Workout Sessions on the same calendar date. Both sessions contribute to the users weekly aggregation and streak.”
+[.changed]#The gap identified in that earlier validation was that some GymGoers initially assumed that only one Workout Session per day was allowed. The resulting remedy was to clarify the Session Representation requirement so multiple Workout Sessions may exist on the same calendar date while remaining distinct records. We keep this material because it explains why the domain model allows same-day multiplicity.#
 
-Participants were asked whether this reflects how they naturally perceive their workouts.
+===== Scenario Testing with Stakeholders
 
-====== Gap identified
-Some users initially assumed that only one Workout Session per day was allowed.
+[.changed]#The earlier section also documented stakeholder walkthroughs around Streak Representation, Streak Calculation, Goal Evaluation, Weekly Aggregation, Weekly Comparison, and Low-Effort Logging. One design-time scenario considered a user who logged workouts on Monday, Tuesday, and Wednesday, skipped Thursday, and logged another workout on Friday. The stakeholder question was whether the streak should continue, reset immediately, or allow a grace period.#
 
-======  Remedy
-We clarified the Session Representation requirement to explicitly allow multiple Workout Sessions per calendar date, each treated as a distinct entity while still contributing to weekly aggregation and streak calculations.
+[.changed]#The gap identified in that design discussion was that several participants expected some flexibility if a workout was forgotten but performed. The documented remedy was to refine the Streak Calculation requirement so streaks are defined as sequences of consecutive calendar units and to note a configurable grace-period feature as a possible future extension. We keep this material in the section as design-time validation and requirement rationale, not as evidence that the current implementation was tested with GymGoers.#
 
-======  Scenario Testing with Stakeholders
+===== Surveys and Feedback Mechanisms
 
-Structured scenario walkthroughs were conducted by the development team during the requirements analysis phase. These sessions focused on validating assumptions behind the following requirements:
+[.changed]#The Milestone 1 section also proposed targeted user experience surveys and an in-system feedback tool as validation mechanisms for prototype iterations. Those activities remain relevant validation approaches. However, the current repository does not contain completed survey results, analyzed responses, or observed evidence of an in-system feedback feature being used for validation. In this section, we keep them as planned or partially evidenced validation activities, not as completed validation results.#
 
-- Streak Representation and Streak Calculation
-- Goal Evaluation
-- Weekly Aggregation and Weekly Comparison
-- Low-Effort Logging
+==== Validation Already Documented Elsewhere in the Book
 
-Example scenario:
-    “A user logs workouts on Monday, Tuesday, and Wednesday. They skip Thursday. On Friday, they log another workout. The system computes the streak.”
+[.changed]#Section 2.1.2 documents a terminology walkthrough used to test whether a domain story could be expressed using the defined terms only. That walkthrough exposed missing concepts such as Workout History, Calendar Day, Time Frame, Week, Goal Evaluation, and Weekly Summary, and the terminology section records the resulting restructuring.#
 
-Stakeholders were asked whether the streak should:
+[.changed]#Section 2.2.3 documents stakeholder-oriented elicitation walkthroughs for specific ambiguity cases. FE-1 resolves whether streaks depend on workout date or logging date. FE-2 resolves whether weekly goals count active days or raw sessions. FE-3 states that corrections to past workout data should recalculate derived results from the updated workout history.#
 
-- Continue
-- Reset immediately
-- Allow a grace period.
+[.changed]#Section 4.3 documents the acquisition structure used to obtain validation input. The book includes AQ1 as a concrete questionnaire instrument and identifies AQ2 micro-interviews, AQ3 competitive review, and AQ4 artifact review as acquisition activities. The questionnaire and its mapping to requirement areas are documented. However, this branch does not include completed questionnaire responses, interview notes, or a consolidated analysis of answers. In this report, we treat those items as planned or only partially documented validation evidence.#
 
-======  Gap identified
-Several participants expected some flexibility if a workout was forgotten but performed.
+[.changed]#Section 2.2.4 contains scenario narratives for broken-streak recovery and invalid-input rejection. These scenarios document intended behavior and help validate the requirement set. We use them as requirement rationale, not as direct evidence that the current implementation performs that behavior.#
 
-======  Remedy
-We refined the Streak Calculation requirement to explicitly define streaks as sequences of consecutive calendar units. We also documented the possibility of introducing a configurable grace-period feature in future versions.
+==== [.changed]#Requirements and Domain Model Inspection#
 
-===== User Experience Surveys
-Targeted surveys capture feedback on specific aspects of the system, such as ease of workout logging, clarity of progress feedback, and motivational effectiveness of streaks.
+[.changed]#This inspection reviews whether the domain model and requirements are clear enough for implementation, testing, and later change work. The inspection uses two checklists: one defect-driven checklist for finding problems and one quality-driven checklist for judging the condition of the documentation.#
 
-Surveys are distributed at multiple stages, including interactions with low-fidelity prototypes, to validate concepts and refine designs based on user insights.
+===== [.changed]#Inspectors#
 
-===== In-System Feedback Tool
-A feedback feature within the prototype or app allows users to report issues, suggest improvements, and express satisfaction.
+[cols="1,1,2", options="header"]
+|===
+| [.changed]#Inspector#
+| [.changed]#GitHub username#
+| [.changed]#Inspection role#
 
-This provides continuous validation, enabling the team to quickly identify usability problems or missing functionality and iterate on solutions.
+| [.changed]#Alex Vazquez#
+| [.changed]#@AlexitoUpr#
+| [.changed]#Domain model and terminology review#
 
-==== Verification Activities
-Verification ensures that the implemented system behaves correctly and satisfies functional and non-functional requirements.
+| [.changed]#Derek Vélez#
+| [.changed]#@DerekUnii#
+| [.changed]#Requirements and verification review#
 
-===== Unit Testing for Core Functionalities
-Unit tests are written and maintained by the development team and executed automatically upon code updates.
+| [.changed]#Julian Vivas#
+| [.changed]#@julivivas#
+| [.changed]#Pending review. Documentation structure and traceability review were left unreviewed in this pass so Julian can complete that part separately.#
+|===
 
-The following properties are verified:
+===== [.changed]#Items inspected#
 
-*Session Representation Property*
+[cols="1,3", options="header"]
+|===
+| [.changed]#Item#
+| [.changed]#Reason for inspection#
 
-When a Workout Session is created with:
+| [.changed]#Section 2.1 Domain Description#
+| [.changed]#Checked whether the domain is described as fitness tracking and habit support instead of as implementation features.#
 
-- A specific calendar date
-- Session type
-- Duration
-- Exercises performed
+| [.changed]#Section 2.1.2 Terminology#
+| [.changed]#Checked whether domain concepts, requirement-level concepts, and implementation terms are separated.#
 
-All attributes are stored and retrieved without modification.
+| [.changed]#Section 2.1.4 Domain Narrative#
+| [.changed]#Checked whether the narrative uses the defined domain terms consistently.#
 
-*Persistent Storage Property*
+| [.changed]#Section 2.1.5 Events, Actions, and Behaviors#
+| [.changed]#Checked whether events, actions, and behaviors match the terminology and function signatures.#
 
-Workout Sessions are retrievable in chronological order after storage.
+| [.changed]#Section 2.1.6 Function Signatures#
+| [.changed]#Checked whether function inputs and outputs use existing domain types.#
 
-*Goal Evaluation Property*
+| [.changed]#Section 2.2.1 GymGoer Stories, Epics, Features#
+| [.changed]#Checked whether stories can be traced to needs, personas, and requirements.#
 
-If the number of Workout Sessions recorded within a Goal’s Time Frame meets or exceeds the defined target, the system marks the Goal as satisfied.
+| [.changed]#Section 2.2.3 Domain Requirements#
+| [.changed]#Checked whether requirements are clear, scoped, and tied to domain concepts.#
 
-*Streak Calculation Property*
+| [.changed]#Section 2.2.4 Interface Requirements#
+| [.changed]#Checked whether interface behavior supports the domain requirements.#
 
-If a Workout Session is logged on n consecutive calendar days, the system computes a streak value of n.
+| [.changed]#Section 2.2.5 Machine Requirements#
+| [.changed]#Checked whether quality requirements are measurable and testable.#
 
-If one full calendar unit is skipped, the streak resets according to the defined rule.
+| [.changed]#Section 3.2 Validation and Verification#
+| [.changed]#Checked whether validation and verification evidence can be connected back to requirements.#
 
-*Weekly Aggregation Property*
+| [.changed]#Section 4.4 Traceability#
+| [.changed]#Left as pending review. Traceability structure and link maintenance are not counted as completed inspection items in this pass because they are assigned for Julian Vivas to review separately.#
+|===
 
-The system correctly aggregates Workout Sessions within calendar week boundaries.
+===== [.changed]#Defect-driven checklist#
 
-*Weekly Comparison Property*
+[cols="1,4,2,4", options="header"]
+|===
+| [.changed]#ID#
+| [.changed]#Inspection question#
+| [.changed]#Result#
+| [.changed]#Notes#
 
-The system correctly compares the number of sessions in the current week with previous weeks.
+| [.changed]#D1#
+| [.changed]#Are any domain terms used before they are defined?#
+| [.changed]#Found#
+| [.changed]#Resolved in this pass: function signatures now use `WorkoutNotes`, `TimeFrame`, and `Streak`, matching the terminology section.#
 
-These unit tests verify correctness of individual components implementing the domain requirements.
+| [.changed]#D2#
+| [.changed]#Do two sections use different names for the same domain concept?#
+| [.changed]#Found#
+| [.changed]#The event/action wording uses completed, performed, recorded, and skipped in ways that should be mapped more directly.#
 
-===== Issue Tracking and Resolution
-All defects discovered during testing or validation are recorded in a structured issue-tracking system. Each issue is categorized, prioritized, assigned for resolution, and retested.
+| [.changed]#D3#
+| [.changed]#Do any requirements conflict with another requirement?#
+| [.changed]#Partly resolved#
+| [.changed]#Section 2.2.3 already documents several inconsistency cases, including streak calculation, goal evaluation, and correction behavior.#
 
-This ensures systematic verification and controlled system evolution.
+| [.changed]#D4#
+| [.changed]#Are any requirements too vague to verify?#
+| [.changed]#Found#
+| [.changed]#Some requirements describe supportive feedback or motivational tone, but the expected observable behavior is not always stated as a verification condition.#
 
-===== User Acceptance Testing
-Before deployment, representative users execute realistic end-to-end scenarios, such as:
+| [.changed]#D5#
+| [.changed]#Are any requirements duplicated under different names?#
+| [.changed]#Not found as a major defect#
+| [.changed]#Some overlap exists between summary, progress, and consistency requirements, but they are mostly separated by time frame and purpose.#
 
-- Maintaining a streak for seven consecutive days
-- Logging sessions using only essential information
-- Completing a goal within its Time Frame
-- Reviewing weekly comparisons
+| [.changed]#D6#
+| [.changed]#Are any requirements missing a source in stakeholder evidence, acquisition material, or domain reasoning?#
+| [.changed]#Found#
+| [.changed]#Most major requirements are supported, but some machine requirement thresholds need stronger evidence or later calibration.#
 
-User Acceptance Testing validates that the implemented system reflects the validated domain understanding and satisfies user expectations in realistic conditions.
-        
-These sessions are observed and documented by the development team.
+| [.changed]#D7#
+| [.changed]#Are domain model items mixed with implementation-only items?#
+| [.changed]#Found#
+| [.changed]#The terminology section separates domain concepts from implementation terms, but later sections sometimes reuse implementation wording when describing domain behavior.#
 
-===== Performance Benchmarking
-The system is evaluated against predefined performance criteria.
+| [.changed]#D8#
+| [.changed]#Are there requirements that cannot be traced to needs, goals, personas, or verification checks?#
+| [.changed]#Pending review#
+| [.changed]#This was left for Julian Vivas because it depends on reviewing the traceability structure in Section 4.4.#
 
-Properties verified include:
+| [.changed]#D9#
+| [.changed]#Are there requirements whose implementation evidence only covers part of the stated behavior?#
+| [.changed]#Found#
+| [.changed]#Current verification evidence covers logging, history display, and streak logic, but not all editing, goal update, reminder, or late-entry behavior.#
 
-- Workout logging operations complete within acceptable response time under normal usage.
+| [.changed]#D10#
+| [.changed]#Are there unstated assumptions that affect a requirement?#
+| [.changed]#Found#
+| [.changed]#Late logging depends on whether the stored date is the workout date or the logging date. This is resolved conceptually in Section 2.2.3, but still needs interface-level support.#
 
-- Weekly aggregation and goal evaluation calculations execute without noticeable delay.
+| [.changed]#D11#
+| [.changed]#Are any section links or cross-references too loose?#
+| [.changed]#Pending review#
+| [.changed]#Cross-reference and traceability-link review were left unreviewed in this pass.#
 
-- Retrieval of stored sessions remains efficient for typical user data volumes.
+| [.changed]#D12#
+| [.changed]#Are acceptance or verification checks missing for a requirement group?#
+| [.changed]#Found#
+| [.changed]#Machine requirements and some interface requirements need named verification checks in Section 3.2.#
+|===
 
-Performance verification ensures that non-functional requirements related to responsiveness and reliability are satisfied.
+===== [.changed]#Quality-driven checklist#
+
+[cols="1,4,2,4", options="header"]
+|===
+| [.changed]#ID#
+| [.changed]#Inspection question#
+| [.changed]#Result#
+| [.changed]#Notes#
+
+| [.changed]#Q1#
+| [.changed]#Is the domain model understandable without reading implementation code?#
+| [.changed]#Pass with minor fixes#
+| [.changed]#The terminology and narrative explain the main domain ideas, but function signatures should use the same type names as the terminology.#
+
+| [.changed]#Q2#
+| [.changed]#Does the domain model separate real-world concepts from system artifacts?#
+| [.changed]#Pass#
+| [.changed]#The terminology section separates domain concepts, requirement-level concepts, and implementation-level terms.#
+
+| [.changed]#Q3#
+| [.changed]#Do the requirements use consistent terminology?#
+| [.changed]#Needs revision#
+| [.changed]#Resolved in this pass: the shorter note, period, and streak-length aliases were replaced by the canonical terms `WorkoutNotes`, `TimeFrame`, and `Streak` in Section 2.1.6.#
+
+| [.changed]#Q4#
+| [.changed]#Are requirements written at the right level of abstraction?#
+| [.changed]#Mostly pass#
+| [.changed]#Domain requirements stay close to the fitness domain. Some interface and implementation language should be kept out of domain-only sections.#
+
+| [.changed]#Q5#
+| [.changed]#Are requirements complete enough for the current milestone?#
+| [.changed]#Pass with open items#
+| [.changed]#Logging, streaks, summaries, accounts, and goals are covered. Reminders and supportive feedback need more testable detail.#
+
+| [.changed]#Q6#
+| [.changed]#Are requirements feasible within the project scope?#
+| [.changed]#Mostly pass#
+| [.changed]#The main requirements are feasible. Some machine thresholds need later measurement.#
+
+| [.changed]#Q7#
+| [.changed]#Are requirements verifiable?#
+| [.changed]#Needs revision#
+| [.changed]#Several requirements can be tested now, but others need explicit verification checks.#
+
+| [.changed]#Q8#
+| [.changed]#Is traceability usable for impact analysis?#
+| [.changed]#Pending review#
+| [.changed]#This question was left for Julian Vivas because it depends on the traceability section and link structure.#
+
+| [.changed]#Q9#
+| [.changed]#Are stakeholder needs reflected in requirements?#
+| [.changed]#Pass#
+| [.changed]#The requirements reflect low-effort logging, progress visibility, consistency support, and personal history.#
+
+| [.changed]#Q10#
+| [.changed]#Are personas connected to the requirement set?#
+| [.changed]#Pass with minor fixes#
+| [.changed]#Personas are used in the GymGoer stories. Some requirement tables could add short persona references.#
+
+| [.changed]#Q11#
+| [.changed]#Does the documentation identify known limitations?#
+| [.changed]#Pass#
+| [.changed]#Section 3.2 and Section 2.3 describe what is verified and what is still partial.#
+
+| [.changed]#Q12#
+| [.changed]#Can future contributors understand what should be changed next?#
+| [.changed]#Needs revision#
+| [.changed]#Findings should be turned into follow-up issues or small documentation fixes.#
+|===
+
+===== [.changed]#Question catalog used during inspection#
+
+[.changed]#The inspectors used the following question catalog while reading the inspected sections.#
+
+[cols="1,4,2", options="header"]
+|===
+| [.changed]#ID#
+| [.changed]#Question#
+| [.changed]#Main area checked#
+
+| [.changed]#QC1#
+| [.changed]#Does each domain term used in the narrative appear in the terminology section?#
+| [.changed]#Domain model#
+
+| [.changed]#QC2#
+| [.changed]#Does each function signature use types already defined in the terminology section?#
+| [.changed]#Function signatures#
+
+| [.changed]#QC3#
+| [.changed]#Are `Workout`, `Workout Session`, `Exercise`, and `Activity` used with different meanings?#
+| [.changed]#Terminology#
+
+| [.changed]#QC4#
+| [.changed]#Is `Consistency` kept separate from `Streak`?#
+| [.changed]#Domain model#
+
+| [.changed]#QC5#
+| [.changed]#Does the documentation explain whether goals count sessions or attendance days?#
+| [.changed]#Domain requirements#
+
+| [.changed]#QC6#
+| [.changed]#Does the documentation explain whether streaks depend on workout date or logging date?#
+| [.changed]#Domain requirements#
+
+| [.changed]#QC7#
+| [.changed]#Does the documentation explain what happens when a past workout is corrected?#
+| [.changed]#Domain and interface requirements#
+
+| [.changed]#QC8#
+| [.changed]#Does each user story support an identified need or persona?#
+| [.changed]#GymGoer stories#
+
+| [.changed]#QC9#
+| [.changed]#Does each epic have requirements that make it concrete?#
+| [.changed]#Epics and requirements#
+
+| [.changed]#QC10#
+| [.changed]#Are interface requirements written as user-system boundary behavior instead of internal code behavior?#
+| [.changed]#Interface requirements#
+
+| [.changed]#QC11#
+| [.changed]#Are machine requirements measurable?#
+| [.changed]#Machine requirements#
+
+| [.changed]#QC12#
+| [.changed]#Do machine requirements have planned or current verification checks?#
+| [.changed]#Verification#
+
+| [.changed]#QC13#
+| [.changed]#Does the validation evidence show actual stakeholder evidence, planned evidence, or both?#
+| [.changed]#Validation#
+
+| [.changed]#QC14#
+| [.changed]#Does the verification evidence distinguish implemented behavior from planned behavior?#
+| [.changed]#Verification#
+
+| [.changed]#QC15#
+| [.changed]#Are current implementation boundaries stated when a requirement is only partly implemented?#
+| [.changed]#Implementation evidence#
+
+| [.changed]#QC16#
+| [.changed]#Can each requirement be referenced by an ID in traceability work?#
+| [.changed]#Pending Julian review#
+
+| [.changed]#QC17#
+| [.changed]#Are acquisition findings linked to requirement decisions?#
+| [.changed]#Acquisition and traceability#
+
+| [.changed]#QC18#
+| [.changed]#Are inconsistency cases marked clearly enough for a reviewer to see the method and resolution?#
+| [.changed]#Requirements analysis#
+
+| [.changed]#QC19#
+| [.changed]#Does the documentation avoid treating nutrition tracking as part of the current core domain?#
+| [.changed]#Scope#
+
+| [.changed]#QC20#
+| [.changed]#Are reminders described in enough detail to test tone, timing, and user control?#
+| [.changed]#Requirements and verification#
+
+| [.changed]#QC21#
+| [.changed]#Does the weekly summary concept state what information must appear in the summary?#
+| [.changed]#Domain requirements#
+
+| [.changed]#QC22#
+| [.changed]#Are corrections, recalculations, and derived values described in the same way across sections?#
+| [.changed]#Domain and interface requirements#
+
+| [.changed]#QC23#
+| [.changed]#Does the traceability section connect needs, goals, epics, requirements, verification checks, and issues?#
+| [.changed]#Pending Julian review#
+
+| [.changed]#QC24#
+| [.changed]#Does the wording stay specific to Gym Tracker instead of using generic inspection language?#
+| [.changed]#Documentation quality#
+|===
+
+===== [.changed]#Inspection findings#
+
+[cols="1,2,3,3,3", options="header"]
+|===
+| [.changed]#ID#
+| [.changed]#Type#
+| [.changed]#Affected item#
+| [.changed]#Finding#
+| [.changed]#Proposed resolution or follow-up#
+
+| [.changed]#F1#
+| [.changed]#Defect#
+| [.changed]#Section 2.1.6 Function Signatures#
+| [.changed]#Resolved: Section 2.1.6 now uses `WorkoutNotes` and `TimeFrame`, matching Section 2.1.2.#
+| [.changed]#No follow-up action remains for this item.#
+
+| [.changed]#F2#
+| [.changed]#Defect#
+| [.changed]#Section 2.1.2 Terminology and Section 2.1.6 Function Signatures#
+| [.changed]#Resolved: `computeStreak(history: WorkoutHistory)` now returns `Streak` in Section 2.1.6, matching the terminology section.#
+| [.changed]#No follow-up action remains for this item.#
+
+| [.changed]#F3#
+| [.changed]#Defect#
+| [.changed]#Section 2.1.5 Events, Actions, and Behaviors#
+| [.changed]#The event list uses completed, recorded, and missed, while the terminology section uses performed, skipped, extended, and broken.#
+| [.changed]#Add a short mapping note or standardize the event names so that the same event is not described with different labels.#
+
+| [.changed]#F4#
+| [.changed]#Pending review#
+| [.changed]#Section 4.4 Traceability and Section 2.2 Requirements#
+| [.changed]#Traceability IDs and link coverage were not reviewed in this pass.#
+| [.changed]#Leave this item for Julian Vivas to inspect and complete separately.#
+
+| [.changed]#F5#
+| [.changed]#Quality improvement#
+| [.changed]#Section 2.2.3 Domain Requirements#
+| [.changed]#The distinction between `Consistency` and `Streak` is handled well, but it should be protected from later wording drift.#
+| [.changed]#Add a one-line note under `Consistency Representation` and `Streak Representation`: consistency is regularity over a time frame; streak is consecutive attendance days.#
+
+| [.changed]#F6#
+| [.changed]#Defect#
+| [.changed]#Section 2.2.4 Interface Requirements and Section 2.3 Implementation#
+| [.changed]#Current implementation evidence says late logging and session-date editing are not fully supported yet. That partially affects requirements about correcting past sessions and recalculating derived values.#
+| [.changed]#Add a verification item in Section 3.2 for late workout entry and past-session date correction. Mark the current status as planned or partial until implemented.#
+
+| [.changed]#F7#
+| [.changed]#Defect#
+| [.changed]#Section 2.2.5 Machine Requirements#
+| [.changed]#Response time, concurrency, availability, and durability requirements are measurable, but Section 3.2 does not yet assign verification checks to all of them.#
+| [.changed]#Add planned verification IDs for response time, concurrent usage, availability, and data durability. These can be marked as future load or reliability checks.#
+
+| [.changed]#F8#
+| [.changed]#Quality improvement#
+| [.changed]#Weekly Summary concept across Sections 2.1.2, 2.1.6, and 2.2.3#
+| [.changed]#`Weekly Summary` is used in several places, but the minimum contents of a weekly summary are scattered across the document.#
+| [.changed]#Add a compact definition stating that a Weekly Summary includes Workout Sessions, Attendance Days, Missed Days, Goal Result, and optional comparison to a prior Week.#
+
+| [.changed]#F9#
+| [.changed]#Quality improvement#
+| [.changed]#Section 2.2.1 GymGoer Stories and Section 2.2.3 Domain Requirements#
+| [.changed]#GymGoer stories are persona-based, but requirement statements do not always show which persona or need they support.#
+| [.changed]#Add short traceability tags to requirements, such as `Supports: N2, G4, Alejandro`.#
+
+| [.changed]#F10#
+| [.changed]#Defect#
+| [.changed]#Section 2.2.4 Interface Requirements#
+| [.changed]#Reminder behavior is described through stories and motivation goals, but the exact testable behavior is thin.#
+| [.changed]#Add interface requirements for reminder enable/disable, reminder frequency, missed-day restart wording, and quiet/mute behavior.#
+
+| [.changed]#F11#
+| [.changed]#Quality improvement#
+| [.changed]#Section 3.2 Validation and Verification#
+| [.changed]#Section 3.2 already separates planned validation from observed verification, which helps avoid overstating current evidence.#
+| [.changed]#Keep this separation when adding new verification checks. Use labels such as `Observed`, `Planned`, or `Partial`.#
+
+| [.changed]#F12#
+| [.changed]#Pending review#
+| [.changed]#Section 4.4 Traceability#
+| [.changed]#GitHub issue links and traceability maintenance were not reviewed in this pass.#
+| [.changed]#Leave this item for Julian Vivas to inspect and complete separately.#
+|===
+
+===== [.changed]#Follow-up actions#
+
+[cols="1,3,2", options="header"]
+|===
+| [.changed]#Action ID#
+| [.changed]#Follow-up action#
+| [.changed]#Related finding#
+
+| [.changed]#IA1#
+| [.changed]#Rename inconsistent type names in Section 2.1.6 or define the shorter aliases in Section 2.1.2.#
+| [.changed]#F1, F2#
+
+| [.changed]#IA2#
+| [.changed]#Standardize event names between terminology and event/action/behavior sections.#
+| [.changed]#F3#
+
+| [.changed]#IA3#
+| [.changed]#Leave traceability IDs, traceability links, and GitHub issue-link review for Julian Vivas.#
+| [.changed]#F4, F12#
+
+| [.changed]#IA4#
+| [.changed]#Add planned verification checks for late logging, past-session correction, machine thresholds, and reminder behavior.#
+| [.changed]#F6, F7, F10#
+
+| [.changed]#IA5#
+| [.changed]#Add a compact definition of the minimum contents of a Weekly Summary.#
+| [.changed]#F8#
+
+| [.changed]#IA6#
+| [.changed]#Add short support tags to requirements that already have clear links to needs, goals, or personas.#
+| [.changed]#F9#
+|===
+
+===== [.changed]#Inspection result#
+
+[.changed]#The inspection found that the documentation already covers the main Gym Tracker concepts: Workout Session, Workout History, Goal, Streak, Consistency, Weekly Summary, and related evaluation functions. The completed part of this inspection found smaller consistency and verification problems: type names do not always match, event names drift between sections, and some requirements need clearer verification checks. Traceability structure, traceability IDs, and GitHub issue-link maintenance were left pending for Julian Vivas to inspect separately.#
+
+==== Verification Evidence Observed on `Development`
+
+[.changed]#The `Development` branch contains explicit local commands for unit tests, acceptance-style tests, and production builds. In `package.json`, `npm test` runs Vitest, `npm run test:acceptance` runs a separate acceptance suite, and `npm run build` runs `tsc -b` followed by `vite build`. `vitest.config.ts` excludes `tests/acceptance/**/*.test.{ts,tsx}` from the default suite, while `vitest.acceptance.config.ts` runs that directory separately in `jsdom` with a dedicated setup file.#
+
+[.changed]#`src/data/featurePersonaMap.test.js` provides direct verification of the feature-to-persona mapping data and lookup helpers. The file tests feature lookup by identifier, persona-to-feature mapping, feature-to-persona mapping, relevance checks, expectation-alignment checks, summary generation, and detection of unmapped persona expectations.#
+
+[.changed]#`src/lib/workouts.test.ts` provides direct verification of workout helper logic. The file tests UTC date-key extraction, counting workouts on a specific day, counting unique workout days in a date range, computing the longest streak from unique completed days, and computing Monday-Sunday week boundaries.#
+
+[.changed]#`src/features/streaks/streakcalc.test.ts` provides direct verification of streak logic. The file tests qualifying-workout rules, consecutive-day streak growth, grace-period activation after a missed day, reset after grace expiration, streak computation from out-of-order sessions, duplicate sessions on the same day, and zero-streak outcomes when workouts are isolated or separated by a gap.#
+
+[.changed]#`tests/acceptance/app.acceptance.test.tsx` provides two acceptance-style UI checks using React Testing Library and a mocked Supabase client. The first test verifies that logging a workout updates daily goal feedback from `0 / 1 workouts today` to `1 / 1 workouts today` and stores one workout in the mock state. The second test verifies that a newly logged workout appears in the routed history view with its notes and duration.#
+
+[.changed]#The following command results were observed locally on 2026-04-07. The fresh evidence worktree initially lacked installed dependencies, so `npm ci` was run once before executing the required verification commands.#
+
+[cols="2,5", options="header"]
+|===
+|[.changed]#Command#
+|[.changed]#Observed result#
+
+|[.changed]#`npm test -- --run`#
+|[.changed]#Passed. Vitest reported 24 passing tests in 3 files: `src/data/featurePersonaMap.test.js`, `src/lib/workouts.test.ts`, and `src/features/streaks/streakcalc.test.ts`. The output also emitted a warning that Supabase environment variables were missing, but the test run did not fail.#
+
+|[.changed]#`npm run test:acceptance`#
+|[.changed]#Passed. Vitest reported 2 passing tests in 1 file, `tests/acceptance/app.acceptance.test.tsx`.#
+
+|[.changed]#`npm run build`#
+|[.changed]#Passed. The project compiled and produced a production bundle. The build emitted a Vite warning that the generated JavaScript chunk was larger than 500 kB after minification.#
+|===
+
+==== Verification Still Planned or Incomplete
+
+[.changed]#At this stage, the repository does not contain evidence of representative-user acceptance testing sessions. The acceptance-labeled test file is a developer-run UI test with a mocked backend. It is useful implementation verification, but it is not the same as observed user acceptance testing.#
+
+[.changed]#At this stage, the repository does not contain performance benchmark scripts, response-time thresholds, load tests, or measured runtime baselines. A successful `npm run build` result shows that the code compiles and bundles. It does not demonstrate runtime performance or benchmark compliance.#
+
+[.changed]#At this stage, the repository does not contain an automated workflow that runs `npm test`, `npm run test:acceptance`, or `npm run build` for application changes. The observed GitHub Actions workflows generate documentation PDFs and weekly project reports. They do not provide evidence of automated application verification on each update.#
+
+[.changed]#Several verification claims from the previous version of this section are not fully supported by the current tests. No observed test directly verifies persistence against a real database, weekly goal evaluation by active days, weekly comparison across multiple weeks, invalid-input rejection before persistence, or recalculation after editing past workout data. We therefore leave those checks in the planned or incomplete category for now.#
+
+==== [.added]#System Scope: UML Use Case Diagram#
+
+[.added]#The following use case diagram provides a system-scope overview of the GymTracker application. It shows all system operations available to the GymGoer and identifies three external service actors: Authentication Service, Data Storage Service, and Notification Service. The diagram complements the verification evidence above by making explicit which operations are in scope, which have acceptance test coverage, and which are still planned. Operations with current test evidence include Record Workout Session, View Workout History, and Log In. Operations without current automated test coverage — such as Compare Workout Sessions, Set Weekly Goal, Filter History by Activity/Exercise, and Send Reminder Notification — correspond to the planned or incomplete verification items noted in the section above.#
+
+[.added]#Figure 3.2.a — GymTracker UML Use Case Diagram.#
+
+image::sections/Lecture Topic Tasks/images/UML diagram.png[GymTracker UML Use Case Diagram, align="center", width=80%]

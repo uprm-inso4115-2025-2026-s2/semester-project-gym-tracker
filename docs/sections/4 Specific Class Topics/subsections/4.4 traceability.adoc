@@ -1,6 +1,6 @@
 === 4.4 Traceability
 
-The purpose of traceability is to set up deliverables so we can answer impact questions (e.g., “if requirement X changes, which goals/personas/tests are affected?”). This section defines the tagging/linking scheme we will use across needs, goals, epics, requirements, and verification. 
+The purpose of traceability is to set up deliverables so we can answer impact questions (e.g., “if requirement X changes, which goals/personas/tests are affected?”). This section defines the tagging/linking scheme we will use across needs, goals, epics, requirements, and verification.
 
 ==== 4.4.1 Traceability Codes
 
@@ -12,8 +12,13 @@ We will label artifacts with short IDs and reference them inline:
 - Domain requirements: DR1, DR2, ... (from Section 2.2.3)
 - Interface requirements: IR1, IR2, ... (from Section 2.2.4)
 - Machine requirements: MR1, MR2, ... (from Section 2.2.5)
+- [.added]#Acquisition artifacts/evidence: AQ1, AQ2, ... (from Section 4.3 questionnaires, interviews, and source reviews)#
+- [.added]#Elicitation findings/resolution items: FE1..FEn, RT1..RTn (from Section 2.2.3 inconsistency cases and resolutions)#
+- [.added]#Design decisions: DD1, DD2, ... (domain modeling, interface behavior, architecture, and persistence decisions documented in Sections 2.1, 2.2, 2.3, and 4.3)#
+- [.added]#Implementation components: IC1, IC2, ... (source files, UI components, API modules, and utility modules that realize requirements)#
+- [.added]#Test cases: TC1, TC2, ... (unit, integration, and acceptance tests that verify requirements or implementation behavior)#
 - Verification checks/tests: V1, V2, ... (from Section 3.2)
-- GitHub issues/tasks: GH-### (issue number)
+- GitHub issues/tasks: GH-## (issue number)
 
 ==== 4.4.2 Minimal Traceability Matrix (Milestone 1)
 
@@ -46,10 +51,422 @@ We will label artifacts with short IDs and reference them inline:
 |DR: Streak Representation + Calculation; IR: Automatic Streak Synchronization; MR: Reliability (data durability)
 |===
 
-==== 4.4.3 How We Will Maintain Traceability
+==== 4.4.3 Acquisition-to-Requirement Traceability
+
+[.changed]#The new acquisition material in Section 4.3 is traceable so the reader can see that the questionnaire is not just included as an appendix artifact; it informs concrete requirements and later elicitation decisions.#
+
+[cols="1,3,4",options="header"]
+|===
+|[.changed]#Acquisition artifact# |[.changed]#What it contributes# |[.changed]#Linked requirements / elicitation decisions#
+
+|[.changed]#AQ1 - GymGoer questionnaire#
+|[.changed]#Collects stakeholder evidence about logging friction, correction behavior, weekly goal interpretation, desired summaries, validation expectations, and account needs.#
+|[.changed]#Low-Effort Logging; Essential Information Recording; Separation of Nutrition Tracking; Persistent Storage and Retrieval; Goal Evaluation; Performance Summary Representation; Data Validation Rules; Recording Real-World Workouts; Editing and Correction of Workout Data; Viewing Progress and History; FE-1; FE-2; FE-3.#
+
+|[.changed]#AQ2 - Stakeholder micro-interviews#
+|[.changed]#Provides scenario detail and terminology that require follow-up clarification during elicitation.#
+|[.changed]#RT-1; RT-2; RT-3 and any future scenario-based refinements to requirements in Section 2.2.3.#
+
+|[.changed]#AQ3 - Competitive feature review#
+|[.changed]#Provides comparison points for minimum logging fields, summary patterns, and known friction sources from existing fitness tools.#
+|[.changed]#Low-Effort Logging; Performance Summary Representation; GymGoer account management acquisition in LTT266.#
+|===
+
+==== 4.4.4 How We Will Maintain Traceability
 
 - Each requirement section will include a short “Supports: {G*, N*, Persona}” line.
+- [.added]#Each acquisition artifact in Section 4.3 will keep its own ID (for example AQ1) so later changes can reference the evidence source separately from the elicitation decision derived from it.#
 - Each verification item (Section 3.2) will reference the requirement IDs it verifies.
 - Each GitHub issue will include the relevant IDs in its description (e.g., "DR3, G2, N1") so work items remain traceable to stakeholder value.
+- [.added]#Each implementation pull request or issue comment that changes requirement-relevant behavior must list the affected requirement IDs, design decisions, implementation components, and test cases.#
+- [.added]#When a requirement, design decision, source file, or test is removed, its traceability entry is not silently deleted. The row is updated with a disposition such as replaced by, merged into, deferred, or obsolete, so the history of the change remains inspectable.#
 
 This scheme supports quick impact analysis when requirements evolve during later milestones.
+
+==== [.added]#4.4.5 Traceability Policy#
+
+[.added]#This subsection defines the traceability policy for the GymTracker project: what should be traceable, what should not, at what level of granularity, what alternatives were considered, and why this approach was chosen.#
+
+===== [.added]#What should be traceable#
+
+[.added]#The following artifact relationships are required to be traceable in this project:#
+
+* [.added]#Stakeholder needs (N*) to derived project goals (G*)#
+* [.added]#Goals (G*) to epics (E*) and from epics to domain requirements (DR*), interface requirements (IR*), and machine requirements (MR*)#
+* [.added]#Acquisition artifacts (AQ*) to the requirements they informed and the elicitation decisions (FE*, RT*) they produced#
+* [.added]#Requirements to design decisions (DD*) that explain why the selected domain model, interface behavior, persistence behavior, or architecture satisfies the requirement#
+* [.added]#Domain requirements and interface requirements to the implementation components (IC*) that realize them, identified by source file or documented implementation fragment#
+* [.added]#Requirements to the verification checks or acceptance tests (TC*, V*, test file + test name) that confirm them#
+* [.added]#GitHub issues (GH-##) to the requirements they address, so task work remains linked to stakeholder value#
+
+===== [.added]#Traceability link types#
+
+[.added]#The following link types are used in the traceability matrix and in GitHub/Jira issue descriptions. Each link is bidirectional: if a requirement references a design decision, the design decision entry must also reference the requirement it supports.#
+
+[cols="1,2,4", options="header"]
+|===
+|[.added]#Link type# |[.added]#Direction# |[.added]#Meaning#
+
+|[.added]#satisfies#
+|[.added]#DD* -> DR*/IR*/MR*#
+|[.added]#A design decision provides the modeling, interface, or architectural choice that fulfills a requirement.#
+
+|[.added]#realizes#
+|[.added]#IC* -> DR*/IR*/MR*#
+|[.added]#A source file, component, or implementation fragment provides executable behavior required by the requirement.#
+
+|[.added]#verifies#
+|[.added]#TC*/V* -> DR*/IR*/MR* or IC*#
+|[.added]#A test case, checklist item, or verification result confirms the requirement or component behavior.#
+
+|[.added]#derives from#
+|[.added]#DR*/IR*/MR* -> N*/G*/AQ*/FE*/RT*#
+|[.added]#A requirement is justified by a stakeholder need, goal, acquisition artifact, or elicitation decision.#
+
+|[.added]#impacts#
+|[.added]#Change request/GH/Jira issue -> traced artifacts#
+|[.added]#A proposed change is expected to require review or modification of the linked requirements, design decisions, source files, tests, or documentation sections.#
+
+|[.added]#supersedes#
+|[.added]#New artifact -> old artifact#
+|[.added]#A requirement, design decision, component, or test replaces an older artifact while preserving the historical trace.#
+|===
+
+===== [.added]#What should NOT be traced at this level#
+
+[.added]#The following are explicitly excluded from this traceability scheme to keep maintenance effort proportionate:#
+
+* [.added]#Inline source code comments pointing to requirement IDs — rejected because they become stale on refactoring and create a false sense of completeness#
+* [.added]#CSS and styling decisions — these are presentation choices that do not correspond to domain requirements or stakeholder needs#
+* [.changed]#Third-party library selection (Supabase, React, Vite) — implementation choices traceable to machine requirements at most, not to domain requirements or GymGoer stories#
+* [.added]#Build configuration and CI pipeline details — infrastructure, not domain behavior#
+* [.added]#Internal refactors where no behavior visible to a GymGoer changes#
+
+===== [.added]#Granularity#
+
+[.added]#Traceability is maintained at the *requirement level*, not at the sub-clause level. A link from N2 to "Low-Effort Logging" is sufficient; the link does not need to reference individual bullet points within the requirement. Design traceability is maintained at the named decision level (DD*) instead of at every paragraph that discusses a decision. Implementation traceability is maintained at the feature/component/source-file level (IC*), for example `LogWorkoutModal.tsx` realizes "Recording Real-World Workouts"; line-level traceability is not required. Verification traceability is maintained at the test file and test name level (TC*) or at the inspection/verification item level (V*).#
+
+===== [.added]#When links are created and maintained#
+
+[.added]#Traceability links are created at four points in the lifecycle. During requirements work, the requirement owner links each DR*/IR*/MR* item back to at least one N*, G*, AQ*, FE*, or RT* source. During design work, the documentation owner records the DD* decision that satisfies or constrains the requirement. During implementation, the developer links the requirement and design decision to the IC* source file or implementation fragment in the GitHub/Jira issue. During verification, the tester links each TC* or V* item to the requirement and implementation component being checked.#
+
+[.added]#Links are maintained whenever one of the linked artifacts changes. A pull request or issue that changes a requirement-relevant behavior must update Section 4.4, the affected requirement text, and the relevant verification summary in Section 3.2 before the issue is considered closed.#
+
+===== [.added]#Alternatives considered#
+
+[cols="1,3,2", options="header"]
+|===
+|[.added]#Alternative# |[.added]#Description# |[.added]#Reason for rejection#
+
+|[.added]#Issue-only traceability#
+|[.added]#Track only GitHub issue → requirement. No need-to-goal or requirement-to-test links.#
+|[.added]#Too shallow. Does not support impact analysis when a stakeholder need changes, because the need-to-requirement path is missing.#
+
+|[.added]#Fine-grained sub-requirement traceability#
+|[.added]#Decompose each requirement into sub-clauses and trace each individually.#
+|[.added]#Too high maintenance for a course project. Sub-clause IDs go stale on every requirement edit.#
+
+|[.added]#Code-level traceability (inline comments)#
+|[.added]#Embed requirement IDs in source code comments at the function level.#
+|[.added]#Brittle. Silently breaks on refactoring. Creates a misleading audit trail.#
+
+|[.added]#Tool-assisted traceability (dedicated traceability tool)#
+|[.added]#Use a requirements management tool (e.g., JIRA, Doorstop) to maintain a live traceability graph.#
+|[.added]#Not available within the course tooling. GitHub Issues approximate this at reduced fidelity.#
+|===
+
+===== [.added]#Why this approach was chosen#
+
+[.added]#Requirement-level traceability with stable IDs (N*, G*, E*, DR*, IR*, MR*) balances impact-analysis capability against maintenance cost. When a requirement changes, the ID stays the same and the links to needs, goals, and tests remain valid even if the text is rewritten. This is the minimum granularity needed to answer the core impact question: "if we change requirement X, what else must change?" The GitHub issue linkage adds a lightweight development workflow integration that does not require an external tool.#
+
+==== [.added]#4.4.6 Extended Traceability Matrix#
+
+[.added]#This table extends the minimal matrix from Section 4.4.2 to include the fifth identified stakeholder need and to add implementation component and verification links for each requirement area.#
+
+[cols="1,3,2,2,3,2", options="header"]
+|===
+|[.added]#Need (N*)# |[.added]#Need statement# |[.added]#Goals (G*)# |[.added]#Epics (E*)# |[.added]#Key requirements (DR*/IR*)# |[.added]#Verification evidence#
+
+|N1
+|Unified visibility of activity patterns over time
+|G2, G3
+|E1, E5
+|DR: Persistent Storage and Retrieval; IR: Viewing Progress and History
+|[.added]#`tests/acceptance/app.acceptance.test.tsx` (history view test); `src/features/workouts/WorkoutHistoryPage.tsx`#
+
+|N2
+|Low-effort structured workout logging
+|G4
+|E1
+|DR: Low-Effort Logging; IR: Recording Real-World Workouts
+|[.added]#`tests/acceptance/app.acceptance.test.tsx` (log workout updates goal); `src/features/workouts/LogWorkoutModal.tsx`#
+
+|N3
+|Measurable feedback for goal adherence and summaries
+|G2, G5
+|E3
+|DR: Goal Evaluation; DR: Performance Summary Representation; IR: Goal Initialization and Update
+|[.added]#`src/lib/workouts.test.ts` (day counting, week bounds); `src/features/feedback/DailyGoalProgress.tsx`; `src/features/feedback/WeeklyProgressSummary.tsx`#
+
+|N4
+|Reinforcement to support habit formation (streaks + feedback)
+|G1, G4
+|E2, E4
+|DR: Streak Representation; DR: Streak Calculation; IR: Automatic Streak Synchronization
+|[.added]#`src/features/streaks/streakcalc.test.ts` (streak growth, grace period, reset); `src/features/streaks/StreakDisplay.tsx`#
+
+|[.added]#N5#
+|[.changed]#Clarity and simplicity for beginner and intermediate GymGoers#
+|[.added]#G4, G5#
+|[.added]#E1, E3, E5#
+|[.changed]#DR: Low-Effort Logging; IR: GymGoer Account Setup; IR: Recording Real-World Workouts; MR: Interactive Response Time#
+|[.added]#`tests/acceptance/auth-flow.acceptance.test.tsx` (login, signup flows); UI design system review#
+|===
+
+==== [.added]#4.4.7 Requirement-to-Design-Code-Test Matrix#
+
+[.added]#This matrix is the working traceability management matrix for Milestone 3. It is bidirectional by convention: the "Forward trace" column shows the path from requirement to design, code, and tests, while the "Reverse trace" column shows how a developer or reviewer can start from a design decision, source file, or test and recover the governing requirement.#
+
+[cols="1,2,3,3,3,3", options="header"]
+|===
+|[.added]#Requirement area# |[.added]#Source need / evidence# |[.added]#Design decision link# |[.added]#Implementation link# |[.added]#Verification link# |[.added]#Reverse trace documentation#
+
+|[.added]#DR: Low-Effort Logging / IR: Recording Real-World Workouts#
+|[.added]#N2, N5, G4, AQ1-Q1, AQ1-Q5#
+|[.added]#DD1: quick-entry session model uses Calendar Day, activity type, Duration, and optional notes instead of requiring a full exercise journal. Satisfies DR/IR logging requirements.#
+|[.added]#IC1: `src/features/workouts/LogWorkoutModal.tsx`; IC2: `src/features/workouts/api.ts`; Section 2.3.1 workout logging fragment.#
+|[.added]#TC1: `tests/acceptance/app.acceptance.test.tsx` workout logging flow; V1: Section 3.2 acceptance-test summary.#
+|[.added]#The source files and tests are listed back to this requirement in Section 2.3.1 and Section 3.2; any issue touching `LogWorkoutModal.tsx` must include N2/G4 and this requirement name.#
+
+|[.added]#DR: Persistent Storage and Retrieval / IR: Viewing Progress and History#
+|[.added]#N1, G2, G3, AQ1-Q2, AQ1-Q4#
+|[.added]#DD2: WorkoutHistory is modeled as the ordered collection of a GymGoer's Workout Sessions, supporting retrieval by owner, date range, and activity context.#
+|[.added]#IC3: `src/features/workouts/WorkoutHistoryPage.tsx`; IC2: `src/features/workouts/api.ts`; IC4: Supabase `workout_sessions` and related exercise persistence paths documented in Section 2.3.#
+|[.added]#TC2: `tests/acceptance/app.acceptance.test.tsx` history visibility flow; V2: Section 3.2 implementation verification notes.#
+|[.added]#History UI, persistence API, and acceptance test names point back to this requirement area; a retrieval or persistence issue must update both Section 2.2.3 and this row.#
+
+|[.added]#DR: Goal Evaluation / DR: Weekly Aggregation#
+|[.added]#N3, G2, G5, AQ1-Q3, FE-2#
+|[.added]#DD3: weekly goal success is evaluated by distinct Attendance Days inside a Week, not by raw same-day session count.#
+|[.added]#IC5: `src/lib/workouts.ts`; IC6: `src/features/feedback/DailyGoalProgress.tsx`; IC7: `src/features/feedback/WeeklyProgressSummary.tsx`.#
+|[.added]#TC3: `src/lib/workouts.test.ts` day-counting and week-boundary tests; TC1: acceptance flow that checks visible goal progress after logging.#
+|[.added]#The utility tests describe the expected counting semantics; any proposed change to same-day counting must revisit FE-2 and AQ1-Q3 before code is changed.#
+
+|[.added]#DR: Streak Representation / DR: Streak Calculation / IR: Automatic Streak Synchronization#
+|[.added]#N4, G1, G4, AQ1-Q2, AQ1-Q6, WI-3, WI-4#
+|[.added]#DD4: Streak lifecycle is represented as NO_STREAK, ACTIVE, GRACE, and BROKEN, with the grace state intentionally preserving habit-support behavior for a short gap.#
+|[.added]#IC8: `src/features/streaks/streakcalc.ts`; IC9: `src/features/streaks/StreakDisplay.tsx`; IC7: `src/features/feedback/WeeklyProgressSummary.tsx`; Section 2.1.5 state machine.#
+|[.added]#TC4: `src/features/streaks/streakcalc.test.ts` streak growth, grace, and reset cases; V2: Section 3.2 test summary.#
+|[.added]#The state machine and test cases both point back to the streak requirements; changing GRACE requires updating Section 2.1.5, Section 2.2.8, tests, and this matrix.#
+
+|[.changed]#IR: GymGoer Account Setup / authentication-related machine requirements#
+|[.added]#N5, G4, AQ1-Q8#
+|[.added]#DD5: authenticated identity owns workout history, goals, and profile context; email/password auth is the current implemented path through Supabase Auth.#
+|[.added]#IC10: `src/features/auth/api.ts`; IC11: `src/features/auth/LoginPage.tsx`; IC12: `src/features/auth/SignupPage.tsx`; IC13: `src/features/auth/AuthCallbackPage.tsx`.#
+|[.added]#TC5: `tests/acceptance/auth-flow.acceptance.test.tsx` login, signup, reset, and protected-route flows.#
+|[.added]#Auth tests and implementation fragment 1 identify the governing account requirements; provider changes must update the IR, MR, auth source files, tests, and Supabase configuration note.#
+|===
+
+==== [.added]#4.4.8 Traceability Change Scenarios#
+
+[.added]#This section exploits the traceability graph to show the impact of three plausible change scenarios. For each scenario, the full chain of affected artifacts is traced from stakeholder needs through requirements, implementation components, tests, and documentation sections.#
+
+===== [.added]#Scenario 1: Requirement change - Streak grace period is removed#
+
+[.added]#*Change description:* The product owner decides that streaks should count only strictly consecutive calendar days. The two-day grace period currently documented in Section 2.2.8 (WI-3) and implemented in `src/features/streaks/streakcalc.ts` is removed.#
+
+[cols="1,4", options="header"]
+|===
+|[.added]#Artifact# |[.added]#Impact#
+
+|[.added]#N4 → G1 (Strengthen Habits)#
+|[.added]#Goal rationale must be revisited. G1 justified the grace period as a habit-support mechanism. Removing it changes how the system reinforces consistency.#
+
+|[.added]#DR: Streak Calculation#
+|[.added]#Primary requirement change. The grace-period clause must be removed and the consecutive-day rule made strict.#
+
+|[.added]#DR: Streak Representation#
+|[.added]#Secondary update required: the representation of GRACE state (shown in Section 2.1.5 state machine) must be removed.#
+
+|[.added]#Section 2.1.5 (State Machine Diagram)#
+|[.added]#The GRACE state and its transitions must be removed from the state machine diagram.#
+
+|[.added]#Section 2.2.8 (Weak Inconsistencies, WI-3)#
+|[.added]#The grace-period inconsistency entry becomes irrelevant and should be removed or marked resolved.#
+
+|[.added]#`src/features/streaks/streakcalc.ts`#
+|[.added]#Grace-period logic must be removed. The `EXPIRED` state and related conditions are affected.#
+
+|[.added]#`src/features/streaks/streakcalc.test.ts`#
+|[.added]#Grace-period test cases (grace activation, grace-to-active recovery, grace expiration) would fail and must be removed or converted to strict-consecutive cases.#
+
+|[.added]#`src/features/feedback/WeeklyProgressSummary.tsx`#
+|[.added]#Calls `computeStreakFromSessions`. Behavior changes but no code change is required if the function interface is unchanged.#
+
+|[.added]#Section 3.2 (Verification)#
+|[.added]#Test result summary must be updated to reflect the new test set.#
+|===
+
+===== [.added]#Scenario 2: Design change - Goal evaluation changes from active days to total session count#
+
+[.added]#*Change description:* The product owner decides that two sessions on the same calendar day should each count toward the weekly goal (total session count) rather than the active-day interpretation currently implemented.#
+
+[cols="1,4", options="header"]
+|===
+|[.added]#Artifact# |[.added]#Impact#
+
+|[.added]#N3 → G2 (Encourage Reflection)#
+|[.changed]#The goal rationale changes: counting sessions favors high-frequency GymGoers over consistent-attendance GymGoers.#
+
+|[.added]#AQ1-Q3 (Acquisition evidence)#
+|[.added]#The questionnaire asked stakeholders this exact question. The FE-2 elicitation resolution chose active days because stakeholders found day-counting more natural. This stakeholder evidence now conflicts with the proposed change; it should be revisited before implementing.#
+
+|[.added]#DR: Goal Evaluation#
+|[.added]#Primary requirement change. The definition of "meeting a goal" must change from active Attendance Days to raw Workout Session count.#
+
+|[.added]#DR: Weekly Aggregation#
+|[.added]#The aggregation function changes from `countWorkoutDaysInRange(...)` to `countWorkoutSessionsInRange(...)`.#
+
+|[.added]#`src/lib/workouts.ts`#
+|[.added]#`countWorkoutDaysInRange` function would need to be replaced or supplemented with a session-count variant.#
+
+|[.added]#`src/features/feedback/WeeklyProgressSummary.tsx` and `DailyGoalProgress.tsx`#
+|[.added]#Both components call the workouts utility. Both require logic updates.#
+
+|[.added]#`src/lib/workouts.test.ts`#
+|[.added]#Tests covering day-counting behavior would need revision. Same-day duplicate session tests would change expected outcomes.#
+
+|[.added]#`tests/acceptance/app.acceptance.test.tsx`#
+|[.added]#The acceptance test that verifies logging a workout updates the daily goal display may need to be updated if the count semantics change.#
+
+|[.added]#Section 3.2 (Verification), Section 2.3.1 (Implementation Fragments)#
+|[.added]#Both sections reference `countWorkoutDaysInRange` by name. They must be updated to reflect the new function.#
+|===
+
+===== [.added]#Scenario 3: Implementation change - Email/password authentication replaced by Google-only sign-in#
+
+[.changed]#*Change description:* The team decides to remove email and password authentication entirely and require all GymGoers to authenticate through the Google OAuth IDP.#
+
+[cols="1,4", options="header"]
+|===
+|[.added]#Artifact# |[.added]#Impact#
+
+|[.changed]#IR: GymGoer Account Setup#
+|[.changed]#Primary requirement change. The interface requirement for creating an account via email/password is no longer valid. It must be replaced with an OAuth-based GymGoer account setup requirement.#
+
+|[.added]#IR: Login Flow (implicit, Section 2.2.4)#
+|[.added]#The scenario and interface description for logging in with email/password must be replaced.#
+
+|[.added]#N5 → G4 (Reduce Friction)#
+|[.changed]#Google sign-in could reduce friction for GymGoers with Google accounts, but creates a dependency on a third-party provider. The need rationale is partially preserved.#
+
+|[.added]#MR: Authentication (Section 2.2.5)#
+|[.added]#Machine requirements referencing password-based authentication must be updated.#
+
+|[.added]#`src/features/auth/api.ts`#
+|[.added]#`signInWithEmail`, `signUpWithEmail`, `requestPasswordReset`, `updatePassword` are removed. `signInWithGoogle` becomes the sole auth path.#
+
+|[.added]#`src/features/auth/LoginPage.tsx`, `SignupPage.tsx`, `ForgotPasswordPage.tsx`, `ResetPasswordPage.tsx`#
+|[.added]#Three of these four pages are removed entirely. LoginPage is simplified to a single Google sign-in button.#
+
+|[.added]#`tests/acceptance/auth-flow.acceptance.test.tsx`#
+|[.added]#All four email-based acceptance tests (login, signup, forgot-password, reset-password) break and must be replaced with OAuth flow tests.#
+
+|[.added]#`src/features/auth/AuthCallbackPage.tsx`#
+|[.added]#This component becomes the primary post-auth landing page and its coverage becomes critical.#
+
+|[.added]#Section 2.3.1 (Fragment 1: Protected routing and authentication flow)#
+|[.added]#The code fragment showing `signInWithEmail` and `signUpWithEmail` becomes stale and must be replaced.#
+
+|[.added]#Section 3.2 (Verification, auth test results)#
+|[.added]#The observed test results for auth-flow acceptance tests would change.#
+
+|[.added]#Supabase Auth configuration (external)#
+|[.added]#Google OAuth credentials must be configured in the Supabase dashboard. This is an external system change outside the codebase traceability scope.#
+|===
+
+==== [.added]#4.4.9 Effort Assessment for Traceability Maintenance#
+
+[.added]#This subsection assesses the effort required to maintain traceability information through each of the three change scenarios above, and draws a general conclusion about the cost-benefit relationship of the chosen traceability scheme.#
+
+[cols="1,2,2,2", options="header"]
+|===
+|[.added]#Scenario# |[.added]#Implementation effort (estimated)# |[.added]#Traceability maintenance effort (estimated)# |[.added]#Key traceability value delivered#
+
+|[.added]#Scenario 1 (grace period removed)#
+|[.added]#2–4 hours: modify `streakcalc.ts`, update test suite, verify build#
+|[.added]#~1 hour: update DR text, remove WI-3, update state machine diagram, update Section 3.2 summary#
+|[.added]#Prevented a stale weak inconsistency entry (WI-3) and a stale diagram from persisting after the change#
+
+|[.added]#Scenario 2 (goal counting semantics)#
+|[.added]#4–6 hours: modify `workouts.ts`, update two feedback components, update tests#
+|[.added]#~2 hours: update DR text, revisit AQ1-Q3 evidence, update implementation fragment in 2.3.1, update Section 3.2#
+|[.added]#Identified that AQ1-Q3 acquisition evidence conflicts with the proposed change — traceability surfaced a stakeholder alignment risk that would otherwise have been missed#
+
+|[.added]#Scenario 3 (Google-only auth)#
+|[.added]#6–10 hours: remove 3 pages, simplify LoginPage, update acceptance tests, configure Supabase#
+|[.added]#~3 hours: update IR, MR, implementation fragment 1, Section 3.2 test results summary, and external Supabase note#
+|[.added]#Prevented the acceptance test suite from being silently broken; traceability from IR → auth tests made the test update scope explicit#
+|===
+
+[.added]#*General conclusion:* Across all three scenarios, maintaining the traceability information added between 1 and 3 hours of documentation overhead per change, compared to an implementation effort of 2 to 10 hours. The overhead ratio is approximately 20–30% of implementation time. The primary value of the scheme was not in the matrix itself but in the structured question it forces: "which requirements, tests, and documentation sections reference the artifact being changed?" In two of the three scenarios (Scenario 2 and Scenario 3), traceability surfaced a non-obvious artifact that would likely have been missed without it: an acquisition evidence conflict in Scenario 2 and a stale implementation fragment in Scenario 3.#
+
+==== [.added]#4.4.10 Traceability Maintenance Plan#
+
+[.added]#The traceability matrix is maintained as part of normal development, not as a separate end-of-milestone cleanup task. The team uses this documentation section as the version-controlled source of truth and mirrors the same IDs in GitHub/Jira work items when those tools are used.#
+
+[cols="1,2,4", options="header"]
+|===
+|[.added]#Role# |[.added]#Responsible member / group# |[.added]#Responsibility#
+
+|[.added]#Traceability owner#
+|[.added]#Documentation Team Leader / assigned issue owner#
+|[.added]#Keeps Section 4.4 current, verifies that new requirements have source needs and design/code/test links, and checks that closed issues updated the matrix.#
+
+|[.added]#Requirement owner#
+|[.added]#Member editing Section 2.2 requirement text#
+|[.added]#Adds or updates N*, G*, AQ*, FE*, and RT* links when requirement wording changes.#
+
+|[.added]#Developer#
+|[.added]#Member implementing the issue#
+|[.added]#Lists affected IC* implementation components, includes requirement IDs in the GitHub/Jira issue, and updates implementation documentation when behavior changes.#
+
+|[.added]#Tester / reviewer#
+|[.added]#Member responsible for verification or PR review#
+|[.added]#Confirms that each changed requirement has at least one TC* or V* verification link and that old tests are updated or marked obsolete.#
+|===
+
+[.added]#Maintenance procedure:#
+
+* [.added]#At issue creation, the owner adds the affected N*, G*, DR*/IR*/MR*, DD*, IC*, and TC* IDs when they are known. Unknown links are marked `TBD` and resolved before closing the issue.#
+* [.added]#During implementation, any discovered new dependency is added to the issue and to the matrix before the pull request is reviewed.#
+* [.added]#During review, the reviewer checks whether requirement text, design rationale, implementation references, tests, and logbook entries agree.#
+* [.added]#At milestone closure, the documentation lead performs one traceability review pass over Section 4.4, Section 3.2, and Section 2.3 to identify stale file names, obsolete tests, and missing reverse links.#
+
+[.added]#Review frequency: traceability is reviewed once per high-urgency issue, once before each milestone submission, and whenever a requirement or interface behavior is changed after implementation has already started.#
+
+==== [.added]#4.4.11 Tool Configuration for Traceability#
+
+[.added]#The primary version-controlled traceability record is this AsciiDoc section in GitHub. Jira may be used as the operational tracker when available; GitHub Issues remain the fallback tracker because they are already part of the project workflow.#
+
+[cols="1,4", options="header"]
+|===
+|[.added]#Tool area# |[.added]#Configuration / process#
+
+|[.added]#Jira link types#
+|[.added]#Configure issue links named `derives from`, `satisfies`, `realizes`, `verifies`, `impacts`, and `supersedes` to match the link types defined in Section 4.4.5.#
+
+|[.added]#Jira custom fields#
+|[.added]#Add traceability metadata fields: `Requirement IDs`, `Design Decision IDs`, `Implementation Components`, `Test Case IDs`, `Source Need IDs`, and `Traceability Status` (`Draft`, `Linked`, `Needs review`, `Validated`).#
+
+|[.added]#Jira queries/reports#
+|[.added]#Use filters for missing links, such as issues where `Requirement IDs` is empty, issues marked done with `Traceability Status != Validated`, and requirements without linked tests. These filters support dashboard reports for requirement-to-test and requirement-to-code coverage.#
+
+|[.added]#GitHub fallback#
+|[.added]#When Jira is not used for an issue, GitHub issue descriptions must include a `Traceability` block with the same IDs. Pull requests must reference the GitHub issue and mention affected docs, source files, and test files.#
+
+|[.added]#Documentation system#
+|[.added]#Section 4.4 is version controlled in GitHub with the rest of the requirements document. The Appendix LogBook records every milestone-level traceability update so change tracking remains visible to reviewers.#
+|===
+
+[.added]#A traceability issue or pull request is complete only when the documentation matrix, linked issue metadata, implementation references, and test references all agree. If Jira fields and this document disagree, this document is treated as the submitted project record and Jira must be updated to match it.#

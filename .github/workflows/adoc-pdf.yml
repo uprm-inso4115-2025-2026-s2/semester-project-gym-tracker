@@ -3,9 +3,13 @@ name: Convert AsciiDoc to PDF
 on:
   push:
     branches: [Documentation]
-    paths: ['docs/**/*.adoc']
+    paths:
+      - 'docs/**/*.adoc'
+      - 'docs/themes/**/*.yml'
   pull_request:
-    paths: ['docs/**/*.adoc']
+    paths:
+      - 'docs/**/*.adoc'
+      - 'docs/themes/**/*.yml'
   workflow_dispatch:
 
 jobs:
@@ -35,7 +39,7 @@ jobs:
             out="build/pdf/${file#docs/}"
             out="${out%.adoc}.pdf"
             mkdir -p "$(dirname "$out")"
-            asciidoctor-pdf "$file" -o "$out"
+            asciidoctor-pdf "$file" -a pdf-themesdir=docs/themes -a pdf-theme=gym-tracker -o "$out"
           done
 
       - name: Upload PDFs as artifacts

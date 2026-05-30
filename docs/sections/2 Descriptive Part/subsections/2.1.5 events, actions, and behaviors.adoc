@@ -2,51 +2,107 @@
 
 ===== Domain Events
 
-The following events are observable from the stakeholder perspective
-and occur at specific moments in time.
+[.changed]#The events listed here use the exact names defined in Section 2.1.2. This section does not redefine them. It only references the canonical event terms so behaviors can show which defined events compose them.#
 
-*Workout session has just been completed*  
-A person has finished performing one or more activities intended for fitness.
-
-*Workout session has just been recorded*  
-A completed workout has been added to the activity history.
-
-*Workout day has just been missed*  
-A day expected to include activity has passed without a workout session.
-
-*Streak has just been extended*  
-A workout has occurred on a day immediately following another attendance day.
-
-*Streak has just been broken*  
-A missed day has occurred following one or more consecutive attendance days.
-
-*Weekly goal period has just ended*  
-The time interval associated with a weekly goal has completed.
-
-*Weekly activity summary has just been evaluated*  
-The completed week’s activity has been compared against its goal.
+* [.changed]#*Workout Session has just been performed* (canonical definition: Section 2.1.2)#
+* [.changed]#*Workout Session has just been recorded* (canonical definition: Section 2.1.2)#
+* [.changed]#*Workout Session has just been corrected* (canonical definition: Section 2.1.2)#
+* [.changed]#*Workout Session has just been removed* (canonical definition: Section 2.1.2)#
+* [.changed]#*Workout day has just been missed* (canonical definition: Section 2.1.2)#
+* [.changed]#*Goal period has just ended* (canonical definition: Section 2.1.2)#
+* [.changed]#*Streak has just been extended* (canonical definition: Section 2.1.2)#
+* [.changed]#*Streak has just been broken* (canonical definition: Section 2.1.2)#
+* [.changed]#*Weekly Summary has just been generated* (canonical definition: Section 2.1.2)#
 
 ===== Actions
 
-*Perform workout*  
-A person engages in physical activity such as exercising, running, or lifting.
+*performWorkout*
+[.changed]#A GymGoer performs a Workout composed of one or more Exercises or Activities during a bounded Duration on a Calendar Day. The corresponding canonical event is *Workout Session has just been performed*.#
 
-*Record workout*  
-A person logs details of a completed workout session.
+*recordWorkout*
+[.changed]#A GymGoer records a performed Workout Session so it becomes part of the GymGoer's Workout History. The canonical function signature is defined in Section 2.1.6. The corresponding canonical event is *Workout Session has just been recorded*.#
 
-*Set activity goal*  
-A person defines a target amount of activity for a future time period.
+*setWeeklyGoal*
+[.changed]#A GymGoer defines a Goal with a Goal Target Count for a Week. Goal Evaluation later uses the GymGoer's Workout History to produce a Goal Result.#
 
-*Review progress*  
-A person inspects their past activity and current consistency.
+*reviewProgress*
+[.changed]#A GymGoer retrieves a Workout History and observes a Weekly Summary, Session Comparison, Streak, Consistency Measure, or Goal Result derived from it.#
 
 ===== Behaviors
 
-*Maintaining a workout routine*  
-A repeated pattern of performing workouts across days or weeks.
+*Maintaining a workout routine*
+[.changed]#A repeated behavior composed of *Workout Session has just been performed* and *Workout Session has just been recorded* events across multiple Calendar Days.#
 
-*Building consistency*  
-A gradual increase in regularity of attendance over time.
+*Building consistency*
+[.changed]#A behavior in which Attendance Days accumulate across a Time Frame and evaluateConsistency(...) produces a Consistency Measure from the GymGoer's Workout History.#
 
-*Tracking progress over time*  
-A repeated cycle of performing workouts, recording them, and reviewing outcomes.
+*Tracking progress over time*
+[.changed]#A repeated cycle in which a GymGoer performs a Workout Session, records it through recordWorkout(...), retrieves the resulting Workout History, and observes derived results such as Session Comparison, Goal Result, Streak, and Weekly Summary.#
+
+===== [.added]#State Machine Diagram: Streak Lifecycle#
+
+[.added]#The following state machine diagram captures the behavioral lifecycle of a GymGoer's Streak — the primary consistency-tracking concept identified in Section 2.1.2. The diagram models how the system transitions between streak states in response to the domain events described above. It enhances this section by making explicit the conditions under which a Streak is created, extended, placed in a grace period, or broken, supplementing the textual event descriptions with a precise behavioral specification.#
+
+[plantuml, streak-state-machine, svg]
+....
+@startuml
+skinparam state {
+  BackgroundColor #1e3a5f
+  BorderColor #4a9eca
+  FontColor white
+  ArrowColor #4a9eca
+}
+skinparam backgroundColor #0d2137
+
+[*] --> NO_STREAK : GymGoer has no\nworkout history
+
+state NO_STREAK {
+  NO_STREAK : No consecutive attendance days recorded.
+}
+
+state ACTIVE {
+  ACTIVE : currentStreak ≥ 1
+  ACTIVE : Most recent qualifying workout\nwas today or yesterday.
+}
+
+state GRACE {
+  GRACE : currentStreak ≥ 1
+  GRACE : Most recent qualifying workout\nwas 2 calendar days ago.
+  GRACE : Grace period active — streak\ncan still be recovered.
+}
+
+state BROKEN {
+  BROKEN : currentStreak = 0
+  BROKEN : Most recent qualifying workout\nmore than 2 days ago.
+}
+
+NO_STREAK --> ACTIVE : Workout Session recorded /\nfirst qualifying attendance day
+ACTIVE --> ACTIVE : Workout Session recorded\non next Calendar Day /\nstreak incremented
+ACTIVE --> GRACE : Calendar Day passes\nwith no Workout Session /\ngrace period begins
+GRACE --> ACTIVE : Workout Session recorded\nduring grace window /\nstreak continues
+GRACE --> BROKEN : Second Calendar Day passes\nwith no Workout Session /\ngrace period expired
+ACTIVE --> BROKEN : Two or more Calendar Days pass\nwith no Workout Session
+BROKEN --> NO_STREAK : [streak = 0 and\nno prior streak exists]
+BROKEN --> ACTIVE : New Workout Session recorded /\nnew streak begins from 1
+
+@enduml
+....
+
+[.added]#*State definitions*#
+
+[cols="1,3", options="header"]
+|===
+|[.added]#State# |[.added]#Condition#
+
+|[.added]#NO_STREAK#
+|[.added]#The GymGoer has no recorded workout history, or had a broken streak that was reset to zero with no active history prior.#
+
+|[.added]#ACTIVE#
+|[.added]#The GymGoer has at least one qualifying consecutive Attendance Day. The most recent qualifying Workout Session occurred today or on the immediately preceding Calendar Day.#
+
+|[.added]#GRACE#
+|[.added]#The current streak is still held but the most recent qualifying workout occurred two Calendar Days ago. The system has not yet invalidated the streak because the grace window allows a late session to recover it.#
+
+|[.added]#BROKEN#
+|[.added]#The grace period has expired. The current streak resets to zero. Any new Workout Session begins a fresh streak from one.#
+|===
