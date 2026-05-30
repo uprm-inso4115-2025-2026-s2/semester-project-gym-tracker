@@ -13,15 +13,11 @@ jobs:
       pull-requests: write # Requires you go to Settings>Actions>Workflow Permissions>"Allow GitHub Actions to create and approve pull requests"
     steps:
 
-      - name: Checkout existing metrics
-        uses: actions/checkout@v4
-        with:
-          ref: inso-metrics
-          fetch-depth: 0
-          persist-credentials: true
-
       - name: Checkout Local Repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
         
       - name: Checkout INSO GH Metrics code
         uses: actions/checkout@v4
@@ -69,17 +65,29 @@ jobs:
           mv inso-gh-query-metrics/*${{ github.repository_owner }}.md metrics/
         shell: bash
         
-      - name: Auto Commit Results
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "[Automated] Milestone Metrics Update"
-          branch: inso-metrics
-          push_options: "--force"
-          create_branch: true
-          file_pattern: metrics/*.md
-          commit_user_name: GitHub Action
-          commit_user_email: action@github.com
-          commit_author: GitHub Action <action@github.com>
+      - name: Commit and push metrics to inso-metrics branch
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+
+          # Save the newly generated metrics file before switching branches
+          mkdir -p /tmp/metrics_save
+          cp metrics/*.md /tmp/metrics_save/
+
+          # Switch to inso-metrics cleanly (force avoids the untracked-file conflict)
+          git fetch origin inso-metrics || true
+          git checkout -B inso-metrics origin/inso-metrics 2>/dev/null || git checkout -b inso-metrics
+
+          # Restore the generated file into the branch
+          mkdir -p metrics
+          cp /tmp/metrics_save/*.md metrics/
+
+          # Commit only if there are changes
+          git add metrics/*.md
+          git diff --cached --quiet && echo "No changes to commit." && exit 0
+          git commit -m "[Automated] Milestone Metrics Update"
+          git push origin inso-metrics --force
+        shell: bash
           
       - name: Create Pull Request
         run: |
